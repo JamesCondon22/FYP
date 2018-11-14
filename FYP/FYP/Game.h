@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <iostream>
 
+#include "Player.h"
 
 using namespace std;
 
@@ -29,6 +30,8 @@ private:
 	SDL_Renderer *m_renderer;
 	SDL_Event event;
 	bool exit;
+
+	Player* m_player;
 
 	
 

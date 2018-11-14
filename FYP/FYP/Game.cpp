@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1200, 700, SDL_WINDOW_OPENGL);
+	m_window = SDL_CreateWindow("FYP", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1200, 700, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
@@ -77,9 +77,10 @@ void Game::render()
 	{
 		SDL_Log("Could not create a renderer: %s", SDL_GetError());
 	}
-
+	
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_renderer);
+	m_player->render(m_renderer);
 	SDL_RenderPresent(m_renderer);
 
 }
@@ -87,6 +88,6 @@ void Game::render()
 
 void Game::initialise()
 {
-
+	m_player = new Player();
 }
 
