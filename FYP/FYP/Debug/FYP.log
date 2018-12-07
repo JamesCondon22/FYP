@@ -1,2 +1,21 @@
 ﻿  Player.cpp
+c:\users\gameuser\desktop\fyp\fyp\fyp\player.cpp(27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\fyp\fyp\player.cpp(28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\fyp\fyp\player.cpp(29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\fyp\fyp\player.cpp(55): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\gameuser\desktop\fyp\fyp\fyp\player.cpp(56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.14.26428\include\utility(201): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  c:\users\gameuser\desktop\fyp\fyp\fyp\player.cpp(11): note: see reference to function template instantiation 'std::pair<float,float>::pair<int,int,0>(_Other1 &&,_Other2 &&) noexcept' being compiled
+          with
+          [
+              _Other1=int,
+              _Other2=int
+          ]
+  c:\users\gameuser\desktop\fyp\fyp\fyp\player.cpp(7): note: see reference to function template instantiation 'std::pair<float,float>::pair<int,int,0>(_Other1 &&,_Other2 &&) noexcept' being compiled
+          with
+          [
+              _Other1=int,
+              _Other2=int
+          ]
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.14.26428\include\utility(202): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
   FYP.vcxproj -> C:\Users\gameuser\Desktop\FYP\FYP\Debug\FYP.exe

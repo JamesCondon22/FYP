@@ -37,7 +37,7 @@ void Game::run()
 		deltaTime = frameTime - lastFrameTime;
 		lastFrameTime = frameTime;
 
-		update();
+		update(deltaTime);
 		render();
 
 		if ((SDL_GetTicks() - frameTime) < minimumFrameTime)
@@ -66,9 +66,9 @@ void Game::processEvents()
 	}
 }
 
-void Game::update()
+void Game::update(double dt)
 {
-
+	m_player->update(event, dt);
 }
 
 void Game::render()
@@ -88,6 +88,26 @@ void Game::render()
 
 void Game::initialise()
 {
-	m_player = new Player();
+	m_player = new Player(*loadTexture("triangle.png"));
+}
+
+SDL_Texture* Game::loadTexture(std::string file)
+{
+	SDL_Texture* newTexture = NULL;
+
+	SDL_Surface* loadedSurface = IMG_Load(file.c_str());
+
+	if (loadedSurface == NULL) {
+		printf("Unable to load image &s! SDL_image Error: %s\n", file.c_str(), IMG_GetError());
+	}
+	else {
+		newTexture = SDL_CreateTextureFromSurface(m_renderer, loadedSurface);
+		if (newTexture == NULL)
+		{
+			printf("Unable to create texture from &s! SDL_Error: %s\n", file.c_str(), SDL_GetError());
+		}
+		SDL_FreeSurface(loadedSurface);
+	}
+	return newTexture;
 }
 

@@ -22,10 +22,11 @@ public:
 private:
 
 	void processEvents();
-	void update();
+	void update(double dt);
 	void render();
 	void initialise();
 
+	SDL_Texture* loadTexture(std::string file);
 	SDL_Window *m_window;
 	SDL_Renderer *m_renderer;
 	SDL_Event event;
