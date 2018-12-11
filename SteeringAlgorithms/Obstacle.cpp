@@ -8,7 +8,6 @@ Obstacle::Obstacle(int size) :
 	if (!m_texture.loadFromFile("obstacle.png")) {
 		std::cout << "font not loaded" << std::endl;
 	}
-
 	m_rectangle.setTexture(&m_texture);
 	m_rectangle.setRadius(size);
 	m_rectangle.setPosition(m_position);

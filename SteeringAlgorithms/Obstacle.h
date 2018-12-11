@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-class Obstacle
+class Obstacle 
 {
 public:
 	Obstacle(int size);

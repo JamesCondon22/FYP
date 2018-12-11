@@ -26,8 +26,8 @@ Game::Game()
 	m_player = new Player();
 	Obstacle *obstacle = new Obstacle(100);
 	sf::CircleShape circle;
-	circle.setRadius(100);
-	circle.setPosition(400,400);
+	circle.setRadius(obstacle->getRadius());
+	circle.setPosition(obstacle->getPositon());
 	m_circles.push_back(circle);
 	m_obstacles.push_back(obstacle);
 	m_trad = new Traditional();

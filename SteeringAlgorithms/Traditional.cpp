@@ -4,6 +4,8 @@
 Traditional::Traditional() :
 	m_steering(0,0),
 	m_position(0, 0),
+	m_heading(0,0),
+	m_rotation(0),
 	m_velocity(0, 0),
 	m_relVelocity(0, 0),
 	shape(100.0f),
@@ -21,8 +23,8 @@ Traditional::Traditional() :
 	}
 
 	m_rect.setTexture(&m_texture);
-	m_rect.setOrigin(m_position.x + 50 / 2, m_position.y + 75 / 2);
-	m_rect.setSize(sf::Vector2f(50, 75));
+	m_rect.setOrigin(m_position.x + 75 / 2, m_position.y + 50 / 2);
+	m_rect.setSize(sf::Vector2f(75, 50));
 	m_rect.setPosition(m_position);
 	srand(time(NULL));
 
@@ -112,7 +114,7 @@ void Traditional::kinematicArrive(sf::Vector2f playerPosition)
 
 		}
 
-		m_orientation = getNewOrientation(m_orientation, m_velocityF);
+		//m_rotation = getNewOrientation(m_rotation, m_velocityF);
 	}
 
 }
@@ -132,7 +134,8 @@ sf::Vector2f Traditional::pursue(sf::Vector2f playerPosition, sf::Vector2f playe
 	}
 	m_targetPos = playerPosition + playerVelocity * m_timePrediction;
 	*/
-	//kinematicArrive(m_direction);
+	kinematicArrive(playerPosition);
+
 	return(m_direction);
 	
 
@@ -140,12 +143,12 @@ sf::Vector2f Traditional::pursue(sf::Vector2f playerPosition, sf::Vector2f playe
 void Traditional::update(double dt, sf::Vector2f player, sf::Vector2f velocity, std::vector<sf::CircleShape> obstacles)
 {
 	
-	m_steering = sf::Vector2f(0.0, 0.0);
+	//m_steering = sf::Vector2f(0.0, 0.0);
 	m_steering += pursue(player,velocity);
 	m_steering += ObstacleAvoidance(obstacles);
 	
 	m_steering = truncate(m_steering, MAX_FORCE);
-	m_velocity = truncate(m_velocity + m_steering, 1.0f);
+	m_velocity = truncate(m_velocity + m_steering, MAX_SPEED);
 	
 	auto dest = atan2(-1 * m_velocity.y, -1 * m_velocity.x) / thor::Pi * 180 + 180;
 
@@ -168,15 +171,12 @@ void Traditional::update(double dt, sf::Vector2f player, sf::Vector2f velocity, 
 		m_rotation -= 1;
 	}
 
-	/*motion->m_speed = thor::length(m_velocity);
-	auto speed = motion->m_speed;*/
+	m_speed = thor::length(m_velocity);
+	//m_rect.setPosition(m_rect.getPosition().x + std::cos(DEG_TO_RAD  * m_rotation) * m_speed * (dt / 1000), m_rect.getPosition().y + std::cos(DEG_TO_RAD  * m_rotation)* m_speed * (dt / 1000));
 	
-	m_position = m_position + m_velocity;
-	
-
+	m_position += m_velocity;
 	m_rect.setPosition(m_position);
-	//m_rect.setRotation(currentRotation);
-
+	m_rect.setRotation(m_rotation);
 	respawn(m_rect.getPosition().x, m_rect.getPosition().y);
 
 }
@@ -185,9 +185,11 @@ sf::Vector2f Traditional::ObstacleAvoidance(std::vector<sf::CircleShape> obstacl
 	
 	//auto norm = thor::unitVector(m_velocity);
 	auto headingRadians = thor::toRadian(m_rotation);
-	sf::Vector2f headingVector(cos(headingRadians) * MAX_SEE_AHEAD, sin(headingRadians) * MAX_SEE_AHEAD);
-	ahead = m_position + headingVector;
-	ahead2 = m_position + (headingVector * 0.5f);
+	auto dynamic = thor::length(m_velocity) / 10.0f;
+	sf::Vector2f headingVector(cos(headingRadians) * dynamic, sin(headingRadians) * dynamic);
+	
+	ahead = m_position + thor::unitVector(m_velocity) + headingVector;
+	ahead2 = m_position + thor::unitVector(m_velocity) + (headingVector * 0.5f);
 
 	auto mostThreatening = findMostThreathening(obstacles);
 	auto avoidance = sf::Vector2f(0, 0);
@@ -201,8 +203,8 @@ sf::Vector2f Traditional::ObstacleAvoidance(std::vector<sf::CircleShape> obstacl
 	else {
 		avoidance *= 0.0f;
 	}
-	std::cout << avoidance.x << ", " << avoidance.y << std::endl;
-	std::cout << mostThreatening.getRadius() << std::endl;
+	/*std::cout << avoidance.x << ", " << avoidance.y << std::endl;
+	std::cout << mostThreatening.getRadius() << std::endl;*/
 	return avoidance;
 }
 
@@ -210,18 +212,19 @@ sf::Vector2f Traditional::ObstacleAvoidance(std::vector<sf::CircleShape> obstacl
 sf::CircleShape Traditional::findMostThreathening(std::vector<sf::CircleShape> obstacles)
 {
 	sf::CircleShape mostThreathening(0);
-	mostThreathening.setRadius(100);
-	mostThreathening.setPosition(400, 400);
-	/*for (int i = 0; i < obstacles.size(); i++) {
+	for (int i = 0; i < obstacles.size(); i++) {
 		sf::CircleShape obstacle = obstacles[i];
 		bool collision = lineIntersectsCircle(ahead, ahead2, obstacle);
 
-		if (collision && mostThreathening.getRadius() != 0.0 )
+		if (collision && mostThreathening.getRadius() == 0.0 )
 		{
 			mostThreathening = obstacle;
 		}
+		//std::cout << collision << std::endl;
 	
-	}*/
+	}
+	
+	
 	return mostThreathening;
 }
 sf::Vector2f Traditional::normalize(sf::Vector2f vec)
@@ -252,13 +255,15 @@ sf::Vector2f Traditional::scale(sf::Vector2f vec, double val)
 }
 float Traditional::distance(sf::Vector2f pos, sf::Vector2f obst)
 {
-	return sqrt((pos.x - obst.x) * (pos.x - obst.x) + (pos.y - obst.y)*(pos.y - obst.y));
+	auto dist = sqrt((pos.x - obst.x + 100) * (pos.x - obst.x + 100) + (pos.y - obst.y + 100)*(pos.y - obst.y + 100));
+	std::cout << dist << std::endl;
+	return dist;
 }
 
 bool Traditional::lineIntersectsCircle(sf::Vector2f vecOne, sf::Vector2f vecTwo, sf::CircleShape circle)
 {
-	
-	return distance(circle.getPosition(), vecOne) <= 100 || distance(circle.getPosition(), vecTwo) <= 100;
+	//std::cout << m_distance << std::endl;
+	return distance(circle.getPosition(), vecOne) <= circle.getRadius() || distance(circle.getPosition(), vecTwo) <= circle.getRadius();
 }
 
 

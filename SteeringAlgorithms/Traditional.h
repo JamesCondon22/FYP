@@ -59,15 +59,16 @@ private:
 	sf::Vector2f m_firstRelativePos;
 	sf::Vector2f m_firstRelativeVel;
 
-	const float MAX_SEE_AHEAD = 50.0f;
-	const float MAX_AVOID_FORCE = 50.0f;
+	const float MAX_SEE_AHEAD = 110.0f;
+	const float MAX_AVOID_FORCE = 500.0f;
 	const float MAX_FORCE = 10.0f;
-	float MAX_SPEED = 50.0f;
+	float MAX_SPEED = 1.0f;
 	float m_threshold;
 
 	sf::Vector2f ahead;
 	sf::Vector2f ahead2;
 
+	sf::Vector2f m_heading;
 	sf::Vector2f m_steering;
 	const double DEG_TO_RAD =  3.14 / 180;
 	
