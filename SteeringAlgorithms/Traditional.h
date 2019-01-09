@@ -72,6 +72,7 @@ private:
 	sf::Vector2f m_steering;
 	const double DEG_TO_RAD =  3.14 / 180;
 	
+	std::vector<sf::RectangleShape> lines;
 };
 
 

@@ -18,7 +18,7 @@ public:
 	void render(sf::RenderWindow & window);
 
 private:
-	sf::CircleShape m_rectangle;
+	sf::CircleShape m_circle;
 	sf::Texture m_texture;
 	sf::Vector2f m_position;
 

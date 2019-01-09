@@ -122,7 +122,7 @@ void Game::update(double dt)
 /// </summary>
 void Game::render()
 {
-	m_window.clear(sf::Color(255, 255, 255));
+	m_window.clear(sf::Color(211, 211, 211));
 	m_player->render(m_window);
 	
 	for (int i = 0; i < m_obstacles.size(); i++)

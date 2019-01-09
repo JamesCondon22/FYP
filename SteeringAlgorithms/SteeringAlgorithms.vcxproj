@@ -122,6 +122,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ContextDecisionMaker.h" />
+    <ClInclude Include="ContextMap.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Obstacle.h" />
@@ -129,6 +131,8 @@
     <ClInclude Include="Traditional.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ContextDecisionMaker.cpp" />
+    <ClCompile Include="ContextMap.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Obstacle.cpp" />

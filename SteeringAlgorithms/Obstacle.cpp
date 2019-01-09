@@ -8,9 +8,11 @@ Obstacle::Obstacle(int size) :
 	if (!m_texture.loadFromFile("obstacle.png")) {
 		std::cout << "font not loaded" << std::endl;
 	}
-	m_rectangle.setTexture(&m_texture);
-	m_rectangle.setRadius(size);
-	m_rectangle.setPosition(m_position);
+	m_circle.setTexture(&m_texture);
+	m_circle.setRadius(size);
+	m_circle.setOutlineColor(sf::Color::White);
+	m_circle.setOutlineThickness(5);
+	m_circle.setPosition(m_position);
 }
 
 
@@ -25,7 +27,7 @@ void Obstacle::update()
 
 int Obstacle::getRadius()
 {
-	return m_rectangle.getRadius();
+	return m_circle.getRadius();
 }
 
 sf::Vector2f Obstacle::getPositon() {
@@ -34,5 +36,5 @@ sf::Vector2f Obstacle::getPositon() {
 
 void Obstacle::render(sf::RenderWindow & window)
 {
-	window.draw(m_rectangle);
+	window.draw(m_circle);
 }
