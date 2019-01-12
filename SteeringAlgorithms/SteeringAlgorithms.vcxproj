@@ -124,8 +124,10 @@
   <ItemGroup>
     <ClInclude Include="ContextDecisionMaker.h" />
     <ClInclude Include="ContextMap.h" />
+    <ClInclude Include="FrayAI.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="MathHelper.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Traditional.h" />
@@ -133,8 +135,10 @@
   <ItemGroup>
     <ClCompile Include="ContextDecisionMaker.cpp" />
     <ClCompile Include="ContextMap.cpp" />
+    <ClCompile Include="FrayAI.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Traditional.cpp" />

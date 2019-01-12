@@ -30,7 +30,9 @@ Game::Game()
 	circle.setPosition(obstacle->getPositon());
 	m_circles.push_back(circle);
 	m_obstacles.push_back(obstacle);
+	
 	m_trad = new Traditional();
+	m_ai = new FrayAI();
 	
 }
 
@@ -104,8 +106,8 @@ void Game::update(double dt)
 	sf::Time deltaTime;
 
 	m_player->update(dt);
-	m_trad->update(dt,m_player->getPos(), m_player->getVel(), m_circles);
-
+	//m_trad->update(dt,m_player->getPos(), m_player->getVel(), m_circles);
+	m_ai->update(dt, m_player->getPos());
 }
 
 
@@ -130,6 +132,7 @@ void Game::render()
 		m_obstacles[i]->render(m_window);
 	}
 	m_trad->render(m_window);
+	m_ai->render(m_window);
 	m_window.display();
 }
 
