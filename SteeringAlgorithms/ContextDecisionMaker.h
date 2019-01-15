@@ -6,9 +6,13 @@
 enum Direction {
 
 	UP,
-	DOWN,
-	LEFT,
+	UPRIGHT,
 	RIGHT,
+	DOWNRIGHT,
+	DOWN,
+	DOWNLEFT,
+	LEFT,
+	UPLEFT,
 	NONE
 };
 
@@ -18,13 +22,11 @@ public:
 	ContextDecisionMaker();
 	~ContextDecisionMaker();
 	void FillDangerMap(ContextMap map, sf::Vector2f position);
-	void FillInterestMap(ContextMap danger, ContextMap interest, sf::Vector2f position);
-
-	void update(sf::Vector2f position);
+	ContextMap FillInterestMap(ContextMap danger, ContextMap interest, std::vector<double> distances);
+	double getStrongest();
+	void update(std::vector<double> distances);
 private:
 	int noOfDirections = 8;
-
-	ContextMap dangerMap;
-	ContextMap interestMap;
+	double strongestInterest = 0;
 };
 

@@ -11,9 +11,10 @@ public:
 	~ContextMap();
 	void initVec(int noOfDirections, float mapValue);
 	int getSize();
-
-
+	std::vector<double> returnVec();
+	void appendVector(std::vector<double> vec);
+	double findLargest();
 private:
-	std::vector<std::pair<float, float>> m_mapVector;
+	std::vector<double> m_mapVector;
 };
 

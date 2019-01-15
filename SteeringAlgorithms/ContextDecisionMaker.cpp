@@ -16,19 +16,23 @@ void ContextDecisionMaker::FillDangerMap(ContextMap map, sf::Vector2f position)
 {
 
 }
-void ContextDecisionMaker::FillInterestMap(ContextMap danger, ContextMap interest, sf::Vector2f position)
+ContextMap ContextDecisionMaker::FillInterestMap(ContextMap danger, ContextMap interest, std::vector<double> distances)
 {
-	for (int i = 0; i < interestMap.getSize(); i++)
-	{
-		//if (position.x )
-	}
+	interest.appendVector(distances);
+	return interest;
 }
 
-void ContextDecisionMaker::update(sf::Vector2f position)
+void ContextDecisionMaker::update(std::vector<double> distances)
 {
-	dangerMap = ContextMap(noOfDirections, 0.0f);
-	interestMap = ContextMap(noOfDirections, 0.0f);
+	ContextMap dangerMap = ContextMap(noOfDirections, 0.0f);
+	ContextMap interestMap = ContextMap(noOfDirections, 0.0f);
 
-	FillInterestMap(dangerMap, interestMap, position);
+	interestMap = FillInterestMap(dangerMap, interestMap, distances);
+	
+	strongestInterest = interestMap.findLargest();
+}
 
+double ContextDecisionMaker::getStrongest()
+{
+	return strongestInterest;
 }
