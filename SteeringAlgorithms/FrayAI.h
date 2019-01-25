@@ -23,6 +23,7 @@ public:
 	void seek(sf::Vector2f position);
 	std::vector<std::pair<double, std::string>> normalize(std::vector<std::pair<double, std::string>> vec);
 	void normalizeDangers();
+	std::vector<std::pair<double, std::string>> normalizeDangers(std::vector<std::pair<double, std::string>> vec);
 	sf::RectangleShape m_rect;
 	sf::Vector2f getPos();
 	std::pair<double, std::string> findLargest(std::vector<std::pair<double, std::string>> vec);

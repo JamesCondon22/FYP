@@ -34,7 +34,8 @@ void ContextDecisionMaker::update(std::vector<std::pair<double, std::string>> di
 	interestMap = FillInterestMap(dangerMap, interestMap, distances);
 	
 	strongestInterest = interestMap.findLargest();
-	std::cout << interestMap.findLargest().first << std::endl;
+
+
 }
 
 std::pair<double, std::string> ContextDecisionMaker::getStrongest()

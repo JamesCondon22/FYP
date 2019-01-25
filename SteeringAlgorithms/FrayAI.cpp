@@ -20,7 +20,7 @@ FrayAI::FrayAI() :
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 
-	m_surroundingCircle.setRadius(75);
+	m_surroundingCircle.setRadius(40);
 	m_surroundingCircle.setPosition(0, 0);
 	m_surroundingCircle.setOrigin(m_surroundingCircle.getRadius(), m_surroundingCircle.getRadius());
 	m_surroundingCircle.setPosition(m_position);
@@ -41,7 +41,7 @@ void FrayAI::update(double dt, sf::Vector2f position, std::vector<sf::CircleShap
 	updateLines(position);
 	updateDangers(obstacles);
 	m_distances = normalize(m_distances);
-	m_distancesDanger = normalize(m_distancesDanger);
+	m_distancesDanger = normalizeDangers(m_distancesDanger);
 	mapDecisions.update(m_distances, m_distancesDanger);
 	//mapDecisions.getStrongest();
 	checkDirection();
@@ -144,6 +144,17 @@ std::vector<std::pair<double, std::string>> FrayAI::normalize(std::vector<std::p
 	for (int i = 0; i < vec.size(); i++)
 	{
 		vec[i].first = 1 - (vec[i].first / curLargest.first);
+	}
+	return vec;
+}
+
+std::vector<std::pair<double, std::string>> FrayAI::normalizeDangers(std::vector<std::pair<double, std::string>> vec)
+{
+	auto curLargest = findLargest(vec);
+
+	for (int i = 0; i < vec.size(); i++)
+	{
+		vec[i].first = (vec[i].first / curLargest.first);
 	}
 	return vec;
 }

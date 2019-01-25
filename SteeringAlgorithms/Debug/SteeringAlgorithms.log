@@ -1,2 +1,5 @@
-﻿  ContextDecisionMaker.cpp
+﻿  FrayAI.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\frayai.cpp(118): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\frayai.cpp(144): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\frayai.cpp(155): warning C4018: '<': signed/unsigned mismatch
   SteeringAlgorithms.vcxproj -> C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\SteeringAlgorithms.exe
