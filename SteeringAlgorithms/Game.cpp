@@ -107,7 +107,7 @@ void Game::update(double dt)
 
 	m_player->update(dt);
 	//m_trad->update(dt,m_player->getPos(), m_player->getVel(), m_circles);
-	m_ai->update(dt, m_player->getPos());
+	m_ai->update(dt, m_player->getPos(), m_circles);
 }
 
 

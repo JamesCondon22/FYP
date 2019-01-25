@@ -26,7 +26,9 @@ FrayAI::FrayAI() :
 	m_surroundingCircle.setPosition(m_position);
 	m_surroundingCircle.setFillColor(sf::Color(0, 0, 0, 40));
 
-	m_distances.assign(8, 0.0);
+	
+	initVector();
+	
 }
 
 
@@ -34,12 +36,14 @@ FrayAI::~FrayAI()
 {
 }
 
-void FrayAI::update(double dt, sf::Vector2f position)
+void FrayAI::update(double dt, sf::Vector2f position, std::vector<sf::CircleShape> obstacles)
 {
 	updateLines(position);
-	normalize();
-	mapDecisions.update(m_distances);
-	mapDecisions.getStrongest();
+	updateDangers(obstacles);
+	m_distances = normalize(m_distances);
+	m_distancesDanger = normalize(m_distancesDanger);
+	mapDecisions.update(m_distances, m_distancesDanger);
+	//mapDecisions.getStrongest();
 	checkDirection();
 	seek(position);
 
@@ -97,40 +101,54 @@ void FrayAI::updateLines(sf::Vector2f position)
 	line8[0] = sf::Vector2f(m_surroundingCircle.getPosition());
 	line8[1] = sf::Vector2f(m_surroundingCircle.getPosition().x - 75, m_surroundingCircle.getPosition().y - 75);
 
-	m_distances[0] = Math::distance(sf::Vector2f(line[1].position.x, line[1].position.y), position);
-	m_distances[1] = Math::distance(sf::Vector2f(line2[1].position.x, line2[1].position.y), position);
-	m_distances[2] = Math::distance(sf::Vector2f(line3[1].position.x, line3[1].position.y), position);
-	m_distances[3] = Math::distance(sf::Vector2f(line4[1].position.x, line4[1].position.y), position);
-	m_distances[4] = Math::distance(sf::Vector2f(line5[1].position.x, line5[1].position.y), position);
-	m_distances[5] = Math::distance(sf::Vector2f(line6[1].position.x, line6[1].position.y), position);
-	m_distances[6] = Math::distance(sf::Vector2f(line7[1].position.x, line7[1].position.y), position);
-	m_distances[7] = Math::distance(sf::Vector2f(line8[1].position.x, line8[1].position.y), position);
+	m_distances[0].first = Math::distance(sf::Vector2f(line[1].position.x, line[1].position.y), position);
+	m_distances[1].first = Math::distance(sf::Vector2f(line2[1].position.x, line2[1].position.y), position);
+	m_distances[2].first = Math::distance(sf::Vector2f(line3[1].position.x, line3[1].position.y), position);
+	m_distances[3].first = Math::distance(sf::Vector2f(line4[1].position.x, line4[1].position.y), position);
+	m_distances[4].first = Math::distance(sf::Vector2f(line5[1].position.x, line5[1].position.y), position);
+	m_distances[5].first = Math::distance(sf::Vector2f(line6[1].position.x, line6[1].position.y), position);
+	m_distances[6].first = Math::distance(sf::Vector2f(line7[1].position.x, line7[1].position.y), position);
+	m_distances[7].first = Math::distance(sf::Vector2f(line8[1].position.x, line8[1].position.y), position);
 
 
 }
 
-double FrayAI::findLargest()
+void FrayAI::updateDangers(std::vector<sf::CircleShape> obstacles)
 {
-	double largest = 0;
-	for (auto iter = m_distances.begin(); iter != m_distances.end(); ++iter)
+	for (int i = 0; i < obstacles.size(); i++)
 	{
-		if (*iter > largest)
-		{
-			largest = *iter;
-		}
+		m_distancesDanger[0].first = Math::distance(sf::Vector2f(line[1].position.x, line[1].position.y), obstacles[i].getPosition());
+		m_distancesDanger[1].first = Math::distance(sf::Vector2f(line2[1].position.x, line2[1].position.y), obstacles[i].getPosition());
+		m_distancesDanger[2].first = Math::distance(sf::Vector2f(line3[1].position.x, line3[1].position.y), obstacles[i].getPosition());
+		m_distancesDanger[3].first = Math::distance(sf::Vector2f(line4[1].position.x, line4[1].position.y), obstacles[i].getPosition());
+		m_distancesDanger[4].first = Math::distance(sf::Vector2f(line5[1].position.x, line5[1].position.y), obstacles[i].getPosition());
+		m_distancesDanger[5].first = Math::distance(sf::Vector2f(line6[1].position.x, line6[1].position.y), obstacles[i].getPosition());
+		m_distancesDanger[6].first = Math::distance(sf::Vector2f(line7[1].position.x, line7[1].position.y), obstacles[i].getPosition());
+		m_distancesDanger[7].first = Math::distance(sf::Vector2f(line8[1].position.x, line8[1].position.y), obstacles[i].getPosition());
 	}
-	return largest;
+	
 }
 
-void FrayAI::normalize()
+std::pair<double, std::string > FrayAI::findLargest(std::vector<std::pair<double, std::string>> vec)
 {
-	curLargest = findLargest();
+	std::sort(vec.begin(), vec.end());
+	return vec.at(vec.size()-1);
 
-	for (int i = 0; i < m_distances.size(); i++)
-	{
-		m_distances[i] = 1 - (m_distances[i] / curLargest);
-	}
+	
 }
+
+std::vector<std::pair<double, std::string>> FrayAI::normalize(std::vector<std::pair<double, std::string>> vec)
+{
+	auto curLargest = findLargest(vec);
+
+	for (int i = 0; i < vec.size(); i++)
+	{
+		vec[i].first = 1 - (vec[i].first / curLargest.first);
+	}
+	return vec;
+}
+
+
 
 void FrayAI::seek(sf::Vector2f position)
 {
@@ -153,38 +171,61 @@ sf::Vector2f FrayAI::normalize(sf::Vector2f vec)
 
 void FrayAI::checkDirection()
 {
-	if (mapDecisions.getStrongest() == m_distances[0])
+	
+	if (mapDecisions.getStrongest().second == "UP")
 	{
 		curDirection = sf::Vector2f(line[1].position.x, line[1].position.y);
 	}
-	if (mapDecisions.getStrongest() == m_distances[1])
+	if (mapDecisions.getStrongest().second == "UPRIGHT")
 	{
 		curDirection = sf::Vector2f(line2[1].position.x, line2[1].position.y);
 	}
-	if (mapDecisions.getStrongest() == m_distances[2])
+	if (mapDecisions.getStrongest().second == "RIGHT")
 	{
 		curDirection = sf::Vector2f(line3[1].position.x, line3[1].position.y);
 	}
-	if (mapDecisions.getStrongest() == m_distances[3])
+	if (mapDecisions.getStrongest().second == "DOWNRIGHT")
 	{
 		curDirection = sf::Vector2f(line4[1].position.x, line4[1].position.y);
 	}
-
-	if (mapDecisions.getStrongest() == m_distances[4])
+	if (mapDecisions.getStrongest().second == "DOWN")
 	{
 		curDirection = sf::Vector2f(line5[1].position.x, line5[1].position.y);
 	}
-	if (mapDecisions.getStrongest() == m_distances[5])
+	if (mapDecisions.getStrongest().second == "DOWNLEFT")
 	{
 		curDirection = sf::Vector2f(line6[1].position.x, line6[1].position.y);
 	}
-	if (mapDecisions.getStrongest() == m_distances[6])
+	if (mapDecisions.getStrongest().second == "LEFT")
 	{
 		curDirection = sf::Vector2f(line7[1].position.x, line7[1].position.y);
 	}
-	if (mapDecisions.getStrongest() == m_distances[7])
+	if (mapDecisions.getStrongest().second == "UPLEFT")
 	{
 		curDirection = sf::Vector2f(line8[1].position.x, line8[1].position.y);
 	}
+	//std::cout << mapDecisions.getStrongest().second << std::endl;
+}
 
+void FrayAI::initVector()
+{
+	m_distances.assign(8, std::make_pair(0.0, "NONE"));
+	m_distancesDanger.assign(8, std::make_pair(0.0, "NONE"));
+	m_distances[0] = std::make_pair(0.0, "UP");
+	m_distances[1] = std::make_pair(0.0, "UPRIGHT");
+	m_distances[2] = std::make_pair(0.0, "RIGHT");
+	m_distances[3] = std::make_pair(0.0, "DOWNRIGHT");
+	m_distances[4] = std::make_pair(0.0, "DOWN");
+	m_distances[5] = std::make_pair(0.0, "DOWNLEFT");
+	m_distances[6] = std::make_pair(0.0, "LEFT");
+	m_distances[7] = std::make_pair(0.0, "UPLEFT");
+
+	m_distancesDanger[0] = std::make_pair(0.0, "UP");
+	m_distancesDanger[1] = std::make_pair(0.0, "UPRIGHT");
+	m_distancesDanger[2] = std::make_pair(0.0, "RIGHT");
+	m_distancesDanger[3] = std::make_pair(0.0, "DOWNRIGHT");
+	m_distancesDanger[4] = std::make_pair(0.0, "DOWN");
+	m_distancesDanger[5] = std::make_pair(0.0, "DOWNLEFT");
+	m_distancesDanger[6] = std::make_pair(0.0, "LEFT");
+	m_distancesDanger[7] = std::make_pair(0.0, "UPLEFT");
 }

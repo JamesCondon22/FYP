@@ -12,27 +12,32 @@ ContextDecisionMaker::~ContextDecisionMaker()
 {
 }
 
-void ContextDecisionMaker::FillDangerMap(ContextMap map, sf::Vector2f position)
+ContextMap ContextDecisionMaker::FillDangerMap(ContextMap map, std::vector<std::pair<double, std::string>> distances)
 {
-
+	map.append(distances);
+	return map;
 }
-ContextMap ContextDecisionMaker::FillInterestMap(ContextMap danger, ContextMap interest, std::vector<double> distances)
+ContextMap ContextDecisionMaker::FillInterestMap(ContextMap danger, ContextMap interest, std::vector<std::pair<double, std::string>> distances)
 {
-	interest.appendVector(distances);
+	interest.append(distances);
+	interest.appendAndMult(distances, danger.returnVec());
+
 	return interest;
 }
 
-void ContextDecisionMaker::update(std::vector<double> distances)
+void ContextDecisionMaker::update(std::vector<std::pair<double, std::string>> distances, std::vector<std::pair<double, std::string>> dangerDist)
 {
-	ContextMap dangerMap = ContextMap(noOfDirections, 0.0f);
-	ContextMap interestMap = ContextMap(noOfDirections, 0.0f);
+	ContextMap dangerMap = ContextMap(noOfDirections, std::make_pair(0.0f, "NONE"));
+	ContextMap interestMap = ContextMap(noOfDirections, std::make_pair(0.0f, "NONE"));
 
+	dangerMap = FillDangerMap(dangerMap, dangerDist);
 	interestMap = FillInterestMap(dangerMap, interestMap, distances);
 	
 	strongestInterest = interestMap.findLargest();
+	std::cout << interestMap.findLargest().first << std::endl;
 }
 
-double ContextDecisionMaker::getStrongest()
+std::pair<double, std::string> ContextDecisionMaker::getStrongest()
 {
 	return strongestInterest;
 }

@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "ContextMap.h"
+#include <string.h>
 
 enum Direction {
 
@@ -21,12 +22,12 @@ class ContextDecisionMaker
 public:
 	ContextDecisionMaker();
 	~ContextDecisionMaker();
-	void FillDangerMap(ContextMap map, sf::Vector2f position);
-	ContextMap FillInterestMap(ContextMap danger, ContextMap interest, std::vector<double> distances);
-	double getStrongest();
-	void update(std::vector<double> distances);
+	ContextMap FillDangerMap(ContextMap map, std::vector<std::pair<double, std::string>> distances);
+	ContextMap FillInterestMap(ContextMap danger, ContextMap interest, std::vector<std::pair<double, std::string>> distances);
+	std::pair<double, std::string> getStrongest();
+	void update(std::vector<std::pair<double, std::string>> distances, std::vector<std::pair<double, std::string>> dangers);
 private:
 	int noOfDirections = 8;
-	double strongestInterest = 0;
+	std::pair<double, std::string> strongestInterest;
 };
 

@@ -3,6 +3,7 @@
 #define FRAYAI
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <string.h>
 #include "ContextDecisionMaker.h"
 #include "MathHelper.h"
 
@@ -11,18 +12,20 @@ class FrayAI
 public:
 	FrayAI();
 	~FrayAI();
-	void update(double dt, sf::Vector2f position);
+	void update(double dt, sf::Vector2f position, std::vector<sf::CircleShape> obstacles);
 	void render(sf::RenderWindow & window);
 	sf::Vector2f getVel();
 	void updateLines(sf::Vector2f position);
+	void updateDangers(std::vector<sf::CircleShape> obstacles);
 	void initVector();
 	sf::Vector2f normalize(sf::Vector2f vec);
 	void checkDirection();
 	void seek(sf::Vector2f position);
-	void normalize();
+	std::vector<std::pair<double, std::string>> normalize(std::vector<std::pair<double, std::string>> vec);
+	void normalizeDangers();
 	sf::RectangleShape m_rect;
 	sf::Vector2f getPos();
-	double findLargest();
+	std::pair<double, std::string> findLargest(std::vector<std::pair<double, std::string>> vec);
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -44,8 +47,10 @@ private:
 
 	sf::Vector2f UpRadial = sf::Vector2f(0,0);
 	std::vector<sf::Vector2f> m_distVecs;
-	std::vector<double> m_distances;
+	std::vector<std::pair<double, std::string>> m_distances;
+	std::vector<std::pair<double, std::string>> m_distancesDanger;
 	double curLargest = 0;
+	double curLargestDanger = 0;
 	sf::Vector2f curDirection = sf::Vector2f(0, 0);
 	
 };
