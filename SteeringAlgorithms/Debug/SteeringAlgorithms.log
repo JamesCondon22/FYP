@@ -1,5 +1,9 @@
 ﻿  FrayAI.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\frayai.cpp(23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\gameuser\desktop\fyp\steeringalgorithms\frayai.cpp(118): warning C4018: '<': signed/unsigned mismatch
 c:\users\gameuser\desktop\fyp\steeringalgorithms\frayai.cpp(144): warning C4018: '<': signed/unsigned mismatch
 c:\users\gameuser\desktop\fyp\steeringalgorithms\frayai.cpp(155): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\frayai.cpp(169): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\frayai.cpp(170): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\frayai.cpp(183): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   SteeringAlgorithms.vcxproj -> C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\SteeringAlgorithms.exe

@@ -1,6 +1,6 @@
 #include "FrayAI.h"
 
-
+double const FrayAI::RAD_TO_DEG = 180.0f / 3.14;
 double const FrayAI::DEG_TO_RAD = 3.14 / 180.0f;
 FrayAI::FrayAI() :
 	m_position(0, 0),
@@ -13,14 +13,14 @@ FrayAI::FrayAI() :
 	if (!m_texture.loadFromFile("frayAI.png")) {
 		//do something
 	}
-	m_rect.setOrigin(m_position.x + 75 / 2, m_position.y + 50 / 2);
+	m_rect.setOrigin(m_position.x + 50 / 2, m_position.y + 75 / 2);
 	m_rect.setTexture(&m_texture);
-	m_rect.setSize(sf::Vector2f(75, 50));
+	m_rect.setSize(sf::Vector2f(50, 75));
 	m_position = sf::Vector2f(1000, 500);
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 
-	m_surroundingCircle.setRadius(40);
+	m_surroundingCircle.setRadius(m_radius);
 	m_surroundingCircle.setPosition(0, 0);
 	m_surroundingCircle.setOrigin(m_surroundingCircle.getRadius(), m_surroundingCircle.getRadius());
 	m_surroundingCircle.setPosition(m_position);
@@ -85,21 +85,21 @@ sf::Vector2f FrayAI::getVel()
 void FrayAI::updateLines(sf::Vector2f position)
 {
 	line[0] = sf::Vector2f(m_surroundingCircle.getPosition());
-	line[1] = sf::Vector2f(m_surroundingCircle.getPosition().x, m_surroundingCircle.getPosition().y - 100);
+	line[1] = sf::Vector2f(m_surroundingCircle.getPosition().x , m_surroundingCircle.getPosition().y - 150);
 	line2[0] = sf::Vector2f(m_surroundingCircle.getPosition());
-	line2[1] = sf::Vector2f(m_surroundingCircle.getPosition().x + 75, m_surroundingCircle.getPosition().y - 75);
+	line2[1] = sf::Vector2f(m_surroundingCircle.getPosition().x + 100, m_surroundingCircle.getPosition().y - 100);
 	line3[0] = sf::Vector2f(m_surroundingCircle.getPosition());
-	line3[1] = sf::Vector2f(m_surroundingCircle.getPosition().x + 100, m_surroundingCircle.getPosition().y);
+	line3[1] = sf::Vector2f(m_surroundingCircle.getPosition().x + 150, m_surroundingCircle.getPosition().y);
 	line4[0] = sf::Vector2f(m_surroundingCircle.getPosition());
-	line4[1] = sf::Vector2f(m_surroundingCircle.getPosition().x + 75, m_surroundingCircle.getPosition().y + 75);
+	line4[1] = sf::Vector2f(m_surroundingCircle.getPosition().x + 100, m_surroundingCircle.getPosition().y + 100);
 	line5[0] = sf::Vector2f(m_surroundingCircle.getPosition());
-	line5[1] = sf::Vector2f(m_surroundingCircle.getPosition().x, m_surroundingCircle.getPosition().y + 100);
+	line5[1] = sf::Vector2f(m_surroundingCircle.getPosition().x, m_surroundingCircle.getPosition().y + 150);
 	line6[0] = sf::Vector2f(m_surroundingCircle.getPosition());
-	line6[1] = sf::Vector2f(m_surroundingCircle.getPosition().x - 75, m_surroundingCircle.getPosition().y + 75);
+	line6[1] = sf::Vector2f(m_surroundingCircle.getPosition().x - 100, m_surroundingCircle.getPosition().y + 100);
 	line7[0] = sf::Vector2f(m_surroundingCircle.getPosition());
-	line7[1] = sf::Vector2f(m_surroundingCircle.getPosition().x - 100, m_surroundingCircle.getPosition().y);
+	line7[1] = sf::Vector2f(m_surroundingCircle.getPosition().x - 150, m_surroundingCircle.getPosition().y);
 	line8[0] = sf::Vector2f(m_surroundingCircle.getPosition());
-	line8[1] = sf::Vector2f(m_surroundingCircle.getPosition().x - 75, m_surroundingCircle.getPosition().y - 75);
+	line8[1] = sf::Vector2f(m_surroundingCircle.getPosition().x - 100, m_surroundingCircle.getPosition().y - 100);
 
 	m_distances[0].first = Math::distance(sf::Vector2f(line[1].position.x, line[1].position.y), position);
 	m_distances[1].first = Math::distance(sf::Vector2f(line2[1].position.x, line2[1].position.y), position);
@@ -166,8 +166,35 @@ void FrayAI::seek(sf::Vector2f position)
 	m_velocity = curDirection - m_position;
 	m_velocity = normalize(m_velocity);
 	m_velocity = m_velocity * 0.5f;
-	//m_rotation = getNewOrientation(m_rotation, m_velocity);
-	//m_rect.setRotation(m_rotation);
+	m_rotation = getNewOrientation(m_rotation, m_velocity);
+	m_rect.setRotation(m_rotation);
+}
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="curOrientation"></param>
+/// <param name="velocity"></param>
+/// <returns></returns>
+float FrayAI::getNewOrientation(float curOrientation, sf::Vector2f velocity)
+{
+	if (length(velocity) > 0)
+	{
+		float rotation = atan2(-velocity.x, velocity.y) * RAD_TO_DEG;
+		return rotation;
+	}
+	else
+	{
+		return curOrientation;
+	}
+}
+/// <summary>
+/// 
+/// </summary>
+/// <param name="vel"></param>
+/// <returns></returns>
+float FrayAI::length(sf::Vector2f vel) {
+	return sqrt(vel.x * vel.x + vel.y * vel.y);
 }
 
 sf::Vector2f FrayAI::normalize(sf::Vector2f vec)
@@ -215,7 +242,7 @@ void FrayAI::checkDirection()
 	{
 		curDirection = sf::Vector2f(line8[1].position.x, line8[1].position.y);
 	}
-	//std::cout << mapDecisions.getStrongest().second << std::endl;
+	std::cout << mapDecisions.getStrongest().second << std::endl;
 }
 
 void FrayAI::initVector()

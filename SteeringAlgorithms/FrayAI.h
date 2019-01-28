@@ -27,6 +27,10 @@ public:
 	sf::RectangleShape m_rect;
 	sf::Vector2f getPos();
 	std::pair<double, std::string> findLargest(std::vector<std::pair<double, std::string>> vec);
+
+	float getNewOrientation(float curOrientation, sf::Vector2f velocity);
+	float length(sf::Vector2f vel);
+
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -34,6 +38,7 @@ private:
 	sf::Texture m_texture;
 	int size;
 	double static const DEG_TO_RAD;
+	double static const RAD_TO_DEG;
 	double m_rotation;
 	double m_speed;
 	double MAX_SPEED;
@@ -53,7 +58,7 @@ private:
 	double curLargest = 0;
 	double curLargestDanger = 0;
 	sf::Vector2f curDirection = sf::Vector2f(0, 0);
-	
+	int m_radius = 40;
 };
 
 #endif
