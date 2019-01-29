@@ -1,0 +1,18 @@
+circles:
+   - type: circle
+     position: {x: 900, y: 500}
+     radius: 50
+   - type: circle
+     position: {x: 900, y: 800}
+     radius: 50
+
+
+paths:
+   - type: path
+     position: {x: 1200, y: 500}
+   - type: path
+     position: {x: 600, y: 500}
+   - type: path
+     position: {x: 600, y: 800}
+   - type: path
+     position: {x: 1200, y: 800}

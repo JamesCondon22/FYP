@@ -10,10 +10,11 @@ public:
 	Obstacle();
 	~Obstacle();
 
-	sf::Vector2f getPositon();
+	sf::Vector2f getPosition();
 	int getRadius();
-
-	void normalize(sf::Vector2f vec);
+	void setRadius(int rad);
+	void setPosition(sf::Vector2f position);
+	void setOrigin(int originX, int originY);
 	void update();
 	void render(sf::RenderWindow & window);
 

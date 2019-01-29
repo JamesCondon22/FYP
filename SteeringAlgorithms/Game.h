@@ -7,6 +7,7 @@
 #include "Obstacle.h"
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "LevelLoader.h"
 
 /// <summary>
 /// @brief Main class for the SFML Playground project.
@@ -27,6 +28,7 @@ protected:
 	void processEvents();
 	void processGameEvents(sf::Event&);
 
+	void generatePath();
 	// main window
 	sf::RenderWindow m_window;
 	Player* m_player;
@@ -35,6 +37,9 @@ protected:
 
 	std::vector<Obstacle*> m_obstacles;
 	std::vector<sf::CircleShape> m_circles;
+	std::vector<sf::CircleShape> m_nodes;
+	LevelData m_level;
+	PathData m_path;
 };
 
 #endif

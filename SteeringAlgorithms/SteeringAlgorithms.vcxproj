@@ -126,6 +126,7 @@
     <ClInclude Include="ContextMap.h" />
     <ClInclude Include="FrayAI.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="Obstacle.h" />
@@ -137,6 +138,7 @@
     <ClCompile Include="ContextMap.cpp" />
     <ClCompile Include="FrayAI.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="Obstacle.cpp" />

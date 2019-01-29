@@ -23,16 +23,30 @@ Game::Game()
 	m_window.setVerticalSyncEnabled(true);
 	int currentLevel = 1;
 
-	m_player = new Player();
-	Obstacle *obstacle = new Obstacle(100);
-	sf::CircleShape circle;
-	circle.setRadius(obstacle->getRadius());
-	circle.setPosition(obstacle->getPositon());
-	m_circles.push_back(circle);
-	m_obstacles.push_back(obstacle);
+	if (!LevelLoader::load(currentLevel, m_level)) {
+		return;
+	}
+
 	
+
+	for (ObstacleData const &obs : m_level.m_obstacles) {
+		Obstacle *obstacle = new Obstacle(obs.m_radius);
+		obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
+		obstacle->setPosition(obs.m_position);
+		m_obstacles.push_back(obstacle);
+	}
+
+	for (PathData const &path : m_level.m_paths) {
+		sf::CircleShape circle(10);
+		circle.setOrigin(circle.getRadius(), circle.getRadius());
+		circle.setPosition(path.m_position);
+		circle.setFillColor(sf::Color::Red);
+		m_nodes.push_back(circle);
+	}
+
+	m_player = new Player();
 	m_trad = new Traditional();
-	m_ai = new FrayAI();
+	m_ai = new FrayAI(m_nodes);
 	
 }
 
@@ -107,7 +121,10 @@ void Game::update(double dt)
 
 	m_player->update(dt);
 	//m_trad->update(dt,m_player->getPos(), m_player->getVel(), m_circles);
-	m_ai->update(dt, m_player->getPos(), m_circles);
+	for (int i = 0; i < m_obstacles.size(); i++) {
+		m_ai->update(dt, m_player->getPos(), m_obstacles[i]);
+	}
+	
 }
 
 
@@ -130,6 +147,11 @@ void Game::render()
 	for (int i = 0; i < m_obstacles.size(); i++)
 	{
 		m_obstacles[i]->render(m_window);
+	}
+
+	for (auto &node : m_nodes)
+	{
+		m_window.draw(node);
 	}
 	m_trad->render(m_window);
 	m_ai->render(m_window);

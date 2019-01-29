@@ -6,23 +6,24 @@
 #include <string.h>
 #include "ContextDecisionMaker.h"
 #include "MathHelper.h"
+#include "Obstacle.h"
 
 class FrayAI
 {
 public:
-	FrayAI();
+	FrayAI(std::vector<sf::CircleShape> & path);
 	~FrayAI();
-	void update(double dt, sf::Vector2f position, std::vector<sf::CircleShape> obstacles);
+	void update(double dt, sf::Vector2f position, Obstacle* obstacles);
 	void render(sf::RenderWindow & window);
 	sf::Vector2f getVel();
+	sf::Vector2f getCurrentNodePosition();
 	void updateLines(sf::Vector2f position);
-	void updateDangers(std::vector<sf::CircleShape> obstacles);
+	void updateDangers(Obstacle* obstacles);
 	void initVector();
 	sf::Vector2f normalize(sf::Vector2f vec);
 	void checkDirection();
 	void seek(sf::Vector2f position);
 	std::vector<std::pair<double, std::string>> normalize(std::vector<std::pair<double, std::string>> vec);
-	void normalizeDangers();
 	std::vector<std::pair<double, std::string>> normalizeDangers(std::vector<std::pair<double, std::string>> vec);
 	sf::RectangleShape m_rect;
 	sf::Vector2f getPos();
@@ -59,6 +60,9 @@ private:
 	double curLargestDanger = 0;
 	sf::Vector2f curDirection = sf::Vector2f(0, 0);
 	int m_radius = 40;
+
+	std::vector<sf::CircleShape> m_nodes;
+	int currentNode = 0;
 };
 
 #endif
