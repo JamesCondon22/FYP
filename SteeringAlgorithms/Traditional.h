@@ -6,6 +6,7 @@
 #include "Obstacle.h"
 #include <Thor\Math.hpp>
 #include <Thor/Vectors.hpp>
+#include "MathHelper.h"
 
 
 
@@ -13,14 +14,14 @@
 class Traditional
 {
 public:
-	Traditional();
+	Traditional(std::vector<sf::CircleShape> & path, std::vector<Obstacle*> obs);
 	~Traditional();
 	float getNewOrientation(float currentOrientation, float velocity);
-	void kinematicArrive(sf::Vector2f playerPosition);
+	sf::Vector2f getCurrentNodePosition();
 	sf::Vector2f pursue(sf::Vector2f playerPosition, sf::Vector2f playerVelocity);
 	void respawn(float x, float y);
 	float getRandom(int x, int y);
-	void update(double dt, sf::Vector2f player, sf::Vector2f vel, std::vector<sf::CircleShape> obstacles);
+	void update(double dt, sf::Vector2f player, sf::Vector2f vel);
 	void render(sf::RenderWindow & window);
 	sf::Vector2f getVelocity();
 	sf::Vector2f getPosition();
@@ -28,10 +29,10 @@ public:
 	sf::Vector2f normalize(sf::Vector2f vec);
 	sf::Vector2f scale(sf::Vector2f vec, double val);
 
-	sf::Vector2f ObstacleAvoidance(std::vector<sf::CircleShape> obstacles);
-	sf::CircleShape findMostThreathening(std::vector<sf::CircleShape> obstacles);
+	sf::Vector2f ObstacleAvoidance();
+	Obstacle * findMostThreathening();
 	float distance(sf::Vector2f pos, sf::Vector2f obst);
-	bool lineIntersectsCircle(sf::Vector2f vecOne, sf::Vector2f vecTwo, sf::CircleShape circle);
+	bool lineIntersectsCircle(sf::Vector2f vecOne, sf::Vector2f vecTwo, Obstacle *circle);
 	sf::Vector2f truncate(sf::Vector2f v, float const num);
 private:
 	float m_timeToTarget;
@@ -73,6 +74,9 @@ private:
 	const double DEG_TO_RAD =  3.14 / 180;
 	
 	std::vector<sf::RectangleShape> lines;
+	std::vector<sf::CircleShape> m_nodes;
+	std::vector<Obstacle*> m_obstacles;
+	int currentNode = 0;
 };
 
 

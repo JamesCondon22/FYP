@@ -6,8 +6,8 @@
 class Obstacle 
 {
 public:
+	Obstacle(int size, sf::Texture &texture);
 	Obstacle(int size);
-	Obstacle();
 	~Obstacle();
 
 	sf::Vector2f getPosition();

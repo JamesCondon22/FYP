@@ -3,31 +3,36 @@
 #include <SFML/Graphics.hpp>
 #include "ContextMap.h"
 #include <string.h>
+#include <map>
 
-enum Direction {
 
-	UP,
-	UPRIGHT,
-	RIGHT,
-	DOWNRIGHT,
-	DOWN,
-	DOWNLEFT,
-	LEFT,
-	UPLEFT,
-	NONE
-};
+ //Direction::N
+
+//enum class Direction {
+//
+//	UP,
+//	UPRIGHT,
+//	RIGHT,
+//	DOWNRIGHT,
+//	DOWN,
+//	DOWNLEFT,
+//	LEFT,
+//	UPLEFT,
+//	NONE
+//};
 
 class ContextDecisionMaker
 {
 public:
-	ContextDecisionMaker();
+	ContextDecisionMaker() { ; }
 	~ContextDecisionMaker();
-	ContextMap FillDangerMap(ContextMap map, std::vector<std::pair<double, std::string>> distances);
-	ContextMap FillInterestMap(ContextMap danger, ContextMap interest, std::vector<std::pair<double, std::string>> distances);
-	std::pair<double, std::string> getStrongest();
-	void update(std::vector<std::pair<double, std::string>> distances, std::vector<std::pair<double, std::string>> dangers);
+	ContextMap FillDangerMap(ContextMap map, std::map<Direction, double> distances);
+	ContextMap FillInterestMap(ContextMap danger, ContextMap interest, std::map<Direction, double> distances);
+	Direction getStrongest();
+	void update(std::map<Direction, double> distances, std::map<Direction, double> dangers);
 private:
 	int noOfDirections = 8;
-	std::pair<double, std::string> strongestInterest;
+	Direction strongestInterest;
+	//std::map<Direction, double> m_strongestInterest;
 };
 

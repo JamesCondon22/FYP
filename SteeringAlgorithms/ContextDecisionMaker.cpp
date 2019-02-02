@@ -1,23 +1,15 @@
 #include "ContextDecisionMaker.h"
 
-
-
-ContextDecisionMaker::ContextDecisionMaker()
-{
-	
-}
-
-
 ContextDecisionMaker::~ContextDecisionMaker()
 {
 }
 
-ContextMap ContextDecisionMaker::FillDangerMap(ContextMap map, std::vector<std::pair<double, std::string>> distances)
+ContextMap ContextDecisionMaker::FillDangerMap(ContextMap map, std::map<Direction, double> distances)
 {
 	map.append(distances);
 	return map;
 }
-ContextMap ContextDecisionMaker::FillInterestMap(ContextMap danger, ContextMap interest, std::vector<std::pair<double, std::string>> distances)
+ContextMap ContextDecisionMaker::FillInterestMap(ContextMap danger, ContextMap interest, std::map<Direction, double> distances)
 {
 	interest.append(distances);
 	interest.appendAndMult(distances, danger.returnVec());
@@ -25,20 +17,18 @@ ContextMap ContextDecisionMaker::FillInterestMap(ContextMap danger, ContextMap i
 	return interest;
 }
 
-void ContextDecisionMaker::update(std::vector<std::pair<double, std::string>> distances, std::vector<std::pair<double, std::string>> dangerDist)
+void ContextDecisionMaker::update(std::map<Direction, double> distances, std::map<Direction, double> dangerDist)
 {
-	ContextMap dangerMap = ContextMap(noOfDirections, std::make_pair(0.0f, "NONE"));
-	ContextMap interestMap = ContextMap(noOfDirections, std::make_pair(0.0f, "NONE"));
+	ContextMap dangerMap = ContextMap();
+	ContextMap interestMap = ContextMap();
 
 	dangerMap = FillDangerMap(dangerMap, dangerDist);
 	interestMap = FillInterestMap(dangerMap, interestMap, distances);
 	
 	strongestInterest = interestMap.findLargest();
-
-
 }
 
-std::pair<double, std::string> ContextDecisionMaker::getStrongest()
+Direction ContextDecisionMaker::getStrongest()
 {
 	return strongestInterest;
 }

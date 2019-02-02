@@ -27,10 +27,14 @@ Game::Game()
 		return;
 	}
 
+	if (!m_texture.loadFromFile("obstacle.png")) {
+		std::cout << "texture not loading" << std::endl;
+	}
+
 	
 
 	for (ObstacleData const &obs : m_level.m_obstacles) {
-		Obstacle *obstacle = new Obstacle(obs.m_radius);
+		Obstacle* obstacle = new Obstacle(obs.m_radius, m_texture);
 		obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
 		obstacle->setPosition(obs.m_position);
 		m_obstacles.push_back(obstacle);
@@ -45,8 +49,8 @@ Game::Game()
 	}
 
 	m_player = new Player();
-	m_trad = new Traditional();
-	m_ai = new FrayAI(m_nodes);
+	m_trad = new Traditional(m_nodes, m_obstacles);
+	m_ai = new FrayAI(m_nodes, m_obstacles);
 	
 }
 
@@ -120,10 +124,10 @@ void Game::update(double dt)
 	sf::Time deltaTime;
 
 	m_player->update(dt);
-	//m_trad->update(dt,m_player->getPos(), m_player->getVel(), m_circles);
-	for (int i = 0; i < m_obstacles.size(); i++) {
-		m_ai->update(dt, m_player->getPos(), m_obstacles[i]);
-	}
+	m_trad->update(dt,m_player->getPos(), m_player->getVel());
+	
+	m_ai->update(dt, m_trad->getPosition());
+	
 	
 }
 

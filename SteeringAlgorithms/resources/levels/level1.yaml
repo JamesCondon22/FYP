@@ -1,18 +1,24 @@
 circles:
    - type: circle
-     position: {x: 900, y: 500}
-     radius: 50
+     position: {x: 900, y: 200}
+     radius: 30
+   - type: circle
+     position: {x: 200, y: 500}
+     radius: 30
+   - type: circle
+     position: {x: 1600, y: 500}
+     radius: 30
    - type: circle
      position: {x: 900, y: 800}
-     radius: 50
+     radius: 30
 
 
 paths:
    - type: path
-     position: {x: 1200, y: 500}
+     position: {x: 1600, y: 200}
    - type: path
-     position: {x: 600, y: 500}
+     position: {x: 200, y: 200}
    - type: path
-     position: {x: 600, y: 800}
+     position: {x: 200, y: 800}
    - type: path
-     position: {x: 1200, y: 800}
+     position: {x: 1600, y: 800}

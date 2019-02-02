@@ -34,7 +34,7 @@ protected:
 	Player* m_player;
 	Traditional * m_trad;
 	FrayAI * m_ai;
-
+	sf::Texture m_texture;
 	std::vector<Obstacle*> m_obstacles;
 	std::vector<sf::CircleShape> m_circles;
 	std::vector<sf::CircleShape> m_nodes;

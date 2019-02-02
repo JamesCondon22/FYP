@@ -2,15 +2,14 @@
 
 
 
-Obstacle::Obstacle(int size) 
+Obstacle::Obstacle(int size, sf::Texture &texture) 
 {
-	if (!m_texture.loadFromFile("obstacle.png")) {
-		std::cout << "font not loaded" << std::endl;
-	}
-	m_circle.setTexture(&m_texture);
+	m_circle.setTexture(&texture);
 	m_circle.setRadius(size);
-	m_circle.setOutlineColor(sf::Color::White);
-	m_circle.setOutlineThickness(5);
+
+}
+Obstacle::Obstacle(int size) {
+	m_circle.setRadius(size);
 }
 
 
