@@ -6,7 +6,7 @@ Traditional::Traditional(std::vector<sf::CircleShape> & path, std::vector<Obstac
 	m_position(0, 0),
 	m_heading(0,0),
 	m_rotation(0),
-	m_velocity(0, 0),
+	m_velocity(1, 1),
 	m_relVelocity(0, 0),
 	shape(100.0f),
 	m_maxSpeed(1.0f),
@@ -114,6 +114,7 @@ sf::Vector2f Traditional::pursue(sf::Vector2f playerPosition, sf::Vector2f playe
 	vecToNode = getCurrentNodePosition();
 
 	m_direction = vecToNode - m_position;
+	thor::unitVector(m_direction);
 	return(m_direction);
 }
 void Traditional::update(double dt, sf::Vector2f player, sf::Vector2f velocity)
@@ -161,14 +162,13 @@ void Traditional::update(double dt, sf::Vector2f player, sf::Vector2f velocity)
 }
 sf::Vector2f Traditional::ObstacleAvoidance() {
 	
-	
-	//auto norm = thor::unitVector(m_velocity);
+	auto norm = thor::unitVector(m_velocity);
 	auto headingRadians = thor::toRadian(m_rotation);
-	//auto dynamic = thor::length(m_velocity) / 10.0f;
-	sf::Vector2f headingVector(cos(headingRadians) * MAX_SEE_AHEAD, sin(headingRadians) * MAX_SEE_AHEAD);
+	auto dynamic = thor::length(m_velocity) / 10.0f;
+	sf::Vector2f headingVector(cos(headingRadians) * dynamic, sin(headingRadians) * dynamic);
 	
-	ahead = m_position/* + thor::unitVector(m_velocity)*/ + headingVector;
-	ahead2 = m_position/* + thor::unitVector(m_velocity)*/ + (headingVector * 0.5f);
+	ahead = m_position + norm + headingVector;
+	ahead2 = m_position + norm + (headingVector * 0.5f);
 
 	auto mostThreatening = findMostThreathening();
 	auto avoidance = sf::Vector2f(0, 0);
@@ -198,10 +198,9 @@ Obstacle* Traditional::findMostThreathening()
 		{
 			mostThreathening = obstacle;
 		}
-		//std::cout << collision << std::endl;
 	
 	}
-	
+	//std::cout << mostThreathening->getRadius() << std::endl;
 	
 	return mostThreathening;
 }
@@ -233,7 +232,7 @@ sf::Vector2f Traditional::scale(sf::Vector2f vec, double val)
 }
 float Traditional::distance(sf::Vector2f pos, sf::Vector2f obst)
 {
-	auto dist = sqrt((pos.x - obst.x + 100) * (pos.x - obst.x + 100) + (pos.y - obst.y + 100)*(pos.y - obst.y + 100));
+	auto dist = sqrt((pos.x - obst.x) * (pos.x - obst.x) + (pos.y - obst.y)*(pos.y - obst.y));
 	return dist;
 }
 

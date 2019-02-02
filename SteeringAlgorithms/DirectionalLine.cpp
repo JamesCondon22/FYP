@@ -64,7 +64,7 @@ void DirectionalLine::render(sf::RenderWindow & window)
 
 void DirectionalLine::changeColor() {
 	m_line->color = sf::Color::Red;
-	m_radius = 150;
+	//m_radius = 180;
 }
 
 void DirectionalLine::updatePositions()
