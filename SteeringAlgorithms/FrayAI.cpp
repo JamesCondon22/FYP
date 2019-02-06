@@ -52,6 +52,8 @@ void FrayAI::update(double dt, sf::Vector2f position)
 	updateLines(position);
 	updateDangers();
 	m_distances = normalize(m_distances);
+	m_distancesDangerCopy.clear();
+
 	m_distancesDanger = normalizeDangers(m_distancesDanger);
 	mapDecisions.update(m_distances, m_distancesDanger);
 	checkDirection();
@@ -103,16 +105,27 @@ void FrayAI::updateLines(sf::Vector2f position)
 void FrayAI::updateDangers()
 {
 	int count = 0;
+
+	Obstacle *obs = new Obstacle(0);
+	double smallest = 1000000;
+	for (auto it = m_obstacles.begin(); it != m_obstacles.end(); ++it)
+	{
+		double dist = Math::distance(m_position, (*it)->getPosition());
+		if (dist < smallest)
+		{
+			obs = (*it);
+			smallest = dist;
+		}
+	}
+
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
-		m_distancesDanger[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), m_obstacles[currentObs]->getPosition());
+		
+		m_distancesDanger[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), obs->getPosition());
+			//checkdistance
 		count++;
 	}
 
-	currentObs += 1;
-	if (currentObs >= m_obstacles.size()) {
-		currentObs = 0;
-	}
 }
 
 double FrayAI::findLargest(std::map<Direction, double> vec)
@@ -160,7 +173,7 @@ void FrayAI::seek(sf::Vector2f position)
 {
 	m_velocity = curDirection - m_position;
 	m_velocity = normalize(m_velocity);
-	m_velocity = m_velocity * 0.8f;
+	m_velocity = m_velocity * 0.9f;
 	/*m_rotation = getNewOrientation(m_rotation, m_velocity);
 	m_rect.setRotation(m_rotation);*/
 }
@@ -206,20 +219,19 @@ void FrayAI::checkDirection()
 		
 		if (mapDecisions.getStrongest() == it->getState()) {
 			curDirection = it->getMap()[mapDecisions.getStrongest()];
+			
 			it->changeColor();
 		}
-		else {
-			it->setRadius(100);
-		}
+	
 	}
+
+	
+	
 }
 
 void FrayAI::initVector()
 {
-	m_distances.insert({ Direction::N, 0.0 });
-	m_distances.insert({ Direction::NNE, 0.0 });
-	m_distances.insert({ Direction::NE, 0.0 });
-	m_distances.insert({ Direction::ENE, 0.0 });
+	
 	m_distances.insert({ Direction::E, 0.0 });
 	m_distances.insert({ Direction::ESE, 0.0 });
 	m_distances.insert({ Direction::SE, 0.0 });
@@ -232,11 +244,12 @@ void FrayAI::initVector()
 	m_distances.insert({ Direction::WNW, 0.0 });
 	m_distances.insert({ Direction::NW, 0.0 });
 	m_distances.insert({ Direction::NNW, 0.0 });
+	m_distances.insert({ Direction::N, 0.0 });
+	m_distances.insert({ Direction::NNE, 0.0 });
+	m_distances.insert({ Direction::NE, 0.0 });
+	m_distances.insert({ Direction::ENE, 0.0 });
 
-	m_distancesDanger.insert({ Direction::N, 0.0 });
-	m_distancesDanger.insert({ Direction::NNE, 0.0 });
-	m_distancesDanger.insert({ Direction::NE, 0.0 });
-	m_distancesDanger.insert({ Direction::ENE, 0.0 });
+	
 	m_distancesDanger.insert({ Direction::E, 0.0 });
 	m_distancesDanger.insert({ Direction::ESE, 0.0 });
 	m_distancesDanger.insert({ Direction::SE, 0.0 });
@@ -249,6 +262,10 @@ void FrayAI::initVector()
 	m_distancesDanger.insert({ Direction::WNW, 0.0 });
 	m_distancesDanger.insert({ Direction::NW, 0.0 });
 	m_distancesDanger.insert({ Direction::NNW, 0.0 });
+	m_distancesDanger.insert({ Direction::N, 0.0 });
+	m_distancesDanger.insert({ Direction::NNE, 0.0 });
+	m_distancesDanger.insert({ Direction::NE, 0.0 });
+	m_distancesDanger.insert({ Direction::ENE, 0.0 });
 }
 
 
@@ -259,7 +276,7 @@ sf::Vector2f FrayAI::getCurrentNodePosition()
 
 	target = m_nodes[currentNode].getPosition();
 
-	if (Math::distance(m_position, target) <= 20)
+	if (Math::distance(m_position, target) <= 50)
 	{
 		currentNode += 1;
 		if (currentNode >= m_nodes.size()) {

@@ -17,8 +17,10 @@ paths:
    - type: path
      position: {x: 1600, y: 200}
    - type: path
-     position: {x: 200, y: 200}
+     position: {x: 400, y: 200}
    - type: path
-     position: {x: 200, y: 800}
+     position: {x: 200, y: 100}
+   - type: path
+     position: {x: 200, y: 1000}
    - type: path
      position: {x: 1600, y: 800}

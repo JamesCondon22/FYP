@@ -22,10 +22,6 @@ void ContextMap::appendAndMult(std::map<Direction, double> vec, std::map<Directi
 	{
 		m_mapVector[it->first] = vec[it->first] * vec2[it->first];
 	}
-	/*m_mapVector[0].first = vec[0].first * vec2[0].first; m_mapVector[4].first = vec[4].first * vec2[4].first;
-	m_mapVector[1].first = vec[1].first * vec2[1].first; m_mapVector[5].first = vec[5].first * vec2[5].first;
-	m_mapVector[2].first = vec[2].first * vec2[2].first; m_mapVector[6].first = vec[6].first * vec2[6].first;
-	m_mapVector[3].first = vec[3].first * vec2[3].first; m_mapVector[7].first = vec[7].first * vec2[7].first;*/
 }
 
 void ContextMap::append(std::map<Direction, double> vec)
@@ -53,5 +49,6 @@ Direction ContextMap::findLargest()
 		}
 
 	}
+	//std::cout << "Distance" << largest << std::endl;
 	return curDir;
 }

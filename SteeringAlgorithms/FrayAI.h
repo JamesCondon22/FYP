@@ -66,10 +66,13 @@ private:
 
 	std::map<Direction, double> m_distances;
 	std::map<Direction, double> m_distancesDanger;
+
+	std::vector<double> m_distancesDangerCopy;
+
 	double curLargest = 0;
 	double curLargestDanger = 0;
 	sf::Vector2f curDirection = sf::Vector2f(0, 0);
-	int m_radius = 40;
+	int m_radius = 100;
 
 	std::vector<sf::CircleShape> m_nodes;
 	int currentNode = 0;
