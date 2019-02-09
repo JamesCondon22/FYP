@@ -32,6 +32,6 @@ private:
 	int m_count;
 	int m_points;
 	Direction m_current;
-	int m_radius = 100;
+	int m_radius = 40;
 };
 

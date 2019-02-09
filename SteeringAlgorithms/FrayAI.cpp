@@ -52,9 +52,6 @@ void FrayAI::update(double dt, sf::Vector2f position)
 	updateLines(position);
 	updateDangers();
 	m_distances = normalize(m_distances);
-	m_distancesDangerCopy.clear();
-
-	m_distancesDanger = normalizeDangers(m_distancesDanger);
 	mapDecisions.update(m_distances, m_distancesDanger);
 	checkDirection();
 	seek(position);
@@ -63,6 +60,8 @@ void FrayAI::update(double dt, sf::Vector2f position)
 	m_surroundingCircle.setPosition(m_position);
 	m_rect.setPosition(m_position);
 	
+	m_rotation = getNewOrientation(m_rotation, m_velocity);
+	m_rect.setRotation(m_rotation);
 
 	
 }
@@ -70,12 +69,13 @@ void FrayAI::update(double dt, sf::Vector2f position)
 
 void FrayAI::render(sf::RenderWindow & window)
 {
-	window.draw(m_surroundingCircle);
-	window.draw(m_rect);
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].render(window);
 	}
 
+	window.draw(m_surroundingCircle);
+	window.draw(m_rect);
+	
 }
 
 
@@ -173,7 +173,7 @@ void FrayAI::seek(sf::Vector2f position)
 {
 	m_velocity = curDirection - m_position;
 	m_velocity = normalize(m_velocity);
-	m_velocity = m_velocity * 0.9f;
+	m_velocity = m_velocity * 1.0f;
 	/*m_rotation = getNewOrientation(m_rotation, m_velocity);
 	m_rect.setRotation(m_rotation);*/
 }

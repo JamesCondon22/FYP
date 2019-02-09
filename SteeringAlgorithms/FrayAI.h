@@ -72,7 +72,7 @@ private:
 	double curLargest = 0;
 	double curLargestDanger = 0;
 	sf::Vector2f curDirection = sf::Vector2f(0, 0);
-	int m_radius = 100;
+	int m_radius = 30;
 
 	std::vector<sf::CircleShape> m_nodes;
 	int currentNode = 0;
