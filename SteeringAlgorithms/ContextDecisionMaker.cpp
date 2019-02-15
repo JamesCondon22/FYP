@@ -32,3 +32,26 @@ Direction ContextDecisionMaker::getStrongest()
 {
 	return strongestInterest;
 }
+
+std::vector<int> ContextDecisionMaker::getAverage()
+{
+	std::vector<int> vec;
+	auto current = static_cast<int>(strongestInterest);
+	auto next = current + 1;
+	if (current == 15)
+	{
+		next = 0;
+	}
+	auto nextPlus = next + 1;
+	if (next == 15)
+	{
+		nextPlus = 0;
+	}
+	
+//	std::vector<int> vec;
+	vec.push_back(current);
+	vec.push_back(next);
+	vec.push_back(nextPlus);
+
+	return vec;
+}

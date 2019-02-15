@@ -39,7 +39,7 @@ void DirectionalLine::update(sf::Vector2f position)
 {
 	m_line[0] = position;
 	m_line[1] = getPoints(m_line[0].position.x, m_line[0].position.y, m_radius, m_points);
-	updatePositions();
+	m_map[m_current] = getPosition();
 }
 
 void DirectionalLine::setRadius(int rad)
@@ -59,20 +59,43 @@ Direction DirectionalLine::getState()
 void DirectionalLine::render(sf::RenderWindow & window)
 {
 	window.draw(m_line, 2, sf::Lines);
-	
 }
 
 void DirectionalLine::changeColor() {
 	m_line->color = sf::Color::Red;
 }
 
-void DirectionalLine::updatePositions()
-{
-	m_map[m_current] = getPosition();
-}
 
 void DirectionalLine::assignDirection(int count) {
 
 	m_current = static_cast<Direction>(count);
 	m_map.insert({ m_current, getPosition() });
+}
+
+void DirectionalLine::calculateAverage(std::vector<int> indices)
+{
+	averagePosition = sf::Vector2f(0, 0);
+
+	std::map<Direction, sf::Vector2f>::iterator it;
+
+	for (it = m_map.begin(); it != m_map.end(); it++)
+	{
+		for (int i = 0; i < indices.size(); i++)
+		{
+			auto cur = static_cast<Direction>(indices[i]);
+			if (cur == it->first)
+			{
+				averagePosition += it->second;
+			}
+		}
+	}
+
+	averagePosition.x = averagePosition.x / indices.size();
+	averagePosition.y = averagePosition.y / indices.size();
+	std::cout << averagePosition.x << std::endl;
+}
+
+sf::Vector2f DirectionalLine::getAverage()
+{
+	return averagePosition;
 }

@@ -212,16 +212,22 @@ void FrayAI::checkDirection()
 {
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
-		
 		if (mapDecisions.getStrongest() == it->getState()) {
 			curDirection = it->getMap()[mapDecisions.getStrongest()];
 			it->changeColor();
 		}
-	
 	}
 
-	
-	
+	/*for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
+	{
+		auto current = static_cast<int>(mapDecisions.getStrongest());
+
+		std::cout << current << std::endl;
+
+	}*/
+	/*std::cout << "LAST POSITION = " << static_cast<int>(mapDecisions.getStrongest()) - 1 << std::endl;
+	std::cout << "CURRENT POSITION = " << static_cast<int>(mapDecisions.getStrongest()) << std::endl;
+	std::cout << "NEXT POSITION = " << static_cast<int>(mapDecisions.getStrongest())  + 1 << std::endl;*/
 }
 
 void FrayAI::initVector()

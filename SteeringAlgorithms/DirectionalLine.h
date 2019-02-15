@@ -20,8 +20,11 @@ public:
 	void assignDirection(int count);
 	std::map<Direction, sf::Vector2f> getMap();
 	Direction getState();
+	sf::Vector2f getAverage();
 	void setRadius(int rad);
 	void changeColor();
+
+	void calculateAverage(std::vector<int> indices);
 private:
 	sf::Vertex m_line[2];
 	std::map<Direction, sf::Vector2f> m_map;
@@ -33,5 +36,6 @@ private:
 	int m_points;
 	Direction m_current;
 	int m_radius = 40;
+	sf::Vector2f averagePosition;
 };
 
