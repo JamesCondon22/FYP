@@ -38,20 +38,33 @@ std::vector<int> ContextDecisionMaker::getAverage()
 	std::vector<int> vec;
 	auto current = static_cast<int>(strongestInterest);
 	auto next = current + 1;
+	auto last = current - 1;
 	if (current == 15)
 	{
 		next = 0;
 	}
 	auto nextPlus = next + 1;
+
 	if (next == 15)
 	{
 		nextPlus = 0;
 	}
+
+	if (current == 0)
+	{
+		last = 15;
+	}
+	auto lastMinus = last - 1;
+	if (last == 0)
+	{
+		lastMinus = 15;
+	}
 	
-//	std::vector<int> vec;
 	vec.push_back(current);
 	vec.push_back(next);
 	vec.push_back(nextPlus);
+	vec.push_back(last);
+	vec.push_back(lastMinus);
 
 	return vec;
 }
