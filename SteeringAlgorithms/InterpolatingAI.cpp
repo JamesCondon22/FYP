@@ -1,8 +1,8 @@
-#include "FrayAI.h"
+#include "InterpolatingAI.h"
 
-double const FrayAI::RAD_TO_DEG = 180.0f / 3.14;
-double const FrayAI::DEG_TO_RAD = 3.14 / 180.0f;
-FrayAI::FrayAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs) :
+double const InterpolatingAI::RAD_TO_DEG = 180.0f / 3.14;
+double const InterpolatingAI::DEG_TO_RAD = 3.14 / 180.0f;
+InterpolatingAI::InterpolatingAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs) :
 	m_position(0, 0),
 	m_velocity(0, 0),
 	size(100),
@@ -18,7 +18,7 @@ FrayAI::FrayAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs)
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
 	m_rect.setTexture(&m_texture);
 	m_rect.setSize(sf::Vector2f(25, 50));
-	m_position = sf::Vector2f(1500, 500);
+	m_position = sf::Vector2f(1500, 1000);
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 
@@ -39,11 +39,11 @@ FrayAI::FrayAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs)
 }
 
 
-FrayAI::~FrayAI()
+InterpolatingAI::~InterpolatingAI()
 {
 }
 
-void FrayAI::update(double dt, sf::Vector2f position)
+void InterpolatingAI::update(double dt, sf::Vector2f position)
 {
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
@@ -55,7 +55,6 @@ void FrayAI::update(double dt, sf::Vector2f position)
 	mapDecisions.update(m_distances, m_distancesDanger);
 	checkDirection();
 	seek(position);
-
 	m_position += m_velocity;
 	m_surroundingCircle.setPosition(m_position);
 	m_rect.setPosition(m_position);
@@ -63,7 +62,7 @@ void FrayAI::update(double dt, sf::Vector2f position)
 }
 
 
-void FrayAI::render(sf::RenderWindow & window)
+void InterpolatingAI::render(sf::RenderWindow & window)
 {
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].render(window);
@@ -75,17 +74,17 @@ void FrayAI::render(sf::RenderWindow & window)
 }
 
 
-sf::Vector2f FrayAI::getPos()
+sf::Vector2f InterpolatingAI::getPos()
 {
 	return m_position;
 }
 
-sf::Vector2f FrayAI::getVel()
+sf::Vector2f InterpolatingAI::getVel()
 {
 	return m_velocity;
 }
 
-void FrayAI::updateLines(sf::Vector2f position)
+void InterpolatingAI::updateLines(sf::Vector2f position)
 {
 	sf::Vector2f vecToNode;
 	vecToNode = getCurrentNodePosition();
@@ -98,7 +97,7 @@ void FrayAI::updateLines(sf::Vector2f position)
 	}
 }
 
-void FrayAI::updateDangers()
+void InterpolatingAI::updateDangers()
 {
 	int count = 0;
 
@@ -124,7 +123,7 @@ void FrayAI::updateDangers()
 
 }
 
-double FrayAI::findLargest(std::map<Direction, double> vec)
+double InterpolatingAI::findLargest(std::map<Direction, double> vec)
 {
 	double largest = 0;
 	for (auto it = vec.begin(); it != vec.end(); ++it)
@@ -137,7 +136,7 @@ double FrayAI::findLargest(std::map<Direction, double> vec)
 	return largest;
 }
 
-std::map<Direction, double> FrayAI::normalize(std::map<Direction, double> vec)
+std::map<Direction, double> InterpolatingAI::normalize(std::map<Direction, double> vec)
 {
 	auto curLargest = findLargest(vec);
 
@@ -150,7 +149,7 @@ std::map<Direction, double> FrayAI::normalize(std::map<Direction, double> vec)
 	return vec;
 }
 
-std::map<Direction, double> FrayAI::normalizeDangers(std::map<Direction, double> vec)
+std::map<Direction, double> InterpolatingAI::normalizeDangers(std::map<Direction, double> vec)
 {
 	auto curLargest = findLargest(vec);
 
@@ -165,7 +164,7 @@ std::map<Direction, double> FrayAI::normalizeDangers(std::map<Direction, double>
 
 
 
-void FrayAI::seek(sf::Vector2f position)
+void InterpolatingAI::seek(sf::Vector2f position)
 {
 	m_velocity = curDirection - m_position;
 	m_velocity = normalize(m_velocity);
@@ -180,7 +179,7 @@ void FrayAI::seek(sf::Vector2f position)
 /// <param name="curOrientation"></param>
 /// <param name="velocity"></param>
 /// <returns></returns>
-float FrayAI::getNewOrientation(float curOrientation, sf::Vector2f velocity)
+float InterpolatingAI::getNewOrientation(float curOrientation, sf::Vector2f velocity)
 {
 	if (length(velocity) > 0)
 	{
@@ -197,34 +196,30 @@ float FrayAI::getNewOrientation(float curOrientation, sf::Vector2f velocity)
 /// </summary>
 /// <param name="vel"></param>
 /// <returns></returns>
-float FrayAI::length(sf::Vector2f vel) {
+float InterpolatingAI::length(sf::Vector2f vel) {
 	return sqrt(vel.x * vel.x + vel.y * vel.y);
 }
 
 
-bool FrayAI::compareKeys(std::map<Direction, sf::Vector2f> vec) {
+bool InterpolatingAI::compareKeys(std::map<Direction, sf::Vector2f> vec) {
 	
 	
 	return false;
 }
 
-void FrayAI::checkDirection()
+void InterpolatingAI::checkDirection()
 {
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
-	{
-		
+	{	
 		if (mapDecisions.getStrongest() == it->getState()) {
 			curDirection = it->getMap()[mapDecisions.getStrongest()];
 			it->changeColor();
 		}
 	
-	}
-
-	
-	
+	}	
 }
 
-void FrayAI::initVector()
+void InterpolatingAI::initVector()
 {
 	
 	m_distances.insert({ Direction::E, 0.0 });
@@ -264,7 +259,7 @@ void FrayAI::initVector()
 }
 
 
-sf::Vector2f FrayAI::getCurrentNodePosition()
+sf::Vector2f InterpolatingAI::getCurrentNodePosition()
 {
 	
 	sf::Vector2f target;
@@ -282,7 +277,7 @@ sf::Vector2f FrayAI::getCurrentNodePosition()
 	return target;
 }
 
-sf::Vector2f FrayAI::normalize(sf::Vector2f vec)
+sf::Vector2f InterpolatingAI::normalize(sf::Vector2f vec)
 {
 	if (vec.x*vec.x + vec.y * vec.y != 0)
 	{

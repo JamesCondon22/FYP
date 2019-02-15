@@ -127,6 +127,7 @@
     <ClInclude Include="DirectionalLine.h" />
     <ClInclude Include="FrayAI.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="InterpolatingAI.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MathHelper.h" />
@@ -140,6 +141,7 @@
     <ClCompile Include="DirectionalLine.cpp" />
     <ClCompile Include="FrayAI.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="InterpolatingAI.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MathHelper.cpp" />

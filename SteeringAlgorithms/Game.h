@@ -3,6 +3,7 @@
 #define GAME
 #include "Player.h"
 #include "FrayAI.h"
+#include "InterpolatingAI.h"
 #include "Traditional.h"
 #include "Obstacle.h"
 #include <vector>
@@ -34,6 +35,7 @@ protected:
 	Player* m_player;
 	Traditional * m_trad;
 	FrayAI * m_ai;
+	InterpolatingAI * m_interAI;
 	sf::Texture m_texture;
 	std::vector<Obstacle*> m_obstacles;
 	std::vector<sf::CircleShape> m_circles;

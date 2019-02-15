@@ -23,9 +23,6 @@ void ContextDecisionMaker::update(std::map<Direction, double> distances, std::ma
 	ContextMap interestMap = ContextMap();
 
 	dangerMap = FillDangerMap(dangerMap, dangerDist);
-
-	
-	//std::cout << static_cast<int>(dangerMap.findLargest()) << std::endl;
 	interestMap = FillInterestMap(dangerMap, interestMap, distances);
 	
 	strongestInterest = interestMap.findLargest();

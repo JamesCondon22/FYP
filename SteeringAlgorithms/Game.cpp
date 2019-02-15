@@ -51,6 +51,7 @@ Game::Game()
 	m_player = new Player();
 	m_trad = new Traditional(m_nodes, m_obstacles);
 	m_ai = new FrayAI(m_nodes, m_obstacles);
+	m_interAI = new InterpolatingAI(m_nodes, m_obstacles);
 	
 }
 
@@ -125,9 +126,8 @@ void Game::update(double dt)
 
 	m_player->update(dt);
 	m_trad->update(dt,m_player->getPos(), m_player->getVel());
-	
 	m_ai->update(dt, m_trad->getPosition());
-	
+	m_interAI->update(dt, m_trad->getPosition());
 	
 }
 
@@ -159,6 +159,7 @@ void Game::render()
 	}
 	m_trad->render(m_window);
 	m_ai->render(m_window);
+	m_interAI->render(m_window);
 	m_window.display();
 }
 

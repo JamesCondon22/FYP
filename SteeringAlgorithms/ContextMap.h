@@ -26,6 +26,8 @@ public:
 	void append(std::map<Direction, double> vec);
 	void appendAndMult(std::map<Direction, double> vec, std::map<Direction, double> vec2);
 	Direction findLargest();
+
+	double findInterpolatingValue();
 	
 private:
 	std::map<Direction, double> m_mapVector;

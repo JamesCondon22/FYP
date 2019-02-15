@@ -49,6 +49,10 @@ Direction ContextMap::findLargest()
 		}
 
 	}
-	//std::cout << "Distance" << largest << std::endl;
 	return curDir;
+}
+
+double ContextMap::findInterpolatingValue()
+{
+	return 0.0;
 }

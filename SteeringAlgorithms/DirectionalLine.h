@@ -17,7 +17,7 @@ public:
 	void updatePositions();
 	void render(sf::RenderWindow & window);
 	sf::Vector2f getPosition();
-	void assignDirection();
+	void assignDirection(int count);
 	std::map<Direction, sf::Vector2f> getMap();
 	Direction getState();
 	void setRadius(int rad);
