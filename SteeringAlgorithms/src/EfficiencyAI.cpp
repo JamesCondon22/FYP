@@ -209,6 +209,16 @@ bool EfficiencyAI::compareKeys(std::map<Direction, sf::Vector2f> vec) {
 
 void EfficiencyAI::checkDirection()
 {
+
+	if (mapDecisions.getStrongest() == m_lastDirection)
+	{
+		m_currentUpdateTime++;
+	}
+	else
+	{
+		std::cout << "Updates = " << m_currentUpdateTime << std::endl;
+		m_currentUpdateTime = 0;
+	}
 	sf::Vector2f temporaryDir = curDirection;
 
 	auto current = mapDecisions.getAverage();
@@ -223,6 +233,8 @@ void EfficiencyAI::checkDirection()
 	average.y = average.y / current.size();
 
 	curDirection = Math::lerp(temporaryDir, average, 0.08);
+
+	m_lastDirection = mapDecisions.getStrongest();
 }
 
 void EfficiencyAI::initVector()

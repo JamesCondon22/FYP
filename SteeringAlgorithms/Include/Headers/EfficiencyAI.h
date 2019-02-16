@@ -69,6 +69,11 @@ private:
 
 	int m_size = 16;
 	std::vector<DirectionalLine> m_lineVec;
+
+	int m_currentUpdateTime = 0;
+
+
+	Direction m_lastDirection;
 };
 
 #endif

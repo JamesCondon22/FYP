@@ -34,6 +34,8 @@ public:
 private:
 	int noOfDirections = 8;
 	Direction strongestInterest;
+
+	
 	//std::map<Direction, double> m_strongestInterest;
 };
 
