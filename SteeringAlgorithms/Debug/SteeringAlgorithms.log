@@ -3,6 +3,7 @@ c:\users\gameuser\desktop\fyp\steeringalgorithms\interpolatingai.cpp(25): warnin
 c:\users\gameuser\desktop\fyp\steeringalgorithms\interpolatingai.cpp(172): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 c:\users\gameuser\desktop\fyp\steeringalgorithms\interpolatingai.cpp(173): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 c:\users\gameuser\desktop\fyp\steeringalgorithms\interpolatingai.cpp(186): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\interpolatingai.cpp(222): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\interpolatingai.cpp(290): warning C4018: '>=': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\interpolatingai.cpp(217): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\interpolatingai.cpp(225): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\gameuser\desktop\fyp\steeringalgorithms\interpolatingai.cpp(278): warning C4018: '>=': signed/unsigned mismatch
   SteeringAlgorithms.vcxproj -> C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\SteeringAlgorithms.exe

@@ -209,16 +209,11 @@ bool InterpolatingAI::compareKeys(std::map<Direction, sf::Vector2f> vec) {
 
 void InterpolatingAI::checkDirection()
 {
-	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
-	{
-		if (mapDecisions.getStrongest() == it->getState()) {
-			curDirection = it->getMap()[mapDecisions.getStrongest()];
-			it->changeColor();
-		}
-	}
+	sf::Vector2f temporaryDir = curDirection;
 
 	auto current = mapDecisions.getAverage();
 	auto average = sf::Vector2f(0, 0);
+
 	for (int i = 0; i < current.size(); i++)
 	{
 		average += m_lineVec[current[i]].getPosition();
@@ -227,14 +222,7 @@ void InterpolatingAI::checkDirection()
 	average.x = average.x / current.size();
 	average.y = average.y / current.size();
 
-
-	std::cout << "Current X = " << curDirection.x << std::endl;
-	std::cout << "Current Y = " << curDirection.y << std::endl;;
-
-	std::cout << "Average X = " << average.x << std::endl;
-	std::cout << "Average Y = " << average.y << std::endl;;
-	
-	
+	curDirection = Math::lerp(temporaryDir, average, 0.08);
 }
 
 void InterpolatingAI::initVector()
