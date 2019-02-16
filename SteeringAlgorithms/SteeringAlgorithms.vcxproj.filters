@@ -15,78 +15,84 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="Include\Headers\ContextDecisionMaker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="Include\Headers\ContextMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
+    <ClInclude Include="Include\Headers\DirectionalLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Traditional.h">
+    <ClInclude Include="Include\Headers\FrayAI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Obstacle.h">
+    <ClInclude Include="Include\Headers\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ContextMap.h">
+    <ClInclude Include="Include\Headers\InterpolatingAI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ContextDecisionMaker.h">
+    <ClInclude Include="Include\Headers\LevelLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FrayAI.h">
+    <ClInclude Include="Include\Headers\MathHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MathHelper.h">
+    <ClInclude Include="Include\Headers\main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LevelLoader.h">
+    <ClInclude Include="Include\Headers\Obstacle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DirectionalLine.h">
+    <ClInclude Include="Include\Headers\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InterpolatingAI.h">
+    <ClInclude Include="Include\Headers\Traditional.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Headers\EfficiencyAI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="src\EfficiencyAI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="src\Traditional.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Traditional.cpp">
+    <ClCompile Include="src\Obstacle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Obstacle.cpp">
+    <ClCompile Include="src\MathHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ContextMap.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ContextDecisionMaker.cpp">
+    <ClCompile Include="src\LevelLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FrayAI.cpp">
+    <ClCompile Include="src\InterpolatingAI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MathHelper.cpp">
+    <ClCompile Include="src\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LevelLoader.cpp">
+    <ClCompile Include="src\FrayAI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DirectionalLine.cpp">
+    <ClCompile Include="src\DirectionalLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InterpolatingAI.cpp">
+    <ClCompile Include="src\ContextMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ContextDecisionMaker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

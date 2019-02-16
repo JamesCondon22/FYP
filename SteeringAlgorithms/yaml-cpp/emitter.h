@@ -12,13 +12,13 @@
 #include <sstream>
 #include <string>
 
-#include "yaml-cpp/binary.h"
-#include "yaml-cpp/dll.h"
-#include "yaml-cpp/emitterdef.h"
-#include "yaml-cpp/emittermanip.h"
-#include "yaml-cpp/noncopyable.h"
-#include "yaml-cpp/null.h"
-#include "yaml-cpp/ostream_wrapper.h"
+#include "../yaml-cpp/binary.h"
+#include "../yaml-cpp/dll.h"
+#include "../yaml-cpp/emitterdef.h"
+#include "../yaml-cpp/emittermanip.h"
+#include "../yaml-cpp/noncopyable.h"
+#include "../yaml-cpp/null.h"
+#include "../yaml-cpp/ostream_wrapper.h"
 
 namespace YAML {
 class Binary;
