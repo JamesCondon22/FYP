@@ -45,6 +45,11 @@ EfficiencyAI::~EfficiencyAI()
 
 void EfficiencyAI::update(double dt, sf::Vector2f position)
 {
+	if (startTimer = true)
+	{
+		m_timeSinceLast += dt;
+	}
+	
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
@@ -52,12 +57,15 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 	updateLines(position);
 	updateDangers();
 	m_distances = normalize(m_distances);
+	m_distancesDanger = normalizeDangers(m_distancesDanger);
+	
 	mapDecisions.update(m_distances, m_distancesDanger);
-	checkDirection();
+	
+	checkDirection(dt);
 	seek(position);
 	m_position += m_velocity;
 	m_surroundingCircle.setPosition(m_position);
-	m_rect.setPosition(m_position);
+	m_rect.setPosition(m_position.x + cos(m_rotation) * m_speed * (dt / 1000), m_position.y + sin(m_rotation) * m_speed * (dt / 1000));
 	
 }
 
@@ -79,10 +87,12 @@ sf::Vector2f EfficiencyAI::getPos()
 	return m_position;
 }
 
+
 sf::Vector2f EfficiencyAI::getVel()
 {
 	return m_velocity;
 }
+
 
 void EfficiencyAI::updateLines(sf::Vector2f position)
 {
@@ -102,6 +112,7 @@ void EfficiencyAI::updateDangers()
 	int count = 0;
 
 	Obstacle *obs = new Obstacle(0);
+	
 	double smallest = 1000000;
 	for (auto it = m_obstacles.begin(); it != m_obstacles.end(); ++it)
 	{
@@ -113,15 +124,25 @@ void EfficiencyAI::updateDangers()
 		}
 	}
 
+	if (obs->getID() != m_prevId)
+	{
+		MaxDistance = smallest;
+		std::cout << "ID = " << obs->getID() << std::endl;
+		std::cout << MaxDistance << std::endl;
+		WantedDistance = MaxDistance * .7;
+		startTimer = true;
+	}
+	
+
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
 		
 		m_distancesDanger[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), obs->getPosition());
-			//checkdistance
 		count++;
 	}
-
+	m_prevId = obs->getID();
 }
+
 
 double EfficiencyAI::findLargest(std::map<Direction, double> vec)
 {
@@ -136,6 +157,7 @@ double EfficiencyAI::findLargest(std::map<Direction, double> vec)
 	return largest;
 }
 
+
 std::map<Direction, double> EfficiencyAI::normalize(std::map<Direction, double> vec)
 {
 	auto curLargest = findLargest(vec);
@@ -148,6 +170,7 @@ std::map<Direction, double> EfficiencyAI::normalize(std::map<Direction, double> 
 
 	return vec;
 }
+
 
 std::map<Direction, double> EfficiencyAI::normalizeDangers(std::map<Direction, double> vec)
 {
@@ -163,7 +186,6 @@ std::map<Direction, double> EfficiencyAI::normalizeDangers(std::map<Direction, d
 }
 
 
-
 void EfficiencyAI::seek(sf::Vector2f position)
 {
 	m_velocity = curDirection - m_position;
@@ -173,12 +195,7 @@ void EfficiencyAI::seek(sf::Vector2f position)
 	m_rect.setRotation(m_rotation);
 }
 
-/// <summary>
-/// 
-/// </summary>
-/// <param name="curOrientation"></param>
-/// <param name="velocity"></param>
-/// <returns></returns>
+
 float EfficiencyAI::getNewOrientation(float curOrientation, sf::Vector2f velocity)
 {
 	if (length(velocity) > 0)
@@ -191,34 +208,16 @@ float EfficiencyAI::getNewOrientation(float curOrientation, sf::Vector2f velocit
 		return curOrientation;
 	}
 }
-/// <summary>
-/// 
-/// </summary>
-/// <param name="vel"></param>
-/// <returns></returns>
+
+
 float EfficiencyAI::length(sf::Vector2f vel) {
 	return sqrt(vel.x * vel.x + vel.y * vel.y);
 }
 
 
-bool EfficiencyAI::compareKeys(std::map<Direction, sf::Vector2f> vec) {
-	
-	
-	return false;
-}
-
-void EfficiencyAI::checkDirection()
+void EfficiencyAI::checkDirection(double dt)
 {
 
-	if (mapDecisions.getStrongest() == m_lastDirection)
-	{
-		m_currentUpdateTime++;
-	}
-	else
-	{
-		std::cout << "Updates = " << m_currentUpdateTime << std::endl;
-		m_currentUpdateTime = 0;
-	}
 	sf::Vector2f temporaryDir = curDirection;
 
 	auto current = mapDecisions.getAverage();
@@ -232,10 +231,10 @@ void EfficiencyAI::checkDirection()
 	average.x = average.x / current.size();
 	average.y = average.y / current.size();
 
-	curDirection = Math::lerp(temporaryDir, average, 0.08);
+	curDirection = Math::lerp(temporaryDir, average, 0.05);
 
-	m_lastDirection = mapDecisions.getStrongest();
 }
+
 
 void EfficiencyAI::initVector()
 {
@@ -294,6 +293,7 @@ sf::Vector2f EfficiencyAI::getCurrentNodePosition()
 
 	return target;
 }
+
 
 sf::Vector2f EfficiencyAI::normalize(sf::Vector2f vec)
 {

@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <string.h>
 #include <map>
+
+#include "MathHelper.h"
 //#include 
 
 enum class Direction
@@ -24,10 +26,11 @@ public:
 	int getSize();
 	std::map<Direction, double> returnVec();
 	void append(std::map<Direction, double> vec);
-	void appendAndMult(std::map<Direction, double> vec, std::map<Direction, double> vec2);
+	void multiplyContext(std::map<Direction, double> vec, std::map<Direction, double> vec2);
 	Direction findLargest();
-
 	double findInterpolatingValue();
+
+	std::map<Direction, double> mapInterpolation(std::map<Direction, double> vec, std::map<Direction, double> vec2);
 	
 private:
 	std::map<Direction, double> m_mapVector;

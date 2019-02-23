@@ -36,6 +36,7 @@ Game::Game()
 	for (ObstacleData const &obs : m_level.m_obstacles) {
 		Obstacle* obstacle = new Obstacle(obs.m_radius, m_texture);
 		obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
+		obstacle->setID(obs.m_id);
 		obstacle->setPosition(obs.m_position);
 		m_obstacles.push_back(obstacle);
 	}
@@ -53,7 +54,7 @@ Game::Game()
 	m_ai = new FrayAI(m_nodes, m_obstacles);
 	m_interAI = new InterpolatingAI(m_nodes, m_obstacles);
 	m_efficAI = new EfficiencyAI(m_nodes, m_obstacles);
-
+	m_interTwo = new InterpolatingTwo(m_nodes, m_obstacles);
 }
 
 
@@ -126,10 +127,11 @@ void Game::update(double dt)
 	sf::Time deltaTime;
 
 	m_player->update(dt);
-	m_trad->update(dt,m_player->getPos(), m_player->getVel());
-	m_ai->update(dt, m_trad->getPosition());
-	m_interAI->update(dt, m_trad->getPosition());
+	//m_trad->update(dt,m_player->getPos(), m_player->getVel());
+	//m_ai->update(dt, m_trad->getPosition());
+	//m_interAI->update(dt, m_trad->getPosition());
 	m_efficAI->update(dt, m_trad->getPosition());
+	//m_interTwo->update(dt, m_trad->getPosition());
 }
 
 
@@ -158,10 +160,11 @@ void Game::render()
 	{
 		m_window.draw(node);
 	}
-	m_trad->render(m_window);
-	m_ai->render(m_window);
-	m_interAI->render(m_window);
+	//m_trad->render(m_window);
+	//m_ai->render(m_window);
+	//m_interAI->render(m_window);
 	m_efficAI->render(m_window);
+	//m_interTwo->render(m_window);
 	m_window.display();
 }
 

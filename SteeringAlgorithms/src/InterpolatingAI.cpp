@@ -57,7 +57,7 @@ void InterpolatingAI::update(double dt, sf::Vector2f position)
 	seek(position);
 	m_position += m_velocity;
 	m_surroundingCircle.setPosition(m_position);
-	m_rect.setPosition(m_position);
+	m_rect.setPosition(m_position.x + cos(m_rotation) * m_speed * (dt / 1000), m_position.y + sin(m_rotation) * m_speed * (dt / 1000));
 	
 }
 

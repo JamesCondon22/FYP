@@ -7,6 +7,7 @@
 #include "Traditional.h"
 #include "Obstacle.h"
 #include "EfficiencyAI.h"
+#include "InterpolatingTwo.h"
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "LevelLoader.h"
@@ -38,6 +39,7 @@ protected:
 	FrayAI * m_ai;
 	EfficiencyAI * m_efficAI;
 	InterpolatingAI * m_interAI;
+	InterpolatingTwo * m_interTwo;
 	sf::Texture m_texture;
 	std::vector<Obstacle*> m_obstacles;
 	std::vector<sf::CircleShape> m_circles;

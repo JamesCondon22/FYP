@@ -13,4 +13,9 @@ namespace Math
 		return sf::Vector2f((1.0f - value) * start.x + (value * end.x),
 			(1.0f - value) * start.y + (value * end.y));
 	}
+
+	double newLerp(double &start, double &end, float value)
+	{
+		return (1.0f - value) * start + (value * end);
+	}
 }

@@ -1,21 +1,35 @@
 #include "../Include/Headers/ContextDecisionMaker.h"
 
+
+ContextDecisionMaker::ContextDecisionMaker() { 
+	m_PrevContext = ContextMap();
+	newMap = ContextMap();
+}
+
+
 ContextDecisionMaker::~ContextDecisionMaker()
 {
+
 }
+
 
 ContextMap ContextDecisionMaker::FillDangerMap(ContextMap map, std::map<Direction, double> distances)
 {
 	map.append(distances);
 	return map;
 }
+
+
 ContextMap ContextDecisionMaker::FillInterestMap(ContextMap danger, ContextMap interest, std::map<Direction, double> distances)
 {
 	interest.append(distances);
-	interest.appendAndMult(distances, danger.returnVec());
+	interest.multiplyContext(distances, danger.returnVec());
 
 	return interest;
 }
+
+
+
 
 void ContextDecisionMaker::update(std::map<Direction, double> distances, std::map<Direction, double> dangerDist)
 {
@@ -26,12 +40,19 @@ void ContextDecisionMaker::update(std::map<Direction, double> distances, std::ma
 	interestMap = FillInterestMap(dangerMap, interestMap, distances);
 	
 	strongestInterest = interestMap.findLargest();
+
+
+	m_PrevContext = interestMap;
+
+
 }
+
 
 Direction ContextDecisionMaker::getStrongest()
 {
 	return strongestInterest;
 }
+
 
 std::vector<int> ContextDecisionMaker::getAverage()
 {

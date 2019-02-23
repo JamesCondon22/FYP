@@ -24,7 +24,7 @@
 class ContextDecisionMaker
 {
 public:
-	ContextDecisionMaker() { ; }
+	ContextDecisionMaker();
 	~ContextDecisionMaker();
 	ContextMap FillDangerMap(ContextMap map, std::map<Direction, double> distances);
 	ContextMap FillInterestMap(ContextMap danger, ContextMap interest, std::map<Direction, double> distances);
@@ -35,7 +35,9 @@ private:
 	int noOfDirections = 8;
 	Direction strongestInterest;
 
-	
+
+	ContextMap m_PrevContext;
+	ContextMap newMap;
 	//std::map<Direction, double> m_strongestInterest;
 };
 

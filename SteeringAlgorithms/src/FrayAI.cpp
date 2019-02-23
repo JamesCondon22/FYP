@@ -58,7 +58,7 @@ void FrayAI::update(double dt, sf::Vector2f position)
 
 	m_position += m_velocity;
 	m_surroundingCircle.setPosition(m_position);
-	m_rect.setPosition(m_position);
+	m_rect.setPosition(m_position.x + cos(m_rotation) * m_speed * (dt / 1000), m_position.y + sin(m_rotation) * m_speed * (dt / 1000));
 	
 }
 
@@ -217,17 +217,6 @@ void FrayAI::checkDirection()
 			it->changeColor();
 		}
 	}
-
-	/*for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
-	{
-		auto current = static_cast<int>(mapDecisions.getStrongest());
-
-		std::cout << current << std::endl;
-
-	}*/
-	/*std::cout << "LAST POSITION = " << static_cast<int>(mapDecisions.getStrongest()) - 1 << std::endl;
-	std::cout << "CURRENT POSITION = " << static_cast<int>(mapDecisions.getStrongest()) << std::endl;
-	std::cout << "NEXT POSITION = " << static_cast<int>(mapDecisions.getStrongest())  + 1 << std::endl;*/
 }
 
 void FrayAI::initVector()

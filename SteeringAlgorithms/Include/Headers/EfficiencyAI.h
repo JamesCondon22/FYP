@@ -22,7 +22,7 @@ public:
 	void updateDangers();
 	void initVector();
 	sf::Vector2f normalize(sf::Vector2f vec);
-	void checkDirection();
+	void checkDirection(double dt);
 	void seek(sf::Vector2f position);
 	std::map<Direction, double> normalize(std::map<Direction, double> vec);
 	std::map<Direction, double> normalizeDangers(std::map<Direction, double> vec);
@@ -43,6 +43,7 @@ private:
 	double static const DEG_TO_RAD;
 	double static const RAD_TO_DEG;
 	double m_rotation;
+	double m_timeSinceLast = 0;
 	double m_speed;
 	double MAX_SPEED;
 	sf::Vector2f m_heading;
@@ -70,10 +71,17 @@ private:
 	int m_size = 16;
 	std::vector<DirectionalLine> m_lineVec;
 
-	int m_currentUpdateTime = 0;
-
+	//double m_currentUpdateTime = 0;
+	sf::Time m_timeSinceLastUpdate;
 
 	Direction m_lastDirection;
+	double MaxDistance = 0;
+	double WantedDistance = 0;
+	double m_currentDistance = 0;
+	int m_prevId = 0;
+
+	bool startTimer = false;
+	bool startMaps = false;
 };
 
 #endif

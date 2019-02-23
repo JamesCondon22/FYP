@@ -6,6 +6,7 @@ void operator >> (const YAML::Node& obstacleNode, ObstacleData& obstacle)
 	obstacle.m_position.x = obstacleNode["position"]["x"].as<float>();
 	obstacle.m_position.y = obstacleNode["position"]["y"].as<float>();
 	obstacle.m_radius = obstacleNode["radius"].as<int>();
+	obstacle.m_id = obstacleNode["id"].as<int>();
 }
 void operator >> (const YAML::Node& pathNode, PathData& path)
 {
