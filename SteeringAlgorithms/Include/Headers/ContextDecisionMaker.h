@@ -28,13 +28,17 @@ public:
 	~ContextDecisionMaker();
 	ContextMap FillDangerMap(ContextMap map, std::map<Direction, double> distances);
 	ContextMap FillInterestMap(ContextMap danger, ContextMap interest, std::map<Direction, double> distances);
+
+	ContextMap FillBlendMap(ContextMap previous, ContextMap current);
 	Direction getStrongest();
+	Direction getBlendedStrongest();
+
 	std::vector<int> getAverage();
 	void update(std::map<Direction, double> distances, std::map<Direction, double> dangers);
 private:
 	int noOfDirections = 8;
 	Direction strongestInterest;
-
+	Direction blendedInterest;
 
 	ContextMap m_PrevContext;
 	ContextMap newMap;

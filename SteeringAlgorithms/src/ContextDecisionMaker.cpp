@@ -29,6 +29,12 @@ ContextMap ContextDecisionMaker::FillInterestMap(ContextMap danger, ContextMap i
 }
 
 
+ContextMap ContextDecisionMaker::FillBlendMap(ContextMap previous, ContextMap current)
+{
+	previous.blendMaps(previous.returnVec(), current.returnVec());
+	
+	return previous;
+}
 
 
 void ContextDecisionMaker::update(std::map<Direction, double> distances, std::map<Direction, double> dangerDist)
@@ -41,6 +47,9 @@ void ContextDecisionMaker::update(std::map<Direction, double> distances, std::ma
 	
 	strongestInterest = interestMap.findLargest();
 
+	newMap = FillBlendMap(m_PrevContext, interestMap);
+
+	blendedInterest = newMap.findLargest();
 
 	m_PrevContext = interestMap;
 
@@ -53,6 +62,11 @@ Direction ContextDecisionMaker::getStrongest()
 	return strongestInterest;
 }
 
+
+Direction ContextDecisionMaker::getBlendedStrongest()
+{
+	return blendedInterest;
+}
 
 std::vector<int> ContextDecisionMaker::getAverage()
 {

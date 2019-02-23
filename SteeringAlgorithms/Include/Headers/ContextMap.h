@@ -30,7 +30,7 @@ public:
 	Direction findLargest();
 	double findInterpolatingValue();
 
-	std::map<Direction, double> mapInterpolation(std::map<Direction, double> vec, std::map<Direction, double> vec2);
+	void blendMaps(std::map<Direction, double> vec, std::map<Direction, double> vec2);
 	
 private:
 	std::map<Direction, double> m_mapVector;

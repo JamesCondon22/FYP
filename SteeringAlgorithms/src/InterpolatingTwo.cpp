@@ -211,20 +211,13 @@ bool InterpolatingTwo::compareKeys(std::map<Direction, sf::Vector2f> vec) {
 
 void InterpolatingTwo::checkDirection()
 {
-	sf::Vector2f temporaryDir = curDirection;
-
-	auto current = mapDecisions.getAverage();
-	auto average = sf::Vector2f(0, 0);
-
-	for (int i = 0; i < current.size(); i++)
+	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
-		average += m_lineVec[current[i]].getPosition();
+		if (mapDecisions.getBlendedStrongest() == it->getState()) {
+			curDirection = it->getMap()[mapDecisions.getBlendedStrongest()];
+			it->changeColor();
+		}
 	}
-
-	average.x = average.x / current.size();
-	average.y = average.y / current.size();
-
-	curDirection = Math::lerp(temporaryDir, average, 0.08);
 }
 
 void InterpolatingTwo::initVector()

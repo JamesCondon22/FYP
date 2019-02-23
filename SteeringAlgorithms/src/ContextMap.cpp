@@ -60,12 +60,12 @@ double ContextMap::findInterpolatingValue()
 }
 
 
-std::map<Direction, double>  ContextMap::mapInterpolation(std::map<Direction, double> vec, std::map<Direction, double> vec2)
+void ContextMap::blendMaps(std::map<Direction, double> vec, std::map<Direction, double> vec2)
 {
 	for (auto it = m_mapVector.begin(); it != m_mapVector.end(); ++it)
 	{
-		m_mapVector[it->first] = Math::newLerp(vec[it->first] , vec2[it->first], 0.5);
+		m_mapVector[it->first] = (vec[it->first] + vec2[it->first]) / 2;
 	}
 
-	return m_mapVector;
+	
 }

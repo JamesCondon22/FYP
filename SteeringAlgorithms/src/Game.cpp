@@ -130,8 +130,8 @@ void Game::update(double dt)
 	//m_trad->update(dt,m_player->getPos(), m_player->getVel());
 	//m_ai->update(dt, m_trad->getPosition());
 	//m_interAI->update(dt, m_trad->getPosition());
-	m_efficAI->update(dt, m_trad->getPosition());
-	//m_interTwo->update(dt, m_trad->getPosition());
+	//m_efficAI->update(dt, m_trad->getPosition());
+	m_interTwo->update(dt, m_trad->getPosition());
 }
 
 
@@ -163,8 +163,8 @@ void Game::render()
 	//m_trad->render(m_window);
 	//m_ai->render(m_window);
 	//m_interAI->render(m_window);
-	m_efficAI->render(m_window);
-	//m_interTwo->render(m_window);
+	//m_efficAI->render(m_window);
+	m_interTwo->render(m_window);
 	m_window.display();
 }
 

@@ -41,53 +41,60 @@ public:
 	float getNewOrientation(float curOrientation, sf::Vector2f velocity);
 	float length(sf::Vector2f vel);
 
-	bool compareKeys(std::map<Direction, sf::Vector2f> vec);
 private:
+	
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
 	sf::Vector2f m_steering;
+	sf::Vector2f m_heading;
+	sf::Vector2f UpRadial = sf::Vector2f(0, 0);
+	sf::Vector2f curDirection = sf::Vector2f(0, 0);
+
+
 	sf::Sprite m_sprite;
 	sf::Texture m_texture;
-	int size;
-	double static const DEG_TO_RAD;
-	double static const RAD_TO_DEG;
-	double m_rotation;
-	double m_timeSinceLast = 0;
-	double m_speed;
-	double MAX_SPEED;
-	sf::Vector2f m_heading;
-	ContextDecisionMaker mapDecisions;
 	sf::CircleShape m_surroundingCircle;
 
-	sf::Vector2f UpRadial = sf::Vector2f(0,0);
-	std::vector<sf::Vector2f> m_distVecs;
+
+	int size;
+	int m_radius = 30;
+
+	
+	ContextDecisionMaker mapDecisions;
+	
 
 	std::map<Direction, double> m_distances;
 	std::map<Direction, double> m_distancesDanger;
 
-	double curLargest = 0;
-	double curLargestDanger = 0;
-	sf::Vector2f curDirection = sf::Vector2f(0, 0);
-	int m_radius = 30;
-
+	
+	std::vector<sf::Vector2f> m_distVecs;
 	std::vector<sf::CircleShape> m_nodes;
+	std::vector<DirectionalLine> m_lineVec;
+	std::vector<Obstacle*> m_obstacles;
+
 
 	int currentNode = 0;
-
-	std::vector<Obstacle*> m_obstacles;
 	int currentObs = 0;
-
 	int m_size = 16;
-	std::vector<DirectionalLine> m_lineVec;
+	int m_prevId = 0;
 
-	//double m_currentUpdateTime = 0;
+
 	sf::Time m_timeSinceLastUpdate;
-
 	Direction m_lastDirection;
+
+	double static const DEG_TO_RAD;
+	double static const RAD_TO_DEG;
+
+	double m_rotation;
+	double m_timeSinceLast = 0;
+	double m_speed;
+	double MAX_SPEED;
 	double MaxDistance = 0;
 	double WantedDistance = 0;
 	double m_currentDistance = 0;
-	int m_prevId = 0;
+	double curLargest = 0;
+	double curLargestDanger = 0;
+
 
 	bool startTimer = false;
 	bool startMaps = false;
