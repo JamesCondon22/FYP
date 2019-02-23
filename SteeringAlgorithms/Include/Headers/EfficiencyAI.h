@@ -11,6 +11,14 @@
 
 class EfficiencyAI
 {
+
+	struct steering
+	{
+		sf::Vector2f linear;
+		float angular;
+	};
+
+
 public:
 	EfficiencyAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs);
 	~EfficiencyAI();
@@ -23,7 +31,7 @@ public:
 	void initVector();
 	sf::Vector2f normalize(sf::Vector2f vec);
 	void checkDirection(double dt);
-	void seek(sf::Vector2f position);
+	sf::Vector2f seek(sf::Vector2f position);
 	std::map<Direction, double> normalize(std::map<Direction, double> vec);
 	std::map<Direction, double> normalizeDangers(std::map<Direction, double> vec);
 	sf::RectangleShape m_rect;
@@ -37,6 +45,7 @@ public:
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
+	sf::Vector2f m_steering;
 	sf::Sprite m_sprite;
 	sf::Texture m_texture;
 	int size;

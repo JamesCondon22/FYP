@@ -62,8 +62,8 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 	mapDecisions.update(m_distances, m_distancesDanger);
 	
 	checkDirection(dt);
-	seek(position);
-	m_position += m_velocity;
+	m_steering = seek(position);
+	m_position += m_steering;
 	m_surroundingCircle.setPosition(m_position);
 	m_rect.setPosition(m_position.x + cos(m_rotation) * m_speed * (dt / 1000), m_position.y + sin(m_rotation) * m_speed * (dt / 1000));
 	
@@ -186,13 +186,15 @@ std::map<Direction, double> EfficiencyAI::normalizeDangers(std::map<Direction, d
 }
 
 
-void EfficiencyAI::seek(sf::Vector2f position)
+sf::Vector2f EfficiencyAI::seek(sf::Vector2f position)
 {
 	m_velocity = curDirection - m_position;
 	m_velocity = normalize(m_velocity);
 	m_velocity = m_velocity * 1.0f;
 	m_rotation = getNewOrientation(m_rotation, m_velocity);
 	m_rect.setRotation(m_rotation);
+
+	return m_velocity;
 }
 
 
