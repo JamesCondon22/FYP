@@ -9,17 +9,16 @@
 #include "Obstacle.h"
 #include "DirectionalLine.h"
 
+struct steering
+{
+	sf::Vector2f linear;
+	float angular;
+};
+
 class EfficiencyAI
 {
-
-	struct steering
-	{
-		sf::Vector2f linear;
-		float angular;
-	};
-
-
 public:
+
 	EfficiencyAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs);
 	~EfficiencyAI();
 	void update(double dt, sf::Vector2f position);
@@ -31,21 +30,23 @@ public:
 	void initVector();
 	sf::Vector2f normalize(sf::Vector2f vec);
 	void checkDirection(double dt);
-	sf::Vector2f seek(sf::Vector2f position);
+	steering seek(sf::Vector2f position);
 	std::map<Direction, double> normalize(std::map<Direction, double> vec);
 	std::map<Direction, double> normalizeDangers(std::map<Direction, double> vec);
 	sf::RectangleShape m_rect;
 	sf::Vector2f getPos();
 	double findLargest(std::map<Direction, double> vec);
 
+	void calculation();
 	float getNewOrientation(float curOrientation, sf::Vector2f velocity);
 	float length(sf::Vector2f vel);
+	float mag(sf::Vector2f & v);
 
 private:
 	
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
-	sf::Vector2f m_steering;
+	steering m_steering;
 	sf::Vector2f m_heading;
 	sf::Vector2f UpRadial = sf::Vector2f(0, 0);
 	sf::Vector2f curDirection = sf::Vector2f(0, 0);
@@ -87,7 +88,7 @@ private:
 
 	double m_rotation;
 	double m_timeSinceLast = 0;
-	double m_speed;
+	float m_speed;
 	double MAX_SPEED;
 	double MaxDistance = 0;
 	double WantedDistance = 0;

@@ -8,11 +8,11 @@ circles:
      radius: 50
      id: 2
    - type: circle
-     position: {x: 750, y: 100}
+     position: {x: 800, y: 150}
      radius: 50
      id: 3
    - type: circle
-     position: {x: 700, y: 300}
+     position: {x: 600, y: 250}
      radius: 50
      id: 4
    - type: circle

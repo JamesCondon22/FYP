@@ -7,7 +7,7 @@ EfficiencyAI::EfficiencyAI(std::vector<sf::CircleShape> & path, std::vector<Obst
 	m_velocity(0, 0),
 	size(100),
 	m_rotation(0),
-	m_speed(0),
+	m_speed(1.5),
 	MAX_SPEED(100),
 	m_nodes(path),
 	m_obstacles(obs)
@@ -45,11 +45,12 @@ EfficiencyAI::~EfficiencyAI()
 
 void EfficiencyAI::update(double dt, sf::Vector2f position)
 {
-	if (startTimer = true)
+	/*if (startTimer = true)
 	{
 		m_timeSinceLast += dt;
-	}
+	}*/
 	
+
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
@@ -58,15 +59,18 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 	updateDangers();
 	m_distances = normalize(m_distances);
 	m_distancesDanger = normalizeDangers(m_distancesDanger);
-	
 	mapDecisions.update(m_distances, m_distancesDanger);
-	
 	checkDirection(dt);
+
+
 	m_steering = seek(position);
-	m_position += m_steering;
-	m_surroundingCircle.setPosition(m_position);
-	m_rect.setPosition(m_position.x + cos(m_rotation) * m_speed * (dt / 1000), m_position.y + sin(m_rotation) * m_speed * (dt / 1000));
+	m_position += m_steering.linear;
+	m_position = sf::Vector2f(m_position.x + std::cos(DEG_TO_RAD  * (m_rotation)) * m_speed * (dt / 1000),
+		m_position.y + std::sin(DEG_TO_RAD * (m_rotation)) * m_speed* (dt / 1000));
 	
+	m_rect.setPosition(m_position);
+
+	m_surroundingCircle.setPosition(m_position);
 }
 
 
@@ -186,17 +190,33 @@ std::map<Direction, double> EfficiencyAI::normalizeDangers(std::map<Direction, d
 }
 
 
-sf::Vector2f EfficiencyAI::seek(sf::Vector2f position)
+steering EfficiencyAI::seek(sf::Vector2f position)
 {
 	m_velocity = curDirection - m_position;
+	calculation();
 	m_velocity = normalize(m_velocity);
-	m_velocity = m_velocity * 1.0f;
-	m_rotation = getNewOrientation(m_rotation, m_velocity);
 	m_rect.setRotation(m_rotation);
 
-	return m_velocity;
+	steering seekSteering;
+	seekSteering.linear = m_velocity;
+	seekSteering.angular = 0.0;
+	return seekSteering;
 }
 
+void EfficiencyAI::calculation() {
+	if (m_velocity.x != 0 || m_velocity.y != 0)
+	{
+		float magnitude = mag(m_velocity);
+		m_velocity = sf::Vector2f(m_velocity.x / magnitude, m_velocity.y / magnitude);
+		m_velocity = m_velocity * m_speed;
+		m_rotation = getNewOrientation(m_rotation, m_velocity);
+	}
+}
+
+float EfficiencyAI::mag(sf::Vector2f & v)
+{
+	return std::sqrt((v.x * v.x) + (v.y * v.y));
+}
 
 float EfficiencyAI::getNewOrientation(float curOrientation, sf::Vector2f velocity)
 {
