@@ -23,7 +23,10 @@ public:
 	void initVector();
 	sf::Vector2f normalize(sf::Vector2f vec);
 	void checkDirection();
-	void seek(sf::Vector2f position);
+	steering seek(sf::Vector2f position);
+	void calculation();
+	float mag(sf::Vector2f & v);
+
 	std::map<Direction, double> normalize(std::map<Direction, double> vec);
 	std::map<Direction, double> normalizeDangers(std::map<Direction, double> vec);
 	sf::RectangleShape m_rect;
@@ -37,13 +40,15 @@ public:
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
+	steering m_steering;
+
 	sf::Sprite m_sprite;
 	sf::Texture m_texture;
 	int size;
 	double static const DEG_TO_RAD;
 	double static const RAD_TO_DEG;
 	double m_rotation;
-	double m_speed;
+	float m_speed;
 	double MAX_SPEED;
 	sf::Vector2f m_heading;
 	ContextDecisionMaker mapDecisions;

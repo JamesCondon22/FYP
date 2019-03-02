@@ -1,8 +1,8 @@
 #include "../Include/Headers/DirectionalLine.h"
 
 
-double const DirectionalLine::DEG_TO_RAD = 3.14 / 180.0f;
-double const DirectionalLine::RAD_TO_DEG = 180.0f / 3.14;
+float const DirectionalLine::DEG_TO_RAD = 3.14 / 180.0f;
+float const DirectionalLine::RAD_TO_DEG = 180.0f / 3.14;
 
 DirectionalLine::DirectionalLine(sf::Vector2f one, double count, double points) :
 	m_count(count),
@@ -37,8 +37,12 @@ DirectionalLine::~DirectionalLine()
 
 void DirectionalLine::update(sf::Vector2f position)
 {
+	
+	
 	m_line[0] = position;
-	m_line[1] = getPoints(m_line[0].position.x, m_line[0].position.y, m_radius, m_points);
+	sf::Vector2f vec = getPoints(m_line[0].position.x, m_line[0].position.y, m_radius, m_points);
+	//thor::rotate(vec, 20.0f);
+	m_line[1] = sf::Vector2f(vec.x, vec.y);
 	m_map[m_current] = getPosition();
 }
 

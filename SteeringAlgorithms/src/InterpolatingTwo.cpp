@@ -7,7 +7,7 @@ InterpolatingTwo::InterpolatingTwo(std::vector<sf::CircleShape> & path, std::vec
 	m_velocity(0, 0),
 	size(100),
 	m_rotation(0),
-	m_speed(0),
+	m_speed(1.5f),
 	MAX_SPEED(100),
 	m_nodes(path),
 	m_obstacles(obs)
@@ -56,10 +56,13 @@ void InterpolatingTwo::update(double dt, sf::Vector2f position)
 
 	mapDecisions.update(m_distances, m_distancesDanger);
 	checkDirection();
-	seek(position);
-	m_position += m_velocity;
+
+	m_steering = seek(position);
+	m_position += m_steering.linear;
+	m_position = sf::Vector2f(m_position.x + std::cos(DEG_TO_RAD  * (m_rotation)) * m_speed * (dt / 1000),
+		m_position.y + std::sin(DEG_TO_RAD * (m_rotation)) * m_speed* (dt / 1000));
+	m_rect.setPosition(m_position);
 	m_surroundingCircle.setPosition(m_position);
-	m_rect.setPosition(m_position.x + cos(m_rotation) * m_speed * (dt / 1000), m_position.y + sin(m_rotation) * m_speed * (dt / 1000));
 	
 }
 
@@ -166,14 +169,35 @@ std::map<Direction, double> InterpolatingTwo::normalizeDangers(std::map<Directio
 
 
 
-void InterpolatingTwo::seek(sf::Vector2f position)
+steering InterpolatingTwo::seek(sf::Vector2f position)
 {
 	m_velocity = curDirection - m_position;
+	calculation();
 	m_velocity = normalize(m_velocity);
-	m_velocity = m_velocity * 1.0f;
-	m_rotation = getNewOrientation(m_rotation, m_velocity);
 	m_rect.setRotation(m_rotation);
+
+	steering seekSteering;
+	seekSteering.linear = m_velocity;
+	seekSteering.angular = 0.0;
+	return seekSteering;
 }
+
+void InterpolatingTwo::calculation() {
+
+	if (m_velocity.x != 0 || m_velocity.y != 0)
+	{
+		float magnitude = mag(m_velocity);
+		m_velocity = sf::Vector2f(m_velocity.x / magnitude, m_velocity.y / magnitude);
+		m_velocity = m_velocity * m_speed;
+		m_rotation = getNewOrientation(m_rotation, m_velocity);
+	}
+}
+
+float InterpolatingTwo::mag(sf::Vector2f & v)
+{
+	return std::sqrt((v.x * v.x) + (v.y * v.y));
+}
+
 
 /// <summary>
 /// 
@@ -277,6 +301,7 @@ sf::Vector2f InterpolatingTwo::getCurrentNodePosition()
 
 	return target;
 }
+
 
 sf::Vector2f InterpolatingTwo::normalize(sf::Vector2f vec)
 {

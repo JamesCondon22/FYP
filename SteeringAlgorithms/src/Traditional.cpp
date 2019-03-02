@@ -159,8 +159,7 @@ void Traditional::update(double dt, sf::Vector2f player, sf::Vector2f velocity)
 	}
 
 	m_position += m_velocity;
-	
-	m_rect.setPosition(m_position.x + cos(m_rotation) * m_speed * (dt / 1000), m_position.y + sin(m_rotation) * m_speed * (dt / 1000));
+	m_rect.setPosition(m_position);
 	m_rect.setRotation(m_rotation);
 
 	for (int i = 0; i < lines.size(); i++) {

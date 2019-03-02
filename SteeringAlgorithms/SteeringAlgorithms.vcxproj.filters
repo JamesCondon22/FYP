@@ -57,6 +57,9 @@
     <ClInclude Include="Include\Headers\InterpolatingTwo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Headers\DynamicVectorAI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EfficiencyAI.cpp">
@@ -99,6 +102,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\InterpolatingTwo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DynamicVectorAI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

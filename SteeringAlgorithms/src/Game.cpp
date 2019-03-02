@@ -55,6 +55,7 @@ Game::Game()
 	m_interAI = new InterpolatingAI(m_nodes, m_obstacles);
 	m_efficAI = new EfficiencyAI(m_nodes, m_obstacles);
 	m_interTwo = new InterpolatingTwo(m_nodes, m_obstacles);
+	m_dynamAI = new DynamicVectorAI(m_nodes, m_obstacles);
 }
 
 
@@ -132,6 +133,7 @@ void Game::update(double dt)
 	//m_interAI->update(dt, m_trad->getPosition());
 	m_efficAI->update(dt, m_trad->getPosition());
 	//m_interTwo->update(dt, m_trad->getPosition());
+	//m_dynamAI->update(dt, m_trad->getPosition());
 }
 
 
@@ -165,6 +167,7 @@ void Game::render()
 	//m_interAI->render(m_window);
 	m_efficAI->render(m_window);
 	//m_interTwo->render(m_window);
+	//m_dynamAI->render(m_window);
 	m_window.display();
 }
 

@@ -45,11 +45,10 @@ EfficiencyAI::~EfficiencyAI()
 
 void EfficiencyAI::update(double dt, sf::Vector2f position)
 {
-	/*if (startTimer = true)
-	{
-		m_timeSinceLast += dt;
-	}*/
 	
+	m_timeSinceLast += dt;
+	
+	std::cout << m_timeSinceLast << std::endl;
 
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
@@ -59,7 +58,13 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 	updateDangers();
 	m_distances = normalize(m_distances);
 	m_distancesDanger = normalizeDangers(m_distancesDanger);
-	mapDecisions.update(m_distances, m_distancesDanger);
+
+	if (!m_begin || m_timeSinceLast > 500)
+	{
+		mapDecisions.update(m_distances, m_distancesDanger);
+		m_timeSinceLast = 0;
+	}
+	
 	checkDirection(dt);
 
 
@@ -71,6 +76,8 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 	m_rect.setPosition(m_position);
 
 	m_surroundingCircle.setPosition(m_position);
+
+	m_begin = true;
 }
 
 
@@ -204,6 +211,7 @@ steering EfficiencyAI::seek(sf::Vector2f position)
 }
 
 void EfficiencyAI::calculation() {
+	
 	if (m_velocity.x != 0 || m_velocity.y != 0)
 	{
 		float magnitude = mag(m_velocity);
@@ -213,10 +221,12 @@ void EfficiencyAI::calculation() {
 	}
 }
 
+
 float EfficiencyAI::mag(sf::Vector2f & v)
 {
 	return std::sqrt((v.x * v.x) + (v.y * v.y));
 }
+
 
 float EfficiencyAI::getNewOrientation(float curOrientation, sf::Vector2f velocity)
 {

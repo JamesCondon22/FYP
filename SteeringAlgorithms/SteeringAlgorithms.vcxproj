@@ -73,6 +73,10 @@
     <IncludePath>C:\SFML-2.5.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\SFML-2.5.0\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\SFML-2.5.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SFML-2.5.0\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -101,10 +105,12 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>sfml-system-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-audio-d.lib;sfml-network-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -125,6 +131,7 @@
     <ClInclude Include="Include\Headers\ContextDecisionMaker.h" />
     <ClInclude Include="Include\Headers\ContextMap.h" />
     <ClInclude Include="Include\Headers\DirectionalLine.h" />
+    <ClInclude Include="Include\Headers\DynamicVectorAI.h" />
     <ClInclude Include="Include\Headers\FrayAI.h" />
     <ClInclude Include="Include\Headers\Game.h" />
     <ClInclude Include="Include\Headers\InterpolatingAI.h" />
@@ -141,6 +148,7 @@
     <ClCompile Include="src\ContextDecisionMaker.cpp" />
     <ClCompile Include="src\ContextMap.cpp" />
     <ClCompile Include="src\DirectionalLine.cpp" />
+    <ClCompile Include="src\DynamicVectorAI.cpp" />
     <ClCompile Include="src\FrayAI.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\InterpolatingAI.cpp" />

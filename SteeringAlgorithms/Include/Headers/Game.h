@@ -11,6 +11,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "LevelLoader.h"
+#include "DynamicVectorAI.h"
 
 /// <summary>
 /// @brief Main class for the SFML Playground project.
@@ -40,6 +41,7 @@ protected:
 	EfficiencyAI * m_efficAI;
 	InterpolatingAI * m_interAI;
 	InterpolatingTwo * m_interTwo;
+	DynamicVectorAI * m_dynamAI;
 	sf::Texture m_texture;
 	std::vector<Obstacle*> m_obstacles;
 	std::vector<sf::CircleShape> m_circles;

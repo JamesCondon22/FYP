@@ -1,0 +1,28 @@
+﻿  ContextDecisionMaker.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\contextdecisionmaker.h(3): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  ContextMap.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\mathhelper.h(2): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  DirectionalLine.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\directionalline.h(2): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  FrayAI.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\frayai.h(4): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Game.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\player.h(4): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  InterpolatingAI.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\interpolatingai.h(4): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  InterpolatingTwo.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\interpolatingtwo.h(4): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  LevelLoader.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\levelloader.h(3): fatal error C1083: Cannot open include file: 'SFML/System/Vector2.hpp': No such file or directory
+  main.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\player.h(4): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  MathHelper.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\mathhelper.h(2): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Obstacle.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\obstacle.h(2): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Player.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\player.h(4): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  EfficiencyAI.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\efficiencyai.h(4): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Traditional.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\traditional.h(2): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory

@@ -5,6 +5,11 @@
 #include <map>
 #include "ContextMap.h"
 
+struct steering
+{
+	sf::Vector2f linear;
+	float angular;
+};
 
 class DirectionalLine
 {
@@ -23,13 +28,13 @@ public:
 	sf::Vector2f getAverage();
 	void setRadius(int rad);
 	void changeColor();
-
+	void rotateLine();
 	void calculateAverage(std::vector<int> indices);
 private:
 	sf::Vertex m_line[2];
 	std::map<Direction, sf::Vector2f> m_map;
-	double static const DEG_TO_RAD;
-	double static const RAD_TO_DEG;
+	float static const DEG_TO_RAD;
+	float static const RAD_TO_DEG;
 	int x;
 	int y;
 	int m_count;

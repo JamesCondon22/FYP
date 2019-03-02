@@ -9,11 +9,7 @@
 #include "Obstacle.h"
 #include "DirectionalLine.h"
 
-struct steering
-{
-	sf::Vector2f linear;
-	float angular;
-};
+
 
 class EfficiencyAI
 {
@@ -31,13 +27,15 @@ public:
 	sf::Vector2f normalize(sf::Vector2f vec);
 	void checkDirection(double dt);
 	steering seek(sf::Vector2f position);
+	void calculation();
+
 	std::map<Direction, double> normalize(std::map<Direction, double> vec);
 	std::map<Direction, double> normalizeDangers(std::map<Direction, double> vec);
 	sf::RectangleShape m_rect;
 	sf::Vector2f getPos();
 	double findLargest(std::map<Direction, double> vec);
 
-	void calculation();
+	
 	float getNewOrientation(float curOrientation, sf::Vector2f velocity);
 	float length(sf::Vector2f vel);
 	float mag(sf::Vector2f & v);
@@ -98,7 +96,7 @@ private:
 
 
 	bool startTimer = false;
-	bool startMaps = false;
+	bool m_begin = false;
 };
 
 #endif
