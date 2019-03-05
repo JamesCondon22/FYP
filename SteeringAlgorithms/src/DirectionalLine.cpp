@@ -8,8 +8,11 @@ DirectionalLine::DirectionalLine(sf::Vector2f one, double count, double points) 
 	m_count(count),
 	m_points(points)
 {
-	m_line[0] = one;
+	
 	m_line[1] = getPoints(m_line[0].position.x, m_line[0].position.y, m_radius, points);
+
+	m_mostDesired[0] = one;
+
 	assignDirection(m_count);
 }
 
@@ -35,13 +38,35 @@ DirectionalLine::~DirectionalLine()
 {
 }
 
+
 void DirectionalLine::update(sf::Vector2f position)
 {
-	
-	
+
 	m_line[0] = position;
-	sf::Vector2f vec = getPoints(m_line[0].position.x, m_line[0].position.y, m_radius, m_points);
-	//thor::rotate(vec, 20.0f);
+	vec = getPoints(m_line[0].position.x, m_line[0].position.y, m_radius, m_points);
+
+	m_line[1] = sf::Vector2f(vec.x, vec.y);
+	m_map[m_current] = getPosition();
+
+}
+
+
+void DirectionalLine::rotateLine(sf::Vector2f position, sf::Vector2f interestPosition)
+{
+	angle += 0.5;
+
+	m_mostDesired[0] = position;
+	m_mostDesired[1] = interestPosition;
+
+	m_line[0] = position;
+
+	vec = getPoints(m_line[0].position.x, m_line[0].position.y, m_radius, m_points);
+
+	auto rotatevec = vec - position;
+
+	thor::rotate(rotatevec, angle);
+	vec = rotatevec + position;
+
 	m_line[1] = sf::Vector2f(vec.x, vec.y);
 	m_map[m_current] = getPosition();
 }
@@ -63,6 +88,7 @@ Direction DirectionalLine::getState()
 void DirectionalLine::render(sf::RenderWindow & window)
 {
 	window.draw(m_line, 2, sf::Lines);
+	window.draw(m_mostDesired, 2, sf::Lines);
 }
 
 void DirectionalLine::changeColor() {
@@ -98,6 +124,7 @@ void DirectionalLine::calculateAverage(std::vector<int> indices)
 	averagePosition.y = averagePosition.y / indices.size();
 	std::cout << averagePosition.x << std::endl;
 }
+
 
 sf::Vector2f DirectionalLine::getAverage()
 {

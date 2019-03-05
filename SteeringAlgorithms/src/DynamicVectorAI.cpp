@@ -43,17 +43,16 @@ DynamicVectorAI::~DynamicVectorAI()
 {
 }
 
+
 void DynamicVectorAI::update(double dt, sf::Vector2f position)
 {
-	/*if (startTimer = true)
-	{
-		m_timeSinceLast += dt;
-	}*/
-	
 
 	for (int i = 0; i < m_size; i++) {
-		m_lineVec[i].update(m_surroundingCircle.getPosition());
+		m_lineVec[i].rotateLine(m_surroundingCircle.getPosition(), getCurrentNodePosition());
+		//m_lineVec[i].update(m_surroundingCircle.getPosition(), getCurrentNodePosition());
+		
 	}
+	
 
 	updateLines(position);
 	updateDangers();
@@ -108,6 +107,7 @@ void DynamicVectorAI::updateLines(sf::Vector2f position)
 		count++;
 	}
 }
+
 
 void DynamicVectorAI::updateDangers()
 {
@@ -200,6 +200,7 @@ steering DynamicVectorAI::seek(sf::Vector2f position)
 	seekSteering.angular = 0.0;
 	return seekSteering;
 }
+
 
 void DynamicVectorAI::calculation() {
 	if (m_velocity.x != 0 || m_velocity.y != 0)
