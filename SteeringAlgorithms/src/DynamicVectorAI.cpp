@@ -41,6 +41,7 @@ DynamicVectorAI::DynamicVectorAI(std::vector<sf::CircleShape> & path, std::vecto
 
 DynamicVectorAI::~DynamicVectorAI()
 {
+
 }
 
 
@@ -49,10 +50,10 @@ void DynamicVectorAI::update(double dt, sf::Vector2f position)
 
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].rotateLine(m_surroundingCircle.getPosition(), getCurrentNodePosition());
-		//m_lineVec[i].update(m_surroundingCircle.getPosition(), getCurrentNodePosition());
-		
 	}
-	
+	auto current = AngleDir(getCurrentNodePosition(), curDirection);
+	std::cout << "DOT = " << current << std::endl;
+	std::cout << "Angle Between = " << getAngleBetween(curDirection, getCurrentNodePosition()) << std::endl;
 
 	updateLines(position);
 	updateDangers();
@@ -65,9 +66,34 @@ void DynamicVectorAI::update(double dt, sf::Vector2f position)
 	m_steering = seek(position);
 	m_position += m_steering.linear;
 	m_position = sf::Vector2f(m_position.x + std::cos(DEG_TO_RAD  * (m_rotation)) * m_speed * (dt / 1000),
-		m_position.y + std::sin(DEG_TO_RAD * (m_rotation)) * m_speed* (dt / 1000));
+		m_position.y + std::sin(DEG_TO_RAD * (m_rotation)) * m_speed * (dt / 1000));
+
 	m_rect.setPosition(m_position);
 	m_surroundingCircle.setPosition(m_position);
+}
+
+
+/// <summary>
+/// This function returns a negative number if B is to the left of A
+/// Returns a positive if B is to the right os A
+/// </summary>
+/// <param name="A">The desired vector</param>
+/// <param name="B">The current Direction vector</param>
+/// <returns></returns>
+float DynamicVectorAI::AngleDir(sf::Vector2f A, sf::Vector2f B)
+{
+	return -A.x * B.y + A.y * B.x;
+}
+
+
+
+float DynamicVectorAI::getAngleBetween(sf::Vector2f posOne, sf::Vector2f posTwo)
+{
+	posOne = normalize(posOne);
+	posTwo = normalize(posTwo);
+	auto res = thor::dotProduct(posOne, posTwo);
+
+	return res - 1;
 }
 
 
@@ -163,7 +189,7 @@ double DynamicVectorAI::findLargest(std::map<Direction, double> vec)
 std::map<Direction, double> DynamicVectorAI::normalize(std::map<Direction, double> vec)
 {
 	auto curLargest = findLargest(vec);
-
+	
 	for (auto it = vec.begin(); it != vec.end(); ++it)
 	{
 		vec[it->first] = 1 - (it->second / curLargest);

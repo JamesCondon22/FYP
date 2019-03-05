@@ -53,7 +53,7 @@ void DirectionalLine::update(sf::Vector2f position)
 
 void DirectionalLine::rotateLine(sf::Vector2f position, sf::Vector2f interestPosition)
 {
-	angle += 0.5;
+
 
 	m_mostDesired[0] = position;
 	m_mostDesired[1] = interestPosition;
@@ -65,31 +65,37 @@ void DirectionalLine::rotateLine(sf::Vector2f position, sf::Vector2f interestPos
 	auto rotatevec = vec - position;
 
 	thor::rotate(rotatevec, angle);
+
 	vec = rotatevec + position;
 
 	m_line[1] = sf::Vector2f(vec.x, vec.y);
 	m_map[m_current] = getPosition();
 }
 
+
 void DirectionalLine::setRadius(int rad)
 {
 	m_radius = rad;
 }
 
+
 std::map< Direction, sf::Vector2f> DirectionalLine::getMap() {
 	return m_map;
 }
+
 
 Direction DirectionalLine::getState()
 {
 	return m_current;
 }
 
+
 void DirectionalLine::render(sf::RenderWindow & window)
 {
 	window.draw(m_line, 2, sf::Lines);
 	window.draw(m_mostDesired, 2, sf::Lines);
 }
+
 
 void DirectionalLine::changeColor() {
 	m_line->color = sf::Color::Red;
@@ -101,6 +107,7 @@ void DirectionalLine::assignDirection(int count) {
 	m_current = static_cast<Direction>(count);
 	m_map.insert({ m_current, getPosition() });
 }
+
 
 void DirectionalLine::calculateAverage(std::vector<int> indices)
 {

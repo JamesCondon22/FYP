@@ -19,7 +19,6 @@ Game::Game()
 	: m_window(sf::VideoMode(1920, 1080, 32), "SFML Playground", sf::Style::Default)
 
 {
-
 	m_window.setVerticalSyncEnabled(true);
 	int currentLevel = 1;
 
@@ -30,8 +29,6 @@ Game::Game()
 	if (!m_texture.loadFromFile("resources/assets/obstacle.png")) {
 		std::cout << "texture not loading" << std::endl;
 	}
-
-	
 
 	for (ObstacleData const &obs : m_level.m_obstacles) {
 		Obstacle* obstacle = new Obstacle(obs.m_radius, m_texture);

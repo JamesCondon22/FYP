@@ -8,6 +8,7 @@
 #include "MathHelper.h"
 #include "Obstacle.h"
 #include "DirectionalLine.h"
+#include <math.h>
 
 
 
@@ -32,6 +33,8 @@ public:
 	sf::RectangleShape m_rect;
 	sf::Vector2f getPos();
 	double findLargest(std::map<Direction, double> vec);
+	float AngleDir(sf::Vector2f A, sf::Vector2f B);
+	float getAngleBetween(sf::Vector2f posOne, sf::Vector2f posTwo);
 
 	void calculation();
 	float getNewOrientation(float curOrientation, sf::Vector2f velocity);

@@ -29,7 +29,7 @@ public:
 	void changeColor();
 	void rotateLine(sf::Vector2f position, sf::Vector2f interestPosition);
 	void calculateAverage(std::vector<int> indices);
-
+	
 private:
 	sf::Vertex m_line[2];
 	std::map<Direction, sf::Vector2f> m_map;
