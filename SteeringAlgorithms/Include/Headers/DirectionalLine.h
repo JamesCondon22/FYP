@@ -17,6 +17,7 @@ public:
 	DirectionalLine(sf::Vector2f one, double count, double points);
 	DirectionalLine() { ; }
 	sf::Vector2f getPoints(double x0, double y0, double r, double noOfDividingPoints);
+	sf::Vector2f alignVec(sf::Vector2f direction);
 	~DirectionalLine();
 	void update(sf::Vector2f position);
 	void render(sf::RenderWindow & window);
@@ -27,9 +28,10 @@ public:
 	sf::Vector2f getAverage();
 	void setRadius(int rad);
 	void changeColor();
-	void rotateLine(sf::Vector2f position, sf::Vector2f interestPosition);
+	void rotateLine(sf::Vector2f position, sf::Vector2f interestPosition, float direction, sf::Vector2f current);
 	void calculateAverage(std::vector<int> indices);
-	
+	float getAngleBetween(sf::Vector2f posOne, sf::Vector2f posTwo);
+	float mag(sf::Vector2f & v);
 private:
 	sf::Vertex m_line[2];
 	std::map<Direction, sf::Vector2f> m_map;
@@ -44,7 +46,8 @@ private:
 	sf::Vector2f averagePosition;
 	sf::Vector2f vec;
 	sf::Vertex m_mostDesired[2];
-
+	std::string RotateDirection = "";
+	std::string LastRotateDirection = "";
 	float angle = 0;
 };
 

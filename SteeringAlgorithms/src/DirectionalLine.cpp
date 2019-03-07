@@ -50,11 +50,50 @@ void DirectionalLine::update(sf::Vector2f position)
 
 }
 
-
-void DirectionalLine::rotateLine(sf::Vector2f position, sf::Vector2f interestPosition)
+float DirectionalLine::mag(sf::Vector2f & v)
 {
+	return std::sqrt((v.x * v.x) + (v.y * v.y));
+}
+
+sf::Vector2f DirectionalLine::alignVec(sf::Vector2f direction)
+{
+	
+	return sf::Vector2f();
+}
 
 
+void DirectionalLine::rotateLine(sf::Vector2f position, sf::Vector2f interestPosition, float direction, sf::Vector2f current)
+{
+	if (direction < 0)
+	{
+		RotateDirection = "LEFT";
+	}
+	else if (direction > 0)
+	{
+		RotateDirection = "RIGHT";
+	}
+
+	if (angle > 360)
+	{
+		angle = 0;
+	}
+
+	if (LastRotateDirection != RotateDirection)
+	{
+		angle = 0;
+	}
+
+	if (RotateDirection == "LEFT")
+	{
+		angle += 0.5;
+	}
+	else
+	{
+		angle -= 0.5;
+	}
+
+	//std::cout << getAngleBetween(interestPosition, current) << std::endl;
+	
 	m_mostDesired[0] = position;
 	m_mostDesired[1] = interestPosition;
 
@@ -64,12 +103,15 @@ void DirectionalLine::rotateLine(sf::Vector2f position, sf::Vector2f interestPos
 
 	auto rotatevec = vec - position;
 
-	thor::rotate(rotatevec, angle);
+	//thor::rotate(rotatevec, angle);
 
 	vec = rotatevec + position;
 
 	m_line[1] = sf::Vector2f(vec.x, vec.y);
 	m_map[m_current] = getPosition();
+
+
+	LastRotateDirection = RotateDirection;
 }
 
 

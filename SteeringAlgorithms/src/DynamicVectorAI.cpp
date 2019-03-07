@@ -47,13 +47,15 @@ DynamicVectorAI::~DynamicVectorAI()
 
 void DynamicVectorAI::update(double dt, sf::Vector2f position)
 {
+	auto current = AngleDir(getCurrentNodePosition(), curDirection);
 
 	for (int i = 0; i < m_size; i++) {
-		m_lineVec[i].rotateLine(m_surroundingCircle.getPosition(), getCurrentNodePosition());
+
+		m_lineVec[i].rotateLine(m_surroundingCircle.getPosition(), getCurrentNodePosition(), current, curDirection);
 	}
-	auto current = AngleDir(getCurrentNodePosition(), curDirection);
-	std::cout << "DOT = " << current << std::endl;
-	std::cout << "Angle Between = " << getAngleBetween(curDirection, getCurrentNodePosition()) << std::endl;
+
+	//std::cout << "DOT = " << current << std::endl;
+	//std::cout << "Angle Between = " << getAngleBetween(curDirection, getCurrentNodePosition()) << std::endl;
 
 	updateLines(position);
 	updateDangers();
@@ -62,7 +64,6 @@ void DynamicVectorAI::update(double dt, sf::Vector2f position)
 	mapDecisions.update(m_distances, m_distancesDanger);
 	checkDirection(dt);
 	
-
 	m_steering = seek(position);
 	m_position += m_steering.linear;
 	m_position = sf::Vector2f(m_position.x + std::cos(DEG_TO_RAD  * (m_rotation)) * m_speed * (dt / 1000),
@@ -89,11 +90,11 @@ float DynamicVectorAI::AngleDir(sf::Vector2f A, sf::Vector2f B)
 
 float DynamicVectorAI::getAngleBetween(sf::Vector2f posOne, sf::Vector2f posTwo)
 {
-	posOne = normalize(posOne);
-	posTwo = normalize(posTwo);
-	auto res = thor::dotProduct(posOne, posTwo);
-
-	return res - 1;
+	
+	auto dot = thor::dotProduct(posOne, posTwo);
+	auto res = mag(posOne) * mag(posTwo);
+	res = acos(dot / res);
+	return res * RAD_TO_DEG;
 }
 
 
