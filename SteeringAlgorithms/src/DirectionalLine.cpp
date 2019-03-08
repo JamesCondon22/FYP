@@ -55,10 +55,12 @@ float DirectionalLine::mag(sf::Vector2f & v)
 	return std::sqrt((v.x * v.x) + (v.y * v.y));
 }
 
-sf::Vector2f DirectionalLine::alignVec(sf::Vector2f direction)
+sf::Vector2f DirectionalLine::getVec(double x0, double y0, double r, double noOfDividingPoints, sf::Vector2f current)
 {
-	
+
+	auto currentHighLevelVec = current;
 	return sf::Vector2f();
+	
 }
 
 
@@ -94,6 +96,11 @@ void DirectionalLine::rotateLine(sf::Vector2f position, sf::Vector2f interestPos
 
 	//std::cout << getAngleBetween(interestPosition, current) << std::endl;
 	
+
+	if (current == vec)
+	{
+		std::cout << "ID " << m_count << std::endl;
+	}
 	m_mostDesired[0] = position;
 	m_mostDesired[1] = interestPosition;
 

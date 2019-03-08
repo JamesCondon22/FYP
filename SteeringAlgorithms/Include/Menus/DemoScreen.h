@@ -14,6 +14,7 @@
 #include "../Headers/Enemy.h"
 
 #include <SFML/Graphics.hpp>
+
 #include <vector>
 
 class DemoScreen
@@ -41,5 +42,7 @@ private:
 	sf::Texture m_textureObs;
 
 	GameState * m_currentState;
+
+	
 };
 #endif // !

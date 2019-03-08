@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Headers\Button.h" />
     <ClInclude Include="Include\Headers\ContextDecisionMaker.h" />
     <ClInclude Include="Include\Headers\ContextMap.h" />
     <ClInclude Include="Include\Headers\DirectionalLine.h" />
@@ -144,12 +145,14 @@
     <ClInclude Include="Include\Headers\Player.h" />
     <ClInclude Include="Include\Headers\EfficiencyAI.h" />
     <ClInclude Include="Include\Headers\Traditional.h" />
+    <ClInclude Include="Include\Headers\Label.h" />
     <ClInclude Include="Include\Menus\DemoScreen.h" />
     <ClInclude Include="Include\Menus\MainMenu.h" />
     <ClInclude Include="Include\Menus\Options.h" />
     <ClInclude Include="Include\Menus\State.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\ContextDecisionMaker.cpp" />
     <ClCompile Include="src\ContextMap.cpp" />
     <ClCompile Include="src\DirectionalLine.cpp" />
