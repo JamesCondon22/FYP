@@ -5,7 +5,7 @@ MainMenu::MainMenu(GameState * state):
 	m_currentState(state)
 {
 	m_texture.loadFromFile("resources/assets/button.png");
-	
+	m_font.loadFromFile("resources/assets/bernhc.TTF");
 	initButtons();
 }
 
@@ -36,14 +36,14 @@ void MainMenu::render(sf::RenderWindow & window)
 
 void MainMenu::initButtons()
 {
-	Button *buttonOne = new Button(sf::Vector2f(700, 600), 400, 150, m_texture);
+	Button *buttonOne = new Button(sf::Vector2f(700, 600), 400, 150, m_texture, m_font, "RUN");
 	
-	Button *aiButtonOne = new Button(sf::Vector2f(50, 300), 150, 150, m_texture);
-	Button *aiButtonTwo = new Button(sf::Vector2f(250, 300), 150, 150, m_texture);
-	Button *aiButtonThree = new Button(sf::Vector2f(450, 300), 150, 150, m_texture);
-	Button *aiButtonFour = new Button(sf::Vector2f(650, 300), 150, 150, m_texture);
-	Button *aiButtonFive = new Button(sf::Vector2f(850, 300), 150, 150, m_texture);
-	Button *aiButtonSix = new Button(sf::Vector2f(1050, 300), 150, 150, m_texture);
+	Button *aiButtonOne = new Button(sf::Vector2f(50, 300), 150, 150, m_texture, m_font, "1");
+	Button *aiButtonTwo = new Button(sf::Vector2f(250, 300), 150, 150, m_texture, m_font, "2");
+	Button *aiButtonThree = new Button(sf::Vector2f(450, 300), 150, 150, m_texture, m_font, "3");
+	Button *aiButtonFour = new Button(sf::Vector2f(650, 300), 150, 150, m_texture, m_font, "4");
+	Button *aiButtonFive = new Button(sf::Vector2f(850, 300), 150, 150, m_texture, m_font, "5");
+	Button *aiButtonSix = new Button(sf::Vector2f(1050, 300), 150, 150, m_texture, m_font, "6");
 
 	m_buttons.push_back(buttonOne);
 	m_buttons.push_back(aiButtonOne);

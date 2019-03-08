@@ -21,5 +21,7 @@ private:
 
 	std::vector<Button*> m_buttons;
 	sf::Texture m_texture;
+
+	sf::Font m_font;
 };
 #endif // !
