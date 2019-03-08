@@ -20,39 +20,22 @@ Game::Game()
 
 {
 	m_window.setVerticalSyncEnabled(true);
-	int currentLevel = 1;
 
-	if (!LevelLoader::load(currentLevel, m_level)) {
-		return;
-	}
 
-	if (!m_texture.loadFromFile("resources/assets/obstacle.png")) {
+
+	m_currentState = new GameState;
+	*m_currentState = (GameState::Demo);
+
+
+	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
 	}
 
-	for (ObstacleData const &obs : m_level.m_obstacles) {
-		Obstacle* obstacle = new Obstacle(obs.m_radius, m_texture);
-		obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
-		obstacle->setID(obs.m_id);
-		obstacle->setPosition(obs.m_position);
-		m_obstacles.push_back(obstacle);
-	}
 
-	for (PathData const &path : m_level.m_paths) {
-		sf::CircleShape circle(10);
-		circle.setOrigin(circle.getRadius(), circle.getRadius());
-		circle.setPosition(path.m_position);
-		circle.setFillColor(sf::Color::Red);
-		m_nodes.push_back(circle);
-	}
+	m_options = new Options(m_currentState);
+	m_demoScreen = new DemoScreen(m_currentState);
+	mainMenu = new MainMenu(m_currentState);
 
-	m_player = new Player();
-	m_trad = new Traditional(m_nodes, m_obstacles);
-	m_ai = new FrayAI(m_nodes, m_obstacles);
-	m_interAI = new InterpolatingAI(m_nodes, m_obstacles);
-	m_efficAI = new EfficiencyAI(m_nodes, m_obstacles);
-	m_interTwo = new InterpolatingTwo(m_nodes, m_obstacles);
-	m_dynamAI = new DynamicVectorAI(m_nodes, m_obstacles);
 }
 
 
@@ -85,7 +68,6 @@ void Game::run()
 }
 
 
-
 /// <summary>
 /// @brief Check for events
 /// 
@@ -104,6 +86,8 @@ void Game::processEvents()
 		processGameEvents(event);
 	}
 }
+
+
 /// <summary>
 /// @brief Handle all user input.
 /// 
@@ -116,6 +100,7 @@ void Game::processGameEvents(sf::Event& event)
 
 }
 
+
 /// <summary>
 /// Method to handle all game updates
 /// </summary>
@@ -124,20 +109,23 @@ void Game::update(double dt)
 {
 	sf::Time deltaTime;
 
-	m_player->update(dt);
-	//m_trad->update(dt,m_player->getPos(), m_player->getVel());
-	//m_ai->update(dt, m_trad->getPosition());
-	//m_interAI->update(dt, m_trad->getPosition());
-	//m_efficAI->update(dt, m_trad->getPosition());
-	//m_interTwo->update(dt, m_trad->getPosition());
-	m_dynamAI->update(dt, m_trad->getPosition());
+	switch (*m_currentState)
+	{
+	case GameState::None:
+		break;
+	case GameState::Menu:
+		mainMenu->update(dt);
+		break;
+	case GameState::Demo:
+		m_demoScreen->update(dt);
+		break;
+	case GameState::Options:
+		m_options->update(dt);
+		break;
+	default:
+		break;
+	}
 }
-
-
-
-
-
-
 
 
 /// <summary>
@@ -148,23 +136,24 @@ void Game::update(double dt)
 void Game::render()
 {
 	m_window.clear(sf::Color(211, 211, 211));
-	m_player->render(m_window);
 	
-	for (int i = 0; i < m_obstacles.size(); i++)
+	switch (*m_currentState)
 	{
-		m_obstacles[i]->render(m_window);
+	case GameState::None:
+		break;
+	case GameState::Menu:
+		mainMenu->render(m_window);
+		break;
+	case GameState::Demo:
+		m_demoScreen->render(m_window);
+		break;
+	case GameState::Options:
+		m_options->render(m_window);
+		break;
+	default:
+		break;
 	}
-
-	for (auto &node : m_nodes)
-	{
-		m_window.draw(node);
-	}
-	//m_trad->render(m_window);
-	//m_ai->render(m_window);
-	//m_interAI->render(m_window);
-	//m_efficAI->render(m_window);
-	//m_interTwo->render(m_window);
-	m_dynamAI->render(m_window);
+	
 	m_window.display();
 }
 

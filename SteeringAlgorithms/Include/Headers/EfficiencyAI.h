@@ -8,10 +8,10 @@
 #include "MathHelper.h"
 #include "Obstacle.h"
 #include "DirectionalLine.h"
+#include "Enemy.h"
 
 
-
-class EfficiencyAI
+class EfficiencyAI : public Enemy
 {
 public:
 
@@ -40,6 +40,7 @@ public:
 	float length(sf::Vector2f vel);
 	float mag(sf::Vector2f & v);
 
+	int getId() { return m_id; }
 private:
 	
 	sf::Vector2f m_position;
@@ -97,6 +98,8 @@ private:
 
 	bool startTimer = false;
 	bool m_begin = false;
+
+	int m_id = 4;
 };
 
 #endif

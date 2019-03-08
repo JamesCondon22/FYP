@@ -12,7 +12,7 @@ EfficiencyAI::EfficiencyAI(std::vector<sf::CircleShape> & path, std::vector<Obst
 	m_nodes(path),
 	m_obstacles(obs)
 {
-	if (!m_texture.loadFromFile("resources/assets/EfficiencyAI.png")) {
+	if (!m_texture.loadFromFile("resources/assets/enemyTwo.png")) {
 		//do something
 	}
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
@@ -36,6 +36,8 @@ EfficiencyAI::EfficiencyAI(std::vector<sf::CircleShape> & path, std::vector<Obst
 		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
 		m_lineVec.push_back(line);
 	}
+
+	m_rect.setFillColor(sf::Color::Green);
 }
 
 

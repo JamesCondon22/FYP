@@ -9,10 +9,11 @@
 #include "Obstacle.h"
 #include "DirectionalLine.h"
 #include <math.h>
+#include "Enemy.h"
 
 
 
-class DynamicVectorAI
+class DynamicVectorAI : public Enemy
 {
 public:
 	
@@ -41,6 +42,7 @@ public:
 	float length(sf::Vector2f vel);
 	float mag(sf::Vector2f & v);
 
+	int getId() { return m_id; }
 private:
 	
 	sf::Vector2f m_position;
@@ -98,6 +100,8 @@ private:
 
 	bool startTimer = false;
 	bool startMaps = false;
+
+	int m_id = 5;
 };
 
 #endif

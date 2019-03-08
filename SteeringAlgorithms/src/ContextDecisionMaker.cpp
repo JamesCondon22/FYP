@@ -53,7 +53,12 @@ void ContextDecisionMaker::update(std::map<Direction, double> distances, std::ma
 
 	m_PrevContext = interestMap;
 
+	if (previous != strongestInterest)
+	{
+		realPrevious = previous;
+	}
 
+	previous = strongestInterest;
 }
 
 
@@ -66,6 +71,11 @@ Direction ContextDecisionMaker::getStrongest()
 Direction ContextDecisionMaker::getBlendedStrongest()
 {
 	return blendedInterest;
+}
+
+Direction ContextDecisionMaker::getPrevious()
+{
+	return realPrevious;
 }
 
 std::vector<int> ContextDecisionMaker::getAverage()

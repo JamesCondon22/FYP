@@ -8,8 +8,9 @@
 #include "MathHelper.h"
 #include "Obstacle.h"
 #include "DirectionalLine.h"
+#include "Enemy.h"
 
-class FrayAI
+class FrayAI : public Enemy
 {
 public:
 	FrayAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs);
@@ -37,6 +38,8 @@ public:
 	float length(sf::Vector2f vel);
 
 	bool compareKeys(std::map<Direction, sf::Vector2f> vec);
+
+	int getId() { return m_id; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -86,6 +89,8 @@ private:
 
 	int m_size = 16;
 	std::vector<DirectionalLine> m_lineVec;
+
+	int m_id = 1;
 };
 
 #endif

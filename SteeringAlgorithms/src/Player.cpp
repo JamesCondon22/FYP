@@ -10,7 +10,7 @@ Player::Player() :
 	m_speed(0),
 	MAX_SPEED(350)
 {
-	if (!m_texture.loadFromFile("resources/assets/triangle.png")) {
+	if (!m_texture.loadFromFile("resources/assets/enemy.png")) {
 		//do something
 	}
 	m_rect.setOrigin(m_position.x + 75 / 2, m_position.y + 50 / 2);

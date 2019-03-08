@@ -12,7 +12,7 @@ InterpolatingTwo::InterpolatingTwo(std::vector<sf::CircleShape> & path, std::vec
 	m_nodes(path),
 	m_obstacles(obs)
 {
-	if (!m_texture.loadFromFile("resources/assets/LerpAI.png")) {
+	if (!m_texture.loadFromFile("resources/assets/enemyTwo.png")) {
 		//do something
 	}
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
@@ -36,6 +36,9 @@ InterpolatingTwo::InterpolatingTwo(std::vector<sf::CircleShape> & path, std::vec
 		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
 		m_lineVec.push_back(line);
 	}
+
+	m_rect.setFillColor(sf::Color::Cyan);
+
 }
 
 
@@ -76,6 +79,7 @@ void InterpolatingTwo::render(sf::RenderWindow & window)
 
 	window.draw(m_surroundingCircle);
 	window.draw(m_rect);
+	//m_rect.setFillColor(sf::Color::Red);
 	
 }
 
@@ -183,6 +187,7 @@ steering InterpolatingTwo::seek(sf::Vector2f position)
 	return seekSteering;
 }
 
+
 void InterpolatingTwo::calculation() {
 
 	if (m_velocity.x != 0 || m_velocity.y != 0)
@@ -193,6 +198,7 @@ void InterpolatingTwo::calculation() {
 		m_rotation = getNewOrientation(m_rotation, m_velocity);
 	}
 }
+
 
 float InterpolatingTwo::mag(sf::Vector2f & v)
 {
@@ -236,14 +242,19 @@ bool InterpolatingTwo::compareKeys(std::map<Direction, sf::Vector2f> vec) {
 
 void InterpolatingTwo::checkDirection()
 {
+	auto tempDirection = curDirection;
+
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
 		if (mapDecisions.getBlendedStrongest() == it->getState()) {
-			curDirection = it->getMap()[mapDecisions.getBlendedStrongest()];
+			m_prevDirection = it->getMap()[mapDecisions.getBlendedStrongest()];
 			it->changeColor();
 		}
 	}
+
+	curDirection = Math::lerp(tempDirection, m_prevDirection, 0.08);
 }
+
 
 void InterpolatingTwo::initVector()
 {

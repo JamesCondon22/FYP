@@ -32,6 +32,7 @@ public:
 	ContextMap FillBlendMap(ContextMap previous, ContextMap current);
 	Direction getStrongest();
 	Direction getBlendedStrongest();
+	Direction getPrevious();
 
 	std::vector<int> getAverage();
 	void update(std::map<Direction, double> distances, std::map<Direction, double> dangers);
@@ -39,9 +40,13 @@ private:
 	int noOfDirections = 8;
 	Direction strongestInterest;
 	Direction blendedInterest;
+	Direction previous;
+	Direction realPrevious;
 
 	ContextMap m_PrevContext;
 	ContextMap newMap;
 	//std::map<Direction, double> m_strongestInterest;
+
+
 };
 

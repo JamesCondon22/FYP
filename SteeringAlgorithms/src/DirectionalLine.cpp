@@ -64,7 +64,7 @@ sf::Vector2f DirectionalLine::alignVec(sf::Vector2f direction)
 
 void DirectionalLine::rotateLine(sf::Vector2f position, sf::Vector2f interestPosition, float direction, sf::Vector2f current)
 {
-	if (direction < 0)
+	/*if (direction < 0)
 	{
 		RotateDirection = "LEFT";
 	}
@@ -90,7 +90,7 @@ void DirectionalLine::rotateLine(sf::Vector2f position, sf::Vector2f interestPos
 	else
 	{
 		angle -= 0.5;
-	}
+	}*/
 
 	//std::cout << getAngleBetween(interestPosition, current) << std::endl;
 	
@@ -162,6 +162,7 @@ void DirectionalLine::calculateAverage(std::vector<int> indices)
 		for (int i = 0; i < indices.size(); i++)
 		{
 			auto cur = static_cast<Direction>(indices[i]);
+
 			if (cur == it->first)
 			{
 				averagePosition += it->second;
@@ -171,7 +172,25 @@ void DirectionalLine::calculateAverage(std::vector<int> indices)
 
 	averagePosition.x = averagePosition.x / indices.size();
 	averagePosition.y = averagePosition.y / indices.size();
-	std::cout << averagePosition.x << std::endl;
+}
+
+
+sf::Vector2f DirectionalLine::getVector(int ind)
+{
+	std::map<Direction, sf::Vector2f>::iterator it;
+	
+	sf::Vector2f pos;
+
+	for (it = m_map.begin(); it != m_map.end(); it++)
+	{
+		auto cur = static_cast<Direction>(ind);
+		if (cur == it->first)
+		{
+			pos = it->second;
+		}
+	}
+
+	return pos;
 }
 
 

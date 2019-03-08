@@ -12,7 +12,7 @@ InterpolatingAI::InterpolatingAI(std::vector<sf::CircleShape> & path, std::vecto
 	m_nodes(path),
 	m_obstacles(obs)
 {
-	if (!m_texture.loadFromFile("resources/assets/LerpAI.png")) {
+	if (!m_texture.loadFromFile("resources/assets/enemyTwo.png")) {
 		//do something
 	}
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
@@ -36,6 +36,8 @@ InterpolatingAI::InterpolatingAI(std::vector<sf::CircleShape> & path, std::vecto
 		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
 		m_lineVec.push_back(line);
 	}
+	m_rect.setFillColor(sf::Color::Yellow);
+
 }
 
 
@@ -93,6 +95,7 @@ void InterpolatingAI::updateLines(sf::Vector2f position)
 	vecToNode = getCurrentNodePosition();
 	
 	int count = 0;
+	
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
 		m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), vecToNode);
@@ -180,6 +183,7 @@ steering InterpolatingAI::seek(sf::Vector2f position)
 	return seekSteering;
 }
 
+
 void InterpolatingAI::calculation() {
 
 	if (m_velocity.x != 0 || m_velocity.y != 0)
@@ -196,6 +200,7 @@ float InterpolatingAI::mag(sf::Vector2f & v)
 {
 	return std::sqrt((v.x * v.x) + (v.y * v.y));
 }
+
 
 /// <summary>
 /// 
@@ -248,6 +253,7 @@ void InterpolatingAI::checkDirection()
 
 	curDirection = Math::lerp(temporaryDir, average, 0.08);
 }
+
 
 void InterpolatingAI::initVector()
 {

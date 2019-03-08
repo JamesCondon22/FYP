@@ -12,7 +12,7 @@ DynamicVectorAI::DynamicVectorAI(std::vector<sf::CircleShape> & path, std::vecto
 	m_nodes(path),
 	m_obstacles(obs)
 {
-	if (!m_texture.loadFromFile("resources/assets/EfficiencyAI.png")) {
+	if (!m_texture.loadFromFile("resources/assets/enemyTwo.png")) {
 		//do something
 	}
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
@@ -36,6 +36,8 @@ DynamicVectorAI::DynamicVectorAI(std::vector<sf::CircleShape> & path, std::vecto
 		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
 		m_lineVec.push_back(line);
 	}
+
+	m_rect.setFillColor(sf::Color::Magenta);
 }
 
 
@@ -47,6 +49,8 @@ DynamicVectorAI::~DynamicVectorAI()
 
 void DynamicVectorAI::update(double dt, sf::Vector2f position)
 {
+	//m_rect.rotate(270);
+
 	auto current = AngleDir(getCurrentNodePosition(), curDirection);
 
 	for (int i = 0; i < m_size; i++) {
@@ -55,7 +59,7 @@ void DynamicVectorAI::update(double dt, sf::Vector2f position)
 	}
 
 	//std::cout << "DOT = " << current << std::endl;
-	//std::cout << "Angle Between = " << getAngleBetween(curDirection, getCurrentNodePosition()) << std::endl;
+	std::cout << "Angle Between = " << getAngleBetween(curDirection, getCurrentNodePosition()) << std::endl;
 
 	updateLines(position);
 	updateDangers();
@@ -90,11 +94,10 @@ float DynamicVectorAI::AngleDir(sf::Vector2f A, sf::Vector2f B)
 
 float DynamicVectorAI::getAngleBetween(sf::Vector2f posOne, sf::Vector2f posTwo)
 {
-	
-	auto dot = thor::dotProduct(posOne, posTwo);
-	auto res = mag(posOne) * mag(posTwo);
-	res = acos(dot / res);
-	return res * RAD_TO_DEG;
+
+	auto dist = Math::distance(m_surroundingCircle.getPosition(), getCurrentNodePosition());
+	auto ans = acos(40 / dist);
+	return ans;
 }
 
 
@@ -106,7 +109,6 @@ void DynamicVectorAI::render(sf::RenderWindow & window)
 
 	window.draw(m_surroundingCircle);
 	window.draw(m_rect);
-	
 }
 
 
@@ -153,23 +155,12 @@ void DynamicVectorAI::updateDangers()
 		}
 	}
 
-	if (obs->getID() != m_prevId)
-	{
-		MaxDistance = smallest;
-		std::cout << "ID = " << obs->getID() << std::endl;
-		std::cout << MaxDistance << std::endl;
-		WantedDistance = MaxDistance * .7;
-		startTimer = true;
-	}
-	
-
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
 		
 		m_distancesDanger[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), obs->getPosition());
 		count++;
 	}
-	m_prevId = obs->getID();
 }
 
 

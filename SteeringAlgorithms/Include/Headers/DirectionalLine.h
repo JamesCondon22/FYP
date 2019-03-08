@@ -30,7 +30,7 @@ public:
 	void changeColor();
 	void rotateLine(sf::Vector2f position, sf::Vector2f interestPosition, float direction, sf::Vector2f current);
 	void calculateAverage(std::vector<int> indices);
-	float getAngleBetween(sf::Vector2f posOne, sf::Vector2f posTwo);
+	sf::Vector2f getVector(int ind);
 	float mag(sf::Vector2f & v);
 private:
 	sf::Vertex m_line[2];

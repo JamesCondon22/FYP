@@ -12,7 +12,9 @@ FrayAI::FrayAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs)
 	m_nodes(path),
 	m_obstacles(obs)
 {
-	if (!m_texture.loadFromFile("resources/assets/frayAI.png")) {
+	
+
+	if (!m_texture.loadFromFile("resources/assets/enemyTwo.png")) {
 		//do something
 	}
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
@@ -36,6 +38,8 @@ FrayAI::FrayAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs)
 		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
 		m_lineVec.push_back(line);
 	}
+
+	m_rect.setFillColor(sf::Color::Red);
 }
 
 
@@ -48,6 +52,7 @@ void FrayAI::update(double dt, sf::Vector2f position)
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
+	//m_rect.rotate(90);
 
 	updateLines(position);
 	updateDangers();
