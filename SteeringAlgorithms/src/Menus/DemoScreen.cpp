@@ -33,6 +33,7 @@ DemoScreen::DemoScreen(GameState * state):
 
 	m_player = new Player();
 	m_trad = new Traditional(m_nodes, m_obstacles);
+	m_testBot = new TestBot(m_nodes, m_obstacles);
 
 	Enemy * aiOne = new FrayAI(m_nodes, m_obstacles);
 	Enemy * aiTwo = new InterpolatingAI(m_nodes, m_obstacles);
@@ -58,6 +59,8 @@ void DemoScreen::update(double dt)
 	m_player->update(dt);
 
 	//m_trad->update(dt, m_player->getPos(), m_player->getVel());
+
+	m_testBot->update(dt);
 
 	for (int i = 0; i < m_enemies.size(); i++)
 	{
@@ -87,10 +90,11 @@ void DemoScreen::render(sf::RenderWindow & window)
 	{
 		if (m_enemies[i]->getId() == 5)
 		{
-			m_enemies[i]->render(window);
+			//m_enemies[i]->render(window);
 		}
 	}
 
+	m_testBot->render(window);
 	//m_trad->render(m_window);
 }
 

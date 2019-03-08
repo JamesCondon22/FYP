@@ -18,7 +18,7 @@ EfficiencyAI::EfficiencyAI(std::vector<sf::CircleShape> & path, std::vector<Obst
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
 	m_rect.setTexture(&m_texture);
 	m_rect.setSize(sf::Vector2f(25, 50));
-	m_position = sf::Vector2f(1000, 1200);
+	m_position = sf::Vector2f(1800, 500);
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 

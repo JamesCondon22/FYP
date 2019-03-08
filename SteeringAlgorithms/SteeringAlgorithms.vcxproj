@@ -144,6 +144,7 @@
     <ClInclude Include="Include\Headers\Obstacle.h" />
     <ClInclude Include="Include\Headers\Player.h" />
     <ClInclude Include="Include\Headers\EfficiencyAI.h" />
+    <ClInclude Include="Include\Headers\TestBot.h" />
     <ClInclude Include="Include\Headers\Traditional.h" />
     <ClInclude Include="Include\Headers\Label.h" />
     <ClInclude Include="Include\Menus\DemoScreen.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="src\Obstacle.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\EfficiencyAI.cpp" />
+    <ClCompile Include="src\TestBot.cpp" />
     <ClCompile Include="src\Traditional.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

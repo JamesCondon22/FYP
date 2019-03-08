@@ -1,2 +1,30 @@
-﻿  Button.cpp
+﻿  TestBot.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\testbot.cpp(33): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\testbot.cpp(37): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\testbot.cpp(64): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\testbot.cpp(75): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\testbot.cpp(76): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\testbot.cpp(114): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\testbot.cpp(127): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\testbot.cpp(164): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\testbot.cpp(183): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\testbot.cpp(199): warning C4018: '>=': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\testbot.cpp(210): warning C4018: '<': signed/unsigned mismatch
+libyaml-cppmdd.lib(directives.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(directives.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(exp.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(exp.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(memory.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(memory.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(nodebuilder.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(nodebuilder.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(node_data.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(node_data.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(null.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(null.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(parse.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(parse.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(parser.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(parser.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(regex_yaml.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(regex_yaml.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(scanner.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(scanner.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(scanscalar.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(scanscalar.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(scantag.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(scantag.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(scantoken.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(scantoken.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(simplekey.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(simplekey.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(singledocparser.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(singledocparser.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(stream.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(stream.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(tag.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(tag.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\yaml-cpp static md.pdb'; linking object as if no debug info
   SteeringAlgorithms.vcxproj -> C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\SteeringAlgorithms.exe

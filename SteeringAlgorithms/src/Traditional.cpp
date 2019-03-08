@@ -34,7 +34,6 @@ Traditional::Traditional(std::vector<sf::CircleShape> & path, std::vector<Obstac
 	
 	line2.setFillColor(sf::Color::Red);
 	m_rect.setOrigin(m_position.x + 50 / 2, m_position.y + 25 / 2);
-	//m_rect.setPosition(200, 900);
 	m_rect.setPosition(m_position);
 	lines.push_back(line);
 	lines.push_back(line2);

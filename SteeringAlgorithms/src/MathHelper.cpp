@@ -14,8 +14,27 @@ namespace Math
 			(1.0f - value) * start.y + (value * end.y));
 	}
 
-	double newLerp(double &start, double &end, float value)
+
+	sf::Vector2f normalize(sf::Vector2f  & vec)
 	{
-		return (1.0f - value) * start + (value * end);
+		if (vec.x*vec.x + vec.y * vec.y != 0)
+		{
+			vec.x = vec.x / sqrt(vec.x*vec.x + vec.y * vec.y);
+			vec.y = vec.y / sqrt(vec.x*vec.x + vec.y * vec.y);
+		}
+		return vec;
+	}
+
+	sf::Vector2f scale(sf::Vector2f vec, double val)
+	{
+		vec.x = vec.x * val;
+		vec.y = vec.y * val;
+
+		return vec;
+	}
+
+	bool lineIntersectsCircle(sf::Vector2f vecOne, sf::Vector2f vecTwo, Obstacle* circle)
+	{
+		return distance(circle->getPosition(), vecOne) <= circle->getRadius() || distance(circle->getPosition(), vecTwo) <= circle->getRadius();
 	}
 }

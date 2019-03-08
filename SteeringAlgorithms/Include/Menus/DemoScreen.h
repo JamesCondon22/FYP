@@ -12,6 +12,7 @@
 #include "../Headers/LevelLoader.h"
 #include "../Headers/DynamicVectorAI.h"
 #include "../Headers/Enemy.h"
+#include "../Headers/TestBot.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -30,7 +31,9 @@ private:
 
 	Player* m_player;
 	Traditional * m_trad;
+	TestBot * m_testBot;
 
+	
 	std::vector<Obstacle*> m_obstacles;
 	std::vector<sf::CircleShape> m_circles;
 	std::vector<sf::CircleShape> m_nodes;
