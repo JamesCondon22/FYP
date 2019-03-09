@@ -97,6 +97,7 @@ private:
 
 	sf::Clock m_clock;
 	double m_currentTime;
+	sf::Time m_time;
 };
 
 #endif

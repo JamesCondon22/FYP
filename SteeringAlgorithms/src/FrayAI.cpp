@@ -71,7 +71,9 @@ void FrayAI::update(double dt, sf::Vector2f position)
 	
 	generatePath(dt);
 
-	m_clock
+	//m_currentTime += m_time.asMilliseconds();
+
+	std::cout << "Time = " << m_currentTime << std::endl;
 }
 
 
