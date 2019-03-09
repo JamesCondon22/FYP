@@ -322,3 +322,25 @@ sf::Vector2f InterpolatingAI::normalize(sf::Vector2f vec)
 	}
 	return vec;
 }
+
+
+void InterpolatingAI::generatePath(double dt)
+{
+	m_timeAmount += dt;
+
+	if (m_timeAmount > 150)
+	{
+		Path * circle = new Path(3);
+		circle->setPosition(m_position);
+		m_pathLine.push_back(circle);
+		m_timeAmount = 0;
+		if (m_lastPathCircle != nullptr)
+		{
+			auto dist = Math::distance(m_lastPathCircle->getPosition(), circle->getPosition());
+			m_totalPathLength += dist;
+		}
+		m_lastPathCircle = circle;
+	}
+
+	//std::cout << "Length = " << m_totalPathLength << std::endl;
+}

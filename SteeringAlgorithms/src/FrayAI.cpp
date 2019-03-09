@@ -40,6 +40,8 @@ FrayAI::FrayAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs)
 	}
 
 	m_rect.setFillColor(sf::Color::Red);
+	//m_rotation = 180;
+	m_rect.rotate(90);
 }
 
 
@@ -52,7 +54,7 @@ void FrayAI::update(double dt, sf::Vector2f position)
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
-	//m_rect.rotate(90);
+	
 
 	updateLines(position);
 	updateDangers();
@@ -67,16 +69,9 @@ void FrayAI::update(double dt, sf::Vector2f position)
 	m_rect.setPosition(m_position);
 	m_surroundingCircle.setPosition(m_position);
 	
-	m_timeAmount += dt;
+	generatePath(dt);
 
-	if (m_timeAmount > 100)
-	{
-		Path * circle = new Path(2);
-		circle->setPosition(m_position);
-		m_pathLine.push_back(circle);
-		m_timeAmount = 0;
-	}
-	
+	m_clock
 }
 
 
@@ -320,6 +315,7 @@ sf::Vector2f FrayAI::getCurrentNodePosition()
 	return target;
 }
 
+
 sf::Vector2f FrayAI::normalize(sf::Vector2f vec)
 {
 	if (vec.x*vec.x + vec.y * vec.y != 0)
@@ -328,4 +324,26 @@ sf::Vector2f FrayAI::normalize(sf::Vector2f vec)
 		vec.y = vec.y / sqrt(vec.x*vec.x + vec.y * vec.y);
 	}
 	return vec;
+}
+
+
+void FrayAI::generatePath(double dt)
+{
+	m_timeAmount += dt;
+
+	if (m_timeAmount > 150)
+	{
+		Path * circle = new Path(3);
+		circle->setPosition(m_position);
+		m_pathLine.push_back(circle);
+		m_timeAmount = 0;
+		if (m_lastPathCircle != nullptr)
+		{
+			auto dist = Math::distance(m_lastPathCircle->getPosition(), circle->getPosition());
+			m_totalPathLength += dist;
+		}
+		m_lastPathCircle = circle;
+	}
+
+	//std::cout << "Length = " << m_totalPathLength << std::endl;
 }

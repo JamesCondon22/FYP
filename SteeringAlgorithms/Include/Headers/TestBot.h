@@ -19,21 +19,17 @@ public:
 	float getNewOrientation(float currentOrientation, float velocity);
 	sf::Vector2f getCurrentNodePosition();
 	sf::Vector2f seek();
-	void respawn(float x, float y);
+
 	float getRandom(int x, int y);
 	void update(double dt);
 	void render(sf::RenderWindow & window);
 	sf::Vector2f getVelocity();
 	sf::Vector2f getPosition();
-	int getId();
-	sf::Vector2f normalize(sf::Vector2f vec);
-	sf::Vector2f scale(sf::Vector2f vec, double val);
-
 	sf::Vector2f ObstacleAvoidance();
 	Obstacle * findMostThreathening();
-	float distance(sf::Vector2f pos, sf::Vector2f obst);
-	bool lineIntersectsCircle(sf::Vector2f vecOne, sf::Vector2f vecTwo, Obstacle *circle);
 	sf::Vector2f truncate(sf::Vector2f v, float const num);
+
+	int getRadius() { return m_radius; }
 private:
 	float m_timeToTarget;
 	sf::Vector2f m_position;
@@ -56,7 +52,6 @@ private:
 	sf::Vector2f m_relVelocity;
 	sf::Vector2f m_relPosition;
 	float m_relSpeed;
-	float m_radius;
 	sf::Vector2f m_firstRelativePos;
 	sf::Vector2f m_firstRelativeVel;
 
@@ -77,8 +72,9 @@ private:
 	std::vector<sf::CircleShape> m_nodes;
 	std::vector<Obstacle*> m_obstacles;
 	int currentNode = 0;
+	int m_radius = 30;
 
-	
+	sf::CircleShape m_surroundingCircle;
 };
 
 

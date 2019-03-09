@@ -37,4 +37,18 @@ namespace Math
 	{
 		return distance(circle->getPosition(), vecOne) <= circle->getRadius() || distance(circle->getPosition(), vecTwo) <= circle->getRadius();
 	}
+
+	bool circleCollision(sf::Vector2f vecOne, sf::Vector2f vecTwo, int r1, int r2)
+	{
+		int x1 = vecOne.x;
+		int y1 = vecOne.y;
+		int x2 = vecTwo.x;
+		int y2 = vecTwo.y;
+
+		if (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) < (r1 + r2))
+		{
+			return true;
+		}
+		return false;
+	}
 }

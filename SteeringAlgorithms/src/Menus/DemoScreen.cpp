@@ -47,7 +47,7 @@ DemoScreen::DemoScreen(GameState * state):
 	m_enemies.push_back(aiFour);
 	m_enemies.push_back(aiFive);
 
-	
+	m_file.open("resources/assets/DemoFile.txt");
 }
 
 DemoScreen::~DemoScreen()
@@ -70,10 +70,8 @@ void DemoScreen::update(double dt, int id)
 	m_player->update(dt);
 	
 	if (m_startDemonstration) {
-		//m_trad->update(dt, m_player->getPos(), m_player->getVel());
-		
+
 		m_cumulativeTime += m_clock.restart().asMilliseconds();
-		std::cout << "Time = " << m_cumulativeTime << std::endl;
 
 		m_testBot->update(dt);
 
@@ -84,10 +82,14 @@ void DemoScreen::update(double dt, int id)
 				m_enemies[i]->setActive(true);
 			}
 			if (m_cumulativeTime > MAX_TIME) {
+
 				if (m_enemies[i]->getActive())
 				{
 					m_enemies[i]->update(dt, m_testBot->getPosition());
+
+					checkCollision(m_testBot, m_enemies[i]);
 				}
+				
 			}
 
 		}
@@ -122,6 +124,22 @@ void DemoScreen::render(sf::RenderWindow & window)
 	}
 
 	m_testBot->render(window);
-	//m_trad->render(m_window);
+}
+
+
+void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy)
+{
+	sf::Vector2f v1 = bot->getPosition();
+	sf::Vector2f v2 = enemy->getPos();
+	int rad = bot->getRadius();
+
+	if (Math::circleCollision(v1, v2, rad, rad))
+	{
+		m_file << enemy->getId() << ": " << enemy->getPathLength();
+		m_file.close();
+
+		*m_currentState = GameState::Options;
+	}
+
 }
 

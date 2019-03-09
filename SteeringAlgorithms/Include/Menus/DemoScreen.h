@@ -16,6 +16,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <fstream>
 #include <vector>
 
 class DemoScreen
@@ -25,6 +26,7 @@ public:
 	~DemoScreen();
 	void update(double dt, int active);
 	void render(sf::RenderWindow& window);
+	void checkCollision(TestBot * bot, Enemy * enemy);
 
 private:
 	sf::Window m_window;
@@ -55,5 +57,7 @@ private:
 	double m_cumulativeTime;
 
 	double MAX_TIME = 3000.0;
+
+	std::ofstream m_file;
 };
 #endif // !

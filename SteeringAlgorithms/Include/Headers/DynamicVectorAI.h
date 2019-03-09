@@ -10,6 +10,7 @@
 #include "DirectionalLine.h"
 #include <math.h>
 #include "Enemy.h"
+#include "Path.h"
 
 
 
@@ -46,6 +47,10 @@ public:
 
 	bool getActive() { return m_active; }
 	void setActive(bool active) { m_active = active; }
+
+	void generatePath(double dt);
+	double getPathLength() { return m_totalPathLength; }
+	double getInterceptionTime() { return m_currentTime; }
 private:
 	
 	sf::Vector2f m_position;
@@ -107,6 +112,17 @@ private:
 	int m_id = 5;
 
 	bool m_active = false;
+
+	std::vector<Path*> m_pathLine;
+
+	double m_timeAmount = 0;
+	double m_totalPathLength = 0;
+
+	Path * m_currentPathCircle;
+	Path * m_lastPathCircle;
+
+	sf::Clock m_clock;
+	double m_currentTime;
 };
 
 #endif

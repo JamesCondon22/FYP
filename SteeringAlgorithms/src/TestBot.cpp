@@ -42,6 +42,12 @@ TestBot::TestBot(std::vector<sf::CircleShape> & path, std::vector<Obstacle*> obs
 
 	m_rotation = 180;
 	m_rect.rotate(180);
+
+	m_surroundingCircle.setRadius(m_radius);
+	m_surroundingCircle.setPosition(0, 0);
+	m_surroundingCircle.setOrigin(m_surroundingCircle.getRadius(), m_surroundingCircle.getRadius());
+	m_surroundingCircle.setPosition(m_position);
+	m_surroundingCircle.setFillColor(sf::Color(0, 0, 0, 40));
 }
 
 
@@ -97,6 +103,7 @@ sf::Vector2f TestBot::seek()
 
 void TestBot::update(double dt)
 {
+
 	m_steering += seek();
 
 	m_steering += ObstacleAvoidance();
@@ -128,7 +135,7 @@ void TestBot::update(double dt)
 	m_position += m_velocity;
 	m_rect.setPosition(m_position);
 	m_rect.setRotation(m_rotation);
-
+	m_surroundingCircle.setPosition(m_position);
 
 	for (int i = 0; i < lines.size(); i++) {
 		lines[i].setPosition(m_position.x, m_position.y);
@@ -214,6 +221,8 @@ sf::Vector2f TestBot::getCurrentNodePosition()
 
 void TestBot::render(sf::RenderWindow & window)
 {
+	window.draw(m_surroundingCircle);
+
 	for (int i = 0; i < lines.size(); i++)
 	{
 		window.draw(lines[i]);
