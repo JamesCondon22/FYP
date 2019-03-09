@@ -17,9 +17,75 @@ MainMenu::~MainMenu()
 }
 
 
-void MainMenu::update(double dt)
+void MainMenu::update(double dt, sf::Window & window)
 {
-	
+	m_mousePosition = sf::Mouse::getPosition(window);
+
+	for (int i = 0; i < m_buttons.size(); i++)
+	{
+		if (m_buttons[i]->checkCollision(m_mousePosition))
+		{
+			handleInputs(*m_buttons[i]);
+		}
+	}
+}
+
+/// <summary>
+/// checks if the mouse button is pressed
+/// sets pressed to false as to check only once
+/// </summary>
+/// <param name="button">the current button being pressed</param>
+void MainMenu::handleInputs(Button & button)
+{
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && m_pressed == false)
+	{
+
+		if (button.getString() == "RUN")
+		{
+			*m_currentState = GameState::Demo;
+		}
+		if (button.getString() == "1")
+		{
+			m_activatedAI = atoi("1");
+			button.setPressed(true);
+			button.update();
+		}
+		if (button.getString() == "2")
+		{
+			m_activatedAI = atoi("2");
+			button.setPressed(true);
+			button.update();
+		}
+		if (button.getString() == "3")
+		{
+			m_activatedAI = atoi("3");
+			button.setPressed(true);
+			button.update();
+		}
+		if (button.getString() == "4")
+		{
+			m_activatedAI = atoi("4");
+			button.setPressed(true);
+			button.update();
+		}
+		if (button.getString() == "5")
+		{
+			m_activatedAI = atoi("5");
+			button.setPressed(true);
+			button.update();
+		}
+		if (button.getString() == "6")
+		{
+		}
+
+		m_pressed = true;
+	}
+}
+ 
+
+void MainMenu::checkButtons(std::string name)
+{
+
 }
 
 

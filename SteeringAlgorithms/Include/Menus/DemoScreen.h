@@ -23,7 +23,7 @@ class DemoScreen
 public:
 	DemoScreen(GameState * state);
 	~DemoScreen();
-	void update(double dt);
+	void update(double dt, int active);
 	void render(sf::RenderWindow& window);
 
 private:
@@ -46,6 +46,14 @@ private:
 
 	GameState * m_currentState;
 
-	
+	bool m_startDemonstration = false;
+	bool m_pressed = false;
+
+	sf::Time m_timer;
+	sf::Clock m_clock;
+
+	double m_cumulativeTime;
+
+	double MAX_TIME = 3000.0;
 };
 #endif // !

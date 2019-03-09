@@ -19,6 +19,8 @@ public:
 	virtual sf::Vector2f getVel() = 0;
 	virtual sf::Vector2f getPos() = 0;
 	virtual int getId() = 0;
+	virtual bool getActive() = 0;
+	virtual void setActive(bool active) = 0;
 };
 
 #endif

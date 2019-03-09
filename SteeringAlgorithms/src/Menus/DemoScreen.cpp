@@ -46,6 +46,8 @@ DemoScreen::DemoScreen(GameState * state):
 	m_enemies.push_back(aiThree);
 	m_enemies.push_back(aiFour);
 	m_enemies.push_back(aiFive);
+
+	
 }
 
 DemoScreen::~DemoScreen()
@@ -54,21 +56,46 @@ DemoScreen::~DemoScreen()
 }
 
 
-void DemoScreen::update(double dt)
+void DemoScreen::update(double dt, int id)
 {
-	m_player->update(dt);
-
-	//m_trad->update(dt, m_player->getPos(), m_player->getVel());
-
-	m_testBot->update(dt);
-
-	for (int i = 0; i < m_enemies.size(); i++)
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
-		if (m_enemies[i]->getId() == 5)
-		{
-			m_enemies[i]->update(dt, m_player->getPos());
-		}
+		m_pressed = false;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !m_pressed)
+	{
+		m_startDemonstration = true;
+	}
+	
+	m_player->update(dt);
+	
+	if (m_startDemonstration) {
+		//m_trad->update(dt, m_player->getPos(), m_player->getVel());
+		
+		m_cumulativeTime += m_clock.restart().asMilliseconds();
+		std::cout << "Time = " << m_cumulativeTime << std::endl;
 
+		m_testBot->update(dt);
+
+		for (int i = 0; i < m_enemies.size(); i++)
+		{
+			if (!m_enemies[i]->getActive() && m_enemies[i]->getId() == id)
+			{
+				m_enemies[i]->setActive(true);
+			}
+			if (m_cumulativeTime > MAX_TIME) {
+				if (m_enemies[i]->getActive())
+				{
+					m_enemies[i]->update(dt, m_testBot->getPosition());
+				}
+			}
+
+		}
+		
+	}
+	else
+	{
+		m_clock.restart() = sf::Time::Zero;
 	}
 }
 
@@ -88,9 +115,9 @@ void DemoScreen::render(sf::RenderWindow & window)
 
 	for (int i = 0; i < m_enemies.size(); i++)
 	{
-		if (m_enemies[i]->getId() == 5)
+		if (m_enemies[i]->getActive())
 		{
-			//m_enemies[i]->render(window);
+			m_enemies[i]->render(window);
 		}
 	}
 

@@ -142,6 +142,7 @@
     <ClInclude Include="Include\Headers\main.h" />
     <ClInclude Include="Include\Headers\MathHelper.h" />
     <ClInclude Include="Include\Headers\Obstacle.h" />
+    <ClInclude Include="Include\Headers\Path.h" />
     <ClInclude Include="Include\Headers\Player.h" />
     <ClInclude Include="Include\Headers\EfficiencyAI.h" />
     <ClInclude Include="Include\Headers\TestBot.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="src\Menus\MainMenu.cpp" />
     <ClCompile Include="src\Menus\Options.cpp" />
     <ClCompile Include="src\Obstacle.cpp" />
+    <ClCompile Include="src\Path.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\EfficiencyAI.cpp" />
     <ClCompile Include="src\TestBot.cpp" />

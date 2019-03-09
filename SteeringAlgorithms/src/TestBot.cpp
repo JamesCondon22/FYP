@@ -25,17 +25,23 @@ TestBot::TestBot(std::vector<sf::CircleShape> & path, std::vector<Obstacle*> obs
 	line2.setFillColor(sf::Color::Red);
 	m_rect.setOrigin(m_position.x + 50 / 2, m_position.y + 25 / 2);
 
-	m_position = sf::Vector2f(1800, 500);
-	m_rect.setPosition(m_position);
 	lines.push_back(line);
 	lines.push_back(line2);
-	
+
 	for (int i = 0; i < lines.size(); i++) {
-		lines[i].setOrigin(m_position);
+		lines[i].setOrigin(m_position.x - 25, m_position.y + 1);
 	}
+	m_position = sf::Vector2f(1800, 500);
+
+	m_rect.setPosition(m_position);
+
+	m_rect.setFillColor(sf::Color(220, 53, 44));
+	m_rect.setOutlineColor(sf::Color::Black);
 
 	srand(time(NULL));
 
+	m_rotation = 180;
+	m_rect.rotate(180);
 }
 
 
@@ -125,7 +131,7 @@ void TestBot::update(double dt)
 
 
 	for (int i = 0; i < lines.size(); i++) {
-		lines[i].setPosition(m_position);
+		lines[i].setPosition(m_position.x, m_position.y);
 		lines[i].setRotation(m_rotation);
 	}
 }
@@ -135,7 +141,8 @@ sf::Vector2f TestBot::ObstacleAvoidance() {
 
 	auto norm = thor::unitVector(m_velocity);
 	auto headingRadians = thor::toRadian(m_rotation);
-	auto dynamic = thor::length(m_velocity) / 10.0f;
+	auto dynamic = thor::length(m_velocity);
+	
 	sf::Vector2f headingVector(cos(headingRadians) * dynamic, sin(headingRadians) * dynamic);
 
 	ahead = m_position + norm + headingVector;
@@ -193,7 +200,7 @@ sf::Vector2f TestBot::getCurrentNodePosition()
 
 	target = m_nodes[currentNode].getPosition();
 
-	if (Math::distance(m_position, target) <= 50)
+	if (Math::distance(m_position, target) <= 150)
 	{
 		currentNode += 1;
 		if (currentNode >= m_nodes.size()) {

@@ -25,7 +25,7 @@ Game::Game()
 
 	m_currentState = new GameState;
 
-	*m_currentState = GameState::Demo;
+	*m_currentState = GameState::Menu;
 
 
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
@@ -97,8 +97,24 @@ void Game::processEvents()
 /// <param name="event">system event</param>
 void Game::processGameEvents(sf::Event& event)
 {
-
-
+	
+	if (event.type == sf::Event::MouseButtonReleased)
+	{
+		switch (*m_currentState)
+		{
+		case GameState::None:
+			break;
+		case GameState::Menu:
+			mainMenu->m_pressed = false;
+			break;
+		case GameState::Demo:
+			break;
+		case GameState::Options:
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 
@@ -115,10 +131,10 @@ void Game::update(double dt)
 	case GameState::None:
 		break;
 	case GameState::Menu:
-		mainMenu->update(dt);
+		mainMenu->update(dt, m_window);
 		break;
 	case GameState::Demo:
-		m_demoScreen->update(dt);
+		m_demoScreen->update(dt, mainMenu->getActivatedAI());
 		break;
 	case GameState::Options:
 		m_options->update(dt);

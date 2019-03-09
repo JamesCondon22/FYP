@@ -84,6 +84,9 @@
     <ClInclude Include="Include\Headers\TestBot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Headers\Path.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EfficiencyAI.cpp">
@@ -144,6 +147,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\TestBot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Path.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

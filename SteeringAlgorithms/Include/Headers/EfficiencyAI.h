@@ -41,6 +41,9 @@ public:
 	float mag(sf::Vector2f & v);
 
 	int getId() { return m_id; }
+
+	bool getActive() { return m_active; }
+	void setActive(bool active) { m_active = active; }
 private:
 	
 	sf::Vector2f m_position;
@@ -100,6 +103,8 @@ private:
 	bool m_begin = false;
 
 	int m_id = 4;
+
+	bool m_active = false;
 };
 
 #endif

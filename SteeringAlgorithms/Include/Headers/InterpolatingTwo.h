@@ -40,6 +40,10 @@ public:
 	bool compareKeys(std::map<Direction, sf::Vector2f> vec);
 
 	int getId() { return m_id; }
+
+	bool getActive() { return m_active; }
+	void setActive(bool active) { m_active = active; }
+
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -57,20 +61,6 @@ private:
 	ContextDecisionMaker mapDecisions;
 	sf::CircleShape m_surroundingCircle;
 
-	std::vector<std::pair<sf::Vertex, sf::Vertex>> LINES;
-	sf::Vertex line[2]; sf::Vertex line2[2];
-	sf::Vertex line3[2]; sf::Vertex line4[2];
-	sf::Vertex line5[2]; sf::Vertex line6[2];
-	sf::Vertex line7[2]; sf::Vertex line8[2];
-	sf::Vertex line9[2]; sf::Vertex line10[2];
-	sf::Vertex line11[2]; sf::Vertex line12[2];
-	sf::Vertex line13[2]; sf::Vertex line14[2];
-	sf::Vertex line15[2]; sf::Vertex line16[2];
-
-	sf::Vector2f UpRadial = sf::Vector2f(0,0);
-	std::vector<sf::Vector2f> m_distVecs;
-	/*std::vector<std::pair<double, std::string>> m_distances;
-	std::vector<std::pair<double, std::string>> m_distancesDanger;*/
 
 	std::map<Direction, double> m_distances;
 	std::map<Direction, double> m_distancesDanger;
@@ -95,6 +85,8 @@ private:
 	sf::Vector2f m_curPrevious;
 
 	int m_id = 3;
+
+	bool m_active = false;
 };
 
 #endif

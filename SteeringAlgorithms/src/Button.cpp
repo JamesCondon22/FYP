@@ -5,7 +5,8 @@ Button::Button(sf::Vector2f pos, float width, float height, sf::Texture & textur
 	m_position(pos),
 	m_width(width),
 	m_height(height),
-	m_font(font)
+	m_font(font),
+	m_label(label)
 {
 	m_rect.setSize(sf::Vector2f(m_width, m_height));
 	m_rect.setPosition(m_position);
@@ -37,7 +38,24 @@ Button::~Button()
 
 void Button::update()
 {
+	if (m_pressed)
+	{
+		m_text.setFillColor(sf::Color::White);
+	}
+}
 
+
+bool Button::checkCollision(sf::Vector2i & pos)
+{
+	if (pos.x > m_position.x && pos.x < m_position.x + m_width &&
+		pos.y > m_position.y && pos.y < m_position.y + m_height)
+	{
+		return true;	
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void Button::render(sf::RenderWindow & window)
