@@ -23,6 +23,8 @@ public:
 	virtual void setActive(bool active) = 0;
 	virtual double getPathLength() = 0;
 	virtual double getInterceptionTime() = 0;
+	virtual double getAverageExecTime() = 0;
+	virtual void setCollided(bool collide) = 0;
 };
 
 #endif

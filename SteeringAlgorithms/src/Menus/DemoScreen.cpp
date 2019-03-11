@@ -89,14 +89,11 @@ void DemoScreen::update(double dt, int id)
 
 					checkCollision(m_testBot, m_enemies[i]);
 				}
-				
 			}
-
-		}
-		
+		}	
 	}
-	else
-	{
+	else {
+
 		m_clock.restart() = sf::Time::Zero;
 	}
 }
@@ -135,7 +132,12 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy)
 
 	if (Math::circleCollision(v1, v2, rad, rad))
 	{
-		m_file << enemy->getId() << ": " << enemy->getPathLength();
+		enemy->setCollided(true);
+
+		m_file << enemy->getId() << ": " << enemy->getPathLength() << std::endl;
+		m_file << enemy->getId() << ": " << enemy->getInterceptionTime() << std::endl;
+		m_file << enemy->getId() << ": " << enemy->getAverageExecTime()  << std::endl;
+
 		m_file.close();
 
 		*m_currentState = GameState::Options;

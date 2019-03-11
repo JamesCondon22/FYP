@@ -42,6 +42,8 @@ FrayAI::FrayAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs)
 	m_rect.setFillColor(sf::Color::Red);
 	//m_rotation = 180;
 	m_rect.rotate(90);
+
+	//m_clock.restart().Zero;
 }
 
 
@@ -55,7 +57,6 @@ void FrayAI::update(double dt, sf::Vector2f position)
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
 	
-
 	updateLines(position);
 	updateDangers();
 	m_distances = normalize(m_distances);
@@ -66,14 +67,14 @@ void FrayAI::update(double dt, sf::Vector2f position)
 	m_position += m_steering.linear;
 	m_position = sf::Vector2f(m_position.x + std::cos(DEG_TO_RAD  * (m_rotation)) * m_speed * (dt / 1000),
 		m_position.y + std::sin(DEG_TO_RAD * (m_rotation)) * m_speed* (dt / 1000));
+
 	m_rect.setPosition(m_position);
 	m_surroundingCircle.setPosition(m_position);
 	
 	generatePath(dt);
+	handleTimer();
 
-	//m_currentTime += m_time.asMilliseconds();
-
-	std::cout << "Time = " << m_currentTime << std::endl;
+	m_tickCounter += 1;
 }
 
 
@@ -347,5 +348,15 @@ void FrayAI::generatePath(double dt)
 		m_lastPathCircle = circle;
 	}
 
-	//std::cout << "Length = " << m_totalPathLength << std::endl;
+}
+
+void FrayAI::handleTimer()
+{
+	m_currentTime += m_clock.restart().asMilliseconds();
+
+	if (!m_startTimer)
+	{
+		m_currentTime -= m_currentTime;
+		m_startTimer = true;
+	}
 }

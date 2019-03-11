@@ -45,6 +45,7 @@ EfficiencyAI::~EfficiencyAI()
 {
 }
 
+
 void EfficiencyAI::update(double dt, sf::Vector2f position)
 {
 	
@@ -119,6 +120,7 @@ void EfficiencyAI::updateLines(sf::Vector2f position)
 		count++;
 	}
 }
+
 
 void EfficiencyAI::updateDangers()
 {
@@ -211,6 +213,7 @@ steering EfficiencyAI::seek(sf::Vector2f position)
 	seekSteering.angular = 0.0;
 	return seekSteering;
 }
+
 
 void EfficiencyAI::calculation() {
 	
@@ -338,7 +341,6 @@ sf::Vector2f EfficiencyAI::normalize(sf::Vector2f vec)
 	}
 	return vec;
 }
-
 
 
 void EfficiencyAI::generatePath(double dt)

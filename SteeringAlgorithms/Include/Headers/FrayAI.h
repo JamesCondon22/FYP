@@ -44,9 +44,17 @@ public:
 
 	bool getActive() { return m_active; }
 	void setActive(bool active) { m_active = active; }
+	void setCollided(bool collide) { m_collided = collide; }
+
 	void generatePath(double dt);
+	void handleTimer();
 	double getPathLength() { return m_totalPathLength; }
 	double getInterceptionTime() { return m_currentTime; }
+	double getAverageExecTime()
+	{
+		m_averageExecTime = m_currentTime / m_tickCounter;
+		return m_averageExecTime; 
+	}
 
 private:
 	sf::Vector2f m_position;
@@ -86,6 +94,7 @@ private:
 	int m_id = 1;
 
 	bool m_active = false;
+	bool m_collided = false;
 
 	std::vector<Path*> m_pathLine;
 
@@ -98,6 +107,12 @@ private:
 	sf::Clock m_clock;
 	double m_currentTime;
 	sf::Time m_time;
+
+	bool m_startTimer = false;
+
+	double m_averageExecTime;
+	double m_tickCounter;
+	double m_lastUpdate;
 };
 
 #endif
