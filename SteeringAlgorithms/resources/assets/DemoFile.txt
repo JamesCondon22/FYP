@@ -1,3 +1,4 @@
-1: 3350.14
-1: 19776
-1: 6.08305
+1: Path length = 5125.16
+1: Interception Time = 30378
+1: Average Execution Time = 1004.96
+1: Time Efficiency = 6.08534

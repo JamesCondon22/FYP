@@ -47,9 +47,12 @@ public:
 	void setCollided(bool collide) { m_collided = collide; }
 
 	void generatePath(double dt);
+	void handleTimer();
+
 	double getPathLength() { return m_totalPathLength; }
 	double getInterceptionTime() { return m_currentTime; }
-	double getAverageExecTime() { return m_averageExecTime; }
+	double getAverageExecTime();
+	double getTimeEfficiency();
 
 private:
 	sf::Vector2f m_position;
@@ -104,11 +107,18 @@ private:
 	Path * m_currentPathCircle;
 	Path * m_lastPathCircle;
 
+	sf::Clock m_clock2;
 	sf::Clock m_clock;
 	double m_currentTime;
+	sf::Time m_time;
 	
+	bool m_startTimer = false;
+
+	double m_timeEfficiency;
 	double m_averageExecTime;
 	double m_tickCounter;
+	double m_lastUpdate;
+	double m_timer;
 
 };
 

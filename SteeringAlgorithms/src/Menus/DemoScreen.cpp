@@ -134,9 +134,10 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy)
 	{
 		enemy->setCollided(true);
 
-		m_file << enemy->getId() << ": " << enemy->getPathLength() << std::endl;
-		m_file << enemy->getId() << ": " << enemy->getInterceptionTime() << std::endl;
-		m_file << enemy->getId() << ": " << enemy->getAverageExecTime()  << std::endl;
+		m_file << enemy->getId() << ": Path length = " << enemy->getPathLength() << std::endl;
+		m_file << enemy->getId() << ": Interception Time = " << enemy->getInterceptionTime() << std::endl;
+		m_file << enemy->getId() << ": Average Execution Time = " << enemy->getAverageExecTime()  << std::endl;
+		m_file << enemy->getId() << ": Time Efficiency = " << enemy->getTimeEfficiency() << std::endl;
 
 		m_file.close();
 

@@ -48,6 +48,8 @@ InterpolatingTwo::~InterpolatingTwo()
 
 void InterpolatingTwo::update(double dt, sf::Vector2f position)
 {
+	m_clock2.restart();
+
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
@@ -68,6 +70,11 @@ void InterpolatingTwo::update(double dt, sf::Vector2f position)
 	m_rect.setPosition(m_position);
 	m_surroundingCircle.setPosition(m_position);
 	
+	generatePath(dt);
+	handleTimer();
+
+	m_tickCounter += 1;
+	m_time += m_clock2.getElapsedTime();
 }
 
 
@@ -102,7 +109,7 @@ void InterpolatingTwo::updateLines(sf::Vector2f position)
 	int count = 0;
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
-		m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), vecToNode);
+		m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), position);
 		count++;
 	}
 }
@@ -345,4 +352,30 @@ void InterpolatingTwo::generatePath(double dt)
 	}
 
 	//std::cout << "Length = " << m_totalPathLength << std::endl;
+}
+
+
+void InterpolatingTwo::handleTimer()
+{
+	m_currentTime += m_clock.restart().asMilliseconds();
+
+	if (!m_startTimer)
+	{
+		m_currentTime -= m_currentTime;
+		m_startTimer = true;
+	}
+}
+
+
+double InterpolatingTwo::getAverageExecTime()
+{
+	m_averageExecTime = (double)m_time.asMicroseconds() / m_tickCounter;
+	return m_averageExecTime;
+}
+
+
+double InterpolatingTwo::getTimeEfficiency()
+{
+	m_timeEfficiency = m_currentTime / m_tickCounter;
+	return m_timeEfficiency;
 }

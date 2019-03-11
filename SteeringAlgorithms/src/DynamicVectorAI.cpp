@@ -49,7 +49,7 @@ DynamicVectorAI::~DynamicVectorAI()
 
 void DynamicVectorAI::update(double dt, sf::Vector2f position)
 {
-	//m_rect.rotate(270);
+	m_clock2.restart();
 
 	auto current = AngleDir(getCurrentNodePosition(), curDirection);
 
@@ -59,7 +59,7 @@ void DynamicVectorAI::update(double dt, sf::Vector2f position)
 	}
 
 	//std::cout << "DOT = " << current << std::endl;
-	std::cout << "Angle Between = " << getAngleBetween(curDirection, getCurrentNodePosition()) << std::endl;
+	//std::cout << "Angle Between = " << getAngleBetween(curDirection, getCurrentNodePosition()) << std::endl;
 
 	updateLines(position);
 	updateDangers();
@@ -75,6 +75,12 @@ void DynamicVectorAI::update(double dt, sf::Vector2f position)
 
 	m_rect.setPosition(m_position);
 	m_surroundingCircle.setPosition(m_position);
+
+	generatePath(dt);
+	handleTimer();
+
+	m_tickCounter += 1;
+	m_time += m_clock2.getElapsedTime();
 }
 
 
@@ -132,7 +138,7 @@ void DynamicVectorAI::updateLines(sf::Vector2f position)
 	int count = 0;
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
-		m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), vecToNode);
+		m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), position);
 		count++;
 	}
 }
@@ -340,6 +346,18 @@ sf::Vector2f DynamicVectorAI::normalize(sf::Vector2f vec)
 }
 
 
+void DynamicVectorAI::handleTimer()
+{
+	m_currentTime += m_clock.restart().asMilliseconds();
+
+	if (!m_startTimer)
+	{
+		m_currentTime -= m_currentTime;
+		m_startTimer = true;
+	}
+}
+
+
 void DynamicVectorAI::generatePath(double dt)
 {
 	m_timeAmount += dt;
@@ -359,4 +377,18 @@ void DynamicVectorAI::generatePath(double dt)
 	}
 
 	//std::cout << "Length = " << m_totalPathLength << std::endl;
+}
+
+
+double DynamicVectorAI::getAverageExecTime()
+{
+	m_averageExecTime = (double)m_time.asMicroseconds() / m_tickCounter;
+	return m_averageExecTime;
+}
+
+
+double DynamicVectorAI::getTimeEfficiency()
+{
+	m_timeEfficiency = m_currentTime / m_tickCounter;
+	return m_timeEfficiency;
 }

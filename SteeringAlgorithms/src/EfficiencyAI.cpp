@@ -7,7 +7,7 @@ EfficiencyAI::EfficiencyAI(std::vector<sf::CircleShape> & path, std::vector<Obst
 	m_velocity(0, 0),
 	size(100),
 	m_rotation(0),
-	m_speed(1.5),
+	m_speed(1.5f),
 	MAX_SPEED(100),
 	m_nodes(path),
 	m_obstacles(obs)
@@ -48,10 +48,8 @@ EfficiencyAI::~EfficiencyAI()
 
 void EfficiencyAI::update(double dt, sf::Vector2f position)
 {
-	
+	m_clock2.restart();
 	m_timeSinceLast += dt;
-	
-	std::cout << m_timeSinceLast << std::endl;
 
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
@@ -79,6 +77,11 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 	m_rect.setPosition(m_position);
 
 	m_surroundingCircle.setPosition(m_position);
+	generatePath(dt);
+	handleTimer();
+
+	m_tickCounter += 1;
+	m_time += m_clock2.getElapsedTime();
 
 	m_begin = true;
 }
@@ -116,7 +119,7 @@ void EfficiencyAI::updateLines(sf::Vector2f position)
 	int count = 0;
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
-		m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), vecToNode);
+		m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), position);
 		count++;
 	}
 }
@@ -343,6 +346,7 @@ sf::Vector2f EfficiencyAI::normalize(sf::Vector2f vec)
 }
 
 
+
 void EfficiencyAI::generatePath(double dt)
 {
 	m_timeAmount += dt;
@@ -362,4 +366,30 @@ void EfficiencyAI::generatePath(double dt)
 	}
 
 	//std::cout << "Length = " << m_totalPathLength << std::endl;
+}
+
+
+void EfficiencyAI::handleTimer()
+{
+	m_currentTime += m_clock.restart().asMilliseconds();
+
+	if (!m_startTimer)
+	{
+		m_currentTime -= m_currentTime;
+		m_startTimer = true;
+	}
+}
+
+
+double EfficiencyAI::getAverageExecTime()
+{
+	m_averageExecTime = (double)m_time.asMicroseconds() / m_tickCounter;
+	return m_averageExecTime;
+}
+
+
+double EfficiencyAI::getTimeEfficiency()
+{
+	m_timeEfficiency = m_currentTime / m_tickCounter;
+	return m_timeEfficiency;
 }

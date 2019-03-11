@@ -53,6 +53,7 @@ FrayAI::~FrayAI()
 
 void FrayAI::update(double dt, sf::Vector2f position)
 {
+	m_clock2.restart();
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
@@ -75,6 +76,8 @@ void FrayAI::update(double dt, sf::Vector2f position)
 	handleTimer();
 
 	m_tickCounter += 1;
+	m_time += m_clock2.getElapsedTime();
+	
 }
 
 
@@ -145,6 +148,7 @@ void FrayAI::updateDangers()
 
 }
 
+
 double FrayAI::findLargest(std::map<Direction, double> vec)
 {
 	double largest = 0;
@@ -157,6 +161,7 @@ double FrayAI::findLargest(std::map<Direction, double> vec)
 	}
 	return largest;
 }
+
 
 std::map<Direction, double> FrayAI::normalize(std::map<Direction, double> vec)
 {
@@ -359,4 +364,18 @@ void FrayAI::handleTimer()
 		m_currentTime -= m_currentTime;
 		m_startTimer = true;
 	}
+}
+
+
+double FrayAI::getAverageExecTime()
+{
+	m_averageExecTime = (double)m_time.asMicroseconds() / m_tickCounter;
+	return m_averageExecTime;
+}
+
+
+double FrayAI::getTimeEfficiency()
+{
+	m_timeEfficiency = m_currentTime / m_tickCounter;
+	return m_timeEfficiency;
 }
