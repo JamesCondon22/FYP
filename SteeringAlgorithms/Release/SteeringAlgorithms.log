@@ -1,71 +1,34 @@
-﻿libyaml-cppmdd.lib(parse.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(parse.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(memory.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(memory.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(node_data.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(node_data.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(parser.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(parser.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(nodebuilder.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(nodebuilder.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(directives.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(directives.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(scanner.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(scanner.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(singledocparser.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(singledocparser.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(regex_yaml.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(regex_yaml.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(stream.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(stream.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(simplekey.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(simplekey.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(scantoken.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(scantoken.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(tag.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(tag.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(null.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(null.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(scanscalar.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(scanscalar.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(scantag.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(scantag.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(exp.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in ContextDecisionMaker.obj
-libyaml-cppmdd.lib(exp.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in ContextDecisionMaker.obj
-MSVCRT.lib(initializers.obj) : warning LNK4098: defaultlib 'msvcrtd.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
-libyaml-cppmdd.lib(tag.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(scanscalar.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(scantag.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(exp.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(regex_yaml.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(stream.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(simplekey.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(scantoken.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(nodebuilder.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(directives.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(scanner.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(singledocparser.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(parse.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(memory.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(node_data.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(parser.obj) : error LNK2001: unresolved external symbol __imp___invalid_parameter
-libyaml-cppmdd.lib(tag.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(scanscalar.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(scantag.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(exp.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(regex_yaml.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(stream.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(simplekey.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(scantoken.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(nodebuilder.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(directives.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(scanner.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(singledocparser.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(parse.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(memory.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(node_data.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-libyaml-cppmdd.lib(parser.obj) : error LNK2001: unresolved external symbol __imp___CrtDbgReportW
-msvcrtd.lib(_init_.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
-msvcrtd.lib(_init_.obj) : error LNK2001: unresolved external symbol __CrtDbgReportW
-msvcrtd.lib(thread_safe_statics.obj) : error LNK2001: unresolved external symbol __CrtDbgReportW
-C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\SteeringAlgorithms.exe : fatal error LNK1120: 4 unresolved externals
+﻿  DynamicVectorAI.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\dynamicvectorai.cpp(25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\dynamicvectorai.cpp(87): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\dynamicvectorai.cpp(86): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\dynamicvectorai.cpp(242): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\dynamicvectorai.cpp(257): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\dynamicvectorai.cpp(272): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\dynamicvectorai.cpp(299): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\dynamicvectorai.cpp(353): warning C4018: '>=': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\dynamicvectorai.cpp(423): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\dynamicvectorai.cpp(424): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Generating code
+  2 of 2101 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    3 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+libyaml-cppmdd.lib(directives.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(directives.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(exp.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(exp.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(memory.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(memory.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(nodebuilder.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(nodebuilder.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(node_data.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(node_data.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(null.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(null.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(parse.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(parse.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(parser.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(parser.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(regex_yaml.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(regex_yaml.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(scanner.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(scanner.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(scanscalar.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(scanscalar.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(scantag.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(scantag.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(scantoken.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(scantoken.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(simplekey.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(simplekey.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(singledocparser.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(singledocparser.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(stream.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(stream.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+libyaml-cppmdd.lib(tag.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(tag.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
+  SteeringAlgorithms.vcxproj -> C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\SteeringAlgorithms.exe

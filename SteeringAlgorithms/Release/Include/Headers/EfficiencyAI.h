@@ -8,14 +8,10 @@
 #include "MathHelper.h"
 #include "Obstacle.h"
 #include "DirectionalLine.h"
+#include "Enemy.h"
+#include "Path.h"
 
-struct steering
-{
-	sf::Vector2f linear;
-	float angular;
-};
-
-class EfficiencyAI
+class EfficiencyAI : public Enemy
 {
 public:
 
@@ -31,16 +27,32 @@ public:
 	sf::Vector2f normalize(sf::Vector2f vec);
 	void checkDirection(double dt);
 	steering seek(sf::Vector2f position);
+	void calculation();
+
 	std::map<Direction, double> normalize(std::map<Direction, double> vec);
 	std::map<Direction, double> normalizeDangers(std::map<Direction, double> vec);
 	sf::RectangleShape m_rect;
 	sf::Vector2f getPos();
 	double findLargest(std::map<Direction, double> vec);
 
-	void calculation();
+	
 	float getNewOrientation(float curOrientation, sf::Vector2f velocity);
 	float length(sf::Vector2f vel);
 	float mag(sf::Vector2f & v);
+
+	int getId() { return m_id; }
+
+	bool getActive() { return m_active; }
+	void setActive(bool active) { m_active = active; }
+	void setCollided(bool collide) { m_collided = collide; }
+
+	void generatePath(double dt);
+	void handleTimer();
+
+	double getPathLength() { return m_totalPathLength; }
+	double getInterceptionTime() { return m_currentTime; }
+	double getAverageExecTime();
+	double getTimeEfficiency();
 
 private:
 	
@@ -98,7 +110,33 @@ private:
 
 
 	bool startTimer = false;
-	bool startMaps = false;
+	bool m_begin = false;
+
+	int m_id = 4;
+
+	bool m_active = false;
+	bool m_collided = false;
+
+	std::vector<Path*> m_pathLine;
+
+	double m_timeAmount = 0;
+	double m_totalPathLength = 0;
+
+	Path * m_currentPathCircle;
+	Path * m_lastPathCircle;
+
+	sf::Clock m_clock2;
+	sf::Clock m_clock;
+	double m_currentTime;
+	sf::Time m_time;
+	
+	bool m_startTimer = false;
+
+	double m_timeEfficiency;
+	double m_averageExecTime;
+	double m_tickCounter;
+	double m_lastUpdate;
+	double m_timer;
 };
 
 #endif

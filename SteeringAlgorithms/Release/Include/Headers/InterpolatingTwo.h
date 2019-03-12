@@ -8,8 +8,10 @@
 #include "MathHelper.h"
 #include "Obstacle.h"
 #include "DirectionalLine.h"
+#include "Enemy.h"
+#include "Path.h"
 
-class InterpolatingTwo
+class InterpolatingTwo : public Enemy
 {
 public:
 	InterpolatingTwo(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs);
@@ -23,7 +25,10 @@ public:
 	void initVector();
 	sf::Vector2f normalize(sf::Vector2f vec);
 	void checkDirection();
-	void seek(sf::Vector2f position);
+	steering seek(sf::Vector2f position);
+	void calculation();
+	float mag(sf::Vector2f & v);
+
 	std::map<Direction, double> normalize(std::map<Direction, double> vec);
 	std::map<Direction, double> normalizeDangers(std::map<Direction, double> vec);
 	sf::RectangleShape m_rect;
@@ -34,35 +39,38 @@ public:
 	float length(sf::Vector2f vel);
 
 	bool compareKeys(std::map<Direction, sf::Vector2f> vec);
+
+	int getId() { return m_id; }
+
+	bool getActive() { return m_active; }
+	void setActive(bool active) { m_active = active; }
+	void setCollided(bool collide) { m_collided = collide; }
+
+	void generatePath(double dt);
+	void handleTimer();
+
+	double getPathLength() { return m_totalPathLength; }
+	double getInterceptionTime() { return m_currentTime; }
+	double getAverageExecTime();
+	double getTimeEfficiency();
+
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
+	steering m_steering;
+
 	sf::Sprite m_sprite;
 	sf::Texture m_texture;
 	int size;
 	double static const DEG_TO_RAD;
 	double static const RAD_TO_DEG;
 	double m_rotation;
-	double m_speed;
+	float m_speed;
 	double MAX_SPEED;
 	sf::Vector2f m_heading;
 	ContextDecisionMaker mapDecisions;
 	sf::CircleShape m_surroundingCircle;
 
-	std::vector<std::pair<sf::Vertex, sf::Vertex>> LINES;
-	sf::Vertex line[2]; sf::Vertex line2[2];
-	sf::Vertex line3[2]; sf::Vertex line4[2];
-	sf::Vertex line5[2]; sf::Vertex line6[2];
-	sf::Vertex line7[2]; sf::Vertex line8[2];
-	sf::Vertex line9[2]; sf::Vertex line10[2];
-	sf::Vertex line11[2]; sf::Vertex line12[2];
-	sf::Vertex line13[2]; sf::Vertex line14[2];
-	sf::Vertex line15[2]; sf::Vertex line16[2];
-
-	sf::Vector2f UpRadial = sf::Vector2f(0,0);
-	std::vector<sf::Vector2f> m_distVecs;
-	/*std::vector<std::pair<double, std::string>> m_distances;
-	std::vector<std::pair<double, std::string>> m_distancesDanger;*/
 
 	std::map<Direction, double> m_distances;
 	std::map<Direction, double> m_distancesDanger;
@@ -82,6 +90,36 @@ private:
 
 	int m_size = 16;
 	std::vector<DirectionalLine> m_lineVec;
+
+	sf::Vector2f m_prevDirection;
+	sf::Vector2f m_curPrevious;
+
+	int m_id = 3;
+
+	bool m_active = false;
+	bool m_collided = false;
+
+	std::vector<Path*> m_pathLine;
+
+	double m_timeAmount = 0;
+	double m_totalPathLength = 0;
+
+	Path * m_currentPathCircle;
+	Path * m_lastPathCircle;
+
+	sf::Clock m_clock2;
+	sf::Clock m_clock;
+	double m_currentTime;
+	sf::Time m_time;
+	
+	bool m_startTimer = false;
+
+	double m_timeEfficiency;
+	double m_averageExecTime;
+	double m_tickCounter;
+	double m_lastUpdate;
+	double m_timer;
+
 };
 
 #endif

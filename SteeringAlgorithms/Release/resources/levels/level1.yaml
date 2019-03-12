@@ -35,6 +35,26 @@ circles:
      position: {x: 1500, y: 800}
      radius: 50
      id: 9
+   - type: circle
+     position: {x: 800, y: 400}
+     radius: 50
+     id: 10
+   - type: circle
+     position: {x: 450, y: 400}
+     radius: 50
+     id: 11
+   - type: circle
+     position: {x: 1200, y: 450}
+     radius: 50
+     id: 12
+   - type: circle
+     position: {x: 1400, y: 600}
+     radius: 50
+     id: 13
+   - type: circle
+     position: {x: 550, y: 600}
+     radius: 50
+     id: 14
 
 
 paths:
