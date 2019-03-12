@@ -35,8 +35,9 @@ FrayAI::FrayAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs)
 	
 	for (int i = 0; i < m_size; i++)
 	{
-		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
+		DirectionalLine line = DirectionalLine(m_position, i, m_size);
 		m_lineVec.push_back(line);
+		
 	}
 
 	m_rect.setFillColor(sf::Color::Red);

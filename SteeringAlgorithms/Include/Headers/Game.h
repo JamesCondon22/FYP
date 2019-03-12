@@ -21,7 +21,7 @@ protected:
 	sf::RenderWindow m_window;
 	
 	sf::Texture m_textureEnemy;
-
+	sf::Font m_font;
 
 	MainMenu *mainMenu;
 	Options *m_options;

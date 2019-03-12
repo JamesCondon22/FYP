@@ -164,6 +164,7 @@
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\InterpolatingAI.cpp" />
     <ClCompile Include="src\InterpolatingTwo.cpp" />
+    <ClCompile Include="src\Label.cpp" />
     <ClCompile Include="src\LevelLoader.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MathHelper.cpp" />

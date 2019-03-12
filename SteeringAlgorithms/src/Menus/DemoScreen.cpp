@@ -56,7 +56,7 @@ DemoScreen::~DemoScreen()
 }
 
 
-void DemoScreen::update(double dt, int id)
+void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 {
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
@@ -71,15 +71,25 @@ void DemoScreen::update(double dt, int id)
 	
 	if (m_startDemonstration) {
 
-		m_cumulativeTime += m_clock.restart().asMilliseconds();
+		m_cumulativeTime = m_clock.getElapsedTime().asMilliseconds();
 
 		m_testBot->update(dt);
 
 		for (int i = 0; i < m_enemies.size(); i++)
 		{
-			if (!m_enemies[i]->getActive() && m_enemies[i]->getId() == id)
+			if (lastBtnPress == "RUN")
 			{
-				m_enemies[i]->setActive(true);
+				if (!m_enemies[i]->getActive() && m_enemies[i]->getId() == id)
+				{
+					m_enemies[i]->setActive(true);
+				}
+			}
+			else
+			{
+				if (!m_enemies[i]->getActive() && m_enemies[i]->getId() == m_id)
+				{
+					m_enemies[i]->setActive(true);
+				}
 			}
 			if (m_cumulativeTime > MAX_TIME) {
 
@@ -87,14 +97,14 @@ void DemoScreen::update(double dt, int id)
 				{
 					m_enemies[i]->update(dt, m_testBot->getPosition());
 
-					checkCollision(m_testBot, m_enemies[i]);
+					checkCollision(m_testBot, m_enemies[i], lastBtnPress);
 				}
 			}
 		}	
 	}
-	else {
-
-		m_clock.restart() = sf::Time::Zero;
+	else 
+	{
+		m_clock.restart();
 	}
 }
 
@@ -124,7 +134,7 @@ void DemoScreen::render(sf::RenderWindow & window)
 }
 
 
-void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy)
+void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBtnPress)
 {
 	sf::Vector2f v1 = bot->getPosition();
 	sf::Vector2f v2 = enemy->getPos();
@@ -138,10 +148,29 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy)
 		m_file << enemy->getId() << ": Interception Time = " << enemy->getInterceptionTime() << std::endl;
 		m_file << enemy->getId() << ": Average Execution Time = " << enemy->getAverageExecTime()  << std::endl;
 		m_file << enemy->getId() << ": Time Efficiency = " << enemy->getTimeEfficiency() << std::endl;
+		m_file << "\n";
+		
+		
+		if (lastBtnPress == "RUN")
+		{
+			m_file.close();
+			*m_currentState = GameState::Options;
+		}
+		else
+		{
+			m_id++;
+			enemy->setActive(false);
+			bot->reset();
+			m_clock.restart();
+			if (m_id > 5)
+			{
+				m_file.close();
+				*m_currentState = GameState::Options;
+			}
+			//m_reset = true;
+		}
 
-		m_file.close();
-
-		*m_currentState = GameState::Options;
+		
 	}
 
 }

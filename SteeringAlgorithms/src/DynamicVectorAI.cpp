@@ -18,7 +18,7 @@ DynamicVectorAI::DynamicVectorAI(std::vector<sf::CircleShape> & path, std::vecto
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
 	m_rect.setTexture(&m_texture);
 	m_rect.setSize(sf::Vector2f(25, 50));
-	m_position = sf::Vector2f(1800, 500);
+	m_position = sf::Vector2f(1800, 100);
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 
@@ -63,7 +63,7 @@ void DynamicVectorAI::update(double dt, sf::Vector2f position)
 	else {
 		angleBetween = angleOne - angleTwo;
 	}
-	std::cout << "Angle Between = " << angleBetween << std::endl;
+	//std::cout << "Angle Between = " << angleBetween << std::endl;
 
 	auto current = AngleDir(position, curDirection);
 
@@ -130,6 +130,11 @@ float DynamicVectorAI::getAngleBetween(sf::Vector2f posOne, sf::Vector2f posTwo)
 
 void DynamicVectorAI::render(sf::RenderWindow & window)
 {
+	for (int i = 0; i < m_pathLine.size(); i++)
+	{
+		m_pathLine[i]->render(window);
+	}
+
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].render(window);
 	}
@@ -372,13 +377,13 @@ sf::Vector2f DynamicVectorAI::normalize(sf::Vector2f vec)
 
 void DynamicVectorAI::handleTimer()
 {
-	m_currentTime += m_clock.restart().asMilliseconds();
-
 	if (!m_startTimer)
 	{
-		m_currentTime -= m_currentTime;
+		m_clock.restart();
 		m_startTimer = true;
 	}
+	//std::cout << "Time = " << m_currentTime << std::endl;
+	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
 }
 
 

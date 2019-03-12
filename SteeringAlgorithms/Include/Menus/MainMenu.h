@@ -18,6 +18,7 @@ public:
 	bool m_pressed = false;
 
 	int getActivatedAI() { return m_activatedAI; }
+	std::string getLastPressed() { return m_lastPressed; }
 
 private:
 
@@ -33,5 +34,6 @@ private:
 	sf::Event * m_event;
 
 	int m_activatedAI = 0;
+	std::string m_lastPressed = "";
 };
 #endif // !

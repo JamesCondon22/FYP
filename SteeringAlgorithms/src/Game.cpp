@@ -19,7 +19,7 @@ Game::Game()
 	: m_window(sf::VideoMode(1920, 1080, 32), "SFML Playground", sf::Style::Default)
 
 {
-	m_window.setVerticalSyncEnabled(true);
+	//m_window.setVerticalSyncEnabled(true);
 
 	m_currentState = new GameState;
 
@@ -29,8 +29,9 @@ Game::Game()
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
 	}
+	m_font.loadFromFile("resources/assets/bernhc.TTF");
 
-	m_options = new Options(m_currentState);
+	m_options = new Options(m_currentState, m_font);
 	m_demoScreen = new DemoScreen(m_currentState);
 	mainMenu = new MainMenu(m_currentState);
 
@@ -131,7 +132,7 @@ void Game::update(double dt)
 		mainMenu->update(dt, m_window);
 		break;
 	case GameState::Demo:
-		m_demoScreen->update(dt, mainMenu->getActivatedAI());
+		m_demoScreen->update(dt, mainMenu->getActivatedAI(), mainMenu->getLastPressed());
 		break;
 	case GameState::Options:
 		m_options->update(dt);

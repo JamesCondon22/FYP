@@ -231,3 +231,10 @@ void TestBot::render(sf::RenderWindow & window)
 	window.draw(m_rect);
 
 }
+
+
+void TestBot::reset()
+{
+	m_position = sf::Vector2f(1800, 500);
+	currentNode = 0;
+}

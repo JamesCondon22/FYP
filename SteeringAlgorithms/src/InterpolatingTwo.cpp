@@ -18,7 +18,7 @@ InterpolatingTwo::InterpolatingTwo(std::vector<sf::CircleShape> & path, std::vec
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
 	m_rect.setTexture(&m_texture);
 	m_rect.setSize(sf::Vector2f(25, 50));
-	m_position = sf::Vector2f(1800, 500);
+	m_position = sf::Vector2f(1800, 100);
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 
@@ -45,6 +45,7 @@ InterpolatingTwo::InterpolatingTwo(std::vector<sf::CircleShape> & path, std::vec
 InterpolatingTwo::~InterpolatingTwo()
 {
 }
+
 
 void InterpolatingTwo::update(double dt, sf::Vector2f position)
 {
@@ -80,6 +81,11 @@ void InterpolatingTwo::update(double dt, sf::Vector2f position)
 
 void InterpolatingTwo::render(sf::RenderWindow & window)
 {
+	for (int i = 0; i < m_pathLine.size(); i++)
+	{
+		m_pathLine[i]->render(window);
+	}
+
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].render(window);
 	}

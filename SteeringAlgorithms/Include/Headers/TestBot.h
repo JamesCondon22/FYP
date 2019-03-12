@@ -28,8 +28,10 @@ public:
 	sf::Vector2f ObstacleAvoidance();
 	Obstacle * findMostThreathening();
 	sf::Vector2f truncate(sf::Vector2f v, float const num);
-
 	int getRadius() { return m_radius; }
+
+	void reset();
+
 private:
 	float m_timeToTarget;
 	sf::Vector2f m_position;

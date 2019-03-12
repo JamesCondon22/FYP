@@ -24,10 +24,10 @@ class DemoScreen
 public:
 	DemoScreen(GameState * state);
 	~DemoScreen();
-	void update(double dt, int active);
+	void update(double dt, int active, std::string lastBtnPress);
 	void render(sf::RenderWindow& window);
-	void checkCollision(TestBot * bot, Enemy * enemy);
-
+	void checkCollision(TestBot * bot, Enemy * enemy, std::string lastbtnPress);
+	
 private:
 	sf::Window m_window;
 
@@ -50,12 +50,13 @@ private:
 
 	bool m_startDemonstration = false;
 	bool m_pressed = false;
+	bool m_reset = false;
 
 	sf::Time m_timer;
 	sf::Clock m_clock;
 
+	int m_id = 1;
 	double m_cumulativeTime;
-
 	double MAX_TIME = 3000.0;
 
 	std::ofstream m_file;

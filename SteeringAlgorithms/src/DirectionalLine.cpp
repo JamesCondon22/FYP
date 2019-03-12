@@ -140,7 +140,7 @@ Direction DirectionalLine::getState()
 void DirectionalLine::render(sf::RenderWindow & window)
 {
 	window.draw(m_line, 2, sf::Lines);
-	window.draw(m_mostDesired, 2, sf::Lines);
+	//window.draw(m_mostDesired, 2, sf::Lines);
 }
 
 
