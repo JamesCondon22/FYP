@@ -53,6 +53,8 @@ public:
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
 	double getTimeEfficiency();
+
+	std::string getName() { return "Average Interpolation"; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;

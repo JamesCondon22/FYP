@@ -4,6 +4,10 @@
 #include "Menus/Options.h"
 #include "Menus/DemoScreen.h"
 #include "Menus/MainMenu.h"
+#include "Menus/GameScreen.h"
+#include "../imgui/imgui-SFML.h"
+#include "../imgui/imgui.h"
+
 
 class Game
 {
@@ -26,8 +30,11 @@ protected:
 	MainMenu *mainMenu;
 	Options *m_options;
 	DemoScreen * m_demoScreen;
+	GameScreen * m_gameScreen;
 
 	GameState * m_currentState;
+
+	sf::Clock m_clock;
 };
 
 #endif

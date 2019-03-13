@@ -6,6 +6,7 @@ enum class GameState
 	None,
 	Menu,
 	Options,
+	GameScreen,
 	Demo,
 };
 

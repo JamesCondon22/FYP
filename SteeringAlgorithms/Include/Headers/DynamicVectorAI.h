@@ -58,7 +58,7 @@ public:
 	double getTimeEfficiency();
 
 	sf::Vector2f rotatePoint(float cx, float cy, float angle, sf::Vector2f p);
-
+	std::string getName() { return "Dynamic Vector"; }
 private:
 	
 	sf::Vector2f m_position;

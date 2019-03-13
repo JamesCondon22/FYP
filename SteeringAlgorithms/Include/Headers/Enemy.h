@@ -26,6 +26,7 @@ public:
 	virtual double getAverageExecTime() = 0;
 	virtual double getTimeEfficiency() = 0;
 	virtual void setCollided(bool collide) = 0;
+	virtual std::string getName() = 0;
 };
 
 #endif

@@ -19,21 +19,23 @@ Game::Game()
 	: m_window(sf::VideoMode(1920, 1080, 32), "SFML Playground", sf::Style::Default)
 
 {
-	//m_window.setVerticalSyncEnabled(true);
+	m_window.setVerticalSyncEnabled(true);
 
 	m_currentState = new GameState;
 
-	*m_currentState = GameState::Menu;
+	*m_currentState = GameState::Options;
 
+	
 
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
 	}
 	m_font.loadFromFile("resources/assets/bernhc.TTF");
 
-	m_options = new Options(m_currentState, m_font);
+	m_options = new Options(m_currentState, m_font, m_window);
 	m_demoScreen = new DemoScreen(m_currentState);
 	mainMenu = new MainMenu(m_currentState);
+	m_gameScreen = new GameScreen(m_currentState);
 
 }
 
@@ -80,8 +82,10 @@ void Game::processEvents()
 	{
 		if (event.type == sf::Event::Closed)
 		{
+			ImGui::SFML::Shutdown();
 			m_window.close();
 		}
+		ImGui::SFML::ProcessEvent(event);
 		processGameEvents(event);
 	}
 }
@@ -107,6 +111,8 @@ void Game::processGameEvents(sf::Event& event)
 			break;
 		case GameState::Demo:
 			break;
+		case GameState::GameScreen:
+			break;
 		case GameState::Options:
 			break;
 		default:
@@ -123,7 +129,8 @@ void Game::processGameEvents(sf::Event& event)
 void Game::update(double dt)
 {
 	sf::Time deltaTime;
-
+	//deltaTime += m_clock.getElapsedTime();
+	
 	switch (*m_currentState)
 	{
 	case GameState::None:
@@ -134,12 +141,16 @@ void Game::update(double dt)
 	case GameState::Demo:
 		m_demoScreen->update(dt, mainMenu->getActivatedAI(), mainMenu->getLastPressed());
 		break;
+	case GameState::GameScreen:
+		m_gameScreen->update(dt);
+		break;
 	case GameState::Options:
 		m_options->update(dt);
 		break;
 	default:
 		break;
 	}
+	
 }
 
 
@@ -162,13 +173,15 @@ void Game::render()
 	case GameState::Demo:
 		m_demoScreen->render(m_window);
 		break;
+	case GameState::GameScreen:
+		m_gameScreen->render(m_window);
+		break;
 	case GameState::Options:
 		m_options->render(m_window);
 		break;
 	default:
 		break;
 	}
-	
 	m_window.display();
 }
 

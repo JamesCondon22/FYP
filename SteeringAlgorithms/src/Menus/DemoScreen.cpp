@@ -143,11 +143,11 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 	if (Math::circleCollision(v1, v2, rad, rad))
 	{
 		enemy->setCollided(true);
-
-		m_file << enemy->getId() << ": Path length = " << enemy->getPathLength() << std::endl;
-		m_file << enemy->getId() << ": Interception Time = " << enemy->getInterceptionTime() << std::endl;
-		m_file << enemy->getId() << ": Average Execution Time = " << enemy->getAverageExecTime()  << std::endl;
-		m_file << enemy->getId() << ": Time Efficiency = " << enemy->getTimeEfficiency() << std::endl;
+		m_file << "ID = " << enemy->getId() << " " << enemy->getName() << std::endl;
+		m_file << "Path length = " << enemy->getPathLength() << std::endl;
+		m_file << "Interception Time = " << enemy->getInterceptionTime() << std::endl;
+		m_file << "Average Execution Time = " << enemy->getAverageExecTime()  << std::endl;
+		m_file << "Time Efficiency = " << enemy->getTimeEfficiency() << std::endl;
 		m_file << "\n";
 		
 		

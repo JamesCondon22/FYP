@@ -54,6 +54,7 @@ public:
 	double getAverageExecTime();
 	double getTimeEfficiency();
 
+	std::string getName() { return "Efficiency AI"; }
 private:
 	
 	sf::Vector2f m_position;

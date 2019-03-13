@@ -54,6 +54,8 @@ public:
 	double getAverageExecTime();
 	double getTimeEfficiency();
 
+	std::string getName() { return "Blended Interpolation"; }
+
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;

@@ -129,6 +129,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui-SFML.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="Include\Headers\Button.h" />
     <ClInclude Include="Include\Headers\ContextDecisionMaker.h" />
     <ClInclude Include="Include\Headers\ContextMap.h" />
@@ -150,11 +157,30 @@
     <ClInclude Include="Include\Headers\Traditional.h" />
     <ClInclude Include="Include\Headers\Label.h" />
     <ClInclude Include="Include\Menus\DemoScreen.h" />
+    <ClInclude Include="Include\Menus\GameScreen.h" />
     <ClInclude Include="Include\Menus\MainMenu.h" />
     <ClInclude Include="Include\Menus\Options.h" />
     <ClInclude Include="Include\Menus\State.h" />
+    <ClInclude Include="spline_library\spline.h" />
+    <ClInclude Include="spline_library\splines\cubic_hermite_spline.h" />
+    <ClInclude Include="spline_library\splines\generic_b_spline.h" />
+    <ClInclude Include="spline_library\splines\natural_spline.h" />
+    <ClInclude Include="spline_library\splines\quintic_hermite_spline.h" />
+    <ClInclude Include="spline_library\splines\uniform_cr_spline.h" />
+    <ClInclude Include="spline_library\splines\uniform_cubic_bspline.h" />
+    <ClInclude Include="spline_library\utils\calculus.h" />
+    <ClInclude Include="spline_library\utils\linearalgebra.h" />
+    <ClInclude Include="spline_library\utils\nanoflann.hpp" />
+    <ClInclude Include="spline_library\utils\splinesample_adaptor.h" />
+    <ClInclude Include="spline_library\utils\spline_common.h" />
+    <ClInclude Include="spline_library\vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="imgui\imgui-SFML.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\ContextDecisionMaker.cpp" />
     <ClCompile Include="src\ContextMap.cpp" />
@@ -169,6 +195,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MathHelper.cpp" />
     <ClCompile Include="src\Menus\DemoScreen.cpp" />
+    <ClCompile Include="src\Menus\GameScreen.cpp" />
     <ClCompile Include="src\Menus\MainMenu.cpp" />
     <ClCompile Include="src\Menus\Options.cpp" />
     <ClCompile Include="src\Obstacle.cpp" />

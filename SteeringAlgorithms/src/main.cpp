@@ -21,6 +21,7 @@
 
 
 #include "../Include/Headers/Game.h"
+#include "../spline_library/splines/uniform_cr_spline.h"
 
 /// <summary>
 /// @brief starting point for all C++ programs.
@@ -32,15 +33,16 @@
 /// <returns></returns>
 int main(int, char* argv[])
 {
+	/*std::vector<sf::Vector2f> splinePoints{
+		sf::Vector2f(0, 0),
+		sf::Vector2f(5, 0),
+		sf::Vector2f(8, 3),
+		sf::Vector2f(6, 1),
+	};
+	UniformCRSpline<sf::Vector2f> mySpline(splinePoints);
+	sf::Vector2f interpolatedPosition = mySpline.getPosition(0.5f);
+	*/
 
-	/*sf::Vector2f currVec = sf::Vector2f(-1, -0.01);
-	currVec = Math::normalize(currVec);
-
-	sf::Vector2f desiredVec = sf::Vector2f(50, 50);
-	desiredVec = Math::normalize(desiredVec);
-
-	double currAngle = thor::polarAngle(currVec);
-	double desiredAngle = thor::polarAngle(desiredVec);*/
 	Game game;
 	game.run();
 }
