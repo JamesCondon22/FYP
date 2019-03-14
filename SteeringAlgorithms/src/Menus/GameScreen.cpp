@@ -4,28 +4,17 @@
 GameScreen::GameScreen(GameState * state):
 	m_currentState(state)
 {
+
+	m_player = new Player();
 	m_readFile.open("resources/levels/LevelOne.txt");
-
 	
-
-	//char num = "0";
-	int x = 0;
-	int y = 0;
-	std::vector<char> m_chars;
+	std::vector<char> chars;
 
 	while (std::getline(m_readFile, m_line))
 	{
 		for (int i = 0; i < m_line.length(); i++)
 		{
-			if (m_line.at(i) == '0')
-			{
-				std::cout << "0" << std::endl;
-			}
-			if (m_line.at(i) == '1')
-			{
-				std::cout << "0" << std::endl;
-			}
-			m_chars.push_back(m_line.at(i));
+			chars.push_back(m_line.at(i));
 		}
 	}
 	m_readFile.close();
@@ -34,7 +23,8 @@ GameScreen::GameScreen(GameState * state):
 	for (int i = 0; i < 25; i++) {
 		for (int j = 0; j < 50; j++) {
 			m_tile[j][i] = new Tile(50 * j, 50 * i, j, i);
-			if (m_chars[counter] == '0')
+			
+			if (chars[counter] == '0')
 			{
 				m_tile[j][i]->setBlank();
 			}
@@ -45,7 +35,7 @@ GameScreen::GameScreen(GameState * state):
 			counter++;
 		}
 	}
-
+	chars.empty();
 	
 }
 
@@ -56,7 +46,6 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	int x = mouse.x / 50;
 	int y = mouse.y / 50;
 
-	std::cout << x << ", " << y << std::endl;
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		if (x >= 0 && x < 50 && y >= 0 && y < 50)
@@ -73,7 +62,7 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		}
 
 	}
-	
+	m_player->update(dt);
 	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !m_pressed)
 	{
 		int count = 0;
@@ -100,20 +89,62 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		m_pressed = true;
 	}*/
 	
-	
+	int curX = m_player->getPos().x / 50;
+	int curY = m_player->getPos().y / 50;
+
+	collision(curX, curY);
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
 		//m_pressed = false;
 	}
 }
 
+void GameScreen::collision(int x, int y)
+{
+
+	if (m_tile[x][y - 1]->getState() == NState::Full)
+	{
+		if (m_player->getPos().y < m_tile[x][y - 1]->getPosition().y + 65)
+		{
+			m_player->setPosition(m_player->getPos().x, m_tile[x][y - 1]->getPosition().y + 65);
+		}
+
+	}
+	if (m_tile[x][y + 1]->getState() == NState::Full)
+	{
+		if (m_player->getPos().y > m_tile[x][y + 1]->getPosition().y - 30)
+		{
+			m_player->setPosition(m_player->getPos().x, m_tile[x][y + 1]->getPosition().y - 30);
+		}
+	}
+
+	if (m_tile[x - 1][y]->getState() == NState::Full)
+	{
+
+		if (m_player->getPos().x < m_tile[x - 1][y]->getPosition().x + 65)
+		{
+			m_player->setPosition(m_tile[x - 1][y]->getPosition().x + 65, m_player->getPos().y);
+		}
+	}
+	if (m_tile[x + 1][y]->getState() == NState::Full)
+	{
+
+		if (m_player->getPos().x > m_tile[x + 1][y]->getPosition().x - 30)
+		{
+			m_player->setPosition(m_tile[x + 1][y]->getPosition().x - 30, m_player->getPos().y);
+		}
+	}
+}
 
 void GameScreen::render(sf::RenderWindow & window)
 {
+
+	
 	for (int i = 0; i < 25; i++) {
 		for (int j = 0; j < 50; j++) {
 
 			m_tile[j][i]->render(window);
 		}
 	}
+	m_player->render(window);
 }

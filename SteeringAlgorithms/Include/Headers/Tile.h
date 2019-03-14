@@ -22,7 +22,7 @@ public:
 	void render(sf::RenderWindow &window);
 	void setPos(int x, int y);
 	NState getState();
-	sf::Vector2f getPosition();
+	sf::Vector2f getPosition() { return m_position; }
 	bool getObstacle() { return isObstacle; }
 	std::pair<int, int> getGridPos() { return m_gridPos; }
 	void setColor(sf::Color col);

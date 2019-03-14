@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Menus/State.h"
 #include "Headers/Tile.h"
+#include "../Headers/Player.h"
 
 class GameScreen
 {
@@ -12,6 +13,7 @@ public:
 	GameScreen(GameState * state);
 	void update(double dt, sf::Vector2i & mouse);
 	void render(sf::RenderWindow & window);
+	void collision(int x, int y);
 
 private:
 
@@ -24,6 +26,8 @@ private:
 	std::ofstream m_file;
 	std::string m_line = "";
 	bool m_pressed;
+
+	Player* m_player;
 };
 
 #endif

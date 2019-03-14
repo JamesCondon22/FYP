@@ -12,8 +12,6 @@ Tile::Tile(int x, int y, int dx, int dy) :
 	m_current = NState::Blank;
 
 	m_rect.setSize(sf::Vector2f(50.0f, 50.0f));
-	m_rect.setOutlineColor(sf::Color::Black);
-	m_rect.setOutlineThickness(4);
 	m_rect.setPosition(m_position);
 }
 

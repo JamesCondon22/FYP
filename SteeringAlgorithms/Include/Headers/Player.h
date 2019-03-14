@@ -18,6 +18,7 @@ public:
 	void decreaseSpeed();
 	sf::RectangleShape m_rect;
 	sf::Vector2f getPos();
+	void setPosition(float x, float y);
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
