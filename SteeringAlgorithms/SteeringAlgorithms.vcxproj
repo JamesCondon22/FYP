@@ -154,6 +154,7 @@
     <ClInclude Include="Include\Headers\Player.h" />
     <ClInclude Include="Include\Headers\EfficiencyAI.h" />
     <ClInclude Include="Include\Headers\TestBot.h" />
+    <ClInclude Include="Include\Headers\Tile.h" />
     <ClInclude Include="Include\Headers\Traditional.h" />
     <ClInclude Include="Include\Headers\Label.h" />
     <ClInclude Include="Include\Menus\DemoScreen.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Include\Menus\MainMenu.h" />
     <ClInclude Include="Include\Menus\Options.h" />
     <ClInclude Include="Include\Menus\State.h" />
+    <ClInclude Include="spline\spline\src\main\cpp\CatmullRom.h" />
     <ClInclude Include="spline_library\spline.h" />
     <ClInclude Include="spline_library\splines\cubic_hermite_spline.h" />
     <ClInclude Include="spline_library\splines\generic_b_spline.h" />
@@ -203,6 +205,7 @@
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\EfficiencyAI.cpp" />
     <ClCompile Include="src\TestBot.cpp" />
+    <ClCompile Include="src\Tile.cpp" />
     <ClCompile Include="src\Traditional.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

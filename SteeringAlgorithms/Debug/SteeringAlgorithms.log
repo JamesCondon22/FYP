@@ -1,3 +1,3 @@
-﻿  Game.cpp
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\game.cpp(63): warning C4244: '-=': conversion from 'const double' to 'sf::Int32', possible loss of data
+﻿  GameScreen.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(18): warning C4018: '<': signed/unsigned mismatch
   SteeringAlgorithms.vcxproj -> C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\SteeringAlgorithms.exe

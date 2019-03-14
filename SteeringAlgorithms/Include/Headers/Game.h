@@ -35,6 +35,8 @@ protected:
 	GameState * m_currentState;
 
 	sf::Clock m_clock;
+
+	sf::Vector2i m_mousePosition;
 };
 
 #endif

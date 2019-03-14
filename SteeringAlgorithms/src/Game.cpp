@@ -16,16 +16,14 @@ static double const MS_PER_UPDATE = 10.0;
 /// </summary>
 /// 
 Game::Game()
-	: m_window(sf::VideoMode(1920, 1080, 32), "SFML Playground", sf::Style::Default)
+	: m_window(sf::VideoMode(2500, 2000, 32), "SFML Playground", sf::Style::Default)
 
 {
 	m_window.setVerticalSyncEnabled(true);
 
 	m_currentState = new GameState;
 
-	*m_currentState = GameState::Options;
-
-	
+	*m_currentState = GameState::GameScreen;
 
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
@@ -129,8 +127,8 @@ void Game::processGameEvents(sf::Event& event)
 void Game::update(double dt)
 {
 	sf::Time deltaTime;
-	//deltaTime += m_clock.getElapsedTime();
-	
+	m_mousePosition = sf::Mouse::getPosition(m_window);
+
 	switch (*m_currentState)
 	{
 	case GameState::None:
@@ -142,7 +140,7 @@ void Game::update(double dt)
 		m_demoScreen->update(dt, mainMenu->getActivatedAI(), mainMenu->getLastPressed());
 		break;
 	case GameState::GameScreen:
-		m_gameScreen->update(dt);
+		m_gameScreen->update(dt, m_mousePosition);
 		break;
 	case GameState::Options:
 		m_options->update(dt);

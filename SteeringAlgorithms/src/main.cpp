@@ -21,7 +21,6 @@
 
 
 #include "../Include/Headers/Game.h"
-#include "../spline_library/splines/uniform_cr_spline.h"
 
 /// <summary>
 /// @brief starting point for all C++ programs.
@@ -33,15 +32,15 @@
 /// <returns></returns>
 int main(int, char* argv[])
 {
-	/*std::vector<sf::Vector2f> splinePoints{
-		sf::Vector2f(0, 0),
-		sf::Vector2f(5, 0),
-		sf::Vector2f(8, 3),
-		sf::Vector2f(6, 1),
-	};
-	UniformCRSpline<sf::Vector2f> mySpline(splinePoints);
-	sf::Vector2f interpolatedPosition = mySpline.getPosition(0.5f);
-	*/
+	//Curve * curve = new CatmullRom();
+	/*
+	curve->set_steps(100);
+
+	curve->add_way_point(Vector(1, 1, 0));
+	curve->add_way_point(Vector(2, 3, 0));
+	curve->add_way_point(Vector(3, 2, 0));
+	curve->add_way_point(Vector(4, 6, 0));*/
+
 
 	Game game;
 	game.run();

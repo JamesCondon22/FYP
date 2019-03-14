@@ -1,9 +1,9 @@
-﻿  Options.cpp
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\options.cpp(52): warning C4018: '<': signed/unsigned mismatch
+﻿  Tile.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\tile.cpp(6): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Generating code
-  368 of 3102 functions (11.9%) were compiled, the rest were copied from previous compilation.
+  4 of 3108 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    45 functions had inline decision re-evaluated but remain unchanged
+    2 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 libyaml-cppmdd.lib(directives.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(directives.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info
 libyaml-cppmdd.lib(exp.obj) : warning LNK4099: PDB 'yaml-cpp static md.pdb' was not found with 'libyaml-cppmdd.lib(exp.obj)' or at 'C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Release\yaml-cpp static md.pdb'; linking object as if no debug info

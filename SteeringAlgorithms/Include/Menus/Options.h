@@ -32,6 +32,9 @@ private:
 	std::vector<Label*> m_labels;
 
 	float sliderVal;
+	char buf[32];
 	sf::Clock m_clock;
+
+	ImFont * m_guiText;
 };
 #endif // !Options
