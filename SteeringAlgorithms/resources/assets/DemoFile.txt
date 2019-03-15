@@ -1,0 +1,36 @@
+ID = 1 Basic Context Maps
+Path length = 3023.53
+Interception Time = 17756
+Average Execution Time = 1031.39
+Time Efficiency = 5.99662
+
+ID = 2 Average Interpolation
+Path length = 2533.01
+Interception Time = 17835
+Average Execution Time = 1026.18
+Time Efficiency = 7.20897
+
+ID = 3 Blended Interpolation
+Path length = 2619.46
+Interception Time = 18171
+Average Execution Time = 1123.45
+Time Efficiency = 7.12309
+
+ID = 4 Efficiency AI
+Path length = 2265.41
+Interception Time = 13154
+Average Execution Time = 1124.73
+Time Efficiency = 5.95743
+
+ID = 5 Dynamic Vector
+Path length = 2217.96
+Interception Time = 16863
+Average Execution Time = 1124.54
+Time Efficiency = 7.78173
+
+ID = 6 Average Interpolation
+Path length = 2533.18
+Interception Time = 17843
+Average Execution Time = 1024.7
+Time Efficiency = 7.20929
+

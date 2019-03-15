@@ -124,6 +124,7 @@ sf::Vector2f Player::getPos()
 void Player::setPosition(float x, float y)
 {
 	m_rect.setPosition(x, y);
+	//m_speed = 1;
 }
 
 sf::Vector2f Player::getVel()

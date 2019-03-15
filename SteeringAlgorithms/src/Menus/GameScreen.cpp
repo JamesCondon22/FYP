@@ -93,20 +93,22 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	int curY = m_player->getPos().y / 50;
 
 	collision(curX, curY);
+
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
 		//m_pressed = false;
 	}
 }
 
+
 void GameScreen::collision(int x, int y)
 {
 
 	if (m_tile[x][y - 1]->getState() == NState::Full)
 	{
-		if (m_player->getPos().y < m_tile[x][y - 1]->getPosition().y + 65)
+		if (m_player->getPos().y < m_tile[x][y - 1]->getPosition().y + 75)
 		{
-			m_player->setPosition(m_player->getPos().x, m_tile[x][y - 1]->getPosition().y + 65);
+			m_player->setPosition(m_player->getPos().x, m_tile[x][y - 1]->getPosition().y + 75);
 		}
 
 	}
@@ -121,9 +123,9 @@ void GameScreen::collision(int x, int y)
 	if (m_tile[x - 1][y]->getState() == NState::Full)
 	{
 
-		if (m_player->getPos().x < m_tile[x - 1][y]->getPosition().x + 65)
+		if (m_player->getPos().x < m_tile[x - 1][y]->getPosition().x + 75)
 		{
-			m_player->setPosition(m_tile[x - 1][y]->getPosition().x + 65, m_player->getPos().y);
+			m_player->setPosition(m_tile[x - 1][y]->getPosition().x + 75, m_player->getPos().y);
 		}
 	}
 	if (m_tile[x + 1][y]->getState() == NState::Full)
@@ -135,6 +137,7 @@ void GameScreen::collision(int x, int y)
 		}
 	}
 }
+
 
 void GameScreen::render(sf::RenderWindow & window)
 {

@@ -35,17 +35,7 @@ DemoScreen::DemoScreen(GameState * state):
 	m_trad = new Traditional(m_nodes, m_obstacles);
 	m_testBot = new TestBot(m_nodes, m_obstacles);
 
-	Enemy * aiOne = new FrayAI(m_nodes, m_obstacles);
-	Enemy * aiTwo = new InterpolatingAI(m_nodes, m_obstacles);
-	Enemy * aiThree = new EfficiencyAI(m_nodes, m_obstacles);
-	Enemy * aiFour = new InterpolatingTwo(m_nodes, m_obstacles);
-	Enemy * aiFive = new DynamicVectorAI(m_nodes, m_obstacles);
-
-	m_enemies.push_back(aiOne);
-	m_enemies.push_back(aiTwo);
-	m_enemies.push_back(aiThree);
-	m_enemies.push_back(aiFour);
-	m_enemies.push_back(aiFive);
+	initAI();
 
 	m_file.open("resources/assets/DemoFile.txt");
 }
@@ -74,7 +64,7 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 		m_cumulativeTime = m_clock.getElapsedTime().asMilliseconds();
 
 		m_testBot->update(dt);
-
+		m_trad->update(dt, m_testBot->getPosition());
 		for (int i = 0; i < m_enemies.size(); i++)
 		{
 			if (lastBtnPress == "RUN")
@@ -129,7 +119,7 @@ void DemoScreen::render(sf::RenderWindow & window)
 			m_enemies[i]->render(window);
 		}
 	}
-
+	m_trad->render(window);
 	m_testBot->render(window);
 }
 
@@ -162,16 +152,30 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 			enemy->setActive(false);
 			bot->reset();
 			m_clock.restart();
-			if (m_id > 5)
+			if (m_id > 6)
 			{
 				m_file.close();
 				*m_currentState = GameState::Options;
 			}
-			//m_reset = true;
 		}
-
-		
 	}
+}
 
+
+void DemoScreen::initAI()
+{
+	Enemy * aiOne = new FrayAI(m_nodes, m_obstacles);
+	Enemy * aiTwo = new InterpolatingAI(m_nodes, m_obstacles);
+	Enemy * aiThree = new EfficiencyAI(m_nodes, m_obstacles);
+	Enemy * aiFour = new InterpolatingTwo(m_nodes, m_obstacles);
+	Enemy * aiFive = new DynamicVectorAI(m_nodes, m_obstacles);
+	Enemy * aiSix = new CRSplineAI(m_nodes, m_obstacles);
+
+	m_enemies.push_back(aiOne);
+	m_enemies.push_back(aiTwo);
+	m_enemies.push_back(aiThree);
+	m_enemies.push_back(aiFour);
+	m_enemies.push_back(aiFive);
+	m_enemies.push_back(aiSix);
 }
 

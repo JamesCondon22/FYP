@@ -18,10 +18,10 @@ public:
 	~Traditional();
 	float getNewOrientation(float currentOrientation, float velocity);
 	sf::Vector2f getCurrentNodePosition();
-	sf::Vector2f pursue(sf::Vector2f playerPosition, sf::Vector2f playerVelocity);
+	sf::Vector2f pursue(sf::Vector2f playerPosition);
 	void respawn(float x, float y);
 	float getRandom(int x, int y);
-	void update(double dt, sf::Vector2f player, sf::Vector2f vel);
+	void update(double dt, sf::Vector2f player);
 	void render(sf::RenderWindow & window);
 	sf::Vector2f getVelocity();
 	sf::Vector2f getPosition();

@@ -13,6 +13,7 @@
 #include "../Headers/DynamicVectorAI.h"
 #include "../Headers/Enemy.h"
 #include "../Headers/TestBot.h"
+#include "../Headers/CatmullRom.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -27,7 +28,7 @@ public:
 	void update(double dt, int active, std::string lastBtnPress);
 	void render(sf::RenderWindow& window);
 	void checkCollision(TestBot * bot, Enemy * enemy, std::string lastbtnPress);
-	
+	void initAI();
 private:
 	sf::Window m_window;
 

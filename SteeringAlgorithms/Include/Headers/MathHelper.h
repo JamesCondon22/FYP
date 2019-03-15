@@ -13,7 +13,7 @@ namespace Math
 	bool lineIntersectsCircle(sf::Vector2f vecOne, sf::Vector2f vecTwo, Obstacle* circle);
 	sf::Vector2f scale(sf::Vector2f v, double val);
 	bool circleCollision(sf::Vector2f v1, sf::Vector2f v2, int r1, int r2);
-	
+	float mag(sf::Vector2f & v);
 }
 
 

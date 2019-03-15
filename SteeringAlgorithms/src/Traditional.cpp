@@ -6,17 +6,8 @@ Traditional::Traditional(std::vector<sf::CircleShape> & path, std::vector<Obstac
 	m_position(0, 0),
 	m_heading(0, 0),
 	m_rotation(0),
-	m_speed(10),
-	m_velocity(1, 1),
-	//m_speed(5000),
-	m_relVelocity(0, 0),
-	shape(100.0f),
-	m_maxRotation(20.0f),
-	m_timeToTarget(80.0f),
-	m_maxTimePrediction(10.0f),
-	m_relSpeed(0.0f),
-	m_radius(75.0f),
-	m_threshold(30.0f),
+	m_speed(1.0),
+	m_velocity(0, 0),
 	m_nodes(path),
 	m_obstacles(obs)
 {
@@ -118,7 +109,7 @@ float Traditional::getRandom(int a, int b)
 }
 
 
-sf::Vector2f Traditional::pursue(sf::Vector2f playerPosition, sf::Vector2f playerVelocity)
+sf::Vector2f Traditional::pursue(sf::Vector2f playerPosition)
 {
 	sf::Vector2f vecToNode;
 	vecToNode = getCurrentNodePosition();
@@ -128,10 +119,13 @@ sf::Vector2f Traditional::pursue(sf::Vector2f playerPosition, sf::Vector2f playe
 }
 
 
-void Traditional::update(double dt, sf::Vector2f player, sf::Vector2f velocity)
+void Traditional::update(double dt, sf::Vector2f player)
 {
-	m_steering += pursue(player,velocity);
-	m_steering += ObstacleAvoidance();
+	m_steering += pursue(player);
+	if (m_velocity.x != 0 || m_velocity.y != 0)
+	{
+		m_steering += ObstacleAvoidance();
+	}
 	
 	m_steering = truncate(m_steering, MAX_FORCE);
 	m_velocity = truncate(m_velocity + m_steering, MAX_SPEED);
@@ -170,9 +164,12 @@ void Traditional::update(double dt, sf::Vector2f player, sf::Vector2f velocity)
 }
 sf::Vector2f Traditional::ObstacleAvoidance() {
 	
+	
 	auto norm = thor::unitVector(m_velocity);
 	auto headingRadians = thor::toRadian(m_rotation);
 	auto dynamic = thor::length(m_velocity) / 10.0f;
+	
+	
 	sf::Vector2f headingVector(cos(headingRadians) * dynamic, sin(headingRadians) * dynamic);
 	
 	ahead = m_position + norm + headingVector;

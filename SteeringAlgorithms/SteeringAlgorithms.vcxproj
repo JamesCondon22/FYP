@@ -137,6 +137,7 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="Include\Headers\Button.h" />
+    <ClInclude Include="Include\Headers\CatmullRom.h" />
     <ClInclude Include="Include\Headers\ContextDecisionMaker.h" />
     <ClInclude Include="Include\Headers\ContextMap.h" />
     <ClInclude Include="Include\Headers\DirectionalLine.h" />
@@ -162,7 +163,11 @@
     <ClInclude Include="Include\Menus\MainMenu.h" />
     <ClInclude Include="Include\Menus\Options.h" />
     <ClInclude Include="Include\Menus\State.h" />
+    <ClInclude Include="spline\spline\src\main\cpp\Bezier.h" />
+    <ClInclude Include="spline\spline\src\main\cpp\BSpline.h" />
     <ClInclude Include="spline\spline\src\main\cpp\CatmullRom.h" />
+    <ClInclude Include="spline\spline\src\main\cpp\Curve.h" />
+    <ClInclude Include="spline\spline\src\main\cpp\Vector.h" />
     <ClInclude Include="spline_library\spline.h" />
     <ClInclude Include="spline_library\splines\cubic_hermite_spline.h" />
     <ClInclude Include="spline_library\splines\generic_b_spline.h" />
@@ -183,7 +188,13 @@
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="spline\spline\src\main\cpp\Bezier.cpp" />
+    <ClCompile Include="spline\spline\src\main\cpp\BSpline.cpp" />
+    <ClCompile Include="spline\spline\src\main\cpp\CatmullRom.cpp" />
+    <ClCompile Include="spline\spline\src\main\cpp\Curve.cpp" />
+    <ClCompile Include="spline\spline\src\main\cpp\Vector.cpp" />
     <ClCompile Include="src\Button.cpp" />
+    <ClCompile Include="src\CatmullRom.cpp" />
     <ClCompile Include="src\ContextDecisionMaker.cpp" />
     <ClCompile Include="src\ContextMap.cpp" />
     <ClCompile Include="src\DirectionalLine.cpp" />
