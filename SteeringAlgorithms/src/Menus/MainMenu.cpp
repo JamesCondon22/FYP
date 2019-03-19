@@ -55,6 +55,12 @@ void MainMenu::handleInputs(Button & button)
 			m_lastPressed = "RUN ALL";
 			*m_currentState = GameState::Demo;
 		}
+		if (button.getString() == "COMPARE")
+		{
+			m_activatedAI = atoi("1");
+			m_lastPressed = "COMPARE";
+			*m_currentState = GameState::Demo;
+		}
 		if (button.getString() == "1")
 		{
 			m_activatedAI = atoi("1");
@@ -87,6 +93,9 @@ void MainMenu::handleInputs(Button & button)
 		}
 		if (button.getString() == "6")
 		{
+			m_activatedAI = atoi("6");
+			button.setPressed(true);
+			button.update();
 		}
 
 		m_pressed = true;
@@ -115,6 +124,7 @@ void MainMenu::initButtons()
 {
 	Button *buttonOne = new Button(sf::Vector2f(700, 600), 400, 150, m_texture, m_font, "RUN");
 	Button *buttonRunAll = new Button(sf::Vector2f(700, 450), 400, 150, m_texture, m_font, "RUN ALL");
+	Button *buttonCompare = new Button(sf::Vector2f(700, 100), 400, 150, m_texture, m_font, "COMPARE");
 
 	Button *aiButtonOne = new Button(sf::Vector2f(50, 300), 150, 150, m_texture, m_font, "1");
 	Button *aiButtonTwo = new Button(sf::Vector2f(250, 300), 150, 150, m_texture, m_font, "2");
@@ -131,5 +141,6 @@ void MainMenu::initButtons()
 	m_buttons.push_back(aiButtonFour);
 	m_buttons.push_back(aiButtonFive);
 	m_buttons.push_back(aiButtonSix);
+	m_buttons.push_back(buttonCompare);
 }
 

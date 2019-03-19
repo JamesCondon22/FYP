@@ -156,9 +156,6 @@
     <ClInclude Include="spline\spline\src\main\cpp\CatmullRom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Headers\CatmullRom.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="spline\spline\src\main\cpp\Curve.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -169,6 +166,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="spline\spline\src\main\cpp\BSpline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Headers\CRSpline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Headers\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -260,9 +263,6 @@
     <ClCompile Include="src\Tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CatmullRom.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="spline\spline\src\main\cpp\CatmullRom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -276,6 +276,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="spline\spline\src\main\cpp\Vector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CRSpline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

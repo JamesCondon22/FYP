@@ -36,11 +36,12 @@ DynamicVectorAI::DynamicVectorAI(std::vector<sf::CircleShape> & path, std::vecto
 		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
 		m_lineVec.push_back(line);
 	}
-
-	m_rect.setFillColor(sf::Color::Magenta);
+	m_color = sf::Color::Magenta;
+	m_rect.setFillColor(m_color);
 	m_line->color = sf::Color::Black;
 	m_line[0].position = m_position;
 	m_line[1].position = sf::Vector2f(m_position.x, m_position.y + 100);
+	m_rect.rotate(90);
 }
 
 
@@ -395,6 +396,7 @@ void DynamicVectorAI::generatePath(double dt)
 	{
 		Path * circle = new Path(3);
 		circle->setPosition(m_position);
+		circle->setColor(m_color);
 		m_pathLine.push_back(circle);
 		m_timeAmount = 0;
 		if (m_lastPathCircle != nullptr)

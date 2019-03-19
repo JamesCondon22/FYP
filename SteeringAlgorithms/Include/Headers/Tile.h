@@ -39,7 +39,7 @@ private:
 	bool isObstacle;
 	std::pair<int, int> m_gridPos;
 	sf::CircleShape circle;
-
+	sf::CircleShape m_surround;
 	NState  m_current;
 
 	

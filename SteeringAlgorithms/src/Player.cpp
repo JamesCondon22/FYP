@@ -3,20 +3,20 @@
 
 double const Player::DEG_TO_RAD = 3.14 / 180.0f;
 Player::Player() :
-	m_position(0, 0),
-	m_velocity(0, 0),
+	m_position(0.0f, 0.0f),
+	m_velocity(0.0f, 0.0f),
 	size(100),
-	m_rotation(0),
-	m_speed(0),
-	MAX_SPEED(350)
+	m_rotation(0.0),
+	m_speed(0.0),
+	MAX_SPEED(200.0)
 {
 	if (!m_texture.loadFromFile("resources/assets/enemy.png")) {
 		//do something
 	}
-	m_rect.setOrigin(m_position.x + 50 / 2, m_position.y + 25 / 2);
+	m_rect.setOrigin(m_position.x + 50.0f / 2, m_position.y + 25.0f / 2);
 	m_rect.setTexture(&m_texture);
-	m_rect.setSize(sf::Vector2f(50, 25));
-	m_position = sf::Vector2f(900, 500);
+	m_rect.setSize(sf::Vector2f(50.0f, 25.0f));
+	m_position = sf::Vector2f(900.0f, 500.0f);
 	m_rect.setPosition(m_position);
 
 	m_rect.setFillColor(sf::Color::Red);
@@ -30,8 +30,8 @@ Player::~Player()
 
 void Player::update(double dt)
 {
-	int curX = m_rect.getPosition().x / 50;
-	int curY = m_rect.getPosition().y / 50;
+	int curX = m_rect.getPosition().x / 50.0f;
+	int curY = m_rect.getPosition().y / 50.0f;
 
 	std::cout << curX << ", " << curY << std::endl;
 	m_heading.x = cos(m_rotation * DEG_TO_RAD);
@@ -57,23 +57,6 @@ void Player::update(double dt)
 		decreaseSpeed();
 	}
 
-	//looping screen 
-	if (m_rect.getPosition().x > 1920)
-	{
-		m_rect.setPosition(-100, m_rect.getPosition().y);
-	}
-	if (m_rect.getPosition().x < -200)
-	{
-		m_rect.setPosition(1920, m_rect.getPosition().y);
-	}
-	if (m_rect.getPosition().y < -200)
-	{
-		m_rect.setPosition(m_rect.getPosition().x, 1080);
-	}
-	if (m_rect.getPosition().y > 1080)
-	{
-		m_rect.setPosition(m_rect.getPosition().x, 0);
-	}
 }
 
 void Player::render(sf::RenderWindow & window)

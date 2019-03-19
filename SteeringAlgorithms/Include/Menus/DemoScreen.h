@@ -13,7 +13,7 @@
 #include "../Headers/DynamicVectorAI.h"
 #include "../Headers/Enemy.h"
 #include "../Headers/TestBot.h"
-#include "../Headers/CatmullRom.h"
+#include "../Headers/CRSpline.h"
 
 #include <SFML/Graphics.hpp>
 

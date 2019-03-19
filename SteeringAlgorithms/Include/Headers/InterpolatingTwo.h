@@ -1,6 +1,4 @@
 #pragma once
-#ifndef INTERPOLATINGTWO_H
-#define INTERPOLATINGTWO_H
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string.h>
@@ -122,6 +120,5 @@ private:
 	double m_lastUpdate;
 	double m_timer;
 
+	sf::Color m_color;
 };
-
-#endif

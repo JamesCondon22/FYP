@@ -5,12 +5,15 @@
 #include "Menus/State.h"
 #include "Headers/Tile.h"
 #include "../Headers/Player.h"
+#include "Headers/Camera.h"
+#include "Headers/InterpolatingAI.h"
+#include "Headers/LevelLoader.h"
 
 class GameScreen
 {
 public:
 	
-	GameScreen(GameState * state);
+	GameScreen(GameState * state, sf::Vector2f & size);
 	void update(double dt, sf::Vector2i & mouse);
 	void render(sf::RenderWindow & window);
 	void collision(int x, int y);
@@ -28,6 +31,12 @@ private:
 	bool m_pressed;
 
 	Player* m_player;
+
+	Camera * camera;
+	InterpolatingAI* m_ai;
+	std::vector<Obstacle*> m_obstacles;
+	std::vector<sf::CircleShape> m_nodes;
+	LevelData m_level;
 };
 
 #endif

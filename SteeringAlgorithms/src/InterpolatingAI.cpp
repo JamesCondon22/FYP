@@ -2,7 +2,7 @@
 
 double const InterpolatingAI::RAD_TO_DEG = 180.0f / 3.14;
 double const InterpolatingAI::DEG_TO_RAD = 3.14 / 180.0f;
-InterpolatingAI::InterpolatingAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs) :
+InterpolatingAI::InterpolatingAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs, bool inGame) :
 	m_position(0, 0),
 	m_velocity(0, 0),
 	size(100),
@@ -10,7 +10,8 @@ InterpolatingAI::InterpolatingAI(std::vector<sf::CircleShape> & path, std::vecto
 	m_speed(1.5f),
 	MAX_SPEED(100),
 	m_nodes(path),
-	m_obstacles(obs)
+	m_obstacles(obs),
+	m_InGame(inGame)
 {
 	if (!m_texture.loadFromFile("resources/assets/enemyTwo.png")) {
 		//do something
@@ -36,8 +37,9 @@ InterpolatingAI::InterpolatingAI(std::vector<sf::CircleShape> & path, std::vecto
 		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
 		m_lineVec.push_back(line);
 	}
-	m_rect.setFillColor(sf::Color::Yellow);
-
+	m_color = sf::Color::Cyan;
+	m_rect.setFillColor(m_color);
+	m_rect.rotate(90);
 }
 
 
@@ -54,7 +56,13 @@ void InterpolatingAI::update(double dt, sf::Vector2f position)
 	}
 
 	updateLines(position);
-	updateDangers();
+	if (m_InGame){
+		updateDangers();
+	}
+	else{
+		updateDangers();
+	}
+	
 	m_distances = normalize(m_distances);
 	mapDecisions.update(m_distances, m_distancesDanger);
 	checkDirection();
@@ -345,6 +353,7 @@ void InterpolatingAI::generatePath(double dt)
 	{
 		Path * circle = new Path(3);
 		circle->setPosition(m_position);
+		circle->setColor(m_color);
 		m_pathLine.push_back(circle);
 		m_timeAmount = 0;
 		if (m_lastPathCircle != nullptr)

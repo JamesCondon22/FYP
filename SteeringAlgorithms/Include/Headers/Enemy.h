@@ -1,6 +1,4 @@
 #pragma once
-#ifndef ENEMY
-#define ENEMY
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string.h>
@@ -28,5 +26,3 @@ public:
 	virtual void setCollided(bool collide) = 0;
 	virtual std::string getName() = 0;
 };
-
-#endif

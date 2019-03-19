@@ -1,6 +1,4 @@
 #pragma once
-#ifndef INTERPOLATINGAI
-#define INTERPOLATINGAI
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string.h>
@@ -14,7 +12,7 @@
 class InterpolatingAI : public Enemy
 {
 public:
-	InterpolatingAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs);
+	InterpolatingAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs, bool inGame);
 	~InterpolatingAI();
 	void update(double dt, sf::Vector2f position);
 	void render(sf::RenderWindow & window);
@@ -109,12 +107,12 @@ private:
 	sf::Time m_time;
 
 	bool m_startTimer = false;
-
+	bool m_InGame = false;
 	double m_timeEfficiency;
 	double m_averageExecTime;
 	double m_tickCounter;
 	double m_lastUpdate;
 	double m_timer;
-};
 
-#endif
+	sf::Color m_color;
+};

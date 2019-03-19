@@ -39,8 +39,8 @@ FrayAI::FrayAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs)
 		m_lineVec.push_back(line);
 		
 	}
-
-	m_rect.setFillColor(sf::Color::Red);
+	m_color = sf::Color::Red;
+	m_rect.setFillColor(m_color);
 	//m_rotation = 180;
 	m_rect.rotate(90);
 
@@ -344,6 +344,7 @@ void FrayAI::generatePath(double dt)
 	{
 		Path * circle = new Path(3);
 		circle->setPosition(m_position);
+		circle->setColor(m_color);
 		m_pathLine.push_back(circle);
 		m_timeAmount = 0;
 		if (m_lastPathCircle != nullptr)

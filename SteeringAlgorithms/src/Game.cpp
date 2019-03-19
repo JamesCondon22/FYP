@@ -19,11 +19,12 @@ Game::Game()
 	: m_window(sf::VideoMode(1920, 1080, 32), "SFML Playground", sf::Style::Default)
 
 {
+	sf::Vector2f size = sf::Vector2f(1920, 1080);
 	m_window.setVerticalSyncEnabled(true);
 
 	m_currentState = new GameState;
 
-	*m_currentState = GameState::Demo;
+	*m_currentState = GameState::Menu;
 
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
@@ -33,7 +34,7 @@ Game::Game()
 	m_options = new Options(m_currentState, m_font, m_window);
 	m_demoScreen = new DemoScreen(m_currentState);
 	mainMenu = new MainMenu(m_currentState);
-	m_gameScreen = new GameScreen(m_currentState);
+	m_gameScreen = new GameScreen(m_currentState, size);
 
 }
 

@@ -3,7 +3,7 @@
 Path::Path(int size)
 {
 	m_circle.setRadius(size);
-	m_circle.setFillColor(sf::Color::White);
+
 }
 
 Path::~Path()
@@ -33,6 +33,11 @@ int Path::getRadius()
 
 sf::Vector2f Path::getPosition() {
 	return m_position;
+}
+
+
+void Path::setColor(sf::Color color) {
+	m_circle.setFillColor(color);
 }
 
 

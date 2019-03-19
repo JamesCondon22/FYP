@@ -8,7 +8,7 @@ Options::Options(GameState * state, sf::Font & font, sf::RenderWindow & window):
 	//m_window(window)
 {
 	m_window = &window;
-	ImGui::SFML::Init(window);
+	ImGui::SFML::Init(*m_window);
 	
 	
 	m_file.open("resources/assets/DemoFile.txt");
@@ -22,15 +22,14 @@ Options::~Options()
 
 void Options::update(double dt)
 {
-	
-	ImGui::SFML::Update(*m_window, m_clock.restart());
-	
+	//ImGui::NewFrame();
+	/*ImGui::SFML::Update(*m_window, m_clock.restart());
 	ImGui::Begin("Hello, world!");
 	ImGui::Button("Button one");
 	ImGui::Button("Button two");
 	ImGui::SetWindowFontScale(2.5f);
 	ImGui::End();
-	ImGui::EndFrame();
+	ImGui::EndFrame();*/
 
 	while (std::getline(m_file, m_line))
 	{
@@ -54,7 +53,9 @@ void Options::update(double dt)
 
 void Options::render(sf::RenderWindow & window)
 {
-	ImGui::SFML::Render(window);
+	
+	//ImGui::SFML::Render(*m_window);
+
 	for (int i = 0; i < m_labels.size(); i++)
 	{
 		m_labels[i]->render(window);

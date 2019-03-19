@@ -142,6 +142,7 @@ private:
 	double m_tickCounter;
 	double m_lastUpdate;
 	double m_timer;
+	sf::Color m_color;
 
 	sf::Vertex m_line[2];
 };

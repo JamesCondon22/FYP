@@ -26,7 +26,11 @@ struct PathData
 struct LevelData
 {
 	std::vector<PathData> m_paths;
-
+	std::vector<PathData> m_pathOne;
+	std::vector<PathData> m_pathTwo;
+	std::vector<PathData> m_pathThree;
+	std::vector<PathData> m_pathFour;
+	std::vector<PathData> m_pathFive;
 	std::vector<ObstacleData> m_obstacles;
 	PathData send(PathData data);
 	sf::Vector2f current;

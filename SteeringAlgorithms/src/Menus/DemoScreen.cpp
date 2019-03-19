@@ -12,11 +12,12 @@ DemoScreen::DemoScreen(GameState * state):
 	}
 
 	if (!m_textureObs.loadFromFile("resources/assets/obstacle.png")) {
+
 		std::cout << "texture not loading" << std::endl;
 	}
 
 	for (ObstacleData const &obs : m_level.m_obstacles) {
-		Obstacle* obstacle = new Obstacle(obs.m_radius, m_textureObs);
+		Obstacle* obstacle = new Obstacle(obs.m_radius, m_textureObs, sf::Vector2f(0,0), true);
 		obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
 		obstacle->setID(obs.m_id);
 		obstacle->setPosition(obs.m_position);
@@ -64,7 +65,7 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 		m_cumulativeTime = m_clock.getElapsedTime().asMilliseconds();
 
 		m_testBot->update(dt);
-		m_trad->update(dt, m_testBot->getPosition());
+		//m_trad->update(dt, m_testBot->getPosition());
 		for (int i = 0; i < m_enemies.size(); i++)
 		{
 			if (lastBtnPress == "RUN")
@@ -74,9 +75,16 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 					m_enemies[i]->setActive(true);
 				}
 			}
-			else
+			else if (lastBtnPress == "RUN ALL")
 			{
 				if (!m_enemies[i]->getActive() && m_enemies[i]->getId() == m_id)
+				{
+					m_enemies[i]->setActive(true);
+				}
+			}
+			else if (lastBtnPress == "COMPARE")
+			{
+				if (!m_enemies[i]->getActive())
 				{
 					m_enemies[i]->setActive(true);
 				}
@@ -119,7 +127,7 @@ void DemoScreen::render(sf::RenderWindow & window)
 			m_enemies[i]->render(window);
 		}
 	}
-	m_trad->render(window);
+	//m_trad->render(window);
 	m_testBot->render(window);
 }
 
@@ -136,8 +144,8 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 		m_file << "ID = " << enemy->getId() << " " << enemy->getName() << std::endl;
 		m_file << "Path length = " << enemy->getPathLength() << std::endl;
 		m_file << "Interception Time = " << enemy->getInterceptionTime() << std::endl;
-		m_file << "Average Execution Time = " << enemy->getAverageExecTime()  << std::endl;
-		m_file << "Time Efficiency = " << enemy->getTimeEfficiency() << std::endl;
+		m_file << "Average Execution Time = " << enemy->getTimeEfficiency()  << std::endl;
+		//m_file << "Time Efficiency = " << enemy->getTimeEfficiency() << std::endl;
 		m_file << "\n";
 		
 		
@@ -146,7 +154,7 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 			m_file.close();
 			*m_currentState = GameState::Options;
 		}
-		else
+		else if (lastBtnPress == "RUN ALL")
 		{
 			m_id++;
 			enemy->setActive(false);
@@ -158,6 +166,10 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 				*m_currentState = GameState::Options;
 			}
 		}
+		else if (lastBtnPress == "COMPARE")
+		{
+			enemy->setActive(false);
+		}
 	}
 }
 
@@ -165,7 +177,7 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 void DemoScreen::initAI()
 {
 	Enemy * aiOne = new FrayAI(m_nodes, m_obstacles);
-	Enemy * aiTwo = new InterpolatingAI(m_nodes, m_obstacles);
+	Enemy * aiTwo = new InterpolatingAI(m_nodes, m_obstacles, false);
 	Enemy * aiThree = new EfficiencyAI(m_nodes, m_obstacles);
 	Enemy * aiFour = new InterpolatingTwo(m_nodes, m_obstacles);
 	Enemy * aiFive = new DynamicVectorAI(m_nodes, m_obstacles);

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef EFFICIENCYAI
-#define EFFICIENCYAI
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string.h>
@@ -138,6 +136,6 @@ private:
 	double m_tickCounter;
 	double m_lastUpdate;
 	double m_timer;
-};
 
-#endif
+	sf::Color m_color;
+};

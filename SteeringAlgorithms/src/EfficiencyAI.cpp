@@ -36,8 +36,9 @@ EfficiencyAI::EfficiencyAI(std::vector<sf::CircleShape> & path, std::vector<Obst
 		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
 		m_lineVec.push_back(line);
 	}
-
-	m_rect.setFillColor(sf::Color::Green);
+	m_color = sf::Color::Green;
+	m_rect.setFillColor(m_color);
+	m_rect.rotate(90);
 }
 
 
@@ -360,6 +361,7 @@ void EfficiencyAI::generatePath(double dt)
 	{
 		Path * circle = new Path(3);
 		circle->setPosition(m_position);
+		circle->setColor(m_color);
 		m_pathLine.push_back(circle);
 		m_timeAmount = 0;
 		if (m_lastPathCircle != nullptr)

@@ -137,7 +137,8 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="Include\Headers\Button.h" />
-    <ClInclude Include="Include\Headers\CatmullRom.h" />
+    <ClInclude Include="Include\Headers\Camera.h" />
+    <ClInclude Include="Include\Headers\CRSpline.h" />
     <ClInclude Include="Include\Headers\ContextDecisionMaker.h" />
     <ClInclude Include="Include\Headers\ContextMap.h" />
     <ClInclude Include="Include\Headers\DirectionalLine.h" />
@@ -194,7 +195,8 @@
     <ClCompile Include="spline\spline\src\main\cpp\Curve.cpp" />
     <ClCompile Include="spline\spline\src\main\cpp\Vector.cpp" />
     <ClCompile Include="src\Button.cpp" />
-    <ClCompile Include="src\CatmullRom.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\CRSpline.cpp" />
     <ClCompile Include="src\ContextDecisionMaker.cpp" />
     <ClCompile Include="src\ContextMap.cpp" />
     <ClCompile Include="src\DirectionalLine.cpp" />
