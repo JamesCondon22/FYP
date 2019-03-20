@@ -72,6 +72,11 @@ void InterpolatingAI::update(double dt, sf::Vector2f position)
 	handleTimer();
 
 	m_tickCounter += 1;
+	
+	if (m_tickCounter == 20)
+	{
+		
+	}
 	m_time += m_clock2.getElapsedTime();
 
 }
@@ -364,13 +369,12 @@ void InterpolatingAI::generatePath(double dt)
 
 void InterpolatingAI::handleTimer()
 {
-	m_currentTime += m_clock.restart().asMilliseconds();
-
 	if (!m_startTimer)
 	{
-		m_currentTime -= m_currentTime;
+		m_clock.restart();
 		m_startTimer = true;
 	}
+	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
 }
 
 

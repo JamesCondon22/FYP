@@ -122,16 +122,16 @@ void MainMenu::render(sf::RenderWindow & window)
 
 void MainMenu::initButtons()
 {
-	Button *buttonOne = new Button(sf::Vector2f(700, 600), 400, 150, m_texture, m_font, "RUN");
-	Button *buttonRunAll = new Button(sf::Vector2f(700, 450), 400, 150, m_texture, m_font, "RUN ALL");
+	Button *buttonOne = new Button(sf::Vector2f(700, 750), 400, 150, m_texture, m_font, "RUN");
+	Button *buttonRunAll = new Button(sf::Vector2f(700, 300), 400, 150, m_texture, m_font, "RUN ALL");
 	Button *buttonCompare = new Button(sf::Vector2f(700, 100), 400, 150, m_texture, m_font, "COMPARE");
 
-	Button *aiButtonOne = new Button(sf::Vector2f(50, 300), 150, 150, m_texture, m_font, "1");
-	Button *aiButtonTwo = new Button(sf::Vector2f(250, 300), 150, 150, m_texture, m_font, "2");
-	Button *aiButtonThree = new Button(sf::Vector2f(450, 300), 150, 150, m_texture, m_font, "3");
-	Button *aiButtonFour = new Button(sf::Vector2f(650, 300), 150, 150, m_texture, m_font, "4");
-	Button *aiButtonFive = new Button(sf::Vector2f(850, 300), 150, 150, m_texture, m_font, "5");
-	Button *aiButtonSix = new Button(sf::Vector2f(1050, 300), 150, 150, m_texture, m_font, "6");
+	Button *aiButtonOne = new Button(sf::Vector2f(320, 550), 150, 150, m_texture, m_font, "1");
+	Button *aiButtonTwo = new Button(sf::Vector2f(520, 550), 150, 150, m_texture, m_font, "2");
+	Button *aiButtonThree = new Button(sf::Vector2f(720, 550), 150, 150, m_texture, m_font, "3");
+	Button *aiButtonFour = new Button(sf::Vector2f(920, 550), 150, 150, m_texture, m_font, "4");
+	Button *aiButtonFive = new Button(sf::Vector2f(1120, 550), 150, 150, m_texture, m_font, "5");
+	Button *aiButtonSix = new Button(sf::Vector2f(1320, 550), 150, 150, m_texture, m_font, "6");
 	
 	m_buttons.push_back(buttonOne);
 	m_buttons.push_back(buttonRunAll);

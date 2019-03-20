@@ -383,7 +383,6 @@ void DynamicVectorAI::handleTimer()
 		m_clock.restart();
 		m_startTimer = true;
 	}
-	//std::cout << "Time = " << m_currentTime << std::endl;
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
 }
 

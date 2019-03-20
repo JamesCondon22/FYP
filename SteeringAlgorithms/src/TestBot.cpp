@@ -31,7 +31,7 @@ TestBot::TestBot(std::vector<sf::CircleShape> & path, std::vector<Obstacle*> obs
 	for (int i = 0; i < lines.size(); i++) {
 		lines[i].setOrigin(m_position.x - 25, m_position.y + 1);
 	}
-	m_position = sf::Vector2f(1800, 500);
+	m_position = sf::Vector2f(1600, 100);
 
 	m_rect.setPosition(m_position);
 
@@ -235,7 +235,7 @@ void TestBot::render(sf::RenderWindow & window)
 
 void TestBot::reset()
 {
-	m_position = sf::Vector2f(1800, 500);
+	m_position = sf::Vector2f(1600, 100);
 	currentNode = 0;
 	m_rotation = 180;
 }

@@ -17,7 +17,7 @@ public:
 	void update(double dt, sf::Vector2i & mouse);
 	void render(sf::RenderWindow & window);
 	void collision(int x, int y);
-
+	void loadLevel(std::string level);
 private:
 
 	GameState * m_currentState;

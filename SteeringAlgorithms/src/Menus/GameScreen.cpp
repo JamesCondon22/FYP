@@ -9,65 +9,11 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size):
 		std::cout << "texture not loading" << std::endl;
 	}
 
-	m_player = new Player();
-	m_readFile.open("resources/levels/LevelOne.txt");
-	
+	loadLevel("resources/levels/LevelOne.txt");
 
-	std::vector<char> chars;
-
-	while (std::getline(m_readFile, m_line))
-	{
-		for (int i = 0; i < m_line.length(); i++)
-		{
-			chars.push_back(m_line.at(i));
-		}
-	}
-	m_readFile.close();
-	sf::Texture text;
-	int counter = 0;
-	for (int i = 0; i < 50; i++) {
-		for (int j = 0; j < 50; j++) {
-			m_tile[j][i] = new Tile(50 * j, 50 * i, j, i);
-			
-			if (chars[counter] == '0')
-			{
-				m_tile[j][i]->setBlank();
-			}
-			else if (chars[counter] == '1')
-			{
-				m_tile[j][i]->setObstacle();
-				/*Obstacle *circle = new Obstacle(0, text, sf::Vector2f(50.0f, 50.0f), false);
-				circle->setPosition(sf::Vector2f(0.0f, 0.0f));
-				circle->setOrigin(25, 25);
-				sf::Vector2f pos = sf::Vector2f(m_tile[j][i]->getPosition().x + 25, m_tile[j][i]->getPosition().y + 25);
-				circle->setPosition(pos);
-				m_obstacles.push_back(circle);*/
-				
-			}
-			else if (chars[counter] == '2')
-			{
-				m_tile[j][i]->setInterest();
-				sf::CircleShape circ = sf::CircleShape(5);
-				circ.setPosition(0, 0);
-				circ.setFillColor(sf::Color(255, 0, 0));
-				circ.setOrigin(circ.getRadius(), circ.getRadius());
-				circ.setPosition(sf::Vector2f(m_tile[j][i]->getPosition().x + 25, m_tile[j][i]->getPosition().y + 25));
-				m_nodes.push_back(circ);
-			}
-			else if (chars[counter] == '3')
-			{
-				m_tile[j][i]->setCircularObs();
-				Obstacle* obstacle = new Obstacle(50, m_TextureObs, sf::Vector2f(0, 0), true);
-				obstacle->setPosition(sf::Vector2f(0, 0));
-				obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
-				obstacle->setPosition(sf::Vector2f(m_tile[j][i]->getPosition().x + 25, m_tile[j][i]->getPosition().y + 25));
-				m_obstacles.push_back(obstacle);
-			}
-			counter++;
-		}
-	}
-	chars.empty();
 	camera = new Camera(size);
+
+	m_player = new Player();
 	m_ai = new InterpolatingAI(m_nodes, m_obstacles);
 }
 
@@ -201,6 +147,68 @@ void GameScreen::collision(int x, int y)
 }
 
 
+/// <summary>
+/// reads from the file and loads the current level
+/// initialises the 50 X 50 tile array
+/// sets the positions of the blank, interest and Obstacles and 
+/// circular obstacles
+/// </summary>
+/// <param name="level">the current level</param>
+void GameScreen::loadLevel(std::string level)
+{
+	m_readFile.open(level);
+
+	std::vector<char> chars;
+
+	while (std::getline(m_readFile, m_line))
+	{
+		for (int i = 0; i < m_line.length(); i++)
+		{
+			chars.push_back(m_line.at(i));
+		}
+	}
+	m_readFile.close();
+
+	int counter = 0;
+	for (int i = 0; i < 50; i++) {
+		for (int j = 0; j < 50; j++) {
+			m_tile[j][i] = new Tile(50 * j, 50 * i, j, i);
+
+			if (chars[counter] == '0')
+			{
+				m_tile[j][i]->setBlank();
+			}
+			else if (chars[counter] == '1')
+			{
+				m_tile[j][i]->setObstacle();
+			}
+			else if (chars[counter] == '2')
+			{
+				m_tile[j][i]->setInterest();
+				sf::CircleShape circ = sf::CircleShape(5);
+				circ.setPosition(0, 0);
+				circ.setFillColor(sf::Color(255, 0, 0));
+				circ.setOrigin(circ.getRadius(), circ.getRadius());
+				circ.setPosition(sf::Vector2f(m_tile[j][i]->getPosition().x + 25, m_tile[j][i]->getPosition().y + 25));
+				m_nodes.push_back(circ);
+			}
+			else if (chars[counter] == '3')
+			{
+				m_tile[j][i]->setCircularObs();
+				Obstacle* obstacle = new Obstacle(50, m_TextureObs, sf::Vector2f(0, 0), true);
+				obstacle->setPosition(sf::Vector2f(0, 0));
+				obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
+				obstacle->setPosition(sf::Vector2f(m_tile[j][i]->getPosition().x + 25, m_tile[j][i]->getPosition().y + 25));
+				m_obstacles.push_back(obstacle);
+			}
+
+			counter++;
+		}
+	}
+	chars.empty();
+}
+
+
 void GameScreen::render(sf::RenderWindow & window)
 {
 	
@@ -211,6 +219,7 @@ void GameScreen::render(sf::RenderWindow & window)
 			m_tile[j][i]->render(window);
 		}
 	}
+	
 	camera->render(window);
 	m_player->render(window);
 	m_ai->render(window);
