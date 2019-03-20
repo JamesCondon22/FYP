@@ -12,7 +12,7 @@
 class InterpolatingAI : public Enemy
 {
 public:
-	InterpolatingAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs, bool inGame);
+	InterpolatingAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs);
 	~InterpolatingAI();
 	void update(double dt, sf::Vector2f position);
 	void render(sf::RenderWindow & window);

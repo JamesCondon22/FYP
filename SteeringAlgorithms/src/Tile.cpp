@@ -82,8 +82,6 @@ void Tile::render(sf::RenderWindow & window)
 	case NState::Full:
 		m_rect.setFillColor(sf::Color::Black);
 		break;
-	case NState::Interest:
-		window.draw(m_interestPoint);
 	case NState::Circle:
 		//window.draw(m_CircleObs);
 	default:

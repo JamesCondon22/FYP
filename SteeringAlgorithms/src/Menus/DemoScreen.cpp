@@ -177,7 +177,7 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 void DemoScreen::initAI()
 {
 	Enemy * aiOne = new FrayAI(m_nodes, m_obstacles);
-	Enemy * aiTwo = new InterpolatingAI(m_nodes, m_obstacles, false);
+	Enemy * aiTwo = new InterpolatingAI(m_nodes, m_obstacles);
 	Enemy * aiThree = new EfficiencyAI(m_nodes, m_obstacles);
 	Enemy * aiFour = new InterpolatingTwo(m_nodes, m_obstacles);
 	Enemy * aiFive = new DynamicVectorAI(m_nodes, m_obstacles);

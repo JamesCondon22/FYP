@@ -13,8 +13,6 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size):
 	m_readFile.open("resources/levels/LevelOne.txt");
 	
 
-	int currentLevel = 2;
-
 	std::vector<char> chars;
 
 	while (std::getline(m_readFile, m_line))
@@ -49,13 +47,20 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size):
 			else if (chars[counter] == '2')
 			{
 				m_tile[j][i]->setInterest();
+				sf::CircleShape circ = sf::CircleShape(5);
+				circ.setPosition(0, 0);
+				circ.setFillColor(sf::Color(255, 0, 0));
+				circ.setOrigin(circ.getRadius(), circ.getRadius());
+				circ.setPosition(sf::Vector2f(m_tile[j][i]->getPosition().x + 25, m_tile[j][i]->getPosition().y + 25));
+				m_nodes.push_back(circ);
 			}
 			else if (chars[counter] == '3')
 			{
 				m_tile[j][i]->setCircularObs();
 				Obstacle* obstacle = new Obstacle(50, m_TextureObs, sf::Vector2f(0, 0), true);
+				obstacle->setPosition(sf::Vector2f(0, 0));
 				obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
-				obstacle->setPosition(m_tile[j][i]->getPosition());
+				obstacle->setPosition(sf::Vector2f(m_tile[j][i]->getPosition().x + 25, m_tile[j][i]->getPosition().y + 25));
 				m_obstacles.push_back(obstacle);
 			}
 			counter++;
@@ -63,7 +68,7 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size):
 	}
 	chars.empty();
 	camera = new Camera(size);
-	//m_ai = new InterpolatingAI(m_nodes, m_obstacles, true);
+	m_ai = new InterpolatingAI(m_nodes, m_obstacles);
 }
 
 
@@ -155,7 +160,7 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	{
 		m_pressed = false;
 	}
-	//m_ai->update(dt, m_player->getPos());
+	m_ai->update(dt, m_player->getPos());
 }
 
 
@@ -208,7 +213,7 @@ void GameScreen::render(sf::RenderWindow & window)
 	}
 	camera->render(window);
 	m_player->render(window);
-	//m_ai->render(window);
+	m_ai->render(window);
 	
 	for (auto &node : m_nodes)
 	{

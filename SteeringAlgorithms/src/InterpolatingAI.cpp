@@ -2,7 +2,7 @@
 
 double const InterpolatingAI::RAD_TO_DEG = 180.0f / 3.14;
 double const InterpolatingAI::DEG_TO_RAD = 3.14 / 180.0f;
-InterpolatingAI::InterpolatingAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs, bool inGame) :
+InterpolatingAI::InterpolatingAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs) :
 	m_position(0, 0),
 	m_velocity(0, 0),
 	size(100),
@@ -10,8 +10,7 @@ InterpolatingAI::InterpolatingAI(std::vector<sf::CircleShape> & path, std::vecto
 	m_speed(1.5f),
 	MAX_SPEED(100),
 	m_nodes(path),
-	m_obstacles(obs),
-	m_InGame(inGame)
+	m_obstacles(obs)
 {
 	if (!m_texture.loadFromFile("resources/assets/enemyTwo.png")) {
 		//do something
@@ -56,12 +55,7 @@ void InterpolatingAI::update(double dt, sf::Vector2f position)
 	}
 
 	updateLines(position);
-	if (m_InGame){
-		updateDangers();
-	}
-	else{
-		updateDangers();
-	}
+	updateDangers();
 	
 	m_distances = normalize(m_distances);
 	mapDecisions.update(m_distances, m_distancesDanger);
