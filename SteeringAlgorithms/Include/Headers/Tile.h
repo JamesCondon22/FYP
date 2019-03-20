@@ -9,6 +9,8 @@ enum NState
 {
 	Full,
 	Blank,
+	Interest,
+	Circle,
 	None,
 };
 
@@ -27,7 +29,9 @@ public:
 	std::pair<int, int> getGridPos() { return m_gridPos; }
 	void setColor(sf::Color col);
 	void setObstacle();
+	void setInterest();
 	void setBlank();
+	void setCircularObs();
 	
 	int posX;
 	int posY;
@@ -42,6 +46,8 @@ private:
 	sf::CircleShape m_surround;
 	NState  m_current;
 
-	
+	sf::CircleShape m_interestPoint;
+	sf::CircleShape m_CircleObs;
+	bool m_drawInterest = false;
 
 };

@@ -18,7 +18,6 @@ void operator >> (const YAML::Node& pathNode, PathData& path)
 
 void operator >> (const YAML::Node& levelNode, LevelData& level)
 {
-	
 
 	const YAML::Node& obstaclesNode = levelNode["circles"].as<YAML::Node>();
 	for (unsigned i = 0; i < obstaclesNode.size(); ++i)
@@ -48,6 +47,7 @@ LevelLoader::LevelLoader()
 
 bool LevelLoader::load(int nr, LevelData& level)
 {
+	
 	std::stringstream ss;
 	ss << "./resources/levels/level";
 	ss << nr;
@@ -75,6 +75,12 @@ bool LevelLoader::load(int nr, LevelData& level)
 	}
 
 	return true;
+}
+
+
+void LevelLoader::setState(bool demo)
+{
+	isDemo = demo;
 }
 
 PathData LevelData::send(PathData data)

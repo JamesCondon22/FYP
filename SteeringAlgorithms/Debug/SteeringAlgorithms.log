@@ -1,12 +1,8 @@
-﻿  CRSpline.cpp
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(77): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(76): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(92): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(203): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(219): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(240): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(271): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(279): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(333): warning C4018: '>=': signed/unsigned mismatch
+﻿  Game.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\game.cpp(62): warning C4244: '-=': conversion from 'const double' to 'sf::Int32', possible loss of data
+  GameScreen.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(22): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(149): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(150): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
   SteeringAlgorithms.vcxproj -> C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\SteeringAlgorithms.exe

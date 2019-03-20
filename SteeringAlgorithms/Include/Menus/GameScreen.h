@@ -23,13 +23,13 @@ private:
 	GameState * m_currentState;
 
 	Tile *m_tile[50][50];
-
+	
 	sf::Texture m_texture;
 	std::ifstream m_readFile;
 	std::ofstream m_file;
 	std::string m_line = "";
 	bool m_pressed;
-
+	bool m_Midpressed;
 	Player* m_player;
 
 	Camera * camera;
@@ -37,6 +37,7 @@ private:
 	std::vector<Obstacle*> m_obstacles;
 	std::vector<sf::CircleShape> m_nodes;
 	LevelData m_level;
+	sf::Texture m_TextureObs;
 };
 
 #endif

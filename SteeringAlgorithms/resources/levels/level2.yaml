@@ -59,22 +59,4 @@ circles:
 
 paths:
    - type: path
-     position: {x: 1600, y: 400}
-   - type: path
-     position: {x: 1400, y: 100}
-   - type: path
-     position: {x: 900, y: 200}
-   - type: path
-     position: {x: 500, y: 150}
-   - type: path
-     position: {x: 200, y: 400}
-   - type: path
-     position: {x: 250, y: 800}
-   - type: path
-     position: {x: 700, y: 850}
-   - type: path
-     position: {x: 1100, y: 600}
-   - type: path
-     position: {x: 1300, y: 900}
-   - type: path
-     position: {x: 1600, y: 700}
+     position: {x: 0, y: 0}

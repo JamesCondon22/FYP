@@ -20,6 +20,12 @@ Tile::Tile(int x, int y, int dx, int dy) :
 	m_surround.setOrigin(m_surround.getRadius(), m_surround.getRadius());
 	m_surround.setPosition(m_position.x + 25, m_position.y + 25);
 
+	m_interestPoint.setRadius(5);
+	m_interestPoint.setPosition(0, 0);
+	m_interestPoint.setFillColor(sf::Color(255, 0, 0));
+	m_interestPoint.setOrigin(m_interestPoint.getRadius(), m_interestPoint.getRadius());
+	m_interestPoint.setPosition(m_position.x + 25, m_position.y + 25);
+
 	
 }
 
@@ -36,9 +42,21 @@ void Tile::setObstacle()
 }
 
 
+void Tile::setCircularObs()
+{
+	m_current = NState::Circle;
+}
+
+
 void Tile::setBlank()
 {
 	m_current = NState::Blank;
+}
+
+
+void Tile::setInterest()
+{
+	m_current = NState::Interest;
 }
 
 
@@ -54,6 +72,8 @@ void Tile::render(sf::RenderWindow & window)
 	{
 		//window.draw(m_surround);
 	}
+	window.draw(m_rect);
+
 	switch (m_current)
 	{
 	case NState::Blank:
@@ -62,10 +82,14 @@ void Tile::render(sf::RenderWindow & window)
 	case NState::Full:
 		m_rect.setFillColor(sf::Color::Black);
 		break;
+	case NState::Interest:
+		window.draw(m_interestPoint);
+	case NState::Circle:
+		//window.draw(m_CircleObs);
 	default:
 		break;
 	}
-	window.draw(m_rect);
+	
 }
 
 

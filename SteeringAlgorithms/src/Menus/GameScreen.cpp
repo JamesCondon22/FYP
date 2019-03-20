@@ -4,23 +4,16 @@
 GameScreen::GameScreen(GameState * state, sf::Vector2f & size):
 	m_currentState(state)
 {
+	if (!m_TextureObs.loadFromFile("resources/assets/obstacle.png")) {
+
+		std::cout << "texture not loading" << std::endl;
+	}
 
 	m_player = new Player();
 	m_readFile.open("resources/levels/LevelOne.txt");
 	
-	int currentLevel = 1;
 
-	if (!LevelLoader::load(currentLevel, m_level)) {
-		return;
-	}
-
-	for (PathData const &path : m_level.m_paths) {
-		sf::CircleShape circle(10);
-		circle.setOrigin(circle.getRadius(), circle.getRadius());
-		circle.setPosition(path.m_position);
-		circle.setFillColor(sf::Color::Red);
-		m_nodes.push_back(circle);
-	}
+	int currentLevel = 2;
 
 	std::vector<char> chars;
 
@@ -34,7 +27,7 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size):
 	m_readFile.close();
 	sf::Texture text;
 	int counter = 0;
-	for (int i = 0; i < 25; i++) {
+	for (int i = 0; i < 50; i++) {
 		for (int j = 0; j < 50; j++) {
 			m_tile[j][i] = new Tile(50 * j, 50 * i, j, i);
 			
@@ -42,23 +35,35 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size):
 			{
 				m_tile[j][i]->setBlank();
 			}
-			else
+			else if (chars[counter] == '1')
 			{
 				m_tile[j][i]->setObstacle();
-				Obstacle *circle = new Obstacle(0, text, sf::Vector2f(50.0f, 50.0f), false);
+				/*Obstacle *circle = new Obstacle(0, text, sf::Vector2f(50.0f, 50.0f), false);
 				circle->setPosition(sf::Vector2f(0.0f, 0.0f));
 				circle->setOrigin(25, 25);
 				sf::Vector2f pos = sf::Vector2f(m_tile[j][i]->getPosition().x + 25, m_tile[j][i]->getPosition().y + 25);
 				circle->setPosition(pos);
-				m_obstacles.push_back(circle);
+				m_obstacles.push_back(circle);*/
 				
+			}
+			else if (chars[counter] == '2')
+			{
+				m_tile[j][i]->setInterest();
+			}
+			else if (chars[counter] == '3')
+			{
+				m_tile[j][i]->setCircularObs();
+				Obstacle* obstacle = new Obstacle(50, m_TextureObs, sf::Vector2f(0, 0), true);
+				obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
+				obstacle->setPosition(m_tile[j][i]->getPosition());
+				m_obstacles.push_back(obstacle);
 			}
 			counter++;
 		}
 	}
 	chars.empty();
 	camera = new Camera(size);
-	m_ai = new InterpolatingAI(m_nodes, m_obstacles, true);
+	//m_ai = new InterpolatingAI(m_nodes, m_obstacles, true);
 }
 
 
@@ -70,11 +75,13 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	int x = mouse.x / 50;
 	int y = mouse.y / 50;
 
-	/*if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	m_player->update(dt);
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		if (x >= 0 && x < 50 && y >= 0 && y < 50)
 		{
-			m_tile[x][y]->setObstacle();
+			m_tile[x][y]->setInterest();
 		}
 		
 	}
@@ -85,13 +92,31 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 			m_tile[x][y]->setBlank();
 		}
 
-	}*/
-	m_player->update(dt);
-	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !m_pressed)
+	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Middle) && !m_Midpressed)
 	{
+		if (x >= 0 && x < 50 && y >= 0 && y < 50)
+		{
+			Obstacle* obstacle = new Obstacle(50, m_TextureObs, sf::Vector2f(0, 0), true);
+			obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
+			obstacle->setPosition(m_tile[x][y]->getPosition());
+			m_obstacles.push_back(obstacle);
+			m_tile[x][y]->setCircularObs();
+		}
+
+	}
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Middle) && !m_Midpressed)
+	{
+		m_Midpressed = false;
+	}
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !m_pressed)
+	{
+		m_file.open("resources/levels/LevelOne.txt"/*, std::ofstream::app*/);
 		int count = 0;
 
-		for (int i = 0; i < 25; i++) {
+		for (int i = 0; i < 50; i++) {
 			for (int j = 0; j < 50; j++) {
 				if (count >= 50)
 				{
@@ -106,23 +131,31 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 				{
 					m_file << "1";
 				}
+				else if (m_tile[j][i]->getState() == NState::Interest)
+				{
+					m_file << "2";
+				}
+				else if (m_tile[j][i]->getState() == NState::Circle)
+				{
+					m_file << "3";
+				}
 				count++;
 			}
 		}
 		m_file.close();
 		m_pressed = true;
-	}*/
+	}
 	
 	int curX = m_player->getPos().x / 50;
 	int curY = m_player->getPos().y / 50;
 
 	collision(curX, curY);
 
-	//if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	//{
-	//	//m_pressed = false;
-	//}
-	m_ai->update(dt, m_player->getPos());
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		m_pressed = false;
+	}
+	//m_ai->update(dt, m_player->getPos());
 }
 
 
@@ -167,7 +200,7 @@ void GameScreen::render(sf::RenderWindow & window)
 {
 	
 	
-	for (int i = 0; i < 25; i++) {
+	for (int i = 0; i < 50; i++) {
 		for (int j = 0; j < 50; j++) {
 
 			m_tile[j][i]->render(window);
@@ -175,11 +208,16 @@ void GameScreen::render(sf::RenderWindow & window)
 	}
 	camera->render(window);
 	m_player->render(window);
-	m_ai->render(window);
+	//m_ai->render(window);
 	
-	for (int i = 0; i < m_obstacles.size(); i++)
+	for (auto &node : m_nodes)
 	{
-		m_obstacles[i]->render(window);
-		m_obstacles[i]->setColor(sf::Color::Black);
+		window.draw(node);
 	}
+
+	for (auto &obs : m_obstacles)
+	{
+		obs->render(window);
+	}
+
 }
