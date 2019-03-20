@@ -362,8 +362,7 @@ void InterpolatingTwo::generatePath(double dt)
 		}
 		m_lastPathCircle = circle;
 	}
-
-	//std::cout << "Length = " << m_totalPathLength << std::endl;
+	/*std::cout << "Length = " << m_totalPathLength << std::endl;*/
 }
 
 

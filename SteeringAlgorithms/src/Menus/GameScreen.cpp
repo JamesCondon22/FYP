@@ -58,7 +58,6 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size):
 	}
 	chars.empty();
 	camera = new Camera(size);
-	
 	m_ai = new InterpolatingAI(m_nodes, m_obstacles, true);
 }
 

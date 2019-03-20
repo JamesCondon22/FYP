@@ -39,8 +39,17 @@ CRSplineAI::CRSplineAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle
 
 	m_color = sf::Color::Yellow;
 	m_rect.setFillColor(m_color);
-	curve = new CatmullRom();
 	m_rect.rotate(90);
+
+	curve = new CatmullRom();
+	curve->add_way_point(Vector(1, 1, 0));
+	curve->add_way_point(Vector(2, 3, 0));
+	curve->add_way_point(Vector(3, 2, 0));
+	curve->add_way_point(Vector(4, 6, 0));
+
+	for (int i = 0; i < curve->node_count(); ++i) {
+		std::cout << "node #" << i << ": " << curve->node(i).toString() << " (length so far: " << curve->length_from_starting_point(i) << ")" << std::endl;
+	}
 }
 
 

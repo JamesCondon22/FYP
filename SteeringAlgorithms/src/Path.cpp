@@ -38,6 +38,8 @@ sf::Vector2f Path::getPosition() {
 
 void Path::setColor(sf::Color color) {
 	m_circle.setFillColor(color);
+	m_circle.setOutlineThickness(1.0f);
+	m_circle.setOutlineColor(sf::Color::Black);
 }
 
 
