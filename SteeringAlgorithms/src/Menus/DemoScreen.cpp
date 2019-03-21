@@ -25,10 +25,11 @@ DemoScreen::DemoScreen(GameState * state):
 	}
 
 	for (PathData const &path : m_level.m_paths) {
-		sf::CircleShape circle(10);
-		circle.setOrigin(circle.getRadius(), circle.getRadius());
-		circle.setPosition(path.m_position);
-		circle.setFillColor(sf::Color::Red);
+		GameNode * circle = new GameNode(10);
+		circle->setPosition(sf::Vector2f(0, 0));
+		circle->setOrigin(circle->getRadius(), circle->getRadius());
+		circle->setPosition(path.m_position);
+		circle->setColor(sf::Color::Red);
 		m_nodes.push_back(circle);
 	}
 
@@ -115,9 +116,9 @@ void DemoScreen::render(sf::RenderWindow & window)
 		m_obstacles[i]->render(window);
 	}
 
-	for (auto &node : m_nodes)
+	for (auto & node : m_nodes)
 	{
-		window.draw(node);
+		node->render(window);
 	}
 
 	for (int i = 0; i < m_enemies.size(); i++)

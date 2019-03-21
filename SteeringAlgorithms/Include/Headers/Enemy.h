@@ -6,6 +6,8 @@
 #include "MathHelper.h"
 #include "Obstacle.h"
 #include "DirectionalLine.h"
+#include "../Menus/State.h"
+#include "GameNode.h"
 
 class Enemy
 {

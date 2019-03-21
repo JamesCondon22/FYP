@@ -7,13 +7,13 @@
 #include <Thor\Math.hpp>
 #include <Thor/Vectors.hpp>
 #include "MathHelper.h"
-
+#include "GameNode.h"
 
 
 class TestBot
 {
 public:
-	TestBot(std::vector<sf::CircleShape> & path, std::vector<Obstacle*> obs);
+	TestBot(std::vector<GameNode*> path, std::vector<Obstacle*> obs);
 	~TestBot();
 	float getNewOrientation(float currentOrientation, float velocity);
 	sf::Vector2f getCurrentNodePosition();
@@ -70,7 +70,7 @@ private:
 	const double DEG_TO_RAD = 3.14 / 180;
 
 	std::vector<sf::RectangleShape> lines;
-	std::vector<sf::CircleShape> m_nodes;
+	std::vector<GameNode*> m_nodes;
 	std::vector<Obstacle*> m_obstacles;
 	int currentNode = 0;
 	int m_radius = 30;

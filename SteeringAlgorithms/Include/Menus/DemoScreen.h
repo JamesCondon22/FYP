@@ -39,7 +39,7 @@ private:
 	
 	std::vector<Obstacle*> m_obstacles;
 	std::vector<sf::CircleShape> m_circles;
-	std::vector<sf::CircleShape> m_nodes;
+	std::vector<GameNode*> m_nodes;
 	std::vector<Enemy*> m_enemies;
 
 	LevelData m_level;

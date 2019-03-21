@@ -15,7 +15,7 @@
 class CRSplineAI : public Enemy
 {
 public:
-	CRSplineAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs);
+	CRSplineAI(std::vector<GameNode*> path, std::vector<Obstacle*>  obs);
 	~CRSplineAI();
 	void update(double dt, sf::Vector2f position);
 	void render(sf::RenderWindow & window);
@@ -83,7 +83,7 @@ private:
 	sf::Vector2f curDirection = sf::Vector2f(0, 0);
 	int m_radius = 30;
 
-	std::vector<sf::CircleShape> m_nodes;
+	std::vector<GameNode*> m_nodes;
 	int currentNode = 0;
 
 	std::vector<Obstacle*> m_obstacles;

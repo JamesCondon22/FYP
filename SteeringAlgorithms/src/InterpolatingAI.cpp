@@ -2,7 +2,7 @@
 
 double const InterpolatingAI::RAD_TO_DEG = 180.0f / 3.14;
 double const InterpolatingAI::DEG_TO_RAD = 3.14 / 180.0f;
-InterpolatingAI::InterpolatingAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs) :
+InterpolatingAI::InterpolatingAI(std::vector<GameNode*> path, std::vector<Obstacle*>  obs) :
 	m_position(0, 0),
 	m_velocity(0, 0),
 	size(100),
@@ -114,14 +114,21 @@ void InterpolatingAI::updateLines(sf::Vector2f position)
 	sf::Vector2f vecToNode;
 	vecToNode = getCurrentNodePosition();
 	
-	int count = 0;
 	
+	int count = 0;
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
-		m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), position);
+		if (m_state == GameState::Demo) {
+			m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), position);
+		}
+		else if (m_state == GameState::GameScreen){
+			m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), vecToNode);
+		}
 		count++;
 	}
+	
 }
+
 
 void InterpolatingAI::updateDangers()
 {
@@ -148,6 +155,7 @@ void InterpolatingAI::updateDangers()
 	}
 
 }
+
 
 double InterpolatingAI::findLargest(std::map<Direction, double> vec)
 {
@@ -317,21 +325,27 @@ void InterpolatingAI::initVector()
 
 sf::Vector2f InterpolatingAI::getCurrentNodePosition()
 {
-	
 	sf::Vector2f target;
 
-	target = m_nodes[currentNode].getPosition();
+	double smallest = DBL_MAX;
+	auto curIndex = 0;
 
-	if (Math::distance(m_position, target) <= 80)
+	for (int i = 0; i < m_nodes.size(); i++)
 	{
-		currentNode += 1;
-		if (currentNode >= m_nodes.size()) {
-			currentNode = 0;
+		if (m_nodes[i]->getAlive()) {
+			auto dist = Math::distance(m_position, m_nodes[i]->getPosition());
+			if (dist < smallest)
+			{
+				smallest = dist;
+				target = m_nodes[i]->getPosition();
+				curIndex = i;
+			}
 		}
 	}
-
+	m_nodeIndex = curIndex;
 	return target;
 }
+
 
 sf::Vector2f InterpolatingAI::normalize(sf::Vector2f vec)
 {
@@ -362,7 +376,6 @@ void InterpolatingAI::generatePath(double dt)
 		}
 		m_lastPathCircle = circle;
 	}
-
 	//std::cout << "Length = " << m_totalPathLength << std::endl;
 }
 

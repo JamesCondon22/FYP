@@ -9,10 +9,11 @@
 #include "Enemy.h"
 #include "Path.h"
 
+
 class InterpolatingAI : public Enemy
 {
 public:
-	InterpolatingAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs);
+	InterpolatingAI(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs);
 	~InterpolatingAI();
 	void update(double dt, sf::Vector2f position);
 	void render(sf::RenderWindow & window);
@@ -46,12 +47,13 @@ public:
 
 	void generatePath(double dt);
 	void handleTimer();
-
+	void setState(GameState state) { m_state = state; }
 	double getPathLength() { return m_totalPathLength; }
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
 	double getTimeEfficiency();
 
+	int getNodeIndex() { return m_nodeIndex; }
 	std::string getName() { return "Average Interpolation"; }
 private:
 	sf::Vector2f m_position;
@@ -80,7 +82,7 @@ private:
 	sf::Vector2f curDirection = sf::Vector2f(0, 0);
 	int m_radius = 30;
 
-	std::vector<sf::CircleShape> m_nodes;
+	std::vector<GameNode*> m_nodes;
 	int currentNode = 0;
 
 	std::vector<Obstacle*> m_obstacles;
@@ -115,4 +117,7 @@ private:
 	double m_timer;
 
 	sf::Color m_color;
+
+	GameState m_state;
+	int m_nodeIndex = 0;
 };

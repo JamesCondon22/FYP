@@ -8,6 +8,7 @@
 #include "Headers/Camera.h"
 #include "Headers/InterpolatingAI.h"
 #include "Headers/LevelLoader.h"
+#include "Headers/GameNode.h"
 
 class GameScreen
 {
@@ -18,6 +19,7 @@ public:
 	void render(sf::RenderWindow & window);
 	void collision(int x, int y);
 	void loadLevel(std::string level);
+	void checkNodeCollision();
 private:
 
 	GameState * m_currentState;
@@ -35,7 +37,7 @@ private:
 	Camera * camera;
 	InterpolatingAI* m_ai;
 	std::vector<Obstacle*> m_obstacles;
-	std::vector<sf::CircleShape> m_nodes;
+	std::vector<GameNode*> m_nodes;
 	LevelData m_level;
 	sf::Texture m_TextureObs;
 };

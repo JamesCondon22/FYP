@@ -15,6 +15,7 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size):
 
 	m_player = new Player();
 	m_ai = new InterpolatingAI(m_nodes, m_obstacles);
+	m_ai->setState(*m_currentState);
 }
 
 
@@ -107,6 +108,7 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		m_pressed = false;
 	}
 	m_ai->update(dt, m_player->getPos());
+	checkNodeCollision();
 }
 
 
@@ -185,11 +187,11 @@ void GameScreen::loadLevel(std::string level)
 			else if (chars[counter] == '2')
 			{
 				m_tile[j][i]->setInterest();
-				sf::CircleShape circ = sf::CircleShape(5);
-				circ.setPosition(0, 0);
-				circ.setFillColor(sf::Color(255, 0, 0));
-				circ.setOrigin(circ.getRadius(), circ.getRadius());
-				circ.setPosition(sf::Vector2f(m_tile[j][i]->getPosition().x + 25, m_tile[j][i]->getPosition().y + 25));
+				GameNode *circ = new GameNode(5);
+				circ->setPosition(sf::Vector2f(0, 0));
+				circ->setColor(sf::Color(255, 0, 0));
+				circ->setOrigin(circ->getRadius(), circ->getRadius());
+				circ->setPosition(sf::Vector2f(m_tile[j][i]->getPosition().x + 25, m_tile[j][i]->getPosition().y + 25));
 				m_nodes.push_back(circ);
 			}
 			else if (chars[counter] == '3')
@@ -206,6 +208,15 @@ void GameScreen::loadLevel(std::string level)
 		}
 	}
 	chars.empty();
+}
+
+
+void GameScreen::checkNodeCollision()
+{
+	if (Math::circleCollision(m_nodes[m_ai->getNodeIndex()]->getPosition(), m_ai->getPos(), 5, 30))
+	{
+		m_nodes[m_ai->getNodeIndex()]->setAlive(false);
+	}
 }
 
 
@@ -226,7 +237,7 @@ void GameScreen::render(sf::RenderWindow & window)
 	
 	for (auto &node : m_nodes)
 	{
-		window.draw(node);
+		node->render(window);
 	}
 
 	for (auto &obs : m_obstacles)

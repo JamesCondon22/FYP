@@ -146,6 +146,7 @@
     <ClInclude Include="Include\Headers\Enemy.h" />
     <ClInclude Include="Include\Headers\FrayAI.h" />
     <ClInclude Include="Include\Headers\Game.h" />
+    <ClInclude Include="Include\Headers\GameNode.h" />
     <ClInclude Include="Include\Headers\InterpolatingAI.h" />
     <ClInclude Include="Include\Headers\InterpolatingTwo.h" />
     <ClInclude Include="Include\Headers\LevelLoader.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="src\DynamicVectorAI.cpp" />
     <ClCompile Include="src\FrayAI.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\GameNode.cpp" />
     <ClCompile Include="src\InterpolatingAI.cpp" />
     <ClCompile Include="src\InterpolatingTwo.cpp" />
     <ClCompile Include="src\Label.cpp" />

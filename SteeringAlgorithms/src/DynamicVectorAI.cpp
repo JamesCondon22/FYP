@@ -2,7 +2,7 @@
 
 double const DynamicVectorAI::RAD_TO_DEG = 180.0f / 3.14;
 double const DynamicVectorAI::DEG_TO_RAD = 3.14 / 180.0f;
-DynamicVectorAI::DynamicVectorAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs) :
+DynamicVectorAI::DynamicVectorAI(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs) :
 	m_position(0, 0),
 	m_velocity(0, 0),
 	size(100),
@@ -351,7 +351,7 @@ sf::Vector2f DynamicVectorAI::getCurrentNodePosition()
 	
 	sf::Vector2f target;
 
-	target = m_nodes[currentNode].getPosition();
+	target = m_nodes[currentNode]->getPosition();
 
 	if (Math::distance(m_position, target) <= 80)
 	{

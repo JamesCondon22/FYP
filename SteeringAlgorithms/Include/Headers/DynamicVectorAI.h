@@ -18,7 +18,7 @@ class DynamicVectorAI : public Enemy
 {
 public:
 	
-	DynamicVectorAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs);
+	DynamicVectorAI(std::vector<GameNode*> path, std::vector<Obstacle*>  obs);
 	~DynamicVectorAI();
 	void update(double dt, sf::Vector2f position);
 	void render(sf::RenderWindow & window);
@@ -86,7 +86,7 @@ private:
 
 	
 	std::vector<sf::Vector2f> m_distVecs;
-	std::vector<sf::CircleShape> m_nodes;
+	std::vector<GameNode*> m_nodes;
 	std::vector<DirectionalLine> m_lineVec;
 	std::vector<Obstacle*> m_obstacles;
 

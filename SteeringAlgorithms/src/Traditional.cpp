@@ -1,7 +1,7 @@
 #include "../Include/Headers/Traditional.h"
 
 
-Traditional::Traditional(std::vector<sf::CircleShape> & path, std::vector<Obstacle*> obs) :
+Traditional::Traditional(std::vector<GameNode*> path, std::vector<Obstacle*> obs) :
 	m_steering(0, 0),
 	m_position(0, 0),
 	m_heading(0, 0),
@@ -258,7 +258,7 @@ sf::Vector2f Traditional::getCurrentNodePosition()
 
 	sf::Vector2f target;
 
-	target = m_nodes[currentNode].getPosition();
+	target = m_nodes[currentNode]->getPosition();
 
 	if (Math::distance(m_position, target) <= 50)
 	{

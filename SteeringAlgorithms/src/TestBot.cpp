@@ -1,7 +1,7 @@
 #include "../Include/Headers/TestBot.h"
 
 
-TestBot::TestBot(std::vector<sf::CircleShape> & path, std::vector<Obstacle*> obs) :
+TestBot::TestBot(std::vector<GameNode*> path, std::vector<Obstacle*> obs) :
 	m_steering(0, 0),
 	m_position(0, 0),
 	m_rotation(0),
@@ -205,7 +205,7 @@ sf::Vector2f TestBot::getCurrentNodePosition()
 
 	sf::Vector2f target;
 
-	target = m_nodes[currentNode].getPosition();
+	target = m_nodes[currentNode]->getPosition();
 
 	if (Math::distance(m_position, target) <= 150)
 	{
