@@ -154,7 +154,7 @@ void InterpolatingAI::updateDangers()
 	{
 		
 		m_distancesDanger[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), obs->getPosition());
-			//checkdistance
+		//checkdistance
 		count++;
 	}
 

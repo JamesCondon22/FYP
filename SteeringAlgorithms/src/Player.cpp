@@ -10,7 +10,7 @@ Player::Player() :
 	m_speed(0.0),
 	MAX_SPEED(200.0)
 {
-	if (!m_texture.loadFromFile("resources/assets/enemy.png")) {
+	if (!m_texture.loadFromFile("resources/assets/triangleOne.png")) {
 		//do something
 	}
 	m_rect.setOrigin(m_position.x + 50.0f / 2, m_position.y + 25.0f / 2);
@@ -21,6 +21,12 @@ Player::Player() :
 
 	m_rect.setFillColor(sf::Color::Red);
 
+
+	m_surround.setRadius(m_radius);
+	m_surround.setPosition(0, 0);
+	m_surround.setOrigin(m_surround.getRadius(), m_surround.getRadius());
+	m_surround.setPosition(m_position);
+	m_surround.setFillColor(sf::Color(0, 0, 0, 40));
 }
 
 
@@ -57,10 +63,14 @@ void Player::update(double dt)
 		decreaseSpeed();
 	}
 
+	m_surround.setPosition(m_rect.getPosition());
+
+
 }
 
 void Player::render(sf::RenderWindow & window)
 {
+	window.draw(m_surround);
 	window.draw(m_rect);
 }
 

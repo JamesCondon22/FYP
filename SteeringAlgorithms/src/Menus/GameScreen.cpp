@@ -8,11 +8,23 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size):
 
 		std::cout << "texture not loading" << std::endl;
 	}
+	if (!m_textureNode.loadFromFile("resources/assets/strawberry.png")) {
 
+		std::cout << "texture not loading" << std::endl;
+	}
+	if (!m_mapTexture.loadFromFile("resources/assets/mapSprite.png")) {
+
+		std::cout << "texture not loading" << std::endl;
+	}
 	loadLevel("resources/levels/LevelOne.txt");
 
 	camera = new Camera(size);
-
+	sf::Vector2f mapView = sf::Vector2f(4500.0f, 4500.0f);
+	miniMap = new Camera(mapView);
+	miniMap->setRect(sf::FloatRect(-0.2f, 0.4f, 0.6f, 0.6f));
+	m_mapSprite.setTexture(m_mapTexture);
+	m_mapSprite.setPosition(0, 0);
+	
 	m_player = new Player();
 	m_ai = new InterpolatingAI(m_nodes, m_obstacles);
 	m_ai->setState(*m_currentState);
@@ -57,12 +69,10 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		}
 
 	}
-
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Middle) && !m_Midpressed)
+	if (!sf::Mouse::isButtonPressed(sf::Mouse::Middle))
 	{
 		m_Midpressed = false;
 	}
-	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !m_pressed)
 	{
 		m_file.open("resources/levels/LevelOne.txt"/*, std::ofstream::app*/);
@@ -97,18 +107,28 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		m_file.close();
 		m_pressed = true;
 	}
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		m_pressed = false;
+	}
+	
 	
 	int curX = m_player->getPos().x / 50;
 	int curY = m_player->getPos().y / 50;
 
 	collision(curX, curY);
 
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		m_pressed = false;
-	}
 	m_ai->update(dt, m_player->getPos());
-	checkNodeCollision();
+	checkNodeCollision(m_ai->getPos(), m_ai->getRadius());
+	checkPlayerNodeCollision(m_player->getPos(), m_player->getRadius());
+
+
+	for (int i = 0; i < m_nodes.size(); i++)
+	{
+		m_nodes[i]->animateNode();
+	}
+
+	std::cout << "Score = " << m_player->getScore() << std::endl;
 }
 
 
@@ -187,7 +207,7 @@ void GameScreen::loadLevel(std::string level)
 			else if (chars[counter] == '2')
 			{
 				m_tile[j][i]->setInterest();
-				GameNode *circ = new GameNode(5);
+				GameNode *circ = new GameNode(10, m_textureNode);
 				circ->setPosition(sf::Vector2f(0, 0));
 				circ->setColor(sf::Color(255, 0, 0));
 				circ->setOrigin(circ->getRadius(), circ->getRadius());
@@ -211,27 +231,45 @@ void GameScreen::loadLevel(std::string level)
 }
 
 
-void GameScreen::checkNodeCollision()
+void GameScreen::checkNodeCollision(sf::Vector2f pos, int rad)
 {
-	if (Math::circleCollision(m_nodes[m_ai->getNodeIndex()]->getPosition(), m_ai->getPos(), 5, 30))
+	if (Math::circleCollision(m_nodes[m_ai->getNodeIndex()]->getPosition(), pos, m_nodes[m_ai->getNodeIndex()]->getRadius(), rad))
 	{
 		m_nodes[m_ai->getNodeIndex()]->setAlive(false);
 	}
 }
 
 
+void GameScreen::checkPlayerNodeCollision(sf::Vector2f pos, int rad)
+{
+	for (int i = 0; i < m_nodes.size(); i++)
+	{
+		if (m_nodes[i]->getAlive()) {
+
+			if (Math::circleCollision(m_nodes[i]->getPosition(), pos, m_nodes[i]->getRadius(), rad))
+			{
+				m_nodes[i]->setAlive(false);
+				auto score = m_player->getScore();
+				score += 10;
+				m_player->setScore(score);
+			}
+		}
+	}
+
+}
+
+
 void GameScreen::render(sf::RenderWindow & window)
 {
 	
-	
-	for (int i = 0; i < 50; i++) {
+	camera->render(window);
+	/*for (int i = 0; i < 50; i++) {
 		for (int j = 0; j < 50; j++) {
 
 			m_tile[j][i]->render(window);
 		}
-	}
-	
-	camera->render(window);
+	}*/
+	window.draw(m_mapSprite);
 	m_player->render(window);
 	m_ai->render(window);
 	
@@ -245,4 +283,18 @@ void GameScreen::render(sf::RenderWindow & window)
 		obs->render(window);
 	}
 
+	miniMap->render(window);
+	window.draw(m_mapSprite);
+	m_player->render(window);
+	m_ai->render(window);
+
+	for (auto &node : m_nodes)
+	{
+		node->render(window);
+	}
+
+	for (auto &obs : m_obstacles)
+	{
+		obs->render(window);
+	}
 }

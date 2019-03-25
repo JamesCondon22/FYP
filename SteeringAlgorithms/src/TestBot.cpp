@@ -11,7 +11,7 @@ TestBot::TestBot(std::vector<GameNode*> path, std::vector<Obstacle*> obs) :
 	m_obstacles(obs)
 {
 	//m_direction
-	if (!m_texture.loadFromFile("resources/assets/enemy.png")) {
+	if (!m_texture.loadFromFile("resources/assets/triangleOne.png")) {
 		std::cout << "font not loaded" << std::endl;
 	}
 

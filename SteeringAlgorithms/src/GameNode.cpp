@@ -1,6 +1,8 @@
 #include "Headers/GameNode.h"
 
-GameNode::GameNode(int size) {
+GameNode::GameNode(float size, sf::Texture & texture) {
+	m_radius = size;
+	m_circle.setTexture(&texture);
 	m_circle.setRadius(size);
 }
 
@@ -36,6 +38,33 @@ sf::Vector2f GameNode::getPosition() {
 void GameNode::setColor(sf::Color color)
 {
 	m_circle.setFillColor(color);
+}
+
+
+void GameNode::animateNode()
+{
+	//m_circle.rotate(1);
+	
+	if (animateOut)
+	{
+		m_radius += 0.08f;
+		if (m_radius >= 15.0f)
+		{
+			animateOut = false;
+			animateIn = true;
+		}
+	}
+	if (animateIn)
+	{
+		m_radius -= 0.08f;
+		if (m_radius <= 10.0f)
+		{
+			animateIn = false;
+			animateOut = true;
+		}
+	}
+
+	m_circle.setRadius(m_radius);
 }
 
 

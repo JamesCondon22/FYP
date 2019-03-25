@@ -12,6 +12,7 @@ public:
 	void setPosition(sf::Vector2f pos);
 	void setRect(sf::FloatRect rect);
 	sf::Vector2f getPosition() { return m_position; }
+	void setZoom(float zoom);
 private:
 	sf::Vector2f m_position;
 	sf::View m_view;

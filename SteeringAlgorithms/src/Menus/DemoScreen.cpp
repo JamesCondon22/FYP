@@ -25,7 +25,7 @@ DemoScreen::DemoScreen(GameState * state):
 	}
 
 	for (PathData const &path : m_level.m_paths) {
-		GameNode * circle = new GameNode(10);
+		GameNode * circle = new GameNode(10, m_nodeTexture);
 		circle->setPosition(sf::Vector2f(0, 0));
 		circle->setOrigin(circle->getRadius(), circle->getRadius());
 		circle->setPosition(path.m_position);
@@ -50,6 +50,8 @@ DemoScreen::~DemoScreen()
 
 void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 {
+	
+
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
 		m_pressed = false;
@@ -57,6 +59,11 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !m_pressed)
 	{
 		m_startDemonstration = true;
+		
+		for (int i = 0; i < m_enemies.size(); i++)
+		{
+			m_enemies[i]->setState(*m_currentState);
+		}
 	}
 	
 	m_player->update(dt);
@@ -190,5 +197,7 @@ void DemoScreen::initAI()
 	m_enemies.push_back(aiFour);
 	m_enemies.push_back(aiFive);
 	m_enemies.push_back(aiSix);
+
+	
 }
 

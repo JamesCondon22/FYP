@@ -56,7 +56,7 @@ public:
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
 	double getTimeEfficiency();
-
+	void setState(GameState state) { m_state = state; }
 	sf::Vector2f rotatePoint(float cx, float cy, float angle, sf::Vector2f p);
 	std::string getName() { return "Dynamic Vector"; }
 private:
@@ -144,7 +144,7 @@ private:
 	double m_timer;
 	sf::Color m_color;
 
-	sf::Vertex m_line[2];
+	GameState m_state;
 };
 
 #endif

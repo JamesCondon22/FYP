@@ -52,7 +52,7 @@ public:
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
 	double getTimeEfficiency();
-
+	int getRadius() { return m_radius; }
 	int getNodeIndex() { return m_nodeIndex; }
 	std::string getName() { return "Average Interpolation"; }
 private:

@@ -24,6 +24,12 @@ void Camera::setPosition(sf::Vector2f pos)
 }
 
 
+void Camera::setZoom(float zoom)
+{
+	m_view.zoom(zoom);
+}
+
+
 void Camera::render(sf::RenderWindow & window)
 {
 	window.setView(m_view);

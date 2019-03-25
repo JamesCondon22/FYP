@@ -38,9 +38,6 @@ DynamicVectorAI::DynamicVectorAI(std::vector<GameNode*>  path, std::vector<Obsta
 	}
 	m_color = sf::Color::Magenta;
 	m_rect.setFillColor(m_color);
-	m_line->color = sf::Color::Black;
-	m_line[0].position = m_position;
-	m_line[1].position = sf::Vector2f(m_position.x, m_position.y + 100);
 	m_rect.rotate(90);
 }
 
@@ -142,7 +139,6 @@ void DynamicVectorAI::render(sf::RenderWindow & window)
 
 	window.draw(m_surroundingCircle);
 	window.draw(m_rect);
-	window.draw(m_line, 2, sf::Lines);
 }
 
 

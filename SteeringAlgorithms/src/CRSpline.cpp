@@ -245,6 +245,8 @@ float CRSplineAI::getNewOrientation(float curOrientation, sf::Vector2f velocity)
 		return curOrientation;
 	}
 }
+
+
 /// <summary>
 /// 
 /// </summary>

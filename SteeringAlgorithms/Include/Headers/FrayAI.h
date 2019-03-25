@@ -51,7 +51,7 @@ public:
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
 	double getTimeEfficiency();
-
+	void setState(GameState state) { m_state = state; }
 	std::string getName() { return "Basic Context Maps"; }
 
 private:
@@ -116,4 +116,6 @@ private:
 	double m_timer;
 
 	sf::Color m_color;
+
+	GameState m_state;
 };

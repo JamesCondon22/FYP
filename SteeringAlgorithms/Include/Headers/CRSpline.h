@@ -54,7 +54,7 @@ public:
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
 	double getTimeEfficiency();
-
+	void setState(GameState state) { m_state = state; }
 	std::string getName() { return "Catmull Rom AI"; }
 private:
 	sf::Vector2f m_position;
@@ -119,6 +119,7 @@ private:
 	double m_timer;
 
 	Curve * curve;
+	GameState m_state;
 };
 
 //#endif

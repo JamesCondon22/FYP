@@ -19,6 +19,9 @@ public:
 	sf::RectangleShape m_rect;
 	sf::Vector2f getPos();
 	void setPosition(float x, float y);
+	int getRadius() { return m_radius; }
+	int getScore() { return m_score; }
+	void setScore(int score) { m_score = score; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -30,6 +33,9 @@ private:
 	double m_speed;
 	double MAX_SPEED;
 	sf::Vector2f m_heading;
+	sf::CircleShape m_surround;
+	int m_radius = 30;
+	int m_score = 0;
 };
 
 #endif

@@ -46,7 +46,7 @@ private:
 	PathData m_path;
 
 	sf::Texture m_textureObs;
-
+	sf::Texture m_nodeTexture;
 	GameState * m_currentState;
 
 	bool m_startDemonstration = false;

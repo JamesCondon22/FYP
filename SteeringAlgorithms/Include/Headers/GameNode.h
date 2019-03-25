@@ -4,7 +4,7 @@
 class GameNode
 {
 public:
-	GameNode(int size);
+	GameNode(float size, sf::Texture & texture);
 	~GameNode();
 
 	sf::Vector2f getPosition();
@@ -16,10 +16,14 @@ public:
 	void setAlive(bool alive) { m_alive = alive; }
 	void setColor(sf::Color color);
 	void render(sf::RenderWindow & window);
-
+	void animateNode();
 private:
 	sf::CircleShape m_circle;
 	sf::Vector2f m_position;
 	bool m_alive = true;
+	float m_radius;
+
+	bool animateIn = false;
+	bool animateOut = true;
 };
 

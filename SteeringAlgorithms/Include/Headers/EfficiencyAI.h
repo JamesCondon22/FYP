@@ -51,7 +51,7 @@ public:
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
 	double getTimeEfficiency();
-
+	void setState(GameState state) { m_state = state; }
 	std::string getName() { return "Efficiency AI"; }
 private:
 	
@@ -137,5 +137,6 @@ private:
 	double m_lastUpdate;
 	double m_timer;
 
+	GameState m_state;
 	sf::Color m_color;
 };
