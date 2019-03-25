@@ -43,11 +43,9 @@ void GameNode::setColor(sf::Color color)
 
 void GameNode::animateNode()
 {
-	//m_circle.rotate(1);
-	
 	if (animateOut)
 	{
-		m_radius += 0.08f;
+		m_radius += 0.05f;
 		if (m_radius >= 15.0f)
 		{
 			animateOut = false;
@@ -56,14 +54,14 @@ void GameNode::animateNode()
 	}
 	if (animateIn)
 	{
-		m_radius -= 0.08f;
+		m_radius -= 0.05f;
 		if (m_radius <= 10.0f)
 		{
 			animateIn = false;
 			animateOut = true;
 		}
 	}
-
+	m_circle.setOrigin(m_radius / 2, m_radius / 2);
 	m_circle.setRadius(m_radius);
 }
 

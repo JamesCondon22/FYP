@@ -1,13 +1,14 @@
 #pragma once
-#ifndef PLAYER
-#define PLAYER
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Headers/Obstacle.h"
+#include "Headers/MathHelper.h"
 
 class Player
 {
 public:
-	Player();
+	//Player();
+	Player(std::vector<Obstacle*>  obs);
 	~Player();
 	void update(double dt);
 	void render(sf::RenderWindow & window);
@@ -22,6 +23,9 @@ public:
 	int getRadius() { return m_radius; }
 	int getScore() { return m_score; }
 	void setScore(int score) { m_score = score; }
+	void setColor(sf::Color color) { m_color = color; }
+	sf::Color getColor() { return m_color; }
+	void obstacleCollision();
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -36,6 +40,6 @@ private:
 	sf::CircleShape m_surround;
 	int m_radius = 30;
 	int m_score = 0;
+	sf::Color m_color;
+	std::vector<Obstacle*> m_obstacles;
 };
-
-#endif

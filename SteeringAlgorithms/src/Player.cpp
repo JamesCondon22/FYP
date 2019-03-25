@@ -2,13 +2,14 @@
 
 
 double const Player::DEG_TO_RAD = 3.14 / 180.0f;
-Player::Player() :
+Player::Player(std::vector<Obstacle*>  obs) :
 	m_position(0.0f, 0.0f),
 	m_velocity(0.0f, 0.0f),
 	size(100),
 	m_rotation(0.0),
 	m_speed(0.0),
-	MAX_SPEED(200.0)
+	MAX_SPEED(200.0),
+	m_obstacles(obs)
 {
 	if (!m_texture.loadFromFile("resources/assets/triangleOne.png")) {
 		//do something
@@ -19,8 +20,8 @@ Player::Player() :
 	m_position = sf::Vector2f(900.0f, 500.0f);
 	m_rect.setPosition(m_position);
 
-	m_rect.setFillColor(sf::Color::Red);
-
+	m_color = sf::Color::Red;
+	m_rect.setFillColor(m_color);
 
 	m_surround.setRadius(m_radius);
 	m_surround.setPosition(0, 0);
@@ -64,7 +65,7 @@ void Player::update(double dt)
 	}
 
 	m_surround.setPosition(m_rect.getPosition());
-
+	obstacleCollision();
 
 }
 
@@ -117,10 +118,20 @@ sf::Vector2f Player::getPos()
 void Player::setPosition(float x, float y)
 {
 	m_rect.setPosition(x, y);
-	//m_speed = 1;
 }
 
 sf::Vector2f Player::getVel()
 {
 	return m_velocity;
+}
+
+void Player::obstacleCollision()
+{
+	for (int i = 0; i < m_obstacles.size(); i++)
+	{
+		if (Math::circleCollision(m_rect.getPosition(), m_obstacles[i]->getPosition(), m_radius, m_obstacles[i]->getRadius()))
+		{
+			m_speed = -30;
+		}
+	}
 }

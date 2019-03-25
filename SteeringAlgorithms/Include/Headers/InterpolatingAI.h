@@ -55,6 +55,9 @@ public:
 	int getRadius() { return m_radius; }
 	int getNodeIndex() { return m_nodeIndex; }
 	std::string getName() { return "Average Interpolation"; }
+	int getScore() { return m_score; }
+	void setScore(int score) { m_score = score; }
+	sf::Color getColor() { return m_color; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -120,4 +123,5 @@ private:
 
 	GameState m_state;
 	int m_nodeIndex = 0;
+	int m_score = 0;
 };

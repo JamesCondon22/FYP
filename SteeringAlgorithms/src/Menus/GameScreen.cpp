@@ -1,10 +1,11 @@
 #include "Menus/GameScreen.h"
 
 
-GameScreen::GameScreen(GameState * state, sf::Vector2f & size):
+GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font):
+	m_font(font),
 	m_currentState(state)
 {
-	if (!m_TextureObs.loadFromFile("resources/assets/obstacle.png")) {
+	if (!m_TextureObs.loadFromFile("resources/assets/noEntry.png")) {
 
 		std::cout << "texture not loading" << std::endl;
 	}
@@ -25,14 +26,21 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size):
 	m_mapSprite.setTexture(m_mapTexture);
 	m_mapSprite.setPosition(0, 0);
 	
-	m_player = new Player();
+	m_player = new Player(m_obstacles);
 	m_ai = new InterpolatingAI(m_nodes, m_obstacles);
 	m_ai->setState(*m_currentState);
+
+	m_toolbar.setSize(sf::Vector2f(1940, 100));
+	m_toolbar.setFillColor(sf::Color::White);
+	m_toolbar.setOutlineThickness(5.0f);
+	m_toolbar.setOutlineColor(sf::Color::Black); 
+	initUIText();
 }
 
 
 void GameScreen::update(double dt, sf::Vector2i & mouse)
 {
+	m_toolbar.setPosition(camera->getCenter().x - 970, camera->getCenter().y - 550);
 	camera->setPosition(m_player->getPos());
 	camera->update();
 
@@ -128,7 +136,15 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		m_nodes[i]->animateNode();
 	}
 
-	std::cout << "Score = " << m_player->getScore() << std::endl;
+	for (int i = 0; i < m_labels.size(); i++)
+	{
+		m_labels[0]->setPosition(sf::Vector2f(m_toolbar.getPosition().x + 50, m_toolbar.getPosition().y + 20));
+		m_labels[0]->setText("Score: " + std::to_string(m_player->getScore()));
+
+		m_labels[1]->setPosition(sf::Vector2f(m_labels[0]->getPosition().x + 300, m_labels[0]->getPosition().y));
+		m_labels[1]->setText("Score: " + std::to_string(m_ai->getScore()));
+	}
+	
 }
 
 
@@ -236,6 +252,9 @@ void GameScreen::checkNodeCollision(sf::Vector2f pos, int rad)
 	if (Math::circleCollision(m_nodes[m_ai->getNodeIndex()]->getPosition(), pos, m_nodes[m_ai->getNodeIndex()]->getRadius(), rad))
 	{
 		m_nodes[m_ai->getNodeIndex()]->setAlive(false);
+		auto score = m_ai->getScore();
+		score += 10;
+		m_ai->setScore(score);
 	}
 }
 
@@ -256,6 +275,23 @@ void GameScreen::checkPlayerNodeCollision(sf::Vector2f pos, int rad)
 		}
 	}
 
+}
+
+
+void GameScreen::initUIText()
+{
+	Label* labelOne = new Label(m_font, m_toolbar.getPosition());
+	labelOne->setText("Score: " + std::to_string(m_player->getScore()));
+	labelOne->setSize(50);
+	labelOne->setColor(m_player->getColor());
+
+	Label* labelTwo = new Label(m_font, m_toolbar.getPosition());
+	labelTwo->setText("Score: " + std::to_string(0));
+	labelTwo->setSize(50);
+	labelTwo->setColor(m_ai->getColor());
+
+	m_labels.push_back(labelOne);
+	m_labels.push_back(labelTwo);
 }
 
 
@@ -283,6 +319,12 @@ void GameScreen::render(sf::RenderWindow & window)
 		obs->render(window);
 	}
 
+	window.draw(m_toolbar);
+	for (int i = 0; i < m_labels.size(); i++)
+	{
+		m_labels[i]->render(window);
+	}
+	
 	miniMap->render(window);
 	window.draw(m_mapSprite);
 	m_player->render(window);

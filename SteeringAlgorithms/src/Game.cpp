@@ -34,7 +34,7 @@ Game::Game()
 	m_options = new Options(m_currentState, m_font, m_window);
 	m_demoScreen = new DemoScreen(m_currentState);
 	mainMenu = new MainMenu(m_currentState);
-	m_gameScreen = new GameScreen(m_currentState, size);
+	m_gameScreen = new GameScreen(m_currentState, size, m_font);
 
 }
 

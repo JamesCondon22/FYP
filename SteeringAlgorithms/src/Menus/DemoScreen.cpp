@@ -33,7 +33,6 @@ DemoScreen::DemoScreen(GameState * state):
 		m_nodes.push_back(circle);
 	}
 
-	m_player = new Player();
 	m_trad = new Traditional(m_nodes, m_obstacles);
 	m_testBot = new TestBot(m_nodes, m_obstacles);
 
@@ -66,7 +65,6 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 		}
 	}
 	
-	m_player->update(dt);
 	
 	if (m_startDemonstration) {
 
@@ -116,7 +114,6 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 
 void DemoScreen::render(sf::RenderWindow & window)
 {
-	m_player->render(window);
 
 	for (int i = 0; i < m_obstacles.size(); i++)
 	{

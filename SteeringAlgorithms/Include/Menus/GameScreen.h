@@ -9,18 +9,19 @@
 #include "Headers/InterpolatingAI.h"
 #include "Headers/LevelLoader.h"
 #include "Headers/GameNode.h"
-
+#include "Headers/Label.h"
 class GameScreen
 {
 public:
 	
-	GameScreen(GameState * state, sf::Vector2f & size);
+	GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font);
 	void update(double dt, sf::Vector2i & mouse);
 	void render(sf::RenderWindow & window);
 	void collision(int x, int y);
 	void loadLevel(std::string level);
 	void checkNodeCollision(sf::Vector2f pos, int rad);
 	void checkPlayerNodeCollision(sf::Vector2f pos, int rad);
+	void initUIText();
 private:
 
 	GameState * m_currentState;
@@ -45,6 +46,13 @@ private:
 	sf::Texture m_textureNode;
 	sf::Texture m_mapTexture;
 	sf::Sprite m_mapSprite;
+
+	sf::Font m_font;
+	sf::RectangleShape m_toolbar;
+
+	Label* m_label;
+
+	std::vector<Label*> m_labels;
 };
 
 #endif
