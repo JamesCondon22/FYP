@@ -56,6 +56,7 @@ public:
 	double getTimeEfficiency();
 	void setState(GameState state) { m_state = state; }
 	std::string getName() { return "Catmull Rom AI"; }
+	double getTicks() { return m_tickCounter; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;

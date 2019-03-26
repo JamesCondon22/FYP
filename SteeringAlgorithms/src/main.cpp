@@ -32,16 +32,6 @@
 /// <returns></returns>
 int main(int, char* argv[])
 {
-	//Curve * curve = new CatmullRom();
-	/*
-	curve->set_steps(100);
-
-	curve->add_way_point(Vector(1, 1, 0));
-	curve->add_way_point(Vector(2, 3, 0));
-	curve->add_way_point(Vector(3, 2, 0));
-	curve->add_way_point(Vector(4, 6, 0));*/
-
-
 	Game game;
 	game.run();
 }

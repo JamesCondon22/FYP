@@ -61,5 +61,7 @@ private:
 	double MAX_TIME = 3000.0;
 
 	std::ofstream m_file;
+	bool m_runningUpdate = false;
+	bool m_runRender = true;
 };
 #endif // !

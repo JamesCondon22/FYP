@@ -19,10 +19,13 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font):
 	}
 	loadLevel("resources/levels/LevelOne.txt");
 
+	/*for (int i = 0; i < 60; i++) {
+		for (int j = 0; j < 80; j++) {
+			m_tile[j][i] = new Tile(30 * j, 30 * i, j, i);
+		}
+	}*/
+
 	camera = new Camera(size);
-	sf::Vector2f mapView = sf::Vector2f(4500.0f, 4500.0f);
-	miniMap = new Camera(mapView);
-	miniMap->setRect(sf::FloatRect(-0.2f, 0.4f, 0.6f, 0.6f));
 	m_mapSprite.setTexture(m_mapTexture);
 	m_mapSprite.setPosition(0, 0);
 	
@@ -34,40 +37,47 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font):
 	m_toolbar.setFillColor(sf::Color::White);
 	m_toolbar.setOutlineThickness(5.0f);
 	m_toolbar.setOutlineColor(sf::Color::Black); 
+	m_toolbar.setPosition(0, 0);
 	initUIText();
 }
 
 
 void GameScreen::update(double dt, sf::Vector2i & mouse)
 {
-	m_toolbar.setPosition(camera->getCenter().x - 970, camera->getCenter().y - 550);
-	camera->setPosition(m_player->getPos());
-	camera->update();
+	
+	//camera->setPosition(m_player->getPos());
+	//camera->update();
 
-	int x = mouse.x / 50;
-	int y = mouse.y / 50;
+	int x = mouse.x / 30;
+	int y = mouse.y / 30;
 
 	m_player->update(dt);
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		if (x >= 0 && x < 50 && y >= 0 && y < 50)
+		if (x >= 0 && x < 80 && y >= 0 && y < 60)
 		{
+			GameNode *circ = new GameNode(10, m_textureNode);
+			circ->setPosition(sf::Vector2f(0, 0));
+			circ->setColor(sf::Color(255, 0, 0));
+			circ->setOrigin(circ->getRadius(), circ->getRadius());
+			circ->setPosition(sf::Vector2f(m_tile[x][y]->getPosition().x + 15, m_tile[x][y]->getPosition().y + 15));
+			m_nodes.push_back(circ);
 			m_tile[x][y]->setInterest();
 		}
 		
 	}
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
 	{
-		if (x >= 0 && x < 50 && y >= 0 && y < 50)
+		if (x >= 0 && x < 80 && y >= 0 && y < 60)
 		{
-			m_tile[x][y]->setBlank();
+			m_tile[x][y]->setObstacle();
 		}
 
 	}
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Middle) && !m_Midpressed)
 	{
-		if (x >= 0 && x < 50 && y >= 0 && y < 50)
+		if (x >= 0 && x < 80 && y >= 0 && y < 60)
 		{
 			Obstacle* obstacle = new Obstacle(50, m_TextureObs, sf::Vector2f(0, 0), true);
 			obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
@@ -86,9 +96,9 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		m_file.open("resources/levels/LevelOne.txt"/*, std::ofstream::app*/);
 		int count = 0;
 
-		for (int i = 0; i < 50; i++) {
-			for (int j = 0; j < 50; j++) {
-				if (count >= 50)
+		for (int i = 0; i < 60; i++) {
+			for (int j = 0; j < 80; j++) {
+				if (count >= 80)
 				{
 					m_file << std::endl;
 					count = 0;
@@ -121,8 +131,8 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	}
 	
 	
-	int curX = m_player->getPos().x / 50;
-	int curY = m_player->getPos().y / 50;
+	int curX = m_player->getPos().x / 30;
+	int curY = m_player->getPos().y / 30;
 
 	collision(curX, curY);
 
@@ -153,33 +163,33 @@ void GameScreen::collision(int x, int y)
 
 	if (m_tile[x][y - 1]->getState() == NState::Full)
 	{
-		if (m_player->getPos().y < m_tile[x][y - 1]->getPosition().y + 75)
+		if (m_player->getPos().y < m_tile[x][y - 1]->getPosition().y + 55)
 		{
-			m_player->setPosition(m_player->getPos().x, m_tile[x][y - 1]->getPosition().y + 75);
+			m_player->setPosition(m_player->getPos().x, m_tile[x][y - 1]->getPosition().y + 55);
 		}
 	}
 	if (m_tile[x][y + 1]->getState() == NState::Full)
 	{
-		if (m_player->getPos().y > m_tile[x][y + 1]->getPosition().y - 30)
+		if (m_player->getPos().y > m_tile[x][y + 1]->getPosition().y - 25)
 		{
-			m_player->setPosition(m_player->getPos().x, m_tile[x][y + 1]->getPosition().y - 30);
+			m_player->setPosition(m_player->getPos().x, m_tile[x][y + 1]->getPosition().y - 25);
 		}
 	}
 
 	if (m_tile[x - 1][y]->getState() == NState::Full)
 	{
 
-		if (m_player->getPos().x < m_tile[x - 1][y]->getPosition().x + 75)
+		if (m_player->getPos().x < m_tile[x - 1][y]->getPosition().x + 55)
 		{
-			m_player->setPosition(m_tile[x - 1][y]->getPosition().x + 75, m_player->getPos().y);
+			m_player->setPosition(m_tile[x - 1][y]->getPosition().x + 55, m_player->getPos().y);
 		}
 	}
 	if (m_tile[x + 1][y]->getState() == NState::Full)
 	{
 
-		if (m_player->getPos().x > m_tile[x + 1][y]->getPosition().x - 30)
+		if (m_player->getPos().x > m_tile[x + 1][y]->getPosition().x - 25)
 		{
-			m_player->setPosition(m_tile[x + 1][y]->getPosition().x - 30, m_player->getPos().y);
+			m_player->setPosition(m_tile[x + 1][y]->getPosition().x - 25, m_player->getPos().y);
 		}
 	}
 }
@@ -208,9 +218,9 @@ void GameScreen::loadLevel(std::string level)
 	m_readFile.close();
 
 	int counter = 0;
-	for (int i = 0; i < 50; i++) {
-		for (int j = 0; j < 50; j++) {
-			m_tile[j][i] = new Tile(50 * j, 50 * i, j, i);
+	for (int i = 0; i < 60; i++) {
+		for (int j = 0; j < 80; j++) {
+			m_tile[j][i] = new Tile(30 * j, 30 * i, j, i);
 
 			if (chars[counter] == '0')
 			{
@@ -244,6 +254,8 @@ void GameScreen::loadLevel(std::string level)
 		}
 	}
 	chars.empty();
+
+
 }
 
 
@@ -298,9 +310,9 @@ void GameScreen::initUIText()
 void GameScreen::render(sf::RenderWindow & window)
 {
 	
-	camera->render(window);
-	/*for (int i = 0; i < 50; i++) {
-		for (int j = 0; j < 50; j++) {
+	//camera->render(window);
+	/*for (int i = 0; i < 60; i++) {
+		for (int j = 0; j < 80; j++) {
 
 			m_tile[j][i]->render(window);
 		}
@@ -325,18 +337,5 @@ void GameScreen::render(sf::RenderWindow & window)
 		m_labels[i]->render(window);
 	}
 	
-	miniMap->render(window);
-	window.draw(m_mapSprite);
-	m_player->render(window);
-	m_ai->render(window);
-
-	for (auto &node : m_nodes)
-	{
-		node->render(window);
-	}
-
-	for (auto &obs : m_obstacles)
-	{
-		obs->render(window);
-	}
+	
 }

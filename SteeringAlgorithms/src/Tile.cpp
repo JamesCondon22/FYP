@@ -11,7 +11,7 @@ Tile::Tile(int x, int y, int dx, int dy) :
 {
 	m_current = NState::Blank;
 
-	m_rect.setSize(sf::Vector2f(50.0f, 50.0f));
+	m_rect.setSize(sf::Vector2f(30.0f, 30.0f));
 	m_rect.setPosition(m_position);
 
 	m_surround.setRadius(50);

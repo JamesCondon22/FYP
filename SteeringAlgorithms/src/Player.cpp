@@ -8,7 +8,7 @@ Player::Player(std::vector<Obstacle*>  obs) :
 	size(100),
 	m_rotation(0.0),
 	m_speed(0.0),
-	MAX_SPEED(200.0),
+	MAX_SPEED(150.0),
 	m_obstacles(obs)
 {
 	if (!m_texture.loadFromFile("resources/assets/triangleOne.png")) {
@@ -131,7 +131,7 @@ void Player::obstacleCollision()
 	{
 		if (Math::circleCollision(m_rect.getPosition(), m_obstacles[i]->getPosition(), m_radius, m_obstacles[i]->getRadius()))
 		{
-			m_speed = -30;
+			m_speed = -20;
 		}
 	}
 }

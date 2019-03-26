@@ -26,7 +26,7 @@ private:
 
 	GameState * m_currentState;
 
-	Tile *m_tile[50][50];
+	Tile *m_tile[80][60];
 	
 	sf::Texture m_texture;
 	std::ifstream m_readFile;

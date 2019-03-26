@@ -8,6 +8,9 @@
 
 // Updates per milliseconds
 static double const MS_PER_UPDATE = 10.0;
+sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+const int window_height = desktop.height;
+const int window_width = desktop.width;
 
 /// <summary>
 /// @brief Default constructor.
@@ -15,11 +18,11 @@ static double const MS_PER_UPDATE = 10.0;
 /// Create a new window and initialise member objects.
 /// </summary>
 /// 
-Game::Game()
-	: m_window(sf::VideoMode(1920, 1080, 32), "SFML Playground", sf::Style::Default)
-
+/// 
+Game::Game() :
+	m_window(sf::VideoMode(desktop.width, desktop.height, desktop.bitsPerPixel), "FYP", sf::Style::Default)
 {
-	sf::Vector2f size = sf::Vector2f(1920, 1080);
+	sf::Vector2f size = sf::Vector2f((float)window_width, (float)window_height);
 	m_window.setVerticalSyncEnabled(true);
 
 	m_currentState = new GameState;

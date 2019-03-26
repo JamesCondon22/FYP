@@ -114,6 +114,7 @@ sf::Vector2f CRSplineAI::getVel()
 	return m_velocity;
 }
 
+
 void CRSplineAI::updateLines(sf::Vector2f position)
 {
 	sf::Vector2f vecToNode;
@@ -127,6 +128,7 @@ void CRSplineAI::updateLines(sf::Vector2f position)
 		count++;
 	}
 }
+
 
 void CRSplineAI::updateDangers()
 {
@@ -153,6 +155,7 @@ void CRSplineAI::updateDangers()
 	}
 
 }
+
 
 double CRSplineAI::findLargest(std::map<Direction, double> vec)
 {

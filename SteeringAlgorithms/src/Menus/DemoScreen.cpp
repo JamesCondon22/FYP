@@ -97,10 +97,10 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 			}
 			if (m_cumulativeTime > MAX_TIME) {
 
-				if (m_enemies[i]->getActive())
-				{
-					m_enemies[i]->update(dt, m_testBot->getPosition());
+				if (m_enemies[i]->getActive()) {
 
+					m_enemies[i]->update(dt, m_testBot->getPosition());
+					
 					checkCollision(m_testBot, m_enemies[i], lastBtnPress);
 				}
 			}
@@ -129,7 +129,8 @@ void DemoScreen::render(sf::RenderWindow & window)
 	{
 		if (m_enemies[i]->getActive())
 		{
-			m_enemies[i]->render(window);
+
+			m_enemies[i]->render(window);			
 		}
 	}
 	//m_trad->render(window);
@@ -194,7 +195,5 @@ void DemoScreen::initAI()
 	m_enemies.push_back(aiFour);
 	m_enemies.push_back(aiFive);
 	m_enemies.push_back(aiSix);
-
-	
 }
 
