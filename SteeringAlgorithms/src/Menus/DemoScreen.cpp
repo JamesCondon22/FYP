@@ -114,7 +114,10 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 
 void DemoScreen::render(sf::RenderWindow & window)
 {
-
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+	{
+		m_runRender = true;
+	}
 	for (int i = 0; i < m_obstacles.size(); i++)
 	{
 		m_obstacles[i]->render(window);
@@ -129,8 +132,9 @@ void DemoScreen::render(sf::RenderWindow & window)
 	{
 		if (m_enemies[i]->getActive())
 		{
-
-			m_enemies[i]->render(window);			
+			if (m_runRender) {
+				m_enemies[i]->render(window);
+			}
 		}
 	}
 	//m_trad->render(window);

@@ -26,6 +26,7 @@ public:
 	void setColor(sf::Color color) { m_color = color; }
 	sf::Color getColor() { return m_color; }
 	void obstacleCollision();
+	std::string getName() { return "Player"; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;

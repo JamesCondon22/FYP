@@ -87,6 +87,30 @@ void CRSplineAI::update(double dt, sf::Vector2f position)
 }
 
 
+void CRSplineAI::updatePlotPoints(double dt, sf::Vector2f position)
+{
+	for (int i = 0; i < m_size; i++) {
+		m_lineVec[i].update(m_surroundingCircle.getPosition());
+	}
+
+	updateLines(position);
+	updateDangers();
+	m_distances = normalize(m_distances);
+	mapDecisions.update(m_distances, m_distancesDanger);
+	checkDirection();
+
+	m_steering = seek(position);
+	m_position += m_steering.linear;
+	m_position = sf::Vector2f(m_position.x + std::cos(DEG_TO_RAD  * (m_rotation)) * m_speed * (dt / 1000),
+		m_position.y + std::sin(DEG_TO_RAD * (m_rotation)) * m_speed* (dt / 1000));
+	m_rect.setPosition(m_position);
+	m_surroundingCircle.setPosition(m_position);
+
+	m_tickCounter += 1;
+
+}
+
+
 void CRSplineAI::render(sf::RenderWindow & window)
 {
 	for (int i = 0; i < m_pathLine.size(); i++)

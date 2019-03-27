@@ -62,6 +62,6 @@ private:
 
 	std::ofstream m_file;
 	bool m_runningUpdate = false;
-	bool m_runRender = true;
+	bool m_runRender = false;
 };
 #endif // !

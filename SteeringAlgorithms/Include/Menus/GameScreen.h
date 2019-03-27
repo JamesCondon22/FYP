@@ -10,6 +10,7 @@
 #include "Headers/LevelLoader.h"
 #include "Headers/GameNode.h"
 #include "Headers/Label.h"
+
 class GameScreen
 {
 public:
@@ -22,6 +23,8 @@ public:
 	void checkNodeCollision(sf::Vector2f pos, int rad);
 	void checkPlayerNodeCollision(sf::Vector2f pos, int rad);
 	void initUIText();
+	void updateScores();
+	
 private:
 
 	GameState * m_currentState;
@@ -51,6 +54,8 @@ private:
 	sf::RectangleShape m_toolbar;
 
 	Label* m_label;
+
+	std::vector<std::pair<std::string, int>> m_scores;
 
 	std::vector<Label*> m_labels;
 };

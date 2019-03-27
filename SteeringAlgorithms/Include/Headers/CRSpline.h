@@ -18,6 +18,7 @@ public:
 	CRSplineAI(std::vector<GameNode*> path, std::vector<Obstacle*>  obs);
 	~CRSplineAI();
 	void update(double dt, sf::Vector2f position);
+	void updatePlotPoints(double dt, sf::Vector2f position);
 	void render(sf::RenderWindow & window);
 	sf::Vector2f getVel();
 	sf::Vector2f getCurrentNodePosition();

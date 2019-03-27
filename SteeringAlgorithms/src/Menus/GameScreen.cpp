@@ -1,7 +1,7 @@
 #include "Menus/GameScreen.h"
 
 
-GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font):
+GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font) :
 	m_font(font),
 	m_currentState(state)
 {
@@ -28,23 +28,36 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font):
 	camera = new Camera(size);
 	m_mapSprite.setTexture(m_mapTexture);
 	m_mapSprite.setPosition(0, 0);
-	
+
 	m_player = new Player(m_obstacles);
 	m_ai = new InterpolatingAI(m_nodes, m_obstacles);
 	m_ai->setState(*m_currentState);
 
-	m_toolbar.setSize(sf::Vector2f(1940, 100));
+	m_toolbar.setSize(sf::Vector2f(size.x / 2, size.y));
 	m_toolbar.setFillColor(sf::Color::White);
 	m_toolbar.setOutlineThickness(5.0f);
-	m_toolbar.setOutlineColor(sf::Color::Black); 
-	m_toolbar.setPosition(0, 0);
+	m_toolbar.setOutlineColor(sf::Color::Black);
+	m_toolbar.setPosition(2400, 0);
 	initUIText();
+
+	for (int i = 0; i < m_labels.size(); i++)
+	{
+		m_labels[0]->setPosition(sf::Vector2f(m_toolbar.getPosition().x + 50, m_toolbar.getPosition().y + 20));
+		m_labels[0]->setText("Score: " + std::to_string(m_player->getScore()));
+
+		m_labels[1]->setPosition(sf::Vector2f(m_labels[0]->getPosition().x, m_labels[0]->getPosition().y + 200));
+		m_labels[1]->setText("Score: " + std::to_string(m_ai->getScore()));
+	}
+
+	m_scores.push_back(std::make_pair(m_player->getName(), m_player->getScore()));
+	m_scores.push_back(std::make_pair(m_ai->getName(), m_ai->getScore()));
+
 }
 
 
 void GameScreen::update(double dt, sf::Vector2i & mouse)
 {
-	
+	updateScores();
 	//camera->setPosition(m_player->getPos());
 	//camera->update();
 
@@ -148,10 +161,7 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 
 	for (int i = 0; i < m_labels.size(); i++)
 	{
-		m_labels[0]->setPosition(sf::Vector2f(m_toolbar.getPosition().x + 50, m_toolbar.getPosition().y + 20));
 		m_labels[0]->setText("Score: " + std::to_string(m_player->getScore()));
-
-		m_labels[1]->setPosition(sf::Vector2f(m_labels[0]->getPosition().x + 300, m_labels[0]->getPosition().y));
 		m_labels[1]->setText("Score: " + std::to_string(m_ai->getScore()));
 	}
 	
@@ -304,6 +314,26 @@ void GameScreen::initUIText()
 
 	m_labels.push_back(labelOne);
 	m_labels.push_back(labelTwo);
+}
+
+
+void GameScreen::updateScores()
+{
+	for (int i = 0; i < m_scores.size(); i++)
+	{
+		if (m_scores[i].first == m_player->getName()) {
+			m_scores[i].second = m_player->getScore();
+		}
+		if (m_scores[i].first == m_ai->getName()) {
+			m_scores[i].second = m_ai->getScore();
+		}
+	} 
+	
+	std::sort(m_scores.begin(), m_scores.end(), [](const std::pair<std::string, int> &a, const std::pair<std::string, int> &b)
+	{
+		return (a.second > b.second);
+	});
+
 }
 
 
