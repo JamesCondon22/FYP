@@ -16,7 +16,7 @@ protected:
 public:
 	void add_way_point(const Vector& point);
 	void clear();
-
+	
 protected:
 	void add_node(const Vector& node);
 	virtual void _on_way_point_added()=0;

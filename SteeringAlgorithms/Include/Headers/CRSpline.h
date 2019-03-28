@@ -16,6 +16,7 @@ class CRSplineAI : public Enemy
 {
 public:
 	CRSplineAI(std::vector<GameNode*> path, std::vector<Obstacle*>  obs);
+	CRSplineAI() { ; }
 	~CRSplineAI();
 	void update(double dt, sf::Vector2f position);
 	void updatePlotPoints(double dt, sf::Vector2f position);
@@ -58,6 +59,12 @@ public:
 	void setState(GameState state) { m_state = state; }
 	std::string getName() { return "Catmull Rom AI"; }
 	double getTicks() { return m_tickCounter; }
+	void setColor(sf::Color color) { m_color = color; }
+	sf::Vector2f getPointPosition();
+	int m_counter = 0;
+	void setSpeed(float speed) { m_speed = speed; }
+	void setCurve(Curve * curve) { m_curve = curve; }
+	Curve * getCurve() { return m_curve; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -120,8 +127,11 @@ private:
 	double m_lastUpdate;
 	double m_timer;
 
-	Curve * curve;
+	Curve * m_curve;
 	GameState m_state;
+
+	sf::Vector2f m_currentTargetPos = sf::Vector2f(0, 0);
+	std::vector<sf::CircleShape> m_romPoints;
 };
 
 //#endif

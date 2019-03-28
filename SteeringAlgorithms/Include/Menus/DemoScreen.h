@@ -63,5 +63,8 @@ private:
 	std::ofstream m_file;
 	bool m_runningUpdate = false;
 	bool m_runRender = false;
+
+	CRSplineAI m_ghostAI;
+	CRSplineAI* m_splineAI;
 };
 #endif // !

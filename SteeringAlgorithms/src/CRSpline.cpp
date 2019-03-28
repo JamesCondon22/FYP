@@ -22,6 +22,7 @@ CRSplineAI::CRSplineAI(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 
+	
 	m_surroundingCircle.setRadius(m_radius);
 	m_surroundingCircle.setPosition(0, 0);
 	m_surroundingCircle.setOrigin(m_surroundingCircle.getRadius(), m_surroundingCircle.getRadius());
@@ -41,15 +42,10 @@ CRSplineAI::CRSplineAI(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs
 	m_rect.setFillColor(m_color);
 	m_rect.rotate(90);
 
-	curve = new CatmullRom();
-	curve->add_way_point(Vector(1, 1, 0));
-	curve->add_way_point(Vector(2, 3, 0));
-	curve->add_way_point(Vector(3, 2, 0));
-	curve->add_way_point(Vector(4, 6, 0));
+	m_curve = new CatmullRom();
+	m_curve->set_steps(1);
 
-	for (int i = 0; i < curve->node_count(); ++i) {
-		std::cout << "node #" << i << ": " << curve->node(i).toString() << " (length so far: " << curve->length_from_starting_point(i) << ")" << std::endl;
-	}
+
 }
 
 
@@ -64,8 +60,8 @@ void CRSplineAI::update(double dt, sf::Vector2f position)
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
-
-	updateLines(position);
+	
+	updateLines(getPointPosition());
 	updateDangers();
 	m_distances = normalize(m_distances);
 	mapDecisions.update(m_distances, m_distancesDanger);
@@ -89,10 +85,23 @@ void CRSplineAI::update(double dt, sf::Vector2f position)
 
 void CRSplineAI::updatePlotPoints(double dt, sf::Vector2f position)
 {
+	if (m_counter == 75)
+	{
+		sf::CircleShape circle(5);
+		circle.setPosition(0, 0);
+		circle.setOrigin(circle.getRadius(), circle.getRadius());
+		circle.setPosition(m_position);
+		m_curve->add_way_point(Vector(circle.getPosition().x, circle.getPosition().y, 0));
+		m_romPoints.push_back(circle);
+		m_counter = 0;
+	}
+
+	m_counter += 1;
+
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
-
+	
 	updateLines(position);
 	updateDangers();
 	m_distances = normalize(m_distances);
@@ -102,12 +111,29 @@ void CRSplineAI::updatePlotPoints(double dt, sf::Vector2f position)
 	m_steering = seek(position);
 	m_position += m_steering.linear;
 	m_position = sf::Vector2f(m_position.x + std::cos(DEG_TO_RAD  * (m_rotation)) * m_speed * (dt / 1000),
-		m_position.y + std::sin(DEG_TO_RAD * (m_rotation)) * m_speed* (dt / 1000));
+	m_position.y + std::sin(DEG_TO_RAD * (m_rotation)) * m_speed* (dt / 1000));
 	m_rect.setPosition(m_position);
 	m_surroundingCircle.setPosition(m_position);
 
 	m_tickCounter += 1;
+	
+}
 
+
+
+sf::Vector2f CRSplineAI::getPointPosition()
+{
+	sf::Vector2f  target;
+
+	target.x = m_curve->node(currentNode).x;
+	target.y = m_curve->node(currentNode).y;
+
+	if (Math::distance(m_position, target) <= 50)
+	{
+		currentNode += 1;
+	}
+
+	return target;
 }
 
 
@@ -122,6 +148,10 @@ void CRSplineAI::render(sf::RenderWindow & window)
 		m_lineVec[i].render(window);
 	}
 
+	for (auto &rom : m_romPoints)
+	{
+		window.draw(rom);
+	}
 	window.draw(m_surroundingCircle);
 	window.draw(m_rect);
 
@@ -141,9 +171,6 @@ sf::Vector2f CRSplineAI::getVel()
 
 void CRSplineAI::updateLines(sf::Vector2f position)
 {
-	sf::Vector2f vecToNode;
-	vecToNode = getCurrentNodePosition();
-
 	int count = 0;
 
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
