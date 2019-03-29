@@ -7,6 +7,7 @@ enum class GameState
 	Menu,
 	Options,
 	GameScreen,
+	EndGame,
 	Demo,
 };
 

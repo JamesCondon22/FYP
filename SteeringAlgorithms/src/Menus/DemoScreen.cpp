@@ -35,7 +35,7 @@ DemoScreen::DemoScreen(GameState * state):
 
 	m_trad = new Traditional(m_nodes, m_obstacles);
 	m_testBot = new TestBot(m_nodes, m_obstacles);
-	m_ghostAI = CRSplineAI(m_nodes, m_obstacles);
+	m_ghostAI = new CRSplineAI(m_nodes, m_obstacles);
 	initAI();
 
 	m_file.open("resources/assets/DemoFile.txt");
@@ -69,9 +69,8 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 	if (m_startDemonstration) {
 
 		m_cumulativeTime = m_clock.getElapsedTime().asMilliseconds();
-
+		m_ghostAI->updatePlotPoints(dt, m_testBot->getPosition());
 		m_testBot->update(dt);
-		m_ghostAI.updatePlotPoints(dt, m_testBot->getPosition());
 		//m_trad->update(dt, m_testBot->getPosition());
 		for (int i = 0; i < m_enemies.size(); i++)
 		{
@@ -100,23 +99,23 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 					m_enemies[i]->setActive(true);
 				}
 			}
+			
 			if (m_cumulativeTime > MAX_TIME) {
 
 				if (m_enemies[i]->getActive()) {
 
-					
 					m_enemies[i]->update(dt, m_testBot->getPosition());
 					checkCollision(m_testBot, m_enemies[i], lastBtnPress);
 				}
 
-				
 			}
 		}	
 		if (m_cumulativeTime > MAX_TIME) {
 
 			if (m_splineAI->getActive()) {
 
-				m_splineAI->setCurve(m_ghostAI.getCurve());
+				
+				m_splineAI->setCurve(m_ghostAI->getCurve());
 				m_splineAI->update(dt, m_testBot->getPosition());
 			}
 		}
@@ -156,7 +155,7 @@ void DemoScreen::render(sf::RenderWindow & window)
 		m_splineAI->render(window);
 	}
 	//m_trad->render(window);
-	m_ghostAI.render(window);
+	m_ghostAI->render(window);
 	m_testBot->render(window);
 }
 

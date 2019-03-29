@@ -53,7 +53,7 @@ public:
 	double getTimeEfficiency();
 	void setState(GameState state) { m_state = state; }
 	std::string getName() { return "Basic Context Maps"; }
-
+	void setBehaviourState(BehaviourState *state) { m_currentBehaviour = state; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -118,4 +118,6 @@ private:
 	sf::Color m_color;
 
 	GameState m_state;
+	BehaviourState* m_currentBehaviour;
+
 };

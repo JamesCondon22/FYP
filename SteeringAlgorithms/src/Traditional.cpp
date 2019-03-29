@@ -160,8 +160,9 @@ void Traditional::update(double dt, sf::Vector2f player)
 		lines[i].setRotation(m_rotation);
 	}
 
-	respawn(m_rect.getPosition().x, m_rect.getPosition().y);
 }
+
+
 sf::Vector2f Traditional::ObstacleAvoidance() {
 	
 	

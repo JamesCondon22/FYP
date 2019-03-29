@@ -54,7 +54,15 @@ void InterpolatingAI::update(double dt, sf::Vector2f position)
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
 
-	updateLines(position);
+	if (*m_currentBehaviour == BehaviourState::ChaseNode) {
+
+		updateLines(getCurrentNodePosition());
+	}
+	else {
+
+		updateLines(position);
+	}
+	
 	updateDangers();
 	
 	m_distances = normalize(m_distances);
@@ -115,18 +123,14 @@ sf::Vector2f InterpolatingAI::getVel()
 
 void InterpolatingAI::updateLines(sf::Vector2f position)
 {
-	sf::Vector2f vecToNode;
-	vecToNode = getCurrentNodePosition();
-	
-	
 	int count = 0;
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
-		if (m_state == GameState::Demo) {
+		if (*m_currentBehaviour == BehaviourState::ChaseEntity) {
 			m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), position);
 		}
 		else if (m_state == GameState::GameScreen){
-			m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), vecToNode);
+			m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), position);
 		}
 		count++;
 	}
@@ -267,6 +271,7 @@ bool InterpolatingAI::compareKeys(std::map<Direction, sf::Vector2f> vec) {
 	
 	return false;
 }
+
 
 void InterpolatingAI::checkDirection()
 {

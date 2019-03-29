@@ -59,6 +59,7 @@ public:
 	void setState(GameState state) { m_state = state; }
 	sf::Vector2f rotatePoint(float cx, float cy, float angle, sf::Vector2f p);
 	std::string getName() { return "Dynamic Vector"; }
+	void setBehaviourState(BehaviourState *state) { m_currentBehaviour = state; }
 private:
 	
 	sf::Vector2f m_position;
@@ -145,6 +146,7 @@ private:
 	sf::Color m_color;
 
 	GameState m_state;
+	BehaviourState* m_currentBehaviour;
 };
 
 #endif

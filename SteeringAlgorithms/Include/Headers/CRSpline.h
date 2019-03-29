@@ -65,6 +65,7 @@ public:
 	void setSpeed(float speed) { m_speed = speed; }
 	void setCurve(Curve * curve) { m_curve = curve; }
 	Curve * getCurve() { return m_curve; }
+	void setBehaviourState(BehaviourState *state) { m_currentBehaviour = state; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -132,6 +133,8 @@ private:
 
 	sf::Vector2f m_currentTargetPos = sf::Vector2f(0, 0);
 	std::vector<sf::CircleShape> m_romPoints;
+
+	BehaviourState* m_currentBehaviour;
 };
 
 //#endif

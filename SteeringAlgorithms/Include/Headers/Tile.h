@@ -11,6 +11,7 @@ enum NState
 	Blank,
 	Interest,
 	Circle,
+	KeyObject,
 	None,
 };
 
@@ -32,7 +33,7 @@ public:
 	void setInterest();
 	void setBlank();
 	void setCircularObs();
-	
+	void setKey();
 	int posX;
 	int posY;
 

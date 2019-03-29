@@ -8,6 +8,9 @@
 #include "DirectionalLine.h"
 #include "../Menus/State.h"
 #include "GameNode.h"
+#include "Behaviour.h"
+
+
 
 class Enemy
 {
@@ -28,4 +31,5 @@ public:
 	virtual void setCollided(bool collide) = 0;
 	virtual std::string getName() = 0;
 	virtual void setState(GameState state) = 0;
+	virtual void setBehaviourState(BehaviourState *state) = 0;
 };

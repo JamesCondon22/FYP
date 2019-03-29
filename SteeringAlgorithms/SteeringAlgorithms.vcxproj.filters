@@ -177,6 +177,15 @@
     <ClInclude Include="Include\Headers\GameNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Headers\Behaviour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Headers\Key.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Menus\EndGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EfficiencyAI.cpp">
@@ -288,6 +297,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GameNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Key.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Menus\EndGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

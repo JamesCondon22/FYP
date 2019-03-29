@@ -17,6 +17,10 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font) 
 
 		std::cout << "texture not loading" << std::endl;
 	}
+	if (!m_keyTexture.loadFromFile("resources/assets/key.png")) {
+
+		std::cout << "texture not loading" << std::endl;
+	}
 	loadLevel("resources/levels/LevelOne.txt");
 
 	/*for (int i = 0; i < 60; i++) {
@@ -28,7 +32,8 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font) 
 	camera = new Camera(size);
 	m_mapSprite.setTexture(m_mapTexture);
 	m_mapSprite.setPosition(0, 0);
-
+	m_key = new Key(m_keyTexture);
+	m_key->setPosition(getRandomPosition());
 	m_player = new Player(m_obstacles);
 	m_ai = new InterpolatingAI(m_nodes, m_obstacles);
 	m_ai->setState(*m_currentState);
@@ -40,17 +45,29 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font) 
 	m_toolbar.setPosition(2400, 0);
 	initUIText();
 
-	for (int i = 0; i < m_labels.size(); i++)
-	{
-		m_labels[0]->setPosition(sf::Vector2f(m_toolbar.getPosition().x + 50, m_toolbar.getPosition().y + 20));
-		m_labels[0]->setText("Score: " + std::to_string(m_player->getScore()));
-
-		m_labels[1]->setPosition(sf::Vector2f(m_labels[0]->getPosition().x, m_labels[0]->getPosition().y + 200));
-		m_labels[1]->setText("Score: " + std::to_string(m_ai->getScore()));
-	}
 
 	m_scores.push_back(std::make_pair(m_player->getName(), m_player->getScore()));
 	m_scores.push_back(std::make_pair(m_ai->getName(), m_ai->getScore()));
+
+	m_aiStates = new BehaviourState;
+	*m_aiStates = BehaviourState::ChaseNode;
+	m_maxScore = m_nodes.size() * 10;
+	m_ai->setBehaviourState(m_aiStates);
+
+
+	sf::Vector2f posOne = sf::Vector2f(m_toolbar.getPosition().x + 50, m_toolbar.getPosition().y + 20);
+	sf::Vector2f posTwo = sf::Vector2f(m_toolbar.getPosition().x + 50, m_toolbar.getPosition().y + 220);
+	for (int i = 0; i < m_labels.size(); i++)
+	{
+		m_labels[0]->setPosition(posOne);
+		m_labels[0]->setText("Score: " + std::to_string(m_player->getScore()));
+
+		m_labels[1]->setPosition(posTwo);
+		m_labels[1]->setText("Score: " + std::to_string(m_ai->getScore()));
+	}
+
+	m_placePositions.push_back(posOne);
+	m_placePositions.push_back(posTwo);
 
 }
 
@@ -58,8 +75,6 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font) 
 void GameScreen::update(double dt, sf::Vector2i & mouse)
 {
 	updateScores();
-	//camera->setPosition(m_player->getPos());
-	//camera->update();
 
 	int x = mouse.x / 30;
 	int y = mouse.y / 30;
@@ -152,7 +167,10 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	m_ai->update(dt, m_player->getPos());
 	checkNodeCollision(m_ai->getPos(), m_ai->getRadius());
 	checkPlayerNodeCollision(m_player->getPos(), m_player->getRadius());
-
+	if (m_key->getActive()) {
+		m_key->update(dt);
+	}
+	
 
 	for (int i = 0; i < m_nodes.size(); i++)
 	{
@@ -164,10 +182,41 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		m_labels[0]->setText("Score: " + std::to_string(m_player->getScore()));
 		m_labels[1]->setText("Score: " + std::to_string(m_ai->getScore()));
 	}
+	m_tallyScore = m_player->getScore() + m_ai->getScore();
+
+	if (m_tallyScore >= m_maxScore) {
+
+		*m_aiStates = BehaviourState::ChaseEntity;
+		m_ai->setBehaviourState(m_aiStates);
+		m_key->setActivated(true);
+		m_key->checkCollision(m_player->getPos(), m_player->getRadius());
+
+		if (m_key->getCollision())
+		{
+			m_gameOver = true;
+		}
+		
+	}
+
+	
+	checkGameOver();
+	for (int i = 0; i < m_labels.size(); i++)
+	{
+		m_labels[0]->setPosition(sf::Vector2f(m_toolbar.getPosition().x + 50, m_toolbar.getPosition().y + 20));
+		m_labels[0]->setText("Score: " + std::to_string(m_player->getScore()));
+
+		m_labels[1]->setPosition(sf::Vector2f(m_labels[0]->getPosition().x, m_labels[0]->getPosition().y + 200));
+		m_labels[1]->setText("Score: " + std::to_string(m_ai->getScore()));
+	}
+
 	
 }
 
-
+/// <summary>
+/// 
+/// </summary>
+/// <param name="x"></param>
+/// <param name="y"></param>
 void GameScreen::collision(int x, int y)
 {
 
@@ -204,7 +253,6 @@ void GameScreen::collision(int x, int y)
 	}
 }
 
-
 /// <summary>
 /// reads from the file and loads the current level
 /// initialises the 50 X 50 tile array
@@ -232,16 +280,16 @@ void GameScreen::loadLevel(std::string level)
 		for (int j = 0; j < 80; j++) {
 			m_tile[j][i] = new Tile(30 * j, 30 * i, j, i);
 
-			if (chars[counter] == '0')
-			{
+			if (chars[counter] == '0') {
+
 				m_tile[j][i]->setBlank();
 			}
-			else if (chars[counter] == '1')
-			{
+			else if (chars[counter] == '1') {
+
 				m_tile[j][i]->setObstacle();
 			}
-			else if (chars[counter] == '2')
-			{
+			else if (chars[counter] == '2') {
+
 				m_tile[j][i]->setInterest();
 				GameNode *circ = new GameNode(10, m_textureNode);
 				circ->setPosition(sf::Vector2f(0, 0));
@@ -250,14 +298,19 @@ void GameScreen::loadLevel(std::string level)
 				circ->setPosition(sf::Vector2f(m_tile[j][i]->getPosition().x + 25, m_tile[j][i]->getPosition().y + 25));
 				m_nodes.push_back(circ);
 			}
-			else if (chars[counter] == '3')
-			{
+			else if (chars[counter] == '3') {
+
 				m_tile[j][i]->setCircularObs();
 				Obstacle* obstacle = new Obstacle(50, m_TextureObs, sf::Vector2f(0, 0), true);
 				obstacle->setPosition(sf::Vector2f(0, 0));
 				obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
 				obstacle->setPosition(sf::Vector2f(m_tile[j][i]->getPosition().x + 25, m_tile[j][i]->getPosition().y + 25));
 				m_obstacles.push_back(obstacle);
+			}
+			else if (chars[counter] == '4') {
+
+				m_keyPositions.push_back(m_tile[j][i]->getPosition());
+
 			}
 
 			counter++;
@@ -268,7 +321,11 @@ void GameScreen::loadLevel(std::string level)
 
 }
 
-
+/// <summary>
+/// 
+/// </summary>
+/// <param name="pos"></param>
+/// <param name="rad"></param>
 void GameScreen::checkNodeCollision(sf::Vector2f pos, int rad)
 {
 	if (Math::circleCollision(m_nodes[m_ai->getNodeIndex()]->getPosition(), pos, m_nodes[m_ai->getNodeIndex()]->getRadius(), rad))
@@ -280,7 +337,11 @@ void GameScreen::checkNodeCollision(sf::Vector2f pos, int rad)
 	}
 }
 
-
+/// <summary>
+/// 
+/// </summary>
+/// <param name="pos"></param>
+/// <param name="rad"></param>
 void GameScreen::checkPlayerNodeCollision(sf::Vector2f pos, int rad)
 {
 	for (int i = 0; i < m_nodes.size(); i++)
@@ -299,7 +360,9 @@ void GameScreen::checkPlayerNodeCollision(sf::Vector2f pos, int rad)
 
 }
 
-
+/// <summary>
+/// 
+/// </summary>
 void GameScreen::initUIText()
 {
 	Label* labelOne = new Label(m_font, m_toolbar.getPosition());
@@ -317,6 +380,27 @@ void GameScreen::initUIText()
 }
 
 
+void GameScreen::checkGameOver() {
+	if (m_gameOver) {
+		saveScores("resources/assets/scores.txt");
+		*m_currentState = GameState::EndGame;
+	}
+}
+
+
+void GameScreen::saveScores(std::string path) {
+	m_Scorefile.open(path);
+
+	
+	for (int i = 0; i < m_scores.size(); i++) {
+		m_Scorefile << i + 1 << ". " << m_scores[i].first << ": " << m_scores[i].second << std::endl;
+	}
+
+	m_Scorefile.close();
+}
+/// <summary>
+/// 
+/// </summary>
 void GameScreen::updateScores()
 {
 	for (int i = 0; i < m_scores.size(); i++)
@@ -336,7 +420,21 @@ void GameScreen::updateScores()
 
 }
 
+/// <summary>
+/// get a random position for the key Object 
+/// This is called at the end of a level 
+/// </summary>
+/// <returns></returns>
+sf::Vector2f GameScreen::getRandomPosition() {
+	int total = m_keyPositions.size() - 1;
+	int num = std::rand() % total;
+	return sf::Vector2f(m_keyPositions[num].x + 25.0f, m_keyPositions[num].y + 25.0f);
+}
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="window"></param>
 void GameScreen::render(sf::RenderWindow & window)
 {
 	
@@ -350,7 +448,9 @@ void GameScreen::render(sf::RenderWindow & window)
 	window.draw(m_mapSprite);
 	m_player->render(window);
 	m_ai->render(window);
-	
+	if (m_key->getActive()) {
+		m_key->render(window);
+	}
 	for (auto &node : m_nodes)
 	{
 		node->render(window);

@@ -53,6 +53,7 @@ public:
 	double getTimeEfficiency();
 	void setState(GameState state) { m_state = state; }
 	std::string getName() { return "Efficiency AI"; }
+	void setBehaviourState(BehaviourState *state) { m_currentBehaviour = state; }
 private:
 	
 	sf::Vector2f m_position;
@@ -139,4 +140,6 @@ private:
 
 	GameState m_state;
 	sf::Color m_color;
+	BehaviourState* m_currentBehaviour;
+
 };

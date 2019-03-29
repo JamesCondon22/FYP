@@ -136,6 +136,7 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="Include\Headers\Behaviour.h" />
     <ClInclude Include="Include\Headers\Button.h" />
     <ClInclude Include="Include\Headers\Camera.h" />
     <ClInclude Include="Include\Headers\CRSpline.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Include\Headers\GameNode.h" />
     <ClInclude Include="Include\Headers\InterpolatingAI.h" />
     <ClInclude Include="Include\Headers\InterpolatingTwo.h" />
+    <ClInclude Include="Include\Headers\Key.h" />
     <ClInclude Include="Include\Headers\LevelLoader.h" />
     <ClInclude Include="Include\Headers\main.h" />
     <ClInclude Include="Include\Headers\MathHelper.h" />
@@ -161,6 +163,7 @@
     <ClInclude Include="Include\Headers\Traditional.h" />
     <ClInclude Include="Include\Headers\Label.h" />
     <ClInclude Include="Include\Menus\DemoScreen.h" />
+    <ClInclude Include="Include\Menus\EndGame.h" />
     <ClInclude Include="Include\Menus\GameScreen.h" />
     <ClInclude Include="Include\Menus\MainMenu.h" />
     <ClInclude Include="Include\Menus\Options.h" />
@@ -207,11 +210,13 @@
     <ClCompile Include="src\GameNode.cpp" />
     <ClCompile Include="src\InterpolatingAI.cpp" />
     <ClCompile Include="src\InterpolatingTwo.cpp" />
+    <ClCompile Include="src\Key.cpp" />
     <ClCompile Include="src\Label.cpp" />
     <ClCompile Include="src\LevelLoader.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MathHelper.cpp" />
     <ClCompile Include="src\Menus\DemoScreen.cpp" />
+    <ClCompile Include="src\Menus\EndGame.cpp" />
     <ClCompile Include="src\Menus\GameScreen.cpp" />
     <ClCompile Include="src\Menus\MainMenu.cpp" />
     <ClCompile Include="src\Menus\Options.cpp" />

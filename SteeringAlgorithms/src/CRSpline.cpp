@@ -43,7 +43,7 @@ CRSplineAI::CRSplineAI(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs
 	m_rect.rotate(90);
 
 	m_curve = new CatmullRom();
-	m_curve->set_steps(1);
+	m_curve->set_steps(10);
 
 
 }
@@ -85,7 +85,7 @@ void CRSplineAI::update(double dt, sf::Vector2f position)
 
 void CRSplineAI::updatePlotPoints(double dt, sf::Vector2f position)
 {
-	if (m_counter == 75)
+	if (m_counter == 50)
 	{
 		sf::CircleShape circle(5);
 		circle.setPosition(0, 0);

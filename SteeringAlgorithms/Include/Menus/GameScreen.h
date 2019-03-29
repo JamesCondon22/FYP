@@ -10,6 +10,7 @@
 #include "Headers/LevelLoader.h"
 #include "Headers/GameNode.h"
 #include "Headers/Label.h"
+#include "Headers/Key.h"
 
 class GameScreen
 {
@@ -22,9 +23,12 @@ public:
 	void loadLevel(std::string level);
 	void checkNodeCollision(sf::Vector2f pos, int rad);
 	void checkPlayerNodeCollision(sf::Vector2f pos, int rad);
+	void checkGameOver();
 	void initUIText();
 	void updateScores();
-	
+	void saveScores(std::string path);
+	sf::Vector2f getRandomPosition();
+	std::vector<std::pair<std::string, int>> getScores() { return m_scores; }
 private:
 
 	GameState * m_currentState;
@@ -49,6 +53,7 @@ private:
 	sf::Texture m_textureNode;
 	sf::Texture m_mapTexture;
 	sf::Sprite m_mapSprite;
+	sf::Texture m_keyTexture;
 
 	sf::Font m_font;
 	sf::RectangleShape m_toolbar;
@@ -58,6 +63,17 @@ private:
 	std::vector<std::pair<std::string, int>> m_scores;
 
 	std::vector<Label*> m_labels;
+
+	int m_tallyScore = 0;
+	int m_maxScore = 0;
+
+	BehaviourState * m_aiStates;
+	std::vector<sf::Vector2f> m_placePositions;
+	Key* m_key;
+	std::vector<sf::Vector2f> m_keyPositions;
+
+	bool m_gameOver = false;
+	std::ofstream m_Scorefile;
 };
 
 #endif

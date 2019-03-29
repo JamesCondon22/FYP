@@ -48,6 +48,12 @@ void Tile::setCircularObs()
 }
 
 
+void Tile::setKey() {
+
+	m_current = NState::KeyObject;
+}
+
+
 void Tile::setBlank()
 {
 	m_current = NState::Blank;

@@ -5,6 +5,7 @@
 #include "Menus/DemoScreen.h"
 #include "Menus/MainMenu.h"
 #include "Menus/GameScreen.h"
+#include "Menus/EndGame.h"
 #include "../imgui/imgui-SFML.h"
 #include "../imgui/imgui.h"
 
@@ -31,6 +32,7 @@ protected:
 	Options *m_options;
 	DemoScreen * m_demoScreen;
 	GameScreen * m_gameScreen;
+	EndGame * m_endGameScreen;
 
 	GameState * m_currentState;
 

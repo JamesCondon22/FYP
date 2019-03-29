@@ -58,6 +58,8 @@ public:
 	int getScore() { return m_score; }
 	void setScore(int score) { m_score = score; }
 	sf::Color getColor() { return m_color; }
+	void setBehaviourState(BehaviourState* state) { m_currentBehaviour = state; }
+	
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -124,4 +126,6 @@ private:
 	GameState m_state;
 	int m_nodeIndex = 0;
 	int m_score = 0;
+
+	BehaviourState* m_currentBehaviour;
 };
