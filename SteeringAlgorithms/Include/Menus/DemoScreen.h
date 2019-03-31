@@ -14,7 +14,7 @@
 #include "../Headers/Enemy.h"
 #include "../Headers/TestBot.h"
 #include "../Headers/CRSpline.h"
-
+#include "../Headers/Label.h"
 #include <SFML/Graphics.hpp>
 
 #include <fstream>
@@ -23,7 +23,7 @@
 class DemoScreen
 {
 public:
-	DemoScreen(GameState * state);
+	DemoScreen(GameState * state, sf::Font & font);
 	~DemoScreen();
 	void update(double dt, int active, std::string lastBtnPress);
 	void render(sf::RenderWindow& window);
@@ -66,5 +66,13 @@ private:
 
 	CRSplineAI* m_ghostAI;
 	CRSplineAI* m_splineAI;
+
+	Label* m_aitypeLabel;
+	sf::Vector2f m_labelPosition;
+	sf::Font m_font;
+	BehaviourState * m_aiStates;
+
+	bool m_altPressed = false;
+
 };
 #endif // !

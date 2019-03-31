@@ -66,9 +66,6 @@
     <ClInclude Include="Include\Menus\DemoScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Menus\MainMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Menus\Options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -186,6 +183,15 @@
     <ClInclude Include="Include\Menus\EndGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Menus\GameMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Menus\Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Menus\MainMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EfficiencyAI.cpp">
@@ -234,9 +240,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Menus\DemoScreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Menus\MainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Menus\Options.cpp">
@@ -303,6 +306,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Menus\EndGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Menus\Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Menus\GameMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Menus\MainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

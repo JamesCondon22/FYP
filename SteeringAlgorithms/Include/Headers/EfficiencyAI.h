@@ -54,6 +54,9 @@ public:
 	void setState(GameState state) { m_state = state; }
 	std::string getName() { return "Efficiency AI"; }
 	void setBehaviourState(BehaviourState *state) { m_currentBehaviour = state; }
+	sf::Color getColor() { return m_color; }
+	void setVisuals(bool visuals) { m_visuals = visuals; }
+	bool getVisuals() { return m_visuals; }
 private:
 	
 	sf::Vector2f m_position;
@@ -142,4 +145,5 @@ private:
 	sf::Color m_color;
 	BehaviourState* m_currentBehaviour;
 
+	bool m_visuals = true;
 };

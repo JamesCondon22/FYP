@@ -164,8 +164,10 @@
     <ClInclude Include="Include\Headers\Label.h" />
     <ClInclude Include="Include\Menus\DemoScreen.h" />
     <ClInclude Include="Include\Menus\EndGame.h" />
+    <ClInclude Include="Include\Menus\GameMenu.h" />
     <ClInclude Include="Include\Menus\GameScreen.h" />
     <ClInclude Include="Include\Menus\MainMenu.h" />
+    <ClInclude Include="Include\Menus\Menu.h" />
     <ClInclude Include="Include\Menus\Options.h" />
     <ClInclude Include="Include\Menus\State.h" />
     <ClInclude Include="spline\spline\src\main\cpp\Bezier.h" />
@@ -217,8 +219,10 @@
     <ClCompile Include="src\MathHelper.cpp" />
     <ClCompile Include="src\Menus\DemoScreen.cpp" />
     <ClCompile Include="src\Menus\EndGame.cpp" />
+    <ClCompile Include="src\Menus\GameMenu.cpp" />
     <ClCompile Include="src\Menus\GameScreen.cpp" />
     <ClCompile Include="src\Menus\MainMenu.cpp" />
+    <ClCompile Include="src\Menus\Menu.cpp" />
     <ClCompile Include="src\Menus\Options.cpp" />
     <ClCompile Include="src\Obstacle.cpp" />
     <ClCompile Include="src\Path.cpp" />

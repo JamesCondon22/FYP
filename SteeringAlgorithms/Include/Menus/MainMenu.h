@@ -1,5 +1,5 @@
-#ifndef MAINMENU
-#define MAINMENU	
+#pragma once
+
 #include <SFML\Graphics.hpp>
 #include "SFML\Audio.hpp"
 #include "State.h"
@@ -8,7 +8,7 @@
 class MainMenu
 {
 public:
-	MainMenu(GameState * state);
+	MainMenu(GameState * state, sf::Font & font);
 	~MainMenu();
 	void update(double dt, sf::Window & window);
 	void render(sf::RenderWindow& window);
@@ -36,4 +36,3 @@ private:
 	int m_activatedAI = 0;
 	std::string m_lastPressed = "";
 };
-#endif // !

@@ -1,8 +1,9 @@
 #include "Menus/DemoScreen.h"
 #include <iostream>
 
-DemoScreen::DemoScreen(GameState * state):
-	m_currentState(state)
+DemoScreen::DemoScreen(GameState * state, sf::Font & font):
+	m_currentState(state),
+	m_font(font)
 {
 
 	int currentLevel = 1;
@@ -33,12 +34,21 @@ DemoScreen::DemoScreen(GameState * state):
 		m_nodes.push_back(circle);
 	}
 
+	m_aiStates = new BehaviourState;
+	*m_aiStates = BehaviourState::ChaseEntity;
+
 	m_trad = new Traditional(m_nodes, m_obstacles);
 	m_testBot = new TestBot(m_nodes, m_obstacles);
 	m_ghostAI = new CRSplineAI(m_nodes, m_obstacles);
 	initAI();
 
 	m_file.open("resources/assets/DemoFile.txt");
+	m_labelPosition = sf::Vector2f(100.0f, 50.0f);
+	m_aitypeLabel = new Label(m_font, m_labelPosition);
+	m_aitypeLabel->setSize(30);
+
+
+	
 }
 
 DemoScreen::~DemoScreen()
@@ -63,13 +73,43 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 		{
 			m_enemies[i]->setState(*m_currentState);
 		}
+		m_splineAI->setState(*m_currentState);
 	}
-	
+
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt)) {
+		m_altPressed = false;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt) && !m_altPressed) {
+		for (int i = 0; i < m_enemies.size(); i++)
+		{
+			if (m_enemies[i]->getVisuals()) {
+				m_enemies[i]->setVisuals(false);
+			}
+			else {
+				m_enemies[i]->setVisuals(true);
+			}
+		}
+		if (m_splineAI->getVisuals()) {
+			m_splineAI->setVisuals(false);
+		}
+		else {
+			m_splineAI->setVisuals(true);
+		}
+		if (m_testBot->getVisuals()) {
+			m_testBot->setVisuals(false);
+		}
+		else {
+			m_testBot->setVisuals(true);
+		}
+		m_altPressed = true;
+	}
 	
 	if (m_startDemonstration) {
 
 		m_cumulativeTime = m_clock.getElapsedTime().asMilliseconds();
-		m_ghostAI->updatePlotPoints(dt, m_testBot->getPosition());
+		if (m_splineAI->getId() == id) {
+			m_ghostAI->updatePlotPoints(dt, m_testBot->getPosition());
+		}
 		m_testBot->update(dt);
 		//m_trad->update(dt, m_testBot->getPosition());
 		for (int i = 0; i < m_enemies.size(); i++)
@@ -79,10 +119,14 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 				if (!m_enemies[i]->getActive() && m_enemies[i]->getId() == id)
 				{
 					m_enemies[i]->setActive(true);
+					m_aitypeLabel->setText(m_enemies[i]->getName());
+					m_aitypeLabel->setColor(m_enemies[i]->getColor());
 				}
-				if (m_splineAI->getId() == id)
+				if (m_splineAI->getId() == id && !m_splineAI->getActive())
 				{
 					m_splineAI->setActive(true);
+					m_aitypeLabel->setText(m_splineAI->getName());
+					m_aitypeLabel->setColor(m_splineAI->getColor());
 				}
 			}
 			else if (lastBtnPress == "RUN ALL")
@@ -90,6 +134,14 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 				if (!m_enemies[i]->getActive() && m_enemies[i]->getId() == m_id)
 				{
 					m_enemies[i]->setActive(true);
+					m_aitypeLabel->setText(m_enemies[i]->getName());
+					m_aitypeLabel->setColor(m_enemies[i]->getColor());
+				}
+				if (m_splineAI->getId() == m_id && !m_splineAI->getActive())
+				{
+					m_splineAI->setActive(true);
+					m_aitypeLabel->setText(m_splineAI->getName());
+					m_aitypeLabel->setColor(m_splineAI->getColor());
 				}
 			}
 			else if (lastBtnPress == "COMPARE")
@@ -97,6 +149,9 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 				if (!m_enemies[i]->getActive())
 				{
 					m_enemies[i]->setActive(true);
+				}
+				if (!m_splineAI->getActive()) {
+					m_splineAI->setActive(true);
 				}
 			}
 			
@@ -153,9 +208,11 @@ void DemoScreen::render(sf::RenderWindow & window)
 	if (m_splineAI->getActive())
 	{
 		m_splineAI->render(window);
+		m_ghostAI->render(window);
 	}
+
+	m_aitypeLabel->render(window);
 	//m_trad->render(window);
-	m_ghostAI->render(window);
 	m_testBot->render(window);
 }
 
@@ -210,6 +267,9 @@ void DemoScreen::initAI()
 	Enemy * aiFour = new InterpolatingTwo(m_nodes, m_obstacles);
 	Enemy * aiFive = new DynamicVectorAI(m_nodes, m_obstacles);
 	m_splineAI = new CRSplineAI(m_nodes, m_obstacles);
+
+
+	aiTwo->setBehaviourState(m_aiStates);
 
 	m_enemies.push_back(aiOne);
 	m_enemies.push_back(aiTwo);

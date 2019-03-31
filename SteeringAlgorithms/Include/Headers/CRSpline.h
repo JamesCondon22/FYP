@@ -66,6 +66,9 @@ public:
 	void setCurve(Curve * curve) { m_curve = curve; }
 	Curve * getCurve() { return m_curve; }
 	void setBehaviourState(BehaviourState *state) { m_currentBehaviour = state; }
+	sf::Color getColor() { return m_color; }
+	void setVisuals(bool visuals) { m_visuals = visuals; }
+	bool getVisuals() { return m_visuals; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -135,6 +138,7 @@ private:
 	std::vector<sf::CircleShape> m_romPoints;
 
 	BehaviourState* m_currentBehaviour;
+	bool m_visuals = true;
 };
 
 //#endif

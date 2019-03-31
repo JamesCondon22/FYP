@@ -61,11 +61,11 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 	m_distances = normalize(m_distances);
 	m_distancesDanger = normalizeDangers(m_distancesDanger);
 
-	//if (!m_begin || m_timeSinceLast > 500)
-	//{
+	if (!m_begin || m_timeSinceLast > 200)
+	{
 	mapDecisions.update(m_distances, m_distancesDanger);
-		//m_timeSinceLast = 0;
-	//}
+		m_timeSinceLast = 0;
+	}
 	
 	checkDirection(dt);
 

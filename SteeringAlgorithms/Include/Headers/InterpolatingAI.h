@@ -59,7 +59,8 @@ public:
 	void setScore(int score) { m_score = score; }
 	sf::Color getColor() { return m_color; }
 	void setBehaviourState(BehaviourState* state) { m_currentBehaviour = state; }
-	
+	void setVisuals(bool visuals) { m_visuals = visuals; }
+	bool getVisuals() { return m_visuals; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -128,4 +129,5 @@ private:
 	int m_score = 0;
 
 	BehaviourState* m_currentBehaviour;
+	bool m_visuals = true;
 };

@@ -28,9 +28,10 @@ public:
 	Obstacle * findMostThreathening();
 	sf::Vector2f truncate(sf::Vector2f v, float const num);
 	int getRadius() { return m_radius; }
-
 	void reset();
 
+	void setVisuals(bool visuals) { m_visuals = visuals; }
+	bool getVisuals() { return m_visuals; }
 private:
 	float m_timeToTarget;
 	sf::Vector2f m_position;
@@ -76,6 +77,8 @@ private:
 	int m_radius = 30;
 
 	sf::CircleShape m_surroundingCircle;
+
+	bool m_visuals = true;
 };
 
 

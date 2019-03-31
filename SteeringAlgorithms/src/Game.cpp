@@ -27,7 +27,7 @@ Game::Game() :
 
 	m_currentState = new GameState;
 
-	*m_currentState = GameState::GameScreen;
+	*m_currentState = GameState::MainMenu;
 
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
@@ -35,8 +35,9 @@ Game::Game() :
 	m_font.loadFromFile("resources/assets/bernhc.TTF");
 
 	m_options = new Options(m_currentState, m_font, m_window);
-	m_demoScreen = new DemoScreen(m_currentState);
-	mainMenu = new MainMenu(m_currentState);
+	m_demoScreen = new DemoScreen(m_currentState, m_font);
+	m_mainMenu = new MainMenu(m_currentState, m_font);
+	m_menu = new Menu(m_currentState);
 	m_gameScreen = new GameScreen(m_currentState, size, m_font);
 	m_endGameScreen = new EndGame(m_currentState, m_font);
 
@@ -108,10 +109,15 @@ void Game::processGameEvents(sf::Event& event)
 		{
 		case GameState::None:
 			break;
+		case GameState::MainMenu:
+			m_menu->m_pressed = false;
+			break;
 		case GameState::Menu:
-			mainMenu->m_pressed = false;
+			m_menu->m_pressed = false;
 			break;
 		case GameState::Demo:
+			break;
+		case GameState::PreGame:
 			break;
 		case GameState::GameScreen:
 			break;
@@ -139,11 +145,16 @@ void Game::update(double dt)
 	{
 	case GameState::None:
 		break;
+	case GameState::MainMenu:
+		m_mainMenu->update(dt, m_window);
+		break;
 	case GameState::Menu:
-		mainMenu->update(dt, m_window);
+		m_menu->update(dt, m_window);
 		break;
 	case GameState::Demo:
-		m_demoScreen->update(dt, mainMenu->getActivatedAI(), mainMenu->getLastPressed());
+		m_demoScreen->update(dt, m_menu->getActivatedAI(), m_menu->getLastPressed());
+		break;
+	case GameState::PreGame:
 		break;
 	case GameState::GameScreen:
 		m_gameScreen->update(dt, m_mousePosition);
@@ -174,11 +185,16 @@ void Game::render()
 	{
 	case GameState::None:
 		break;
+	case GameState::MainMenu:
+		m_mainMenu->render(m_window);
+		break;
 	case GameState::Menu:
-		mainMenu->render(m_window);
+		m_menu->render(m_window);
 		break;
 	case GameState::Demo:
 		m_demoScreen->render(m_window);
+		break;
+	case GameState::PreGame:
 		break;
 	case GameState::GameScreen:
 		m_gameScreen->render(m_window);

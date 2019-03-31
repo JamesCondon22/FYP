@@ -221,13 +221,13 @@ sf::Vector2f TestBot::getCurrentNodePosition()
 
 void TestBot::render(sf::RenderWindow & window)
 {
-	window.draw(m_surroundingCircle);
-
-	for (int i = 0; i < lines.size(); i++)
-	{
-		window.draw(lines[i]);
+	if (m_visuals) {
+		window.draw(m_surroundingCircle);
+		for (int i = 0; i < lines.size(); i++)
+		{
+			window.draw(lines[i]);
+		}
 	}
-
 	window.draw(m_rect);
 
 }

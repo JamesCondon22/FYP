@@ -30,6 +30,9 @@ public:
 	virtual double getTimeEfficiency() = 0;
 	virtual void setCollided(bool collide) = 0;
 	virtual std::string getName() = 0;
+	virtual sf::Color getColor() = 0;
 	virtual void setState(GameState state) = 0;
 	virtual void setBehaviourState(BehaviourState *state) = 0;
+	virtual void setVisuals(bool visuals) = 0;
+	virtual bool getVisuals() = 0;
 };

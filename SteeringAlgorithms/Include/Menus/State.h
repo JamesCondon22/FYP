@@ -4,8 +4,10 @@
 enum class GameState
 {
 	None,
+	MainMenu,
 	Menu,
 	Options,
+	PreGame,
 	GameScreen,
 	EndGame,
 	Demo,

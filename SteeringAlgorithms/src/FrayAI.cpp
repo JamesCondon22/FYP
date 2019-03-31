@@ -89,12 +89,12 @@ void FrayAI::render(sf::RenderWindow & window)
 	{
 		m_pathLine[i]->render(window);
 	}
-	
-	for (int i = 0; i < m_size; i++) {
-		m_lineVec[i].render(window);
+	if (m_visuals) {
+		for (int i = 0; i < m_size; i++) {
+			m_lineVec[i].render(window);
+		}
+		window.draw(m_surroundingCircle);
 	}
-
-	window.draw(m_surroundingCircle);
 	window.draw(m_rect);
 	
 }
