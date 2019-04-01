@@ -97,6 +97,12 @@ void Menu::handleInputs(Button & button)
 			button.setPressed(true);
 			button.update();
 		}
+		if (button.getString() == "7")
+		{
+			m_activatedAI = atoi("7");
+			button.setPressed(true);
+			button.update();
+		}
 
 		m_pressed = true;
 	}
@@ -132,6 +138,7 @@ void Menu::initButtons()
 	Button *aiButtonFour = new Button(sf::Vector2f(920, 550), 150, 150, m_texture, m_font, "4");
 	Button *aiButtonFive = new Button(sf::Vector2f(1120, 550), 150, 150, m_texture, m_font, "5");
 	Button *aiButtonSix = new Button(sf::Vector2f(1320, 550), 150, 150, m_texture, m_font, "6");
+	Button *aiButtonSeven = new Button(sf::Vector2f(1520, 550), 150, 150, m_texture, m_font, "7");
 	
 	m_buttons.push_back(buttonOne);
 	m_buttons.push_back(buttonRunAll);
@@ -141,6 +148,7 @@ void Menu::initButtons()
 	m_buttons.push_back(aiButtonFour);
 	m_buttons.push_back(aiButtonFive);
 	m_buttons.push_back(aiButtonSix);
+	m_buttons.push_back(aiButtonSeven);
 	m_buttons.push_back(buttonCompare);
 }
 

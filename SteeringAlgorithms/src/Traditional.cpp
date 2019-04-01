@@ -6,33 +6,50 @@ Traditional::Traditional(std::vector<GameNode*> path, std::vector<Obstacle*> obs
 	m_position(0, 0),
 	m_heading(0, 0),
 	m_rotation(0),
-	m_speed(1.0),
+	m_speed(1.05f),
 	m_velocity(0, 0),
 	m_nodes(path),
 	m_obstacles(obs)
 {
-	//m_direction
 	if (!m_texture.loadFromFile("resources/assets/triangleOne.png")) {
 		std::cout << "font not loaded" << std::endl;
 	}
 
 	m_rect.setTexture(&m_texture);
-	
+
 	m_rect.setSize(sf::Vector2f(50, 25));
-	
-	sf::RectangleShape line(sf::Vector2f(110,3));
+
+	sf::RectangleShape line(sf::Vector2f(110, 3));
 	sf::RectangleShape line2(sf::Vector2f(55, 3));
-	
+
 	line2.setFillColor(sf::Color::Red);
 	m_rect.setOrigin(m_position.x + 50 / 2, m_position.y + 25 / 2);
-	m_rect.setPosition(m_position);
+
 	lines.push_back(line);
 	lines.push_back(line2);
+
 	for (int i = 0; i < lines.size(); i++) {
-		lines[i].setOrigin(m_position.x - 30, m_position.y);
+		lines[i].setOrigin(m_position.x - 25.0f, m_position.y + 1.0f);
 	}
+	m_position = sf::Vector2f(1800.0f, 100.0f);
+
+	m_rect.setPosition(m_position);
 	
-	srand(time(NULL));
+	m_rect.setFillColor(sf::Color(220, 53, 44));
+	m_rect.setOutlineColor(sf::Color::Black);
+
+	m_rotation = 180.0f;
+	m_rect.rotate(180.0f);
+
+	for (int i = 0; i < lines.size(); i++) {
+		lines[i].setPosition(m_position);
+		lines[i].setRotation(180.0f);
+	}
+	m_surroundingCircle.setRadius(m_radius);
+	m_surroundingCircle.setPosition(0, 0);
+	m_surroundingCircle.setOrigin(m_surroundingCircle.getRadius(), m_surroundingCircle.getRadius());
+	m_surroundingCircle.setPosition(m_position);
+	m_surroundingCircle.setFillColor(sf::Color(0, 0, 0, 40));
 
 }
 
@@ -68,51 +85,10 @@ float Traditional::getNewOrientation(float currentOrientation, float velocity)
 }
 
 
-void Traditional::respawn(float x, float y)
-{
-
-
-	if (x > 2020)
-	{
-		m_position.x = -200;
-		m_velocity.x = getRandom(10, 1);
-		m_velocity.y = getRandom(21, -10);
-	}
-	if (x < -200)
-	{
-		m_position.x = 1920;
-		m_velocity.x = getRandom(-10, -1);
-		m_velocity.y = getRandom(21, -10);
-	}
-	if (y < -200)
-	{
-		m_position.y = 1080;
-		m_velocity.x = getRandom(21, -10);
-		m_velocity.y = getRandom(-10, -1);
-	}
-	if (y > 1180)
-	{
-		m_position.y = -200;
-		m_velocity.x = getRandom(21, -10);
-		m_velocity.y = getRandom(10, 1);
-	}
-
-}
-
-
-float Traditional::getRandom(int a, int b)
-{
-	srand(time(NULL));
-	float randVal = rand() % a + b;
-	return randVal;
-
-}
-
-
 sf::Vector2f Traditional::pursue(sf::Vector2f playerPosition)
 {
 	sf::Vector2f vecToNode;
-	vecToNode = getCurrentNodePosition();
+	vecToNode =/* getCurrentNodePosition();*/ playerPosition;
 
 	m_direction = vecToNode - m_position;
 	return(m_direction);
@@ -152,9 +128,11 @@ void Traditional::update(double dt, sf::Vector2f player)
 	}
 
 	m_position += m_velocity;
+	m_position = sf::Vector2f(m_position.x + std::cos(DEG_TO_RAD  * (m_rotation)) * m_speed * (dt / 1000),
+		m_position.y + std::sin(DEG_TO_RAD * (m_rotation)) * m_speed* (dt / 1000));
 	m_rect.setPosition(m_position);
 	m_rect.setRotation(m_rotation);
-
+	m_surroundingCircle.setPosition(m_position);
 	for (int i = 0; i < lines.size(); i++) {
 		lines[i].setPosition(m_position);
 		lines[i].setRotation(m_rotation);
@@ -275,6 +253,7 @@ sf::Vector2f Traditional::getCurrentNodePosition()
 
 void Traditional::render(sf::RenderWindow & window)
 {
+	window.draw(m_surroundingCircle);
 	for (int i = 0; i < lines.size(); i++)
 	{
 		window.draw(lines[i]);
