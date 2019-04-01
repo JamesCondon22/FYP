@@ -23,19 +23,15 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font) 
 	}
 	loadLevel("resources/levels/LevelOne.txt");
 
-	/*for (int i = 0; i < 60; i++) {
-		for (int j = 0; j < 80; j++) {
-			m_tile[j][i] = new Tile(30 * j, 30 * i, j, i);
-		}
-	}*/
-
 	camera = new Camera(size);
 	m_mapSprite.setTexture(m_mapTexture);
 	m_mapSprite.setPosition(0, 0);
 	m_key = new Key(m_keyTexture);
 	m_key->setPosition(getRandomPosition());
 	m_player = new Player(m_obstacles);
+	m_player->setPosition(initPosition().x, initPosition().y);
 	m_ai = new InterpolatingAI(m_nodes, m_obstacles);
+	m_ai->setPosition(initPosition());
 	m_ai->setState(*m_currentState);
 
 	m_toolbar.setSize(sf::Vector2f(size.x / 2, size.y));
@@ -69,6 +65,10 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font) 
 	m_placePositions.push_back(posOne);
 	m_placePositions.push_back(posTwo);
 
+
+	m_timeLabel = new Label(m_font, m_tile[40][22]->getPosition());
+	m_timeLabel->setColor(sf::Color::Red);
+	m_timeLabel->setSize(200);
 }
 
 
@@ -79,8 +79,24 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	int x = mouse.x / 30;
 	int y = mouse.y / 30;
 
-	m_player->update(dt);
+	
 
+	if (!beginTimer) {
+		m_clock.restart();
+		beginTimer = true;
+	}
+	if (m_clock.getElapsedTime().asMilliseconds() > 1000 && m_time > 0) {
+		m_clock.restart();
+		m_time -= 1;
+	}
+
+	if (m_time <= 0) {
+		m_startGame = true;
+	}
+	
+	m_timeLabel->setText(std::to_string(m_time));
+	
+	std::cout << m_time << std::endl;
 	/*if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		if (x >= 0 && x < 80 && y >= 0 && y < 60)
@@ -163,10 +179,13 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	int curY = m_player->getPos().y / 30;
 
 	collision(curX, curY);
-
-	m_ai->update(dt, m_player->getPos());
+	if (m_startGame) {
+		m_player->update(dt);
+		m_ai->update(dt, m_player->getPos());
+	}
 	checkNodeCollision(m_ai->getPos(), m_ai->getRadius());
 	checkPlayerNodeCollision(m_player->getPos(), m_player->getRadius());
+	
 	if (m_key->getActive()) {
 		m_key->update(dt);
 	}
@@ -312,6 +331,9 @@ void GameScreen::loadLevel(std::string level)
 				m_keyPositions.push_back(m_tile[j][i]->getPosition());
 
 			}
+			else if (chars[counter] == '5') {
+				m_spawnPositions.push_back(m_tile[j][i]->getPosition());
+			}
 
 			counter++;
 		}
@@ -426,9 +448,27 @@ void GameScreen::updateScores()
 /// </summary>
 /// <returns></returns>
 sf::Vector2f GameScreen::getRandomPosition() {
-	int total = m_keyPositions.size() - 1;
+	int total = m_keyPositions.size();
 	int num = std::rand() % total;
 	return sf::Vector2f(m_keyPositions[num].x + 25.0f, m_keyPositions[num].y + 25.0f);
+}
+
+
+sf::Vector2f GameScreen::initPosition() {
+
+	sf::Vector2f position;
+	int total = m_spawnPositions.size();
+	int num = std::rand() % total;
+	position = sf::Vector2f(m_spawnPositions[num].x, m_spawnPositions[num].y);
+
+	for (int i = 0; i < m_spawnPositions.size(); i++) {
+		auto pos = sf::Vector2f(m_spawnPositions[i].x, m_spawnPositions[i].y);
+		if (position == pos) {
+			m_spawnPositions.erase(m_spawnPositions.begin() + i);
+		}
+	}
+
+	return position;
 }
 
 /// <summary>
@@ -466,6 +506,7 @@ void GameScreen::render(sf::RenderWindow & window)
 	{
 		m_labels[i]->render(window);
 	}
-	
-	
+	if (!m_startGame) {
+		m_timeLabel->render(window);
+	}
 }

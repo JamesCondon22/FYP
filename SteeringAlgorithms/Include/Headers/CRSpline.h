@@ -117,6 +117,7 @@ private:
 	Path * m_currentPathCircle;
 	Path * m_lastPathCircle;
 
+	int m_nodeIndex = 0;
 	sf::Color m_color;
 	sf::Clock m_clock2;
 	sf::Clock m_clock;

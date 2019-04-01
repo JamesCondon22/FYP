@@ -88,7 +88,7 @@ private:
 	std::vector<DirectionalLine> m_lineVec;
 	std::vector<Obstacle*> m_obstacles;
 
-
+	int m_nodeIndex = 0;
 	int currentNode = 0;
 	int currentObs = 0;
 	int m_size = 16;

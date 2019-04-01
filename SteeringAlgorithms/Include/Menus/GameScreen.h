@@ -27,6 +27,7 @@ public:
 	void initUIText();
 	void updateScores();
 	void saveScores(std::string path);
+	sf::Vector2f initPosition();
 	sf::Vector2f getRandomPosition();
 	std::vector<std::pair<std::string, int>> getScores() { return m_scores; }
 private:
@@ -71,9 +72,17 @@ private:
 	std::vector<sf::Vector2f> m_placePositions;
 	Key* m_key;
 	std::vector<sf::Vector2f> m_keyPositions;
+	std::vector<sf::Vector2f> m_spawnPositions;
 
 	bool m_gameOver = false;
 	std::ofstream m_Scorefile;
+	sf::Clock m_clock;
+	int m_time = 3;
+
+	bool beginTimer = false;
+	Label * m_timeLabel;
+
+	bool m_startGame = false;
 };
 
 #endif

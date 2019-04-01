@@ -41,7 +41,7 @@ void MainMenu::handleInputs(Button & button)
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && m_pressed == false)
 	{
 		if (button.getString() == "GAME") {
-			*m_currentState = GameState::GameScreen;
+			*m_currentState = GameState::PreGame;
 		}
 
 		else if (button.getString() == "DEMO") {

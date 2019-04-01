@@ -27,7 +27,7 @@ Game::Game() :
 
 	m_currentState = new GameState;
 
-	*m_currentState = GameState::MainMenu;
+	*m_currentState = GameState::PreGame;
 
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
@@ -40,6 +40,7 @@ Game::Game() :
 	m_menu = new Menu(m_currentState);
 	m_gameScreen = new GameScreen(m_currentState, size, m_font);
 	m_endGameScreen = new EndGame(m_currentState, m_font);
+	m_gameMenu = new GameMenu(m_currentState, m_font);
 
 }
 
@@ -117,8 +118,9 @@ void Game::processGameEvents(sf::Event& event)
 		/*	break;
 		case GameState::Demo:
 			break;
-		case GameState::PreGame:
-			break;
+		case GameState::PreGame:*/
+			m_gameMenu->m_pressed = false;
+			/*break;
 		case GameState::GameScreen:
 			break;
 		case GameState::EndGame:
@@ -155,6 +157,7 @@ void Game::update(double dt)
 		m_demoScreen->update(dt, m_menu->getActivatedAI(), m_menu->getLastPressed());
 		break;
 	case GameState::PreGame:
+		m_gameMenu->update(dt, m_window);
 		break;
 	case GameState::GameScreen:
 		m_gameScreen->update(dt, m_mousePosition);
@@ -195,6 +198,7 @@ void Game::render()
 		m_demoScreen->render(m_window);
 		break;
 	case GameState::PreGame:
+		m_gameMenu->render(m_window);
 		break;
 	case GameState::GameScreen:
 		m_gameScreen->render(m_window);

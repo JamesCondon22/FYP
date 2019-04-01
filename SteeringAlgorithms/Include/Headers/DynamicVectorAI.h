@@ -140,7 +140,7 @@ private:
 	sf::Time m_time;
 	
 	bool m_startTimer = false;
-
+	int m_nodeIndex = 0;
 	double m_timeEfficiency;
 	double m_averageExecTime;
 	double m_tickCounter;

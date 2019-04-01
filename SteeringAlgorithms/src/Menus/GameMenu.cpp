@@ -40,12 +40,8 @@ void GameMenu::handleInputs(Button & button)
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && m_pressed == false)
 	{
-		if (button.getString() == "GAME") {
+		if (button.getString() == "LEVEL ONE") {
 			*m_currentState = GameState::GameScreen;
-		}
-
-		else if (button.getString() == "DEMO") {
-			*m_currentState = GameState::Menu;
 		}
 		m_pressed = true;
 	}
@@ -65,8 +61,8 @@ void GameMenu::render(sf::RenderWindow & window)
 
 void GameMenu::initButtons()
 {
-	Button *buttonOne = new Button(sf::Vector2f(700, 200), 400, 150, m_texture, m_font, "DEMO");
-	Button *buttonTwo = new Button(sf::Vector2f(700, 400), 400, 150, m_texture, m_font, "GAME");
+	Button *buttonOne = new Button(sf::Vector2f(700, 200), 600, 150, m_texture, m_font, "LEVEL ONE");
+	Button *buttonTwo = new Button(sf::Vector2f(700, 400), 600, 150, m_texture, m_font, "LEVEL TWO");
 
 
 	m_buttons.push_back(buttonOne);

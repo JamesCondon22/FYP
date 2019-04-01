@@ -46,6 +46,11 @@ InterpolatingAI::~InterpolatingAI()
 {
 }
 
+void InterpolatingAI::setPosition(sf::Vector2f position) {
+	m_position = position;
+	m_rect.setPosition(m_position);
+}
+
 void InterpolatingAI::update(double dt, sf::Vector2f position)
 {
 	m_clock2.restart();

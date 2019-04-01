@@ -104,6 +104,7 @@ private:
 
 	std::vector<Path*> m_pathLine;
 
+	int m_nodeIndex = 0;
 	double m_timeAmount = 0;
 	double m_totalPathLength = 0;
 

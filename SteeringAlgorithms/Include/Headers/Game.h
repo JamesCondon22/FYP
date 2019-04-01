@@ -36,6 +36,7 @@ protected:
 	DemoScreen * m_demoScreen;
 	GameScreen * m_gameScreen;
 	EndGame * m_endGameScreen;
+	GameMenu * m_gameMenu;
 
 	GameState * m_currentState;
 
