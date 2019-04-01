@@ -105,16 +105,16 @@ void Game::processGameEvents(sf::Event& event)
 	
 	if (event.type == sf::Event::MouseButtonReleased)
 	{
-		switch (*m_currentState)
+		/*switch (*m_currentState)
 		{
 		case GameState::None:
 			break;
-		case GameState::MainMenu:
+		case GameState::MainMenu:*/
+			m_mainMenu->m_pressed = false;
+		/*	break;
+		case GameState::Menu:*/
 			m_menu->m_pressed = false;
-			break;
-		case GameState::Menu:
-			m_menu->m_pressed = false;
-			break;
+		/*	break;
 		case GameState::Demo:
 			break;
 		case GameState::PreGame:
@@ -127,7 +127,7 @@ void Game::processGameEvents(sf::Event& event)
 			break;
 		default:
 			break;
-		}
+		}*/
 	}
 }
 

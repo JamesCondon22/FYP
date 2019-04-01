@@ -7,7 +7,7 @@
 class GameMenu
 {
 public:
-	GameMenu(GameState * state);
+	GameMenu(GameState * state, sf::Font & font);
 	~GameMenu();
 	void update(double dt, sf::Window & window);
 	void render(sf::RenderWindow& window);

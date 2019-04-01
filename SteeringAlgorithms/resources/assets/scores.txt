@@ -1,2 +1,2 @@
-1. Average Interpolation: 1120
-2. Player: 440
+1. Player: 450
+2. Average Interpolation: 410

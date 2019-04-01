@@ -107,9 +107,21 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 	if (m_startDemonstration) {
 
 		m_cumulativeTime = m_clock.getElapsedTime().asMilliseconds();
-		if (m_splineAI->getId() == id) {
+		if (lastBtnPress == "RUN") {
+			if (m_splineAI->getId() == id) {
+				m_ghostAI->updatePlotPoints(dt, m_testBot->getPosition());
+			}
+		}
+		else if (lastBtnPress == "RUNALL") {
+			if (m_splineAI->getId() == m_id) {
+				m_ghostAI->updatePlotPoints(dt, m_testBot->getPosition());
+			}
+		}
+		else if (lastBtnPress == "COMPARE") {
+			
 			m_ghostAI->updatePlotPoints(dt, m_testBot->getPosition());
 		}
+		
 		m_testBot->update(dt);
 		//m_trad->update(dt, m_testBot->getPosition());
 		for (int i = 0; i < m_enemies.size(); i++)
