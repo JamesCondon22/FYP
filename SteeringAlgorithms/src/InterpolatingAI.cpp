@@ -62,7 +62,7 @@ void InterpolatingAI::update(double dt, sf::Vector2f position)
 
 		updateLines(position);
 	}
-	
+	std::cout << getCurrentNodePosition().x << ", " << getCurrentNodePosition().y << std::endl;
 	updateDangers();
 	
 	m_distances = normalize(m_distances);
@@ -126,12 +126,7 @@ void InterpolatingAI::updateLines(sf::Vector2f position)
 	int count = 0;
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
-		if (*m_currentBehaviour == BehaviourState::ChaseEntity) {
-			m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), position);
-		}
-		else if (m_state == GameState::GameScreen){
-			m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), position);
-		}
+		m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), position);
 		count++;
 	}
 	

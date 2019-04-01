@@ -81,7 +81,7 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 
 	m_player->update(dt);
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	/*if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		if (x >= 0 && x < 80 && y >= 0 && y < 60)
 		{
@@ -94,7 +94,7 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 			m_tile[x][y]->setInterest();
 		}
 		
-	}
+	}*/
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
 	{
 		if (x >= 0 && x < 80 && y >= 0 && y < 60)
