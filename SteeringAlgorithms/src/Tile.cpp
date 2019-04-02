@@ -12,6 +12,7 @@ Tile::Tile(int x, int y, int dx, int dy) :
 	m_current = NState::Blank;
 
 	m_rect.setSize(sf::Vector2f(30.0f, 30.0f));
+	m_rect.setFillColor(sf::Color(211, 211, 211));
 	m_rect.setPosition(m_position);
 
 	m_surround.setRadius(50);
@@ -83,7 +84,7 @@ void Tile::render(sf::RenderWindow & window)
 	switch (m_current)
 	{
 	case NState::Blank:
-		m_rect.setFillColor(sf::Color::White);
+		m_rect.setFillColor(sf::Color(211, 211, 211));
 		break;
 	case NState::Full:
 		m_rect.setFillColor(sf::Color::Black);

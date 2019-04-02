@@ -152,16 +152,17 @@ void CRSplineAI::render(sf::RenderWindow & window)
 			m_pathLine[i]->render(window);
 		}
 	}
-
-	for (int i = 0; i < m_size; i++) {
-		m_lineVec[i].render(window);
+	if (m_visuals) {
+		for (int i = 0; i < m_size; i++) {
+			m_lineVec[i].render(window);
+		}
+		window.draw(m_surroundingCircle);
 	}
-
 	for (auto &rom : m_romPoints)
 	{
 		window.draw(rom);
 	}
-	window.draw(m_surroundingCircle);
+
 	window.draw(m_rect);
 
 }
@@ -328,20 +329,13 @@ bool CRSplineAI::compareKeys(std::map<Direction, sf::Vector2f> vec) {
 
 void CRSplineAI::checkDirection()
 {
-	sf::Vector2f temporaryDir = curDirection;
-
-	auto current = mapDecisions.getAverage();
-	auto average = sf::Vector2f(0, 0);
-
-	for (int i = 0; i < current.size(); i++)
+	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
-		average += m_lineVec[current[i]].getPosition();
+		if (mapDecisions.getStrongest() == it->getState()) {
+			curDirection = it->getMap()[mapDecisions.getStrongest()];
+			it->changeColor();
+		}
 	}
-
-	average.x = average.x / current.size();
-	average.y = average.y / current.size();
-
-	curDirection = Math::lerp(temporaryDir, average, 0.08);
 }
 
 
@@ -408,6 +402,7 @@ sf::Vector2f CRSplineAI::getCurrentNodePosition()
 	return target;
 }
 
+
 sf::Vector2f CRSplineAI::normalize(sf::Vector2f vec)
 {
 	if (vec.x*vec.x + vec.y * vec.y != 0)
@@ -456,7 +451,7 @@ void CRSplineAI::handleTimer()
 
 double CRSplineAI::getAverageExecTime()
 {
-	m_averageExecTime = (double)m_time.asMicroseconds() / m_tickCounter;
+	m_averageExecTime = m_currentTime / m_tickCounter;
 	return m_averageExecTime;
 }
 

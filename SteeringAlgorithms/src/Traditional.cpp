@@ -1,14 +1,14 @@
 #include "../Include/Headers/Traditional.h"
 
 
-Traditional::Traditional(std::vector<GameNode*> path, std::vector<Obstacle*> obs) :
+Traditional::Traditional(std::vector<GameNode*> node, std::vector<Obstacle*> obs) :
 	m_steering(0, 0),
 	m_position(0, 0),
 	m_heading(0, 0),
 	m_rotation(0),
 	m_speed(1.05f),
 	m_velocity(0, 0),
-	m_nodes(path),
+	m_nodes(node),
 	m_obstacles(obs)
 {
 	if (!m_texture.loadFromFile("resources/assets/triangleOne.png")) {
@@ -35,7 +35,8 @@ Traditional::Traditional(std::vector<GameNode*> path, std::vector<Obstacle*> obs
 
 	m_rect.setPosition(m_position);
 	
-	m_rect.setFillColor(sf::Color(220, 53, 44));
+	m_color = sf::Color(sf::Color(220, 53, 44));
+	m_rect.setFillColor(m_color);
 	m_rect.setOutlineColor(sf::Color::Black);
 
 	m_rotation = 180.0f;
@@ -60,13 +61,13 @@ Traditional::~Traditional()
 }
 
 
-sf::Vector2f Traditional::getPosition()
+sf::Vector2f Traditional::getPos()
 {
 	return m_rect.getPosition();
 }
 
 
-sf::Vector2f Traditional::getVelocity()
+sf::Vector2f Traditional::getVel()
 {
 	return m_velocity;
 }
@@ -85,10 +86,16 @@ float Traditional::getNewOrientation(float currentOrientation, float velocity)
 }
 
 
-sf::Vector2f Traditional::pursue(sf::Vector2f playerPosition)
+void Traditional::setPosition(sf::Vector2f position) {
+	m_position = position;
+	m_rect.setPosition(m_position);
+}
+
+
+sf::Vector2f Traditional::pursue(sf::Vector2f position)
 {
 	sf::Vector2f vecToNode;
-	vecToNode =/* getCurrentNodePosition();*/ playerPosition;
+	vecToNode = position;
 
 	m_direction = vecToNode - m_position;
 	return(m_direction);
@@ -97,7 +104,15 @@ sf::Vector2f Traditional::pursue(sf::Vector2f playerPosition)
 
 void Traditional::update(double dt, sf::Vector2f player)
 {
-	m_steering += pursue(player);
+	if (*m_currentBehaviour == BehaviourState::ChaseNode) {
+
+		m_steering += pursue(getCurrentNodePosition());
+	}
+	else {
+
+		m_steering += pursue(player);
+	}
+	
 	if (m_velocity.x != 0 || m_velocity.y != 0)
 	{
 		m_steering += ObstacleAvoidance();
@@ -138,6 +153,9 @@ void Traditional::update(double dt, sf::Vector2f player)
 		lines[i].setRotation(m_rotation);
 	}
 
+	handleTimer();
+	generatePath(dt);
+	m_tickCounter += 1;
 }
 
 
@@ -237,28 +255,81 @@ sf::Vector2f Traditional::getCurrentNodePosition()
 
 	sf::Vector2f target;
 
-	target = m_nodes[currentNode]->getPosition();
+	double smallest = DBL_MAX;
+	auto curIndex = 0;
 
-	if (Math::distance(m_position, target) <= 50)
+	for (int i = 0; i < m_nodes.size(); i++)
 	{
-		currentNode += 1;
-		if (currentNode >= m_nodes.size()) {
-			currentNode = 0;
+		if (m_nodes[i]->getAlive()) {
+			auto dist = Math::distance(m_position, m_nodes[i]->getPosition());
+
+			if (dist < smallest) {
+				smallest = dist;
+				target = m_nodes[i]->getPosition();
+				curIndex = i;
+			}
 		}
 	}
-
+	m_nodeIndex = curIndex;
 	return target;
+}
+
+
+void Traditional::generatePath(double dt)
+{
+	m_timeAmount += dt;
+
+	if (m_timeAmount > 150)
+	{
+		Path * circle = new Path(3);
+		circle->setPosition(m_position);
+		circle->setColor(m_color);
+		m_pathLine.push_back(circle);
+		m_timeAmount = 0;
+		if (m_lastPathCircle != nullptr)
+		{
+			auto dist = Math::distance(m_lastPathCircle->getPosition(), circle->getPosition());
+			m_totalPathLength += dist;
+		}
+		m_lastPathCircle = circle;
+	}
+}
+
+
+void Traditional::handleTimer()
+{
+	if (!m_startTimer)
+	{
+		m_clock.restart();
+		m_startTimer = true;
+	}
+	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
+}
+
+
+double Traditional::getAverageExecTime()
+{
+	m_averageExecTime = m_currentTime / m_tickCounter;
+	return m_averageExecTime;
 }
 
 
 void Traditional::render(sf::RenderWindow & window)
 {
-	window.draw(m_surroundingCircle);
-	for (int i = 0; i < lines.size(); i++)
-	{
-		window.draw(lines[i]);
-	}
 
+	if (m_state == GameState::Demo) {
+		for (int i = 0; i < m_pathLine.size(); i++)
+		{
+			m_pathLine[i]->render(window);
+		}
+	}
+	if (m_visuals) {
+		for (int i = 0; i < lines.size(); i++)
+		{
+			window.draw(lines[i]);
+		}
+		window.draw(m_surroundingCircle);
+	}
 	window.draw(m_rect);
 	
 }

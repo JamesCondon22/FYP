@@ -8,34 +8,54 @@
 #include <Thor/Vectors.hpp>
 #include "MathHelper.h"
 #include "GameNode.h"
+#include "Path.h"
+#include "../Menus/State.h"
+#include "Behaviour.h"
+#include "Enemy.h"
 
 
 
-class Traditional
+class Traditional : public Enemy
 {
 public:
 	Traditional(std::vector<GameNode*>  path, std::vector<Obstacle*> obs);
+	Traditional() { ; }
 	~Traditional();
 	float getNewOrientation(float currentOrientation, float velocity);
 	sf::Vector2f getCurrentNodePosition();
 	sf::Vector2f pursue(sf::Vector2f playerPosition);
-	void respawn(float x, float y);
-	float getRandom(int x, int y);
 	void update(double dt, sf::Vector2f player);
 	void render(sf::RenderWindow & window);
-	sf::Vector2f getVelocity();
-	sf::Vector2f getPosition();
+	sf::Vector2f getVel();
+	sf::Vector2f getPos();
+	void setPosition(sf::Vector2f pos);
 	int getId() { return m_id; }
 	sf::Vector2f normalize(sf::Vector2f vec);
 	sf::Vector2f scale(sf::Vector2f vec, double val);
-
+	void setBehaviourState(BehaviourState* state) { m_currentBehaviour = state; }
 	sf::Vector2f ObstacleAvoidance();
+	void setState(GameState state) { m_state = state; }
+	void setCollided(bool collide) { m_collided = collide; }
 	Obstacle * findMostThreathening();
 	float distance(sf::Vector2f pos, sf::Vector2f obst);
 	bool lineIntersectsCircle(sf::Vector2f vecOne, sf::Vector2f vecTwo, Obstacle *circle);
 	sf::Vector2f truncate(sf::Vector2f v, float const num);
 	void setActive(bool active) { m_active = active; }
 	bool getActive() { return m_active; }
+	int getNodeIndex() { return m_nodeIndex; }
+	void generatePath(double dt);
+	std::string getName() { return "Traditional"; }
+	sf::Color getColor() { return m_color; }
+	double getPathLength() { return m_totalPathLength; }
+	double getInterceptionTime() { return m_currentTime; }
+	double getAverageExecTime();
+	void handleTimer();
+	int getRadius() { return m_radius; }
+	int getScore() { return m_score;}
+	void setScore(int score) { m_score = score; }
+
+	void setVisuals(bool visuals) { m_visuals = visuals; }
+	virtual bool getVisuals() { return m_visuals; }
 private:
 	float m_timeToTarget;
 	sf::Vector2f m_position;
@@ -78,10 +98,33 @@ private:
 	std::vector<Obstacle*> m_obstacles;
 	int currentNode = 0;
 
+	double m_timeAmount = 0;
+	double m_totalPathLength = 0;
+
+	GameState m_state;
 	bool m_active = false;
 	int m_id = 7;
-
+	int m_nodeIndex = 0;
 	sf::CircleShape m_surroundingCircle;
+
+	std::vector<Path*> m_pathLine;
+
+	sf::Color m_color;
+
+	Path * m_currentPathCircle;
+	Path * m_lastPathCircle;
+
+	bool m_visuals = true;
+	bool m_startTimer = false;
+
+	double m_averageExecTime;
+	double m_tickCounter;
+	double m_currentTime = 0;
+	sf::Clock m_clock;
+	BehaviourState* m_currentBehaviour;
+
+	int m_score = 0;
+	bool m_collided = false;
 };
 
 

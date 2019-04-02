@@ -1,0 +1,5 @@
+ID = 7 Traditional
+Path length = 1777.5
+Interception Time = 11018
+Average Execution Time = 6.39466
+

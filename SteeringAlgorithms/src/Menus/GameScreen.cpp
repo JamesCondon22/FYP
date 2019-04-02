@@ -38,8 +38,6 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font) 
 	
 	initAI();
 
-	m_maxScore = m_nodes.size() * 10;
-
 	m_timeLabel = new Label(m_font, m_tile[40][22]->getPosition());
 	m_timeLabel->setColor(sf::Color::Red);
 	m_timeLabel->setSize(200);
@@ -210,7 +208,23 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		updatePlayerLabel(m_labels[i]);
 	}
 	
-	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LAlt) && !m_altPressed) {
+
+		for (int i = 0; i < m_enemies.size(); i++) {
+
+			if (m_enemies[i]->getVisuals()) {
+				m_enemies[i]->setVisuals(false);
+			}
+			else {
+				m_enemies[i]->setVisuals(true);
+			}
+		}
+		m_altPressed = true;
+	}
+
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LAlt)) {
+		m_altPressed = false;
+	}
 	checkGameOver();
 	
 }
@@ -228,14 +242,14 @@ void GameScreen::collision(int x, int y)
 	{
 		if (m_player->getPos().y < m_tile[x][y - 1]->getPosition().y + 55)
 		{
-			m_player->setPosition(m_player->getPos().x, m_tile[x][y - 1]->getPosition().y + 55);
+			m_player->setPosition(sf::Vector2f(m_player->getPos().x, m_tile[x][y - 1]->getPosition().y + 55));
 		}
 	}
 	if (m_tile[x][y + 1]->getState() == NState::Full)
 	{
 		if (m_player->getPos().y > m_tile[x][y + 1]->getPosition().y - 25)
 		{
-			m_player->setPosition(m_player->getPos().x, m_tile[x][y + 1]->getPosition().y - 25);
+			m_player->setPosition(sf::Vector2f(m_player->getPos().x, m_tile[x][y + 1]->getPosition().y - 25));
 		}
 	}
 
@@ -244,7 +258,7 @@ void GameScreen::collision(int x, int y)
 
 		if (m_player->getPos().x < m_tile[x - 1][y]->getPosition().x + 55)
 		{
-			m_player->setPosition(m_tile[x - 1][y]->getPosition().x + 55, m_player->getPos().y);
+			m_player->setPosition(sf::Vector2f(m_tile[x - 1][y]->getPosition().x + 55, m_player->getPos().y));
 		}
 	}
 	if (m_tile[x + 1][y]->getState() == NState::Full)
@@ -252,7 +266,7 @@ void GameScreen::collision(int x, int y)
 
 		if (m_player->getPos().x > m_tile[x + 1][y]->getPosition().x - 25)
 		{
-			m_player->setPosition(m_tile[x + 1][y]->getPosition().x - 25, m_player->getPos().y);
+			m_player->setPosition(sf::Vector2f(m_tile[x + 1][y]->getPosition().x - 25, m_player->getPos().y));
 		}
 	}
 }
@@ -328,11 +342,15 @@ void GameScreen::loadLevel(std::string level)
 
 }
 
-
+/// <summary>
+/// initialises all the AI and the player
+/// sets a score for each AI and player 
+/// sets the enemy states to Node chase state
+/// </summary>
 void GameScreen::initAI() {
 
 	m_player = new Player(m_obstacles);
-	m_player->setPosition(initPosition().x, initPosition().y);
+	m_player->setPosition(initPosition());
 	initUIText(m_player->getScore(), m_player->getColor());
 	m_scores.push_back(std::make_pair(m_player->getName(), m_player->getScore()));
 

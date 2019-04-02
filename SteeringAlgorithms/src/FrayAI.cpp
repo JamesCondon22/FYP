@@ -396,7 +396,7 @@ void FrayAI::handleTimer()
 
 double FrayAI::getAverageExecTime()
 {
-	m_averageExecTime = (double)m_time.asMicroseconds() / m_tickCounter;
+	m_averageExecTime = m_currentTime / m_tickCounter;
 	return m_averageExecTime;
 }
 

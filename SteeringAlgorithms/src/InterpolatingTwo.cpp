@@ -102,14 +102,14 @@ void InterpolatingTwo::render(sf::RenderWindow & window)
 			m_pathLine[i]->render(window);
 		}
 	}
-
-	for (int i = 0; i < m_size; i++) {
-		m_lineVec[i].render(window);
+	if (m_visuals) {
+		for (int i = 0; i < m_size; i++) {
+			m_lineVec[i].render(window);
+		}
+		window.draw(m_surroundingCircle);
 	}
-
-	window.draw(m_surroundingCircle);
+	
 	window.draw(m_rect);
-	//m_rect.setFillColor(sf::Color::Red);
 	
 }
 
@@ -398,7 +398,7 @@ void InterpolatingTwo::handleTimer()
 
 double InterpolatingTwo::getAverageExecTime()
 {
-	m_averageExecTime = (double)m_time.asMicroseconds() / m_tickCounter;
+	m_averageExecTime = m_currentTime / m_tickCounter;
 	return m_averageExecTime;
 }
 

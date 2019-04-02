@@ -19,7 +19,7 @@ public:
 	void decreaseSpeed();
 	sf::RectangleShape m_rect;
 	sf::Vector2f getPos();
-	void setPosition(float x, float y);
+	void setPosition(sf::Vector2f pos);
 	int getRadius() { return m_radius; }
 	int getScore() { return m_score; }
 	void setScore(int score) { m_score = score; }

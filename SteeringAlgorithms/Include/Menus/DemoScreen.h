@@ -31,9 +31,6 @@ public:
 	void initAI();
 private:
 	sf::Window m_window;
-
-	Player* m_player;
-	Traditional * m_trad;
 	TestBot * m_testBot;
 
 	

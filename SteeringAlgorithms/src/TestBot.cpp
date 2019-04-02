@@ -35,7 +35,7 @@ TestBot::TestBot(std::vector<GameNode*> path, std::vector<Obstacle*> obs) :
 
 	m_rect.setPosition(m_position);
 
-	m_rect.setFillColor(sf::Color(220, 53, 44));
+	m_rect.setFillColor(sf::Color(244, 122, 66));
 	m_rect.setOutlineColor(sf::Color::Black);
 
 	srand(time(NULL));

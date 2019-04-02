@@ -96,6 +96,8 @@ private:
 	bool m_spawnKey = false;
 
 	int m_counter = 0;
+
+	bool m_altPressed = false;
 };
 
 #endif

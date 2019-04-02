@@ -70,7 +70,6 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 		{
 			m_enemies[i]->setState(*m_currentState);
 		}
-
 		m_splineAI->setState(*m_currentState);
 	}
 
@@ -117,10 +116,6 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 				m_aitypeLabel->setText(m_splineAI->getName());
 				m_aitypeLabel->setColor(m_splineAI->getColor());
 			}
-			if (m_trad->getId() == id && !m_trad->getActive()) {
-
-				m_trad->setActive(true);
-			}
 		}
 		else if (lastBtnPress == "RUNALL") {
 			
@@ -134,10 +129,6 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 				m_aitypeLabel->setText(m_splineAI->getName());
 				m_aitypeLabel->setColor(m_splineAI->getColor());
 			}
-			if (m_trad->getId() == id && !m_trad->getActive()) {
-
-				m_trad->setActive(true);
-			}
 		}
 		else if (lastBtnPress == "COMPARE") {
 			
@@ -145,10 +136,6 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 
 			if (!m_splineAI->getActive()) {
 				m_splineAI->setActive(true);
-			}
-
-			if (!m_trad->getActive()) {
-				m_trad->setActive(true);
 			}
 		}
 		
@@ -200,11 +187,6 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 				m_splineAI->setCurve(m_ghostAI->getCurve());
 				m_splineAI->update(dt, m_testBot->getPosition());
 			}
-
-			if (m_trad->getActive()) {
-
-				m_trad->update(dt, m_testBot->getPosition());
-			}
 		}
 	}
 	else 
@@ -238,9 +220,6 @@ void DemoScreen::render(sf::RenderWindow & window)
 		m_splineAI->render(window);
 		m_ghostAI->render(window);
 	}
-	if (m_trad->getActive()) {
-		m_trad->render(window);
-	}
 
 
 	m_aitypeLabel->render(window);
@@ -262,7 +241,7 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 		m_file << "ID = " << enemy->getId() << " " << enemy->getName() << std::endl;
 		m_file << "Path length = " << enemy->getPathLength() << std::endl;
 		m_file << "Interception Time = " << enemy->getInterceptionTime() << std::endl;
-		m_file << "Average Execution Time = " << enemy->getTimeEfficiency()  << std::endl;
+		m_file << "Average Execution Time = " << enemy->getAverageExecTime()  << std::endl;
 		//m_file << "Time Efficiency = " << enemy->getTimeEfficiency() << std::endl;
 		m_file << "\n";
 		
@@ -299,18 +278,24 @@ void DemoScreen::initAI()
 	Enemy * aiThree = new EfficiencyAI(m_nodes, m_obstacles);
 	Enemy * aiFour = new InterpolatingTwo(m_nodes, m_obstacles);
 	Enemy * aiFive = new DynamicVectorAI(m_nodes, m_obstacles);
+	Enemy * aiSix = new Traditional(m_nodes, m_obstacles);
 	
 	m_splineAI = new CRSplineAI(m_nodes, m_obstacles);
-	m_trad = new Traditional(m_nodes, m_obstacles);
 	m_testBot = new TestBot(m_nodes, m_obstacles);
 	m_ghostAI = new CRSplineAI(m_nodes, m_obstacles);
 
+	aiOne->setBehaviourState(m_aiStates);
 	aiTwo->setBehaviourState(m_aiStates);
+	aiThree->setBehaviourState(m_aiStates);
+	aiFour->setBehaviourState(m_aiStates);
+	aiFive->setBehaviourState(m_aiStates);
+	aiSix->setBehaviourState(m_aiStates);
 
 	m_enemies.push_back(aiOne);
 	m_enemies.push_back(aiTwo);
 	m_enemies.push_back(aiThree);
 	m_enemies.push_back(aiFour);
 	m_enemies.push_back(aiFive);
+	m_enemies.push_back(aiSix);
 }
 

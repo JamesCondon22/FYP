@@ -53,8 +53,6 @@ void InterpolatingAI::setPosition(sf::Vector2f position) {
 
 void InterpolatingAI::update(double dt, sf::Vector2f position)
 {
-	m_clock2.restart();
-
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
@@ -92,7 +90,6 @@ void InterpolatingAI::update(double dt, sf::Vector2f position)
 	{
 		
 	}
-	m_time += m_clock2.getElapsedTime();
 
 }
 
@@ -105,12 +102,12 @@ void InterpolatingAI::render(sf::RenderWindow & window)
 			m_pathLine[i]->render(window);
 		}
 	}
-
-	for (int i = 0; i < m_size; i++) {
-		m_lineVec[i].render(window);
+	if (m_visuals) {
+		for (int i = 0; i < m_size; i++) {
+			m_lineVec[i].render(window);
+		}
+		window.draw(m_surroundingCircle);
 	}
-
-	window.draw(m_surroundingCircle);
 	window.draw(m_rect);
 	
 }
@@ -385,7 +382,6 @@ void InterpolatingAI::generatePath(double dt)
 		}
 		m_lastPathCircle = circle;
 	}
-	//std::cout << "Length = " << m_totalPathLength << std::endl;
 }
 
 
@@ -402,7 +398,7 @@ void InterpolatingAI::handleTimer()
 
 double InterpolatingAI::getAverageExecTime()
 {
-	m_averageExecTime = (double)m_time.asMicroseconds() / m_tickCounter;
+	m_averageExecTime = m_currentTime / m_tickCounter;
 	return m_averageExecTime;
 }
 

@@ -115,9 +115,9 @@ sf::Vector2f Player::getPos()
 }
 
 
-void Player::setPosition(float x, float y)
+void Player::setPosition(sf::Vector2f pos)
 {
-	m_rect.setPosition(x, y);
+	m_rect.setPosition(pos);
 }
 
 sf::Vector2f Player::getVel()

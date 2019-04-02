@@ -147,11 +147,12 @@ void DynamicVectorAI::render(sf::RenderWindow & window)
 		m_pathLine[i]->render(window);
 	}
 
-	for (int i = 0; i < m_size; i++) {
-		m_lineVec[i].render(window);
+	if (m_visuals) {
+		for (int i = 0; i < m_size; i++) {
+			m_lineVec[i].render(window);
+		}
+		window.draw(m_surroundingCircle);
 	}
-
-	window.draw(m_surroundingCircle);
 	window.draw(m_rect);
 }
 
@@ -424,7 +425,7 @@ void DynamicVectorAI::generatePath(double dt)
 
 double DynamicVectorAI::getAverageExecTime()
 {
-	m_averageExecTime = (double)m_time.asMicroseconds() / m_tickCounter;
+	m_averageExecTime = m_currentTime / m_tickCounter;
 	return m_averageExecTime;
 }
 
@@ -433,24 +434,4 @@ double DynamicVectorAI::getTimeEfficiency()
 {
 	m_timeEfficiency = m_currentTime / m_tickCounter;
 	return m_timeEfficiency;
-}
-
-
-sf::Vector2f DynamicVectorAI::rotatePoint(float cx, float cy, float angle, sf::Vector2f p)
-{
-	float s = sin(angle * DEG_TO_RAD);
-	float c = cos(angle * DEG_TO_RAD);
-
-	// translate point back to origin:
-	p.x -= cx;
-	p.y -= cy;
-
-	// rotate point
-	float xnew = p.x * c - p.y * s;
-	float ynew = p.x * s + p.y * c;
-
-	// translate point back:
-	p.x = xnew + cx;
-	p.y = ynew + cy;
-	return p;
 }
