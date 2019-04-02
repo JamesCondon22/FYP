@@ -24,6 +24,10 @@ void Label::setColor(sf::Color color)
 	m_text.setOutlineThickness(2.0f);
 }
 
+sf::Color Label::getColor() {
+	return m_text.getFillColor();
+}
+
 void Label::setText(std::string text)
 {
 	m_text.setString(text);

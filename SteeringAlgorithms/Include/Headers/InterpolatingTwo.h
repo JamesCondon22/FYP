@@ -39,7 +39,7 @@ public:
 	bool compareKeys(std::map<Direction, sf::Vector2f> vec);
 
 	int getId() { return m_id; }
-
+	int getRadius() { return m_radius; }
 	bool getActive() { return m_active; }
 	void setActive(bool active) { m_active = active; }
 	void setCollided(bool collide) { m_collided = collide; }
@@ -54,9 +54,13 @@ public:
 	void setState(GameState state) { m_state = state; }
 	std::string getName() { return "Blended Interpolation"; }
 	sf::Color getColor() { return m_color; }
+	int getScore() { return m_score; }
+	void setScore(int score) { m_score = score; }
 	void setBehaviourState(BehaviourState *state) { m_currentBehaviour = state; }
 	void setVisuals(bool visuals) { m_visuals = visuals; }
 	bool getVisuals() { return m_visuals; }
+	void setPosition(sf::Vector2f pos);
+	int getNodeIndex() { return m_nodeIndex; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -128,4 +132,5 @@ private:
 	sf::Color m_color;
 	BehaviourState* m_currentBehaviour;
 	bool m_visuals = true;
+	int m_score = 0;
 };

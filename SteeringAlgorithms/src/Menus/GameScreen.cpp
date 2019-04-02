@@ -23,48 +23,22 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font) 
 	}
 	loadLevel("resources/levels/LevelOne.txt");
 
-	camera = new Camera(size);
 	m_mapSprite.setTexture(m_mapTexture);
 	m_mapSprite.setPosition(0, 0);
 	m_key = new Key(m_keyTexture);
 	m_key->setPosition(getRandomPosition());
-	m_player = new Player(m_obstacles);
-	m_player->setPosition(initPosition().x, initPosition().y);
-	m_ai = new InterpolatingAI(m_nodes, m_obstacles);
-	m_ai->setPosition(initPosition());
-	m_ai->setState(*m_currentState);
-
+	
 	m_toolbar.setSize(sf::Vector2f(size.x / 2, size.y));
 	m_toolbar.setFillColor(sf::Color::White);
 	m_toolbar.setOutlineThickness(5.0f);
 	m_toolbar.setOutlineColor(sf::Color::Black);
 	m_toolbar.setPosition(2400, 0);
-	initUIText();
 
+	m_scorePosition = sf::Vector2f(m_toolbar.getPosition().x + 50, m_toolbar.getPosition().y + 50);
+	
+	initAI();
 
-	m_scores.push_back(std::make_pair(m_player->getName(), m_player->getScore()));
-	m_scores.push_back(std::make_pair(m_ai->getName(), m_ai->getScore()));
-
-	m_aiStates = new BehaviourState;
-	*m_aiStates = BehaviourState::ChaseNode;
 	m_maxScore = m_nodes.size() * 10;
-	m_ai->setBehaviourState(m_aiStates);
-
-
-	sf::Vector2f posOne = sf::Vector2f(m_toolbar.getPosition().x + 50, m_toolbar.getPosition().y + 20);
-	sf::Vector2f posTwo = sf::Vector2f(m_toolbar.getPosition().x + 50, m_toolbar.getPosition().y + 220);
-	for (int i = 0; i < m_labels.size(); i++)
-	{
-		m_labels[0]->setPosition(posOne);
-		m_labels[0]->setText("Score: " + std::to_string(m_player->getScore()));
-
-		m_labels[1]->setPosition(posTwo);
-		m_labels[1]->setText("Score: " + std::to_string(m_ai->getScore()));
-	}
-
-	m_placePositions.push_back(posOne);
-	m_placePositions.push_back(posTwo);
-
 
 	m_timeLabel = new Label(m_font, m_tile[40][22]->getPosition());
 	m_timeLabel->setColor(sf::Color::Red);
@@ -79,7 +53,7 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	int x = mouse.x / 30;
 	int y = mouse.y / 30;
 
-	
+
 
 	if (!beginTimer) {
 		m_clock.restart();
@@ -93,10 +67,9 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	if (m_time <= 0) {
 		m_startGame = true;
 	}
-	
+
 	m_timeLabel->setText(std::to_string(m_time));
-	
-	std::cout << m_time << std::endl;
+
 	/*if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		if (x >= 0 && x < 80 && y >= 0 && y < 60)
@@ -109,81 +82,115 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 			m_nodes.push_back(circ);
 			m_tile[x][y]->setInterest();
 		}
-		
+
 	}*/
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
-	{
-		if (x >= 0 && x < 80 && y >= 0 && y < 60)
-		{
-			m_tile[x][y]->setObstacle();
-		}
+	//if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	//{
+	//	if (x >= 0 && x < 80 && y >= 0 && y < 60)
+	//	{
+	//		m_tile[x][y]->setObstacle();
+	//	}
 
-	}
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Middle) && !m_Midpressed)
-	{
-		if (x >= 0 && x < 80 && y >= 0 && y < 60)
-		{
-			Obstacle* obstacle = new Obstacle(50, m_TextureObs, sf::Vector2f(0, 0), true);
-			obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
-			obstacle->setPosition(m_tile[x][y]->getPosition());
-			m_obstacles.push_back(obstacle);
-			m_tile[x][y]->setCircularObs();
-		}
+	//}
+	//if (sf::Mouse::isButtonPressed(sf::Mouse::Middle) && !m_Midpressed)
+	//{
+	//	if (x >= 0 && x < 80 && y >= 0 && y < 60)
+	//	{
+	//		Obstacle* obstacle = new Obstacle(50, m_TextureObs, sf::Vector2f(0, 0), true);
+	//		obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
+	//		obstacle->setPosition(m_tile[x][y]->getPosition());
+	//		m_obstacles.push_back(obstacle);
+	//		m_tile[x][y]->setCircularObs();
+	//	}
 
-	}
-	if (!sf::Mouse::isButtonPressed(sf::Mouse::Middle))
-	{
-		m_Midpressed = false;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !m_pressed)
-	{
-		m_file.open("resources/levels/LevelOne.txt"/*, std::ofstream::app*/);
-		int count = 0;
+	//}
+	//if (!sf::Mouse::isButtonPressed(sf::Mouse::Middle))
+	//{
+	//	m_Midpressed = false;
+	//}
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !m_pressed)
+	//{
+	//	m_file.open("resources/levels/LevelOne.txt"/*, std::ofstream::app*/);
+	//	int count = 0;
 
-		for (int i = 0; i < 60; i++) {
-			for (int j = 0; j < 80; j++) {
-				if (count >= 80)
-				{
-					m_file << std::endl;
-					count = 0;
-				}
-				if (m_tile[j][i]->getState() == NState::Blank)
-				{
-					m_file << "0";
-				}
-				else if (m_tile[j][i]->getState() == NState::Full)
-				{
-					m_file << "1";
-				}
-				else if (m_tile[j][i]->getState() == NState::Interest)
-				{
-					m_file << "2";
-				}
-				else if (m_tile[j][i]->getState() == NState::Circle)
-				{
-					m_file << "3";
-				}
-				count++;
-			}
-		}
-		m_file.close();
-		m_pressed = true;
-	}
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		m_pressed = false;
-	}
-	
-	
+	//	for (int i = 0; i < 60; i++) {
+	//		for (int j = 0; j < 80; j++) {
+	//			if (count >= 80)
+	//			{
+	//				m_file << std::endl;
+	//				count = 0;
+	//			}
+	//			if (m_tile[j][i]->getState() == NState::Blank)
+	//			{
+	//				m_file << "0";
+	//			}
+	//			else if (m_tile[j][i]->getState() == NState::Full)
+	//			{
+	//				m_file << "1";
+	//			}
+	//			else if (m_tile[j][i]->getState() == NState::Interest)
+	//			{
+	//				m_file << "2";
+	//			}
+	//			else if (m_tile[j][i]->getState() == NState::Circle)
+	//			{
+	//				m_file << "3";
+	//			}
+	//			count++;
+	//		}
+	//	}
+	//	m_file.close();
+	//	m_pressed = true;
+	//}
+	//if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	//{
+	//	m_pressed = false;
+	//}
+
+
 	int curX = m_player->getPos().x / 30;
 	int curY = m_player->getPos().y / 30;
 
 	collision(curX, curY);
+
 	if (m_startGame) {
+
 		m_player->update(dt);
-		m_ai->update(dt, m_player->getPos());
+
+		for (int i = 0; i < m_enemies.size(); i++) {
+			m_enemies[i]->update(dt, m_player->getPos());
+			checkNodeCollision(m_enemies[i]);
+		}
 	}
-	checkNodeCollision(m_ai->getPos(), m_ai->getRadius());
+
+	if (!m_spawnKey) {
+		for (int i = 0; i < m_nodes.size(); i++) {
+			if (m_nodes[i]->getAlive()) {
+				m_counter++;
+			}
+		}
+	}
+	if (m_counter <= 0) {
+		m_spawnKey = true;
+	}
+	m_counter = 0;
+
+	if (m_spawnKey) {
+
+		*m_aiStates = BehaviourState::ChaseEntity;
+
+		for (int i = 0; i < m_enemies.size(); i++) {
+			m_enemies[i]->setBehaviourState(m_aiStates);
+		}
+		m_key->setActivated(true);
+		m_key->checkCollision(m_player->getPos(), m_player->getRadius());
+
+		if (m_key->getCollision())
+		{
+			m_gameOver = true;
+		}
+	}
+	
 	checkPlayerNodeCollision(m_player->getPos(), m_player->getRadius());
 	
 	if (m_key->getActive()) {
@@ -196,40 +203,18 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		m_nodes[i]->animateNode();
 	}
 
+
 	for (int i = 0; i < m_labels.size(); i++)
 	{
-		m_labels[0]->setText("Score: " + std::to_string(m_player->getScore()));
-		m_labels[1]->setText("Score: " + std::to_string(m_ai->getScore()));
+		updateEnemyLabel(m_labels[i]);
+		updatePlayerLabel(m_labels[i]);
 	}
-	m_tallyScore = m_player->getScore() + m_ai->getScore();
-
-	if (m_tallyScore >= m_maxScore) {
-
-		*m_aiStates = BehaviourState::ChaseEntity;
-		m_ai->setBehaviourState(m_aiStates);
-		m_key->setActivated(true);
-		m_key->checkCollision(m_player->getPos(), m_player->getRadius());
-
-		if (m_key->getCollision())
-		{
-			m_gameOver = true;
-		}
-		
-	}
-
+	
 	
 	checkGameOver();
-	for (int i = 0; i < m_labels.size(); i++)
-	{
-		m_labels[0]->setPosition(sf::Vector2f(m_toolbar.getPosition().x + 50, m_toolbar.getPosition().y + 20));
-		m_labels[0]->setText("Score: " + std::to_string(m_player->getScore()));
-
-		m_labels[1]->setPosition(sf::Vector2f(m_labels[0]->getPosition().x, m_labels[0]->getPosition().y + 200));
-		m_labels[1]->setText("Score: " + std::to_string(m_ai->getScore()));
-	}
-
 	
 }
+
 
 /// <summary>
 /// 
@@ -274,7 +259,7 @@ void GameScreen::collision(int x, int y)
 
 /// <summary>
 /// reads from the file and loads the current level
-/// initialises the 50 X 50 tile array
+/// initialises the 80 X 60 tile array
 /// sets the positions of the blank, interest and Obstacles and 
 /// circular obstacles
 /// </summary>
@@ -343,19 +328,50 @@ void GameScreen::loadLevel(std::string level)
 
 }
 
+
+void GameScreen::initAI() {
+
+	m_player = new Player(m_obstacles);
+	m_player->setPosition(initPosition().x, initPosition().y);
+	initUIText(m_player->getScore(), m_player->getColor());
+	m_scores.push_back(std::make_pair(m_player->getName(), m_player->getScore()));
+
+	Enemy* m_interAi = new InterpolatingAI(m_nodes, m_obstacles);
+	Enemy* m_interAiTwo = new InterpolatingTwo(m_nodes, m_obstacles);
+	Enemy* m_basicContext = new FrayAI(m_nodes, m_obstacles);
+	Enemy* m_dynamAI = new DynamicVectorAI(m_nodes, m_obstacles);
+	Enemy* m_efficAI = new EfficiencyAI(m_nodes, m_obstacles);
+
+	m_enemies.push_back(m_interAi);
+	m_enemies.push_back(m_interAiTwo);
+	m_enemies.push_back(m_basicContext);
+	m_enemies.push_back(m_dynamAI);
+	m_enemies.push_back(m_efficAI);
+
+	m_aiStates = new BehaviourState;
+	*m_aiStates = BehaviourState::ChaseNode;
+
+	for (int i = 0; i < m_enemies.size(); i++) {
+		m_enemies[i]->setPosition(initPosition());
+		m_enemies[i]->setBehaviourState(m_aiStates);
+		m_scores.push_back(std::make_pair(m_enemies[i]->getName(), m_enemies[i]->getScore()));
+		initUIText(m_enemies[i]->getScore(), m_enemies[i]->getColor());
+	}	
+}
+
 /// <summary>
 /// 
 /// </summary>
 /// <param name="pos"></param>
 /// <param name="rad"></param>
-void GameScreen::checkNodeCollision(sf::Vector2f pos, int rad)
+void GameScreen::checkNodeCollision(Enemy * enemy)
 {
-	if (Math::circleCollision(m_nodes[m_ai->getNodeIndex()]->getPosition(), pos, m_nodes[m_ai->getNodeIndex()]->getRadius(), rad))
+	if (Math::circleCollision(m_nodes[enemy->getNodeIndex()]->getPosition(), enemy->getPos(), m_nodes[enemy->getNodeIndex()]->getRadius(), enemy->getRadius()))
 	{
-		m_nodes[m_ai->getNodeIndex()]->setAlive(false);
-		auto score = m_ai->getScore();
+		m_nodes[enemy->getNodeIndex()]->setAlive(false);
+		auto score = enemy->getScore();
 		score += 10;
-		m_ai->setScore(score);
+		enemy->setScore(score);
 	}
 }
 
@@ -385,20 +401,36 @@ void GameScreen::checkPlayerNodeCollision(sf::Vector2f pos, int rad)
 /// <summary>
 /// 
 /// </summary>
-void GameScreen::initUIText()
+void GameScreen::initUIText(int score, sf::Color color)
 {
-	Label* labelOne = new Label(m_font, m_toolbar.getPosition());
-	labelOne->setText("Score: " + std::to_string(m_player->getScore()));
-	labelOne->setSize(50);
-	labelOne->setColor(m_player->getColor());
+	Label* label = new Label(m_font, m_toolbar.getPosition());
+	label->setText("Score: " + std::to_string(score));
+	label->setSize(50);
+	label->setColor(color);
+	label->setPosition(m_scorePosition);
+	m_scorePosition.y += 100;
+	m_labels.push_back(label);
+}
 
-	Label* labelTwo = new Label(m_font, m_toolbar.getPosition());
-	labelTwo->setText("Score: " + std::to_string(0));
-	labelTwo->setSize(50);
-	labelTwo->setColor(m_ai->getColor());
 
-	m_labels.push_back(labelOne);
-	m_labels.push_back(labelTwo);
+void GameScreen::updateEnemyLabel(Label* label) {
+
+	for (int i = 0; i < m_enemies.size(); i++) {
+		
+		if (label->getColor() == m_enemies[i]->getColor()) {
+			label->setText("Score: " + std::to_string(m_enemies[i]->getScore()));
+		}
+	}
+}
+
+
+void GameScreen::updatePlayerLabel(Label* label) {
+
+	if (label->getColor() == m_player->getColor()) {
+
+		label->setText("Score: " + std::to_string(m_player->getScore()));
+	}
+
 }
 
 
@@ -420,6 +452,7 @@ void GameScreen::saveScores(std::string path) {
 
 	m_Scorefile.close();
 }
+
 /// <summary>
 /// 
 /// </summary>
@@ -430,8 +463,12 @@ void GameScreen::updateScores()
 		if (m_scores[i].first == m_player->getName()) {
 			m_scores[i].second = m_player->getScore();
 		}
-		if (m_scores[i].first == m_ai->getName()) {
-			m_scores[i].second = m_ai->getScore();
+		
+		for (int j = 0; j < m_enemies.size(); j++) {
+
+			if (m_scores[i].first == m_enemies[j]->getName()) {
+				m_scores[i].second = m_enemies[j]->getScore();
+			}
 		}
 	} 
 	
@@ -477,17 +514,13 @@ sf::Vector2f GameScreen::initPosition() {
 /// <param name="window"></param>
 void GameScreen::render(sf::RenderWindow & window)
 {
-	
-	//camera->render(window);
-	/*for (int i = 0; i < 60; i++) {
-		for (int j = 0; j < 80; j++) {
-
-			m_tile[j][i]->render(window);
-		}
-	}*/
 	window.draw(m_mapSprite);
 	m_player->render(window);
-	m_ai->render(window);
+
+	for (auto &enemy : m_enemies) {
+		enemy->render(window);
+	}
+
 	if (m_key->getActive()) {
 		m_key->render(window);
 	}

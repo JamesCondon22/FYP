@@ -7,6 +7,11 @@
 #include "../Headers/Player.h"
 #include "Headers/Camera.h"
 #include "Headers/InterpolatingAI.h"
+#include "Headers/InterpolatingTwo.h"
+#include "Headers/FrayAI.h"
+#include "Headers/DynamicVectorAI.h"
+#include "Headers/EfficiencyAI.h"
+#include "Headers/CRSpline.h"
 #include "Headers/LevelLoader.h"
 #include "Headers/GameNode.h"
 #include "Headers/Label.h"
@@ -21,15 +26,18 @@ public:
 	void render(sf::RenderWindow & window);
 	void collision(int x, int y);
 	void loadLevel(std::string level);
-	void checkNodeCollision(sf::Vector2f pos, int rad);
+	void checkNodeCollision(Enemy * enemy);
 	void checkPlayerNodeCollision(sf::Vector2f pos, int rad);
 	void checkGameOver();
-	void initUIText();
+	void initUIText(int score, sf::Color color);
 	void updateScores();
+	void updateEnemyLabel(Label * label);
+	void updatePlayerLabel(Label * label);
 	void saveScores(std::string path);
 	sf::Vector2f initPosition();
 	sf::Vector2f getRandomPosition();
 	std::vector<std::pair<std::string, int>> getScores() { return m_scores; }
+	void initAI();
 private:
 
 	GameState * m_currentState;
@@ -46,7 +54,8 @@ private:
 
 	Camera * camera;
 	Camera * miniMap;
-	InterpolatingAI* m_ai;
+
+	std::vector<Enemy*> m_enemies;
 	std::vector<Obstacle*> m_obstacles;
 	std::vector<GameNode*> m_nodes;
 	LevelData m_level;
@@ -74,6 +83,7 @@ private:
 	std::vector<sf::Vector2f> m_keyPositions;
 	std::vector<sf::Vector2f> m_spawnPositions;
 
+	sf::Vector2f m_scorePosition;
 	bool m_gameOver = false;
 	std::ofstream m_Scorefile;
 	sf::Clock m_clock;
@@ -83,6 +93,9 @@ private:
 	Label * m_timeLabel;
 
 	bool m_startGame = false;
+	bool m_spawnKey = false;
+
+	int m_counter = 0;
 };
 
 #endif

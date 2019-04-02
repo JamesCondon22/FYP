@@ -39,7 +39,7 @@ FrayAI::FrayAI(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs) :
 		m_lineVec.push_back(line);
 		
 	}
-	m_color = sf::Color::Red;
+	m_color = sf::Color(66, 182, 244);
 	m_rect.setFillColor(m_color);
 	//m_rotation = 180;
 	m_rect.rotate(90);
@@ -51,6 +51,13 @@ FrayAI::FrayAI(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs) :
 FrayAI::~FrayAI()
 {
 }
+
+
+void FrayAI::setPosition(sf::Vector2f position) {
+	m_position = position;
+	m_rect.setPosition(m_position);
+}
+
 
 void FrayAI::update(double dt, sf::Vector2f position)
 {
@@ -80,7 +87,9 @@ void FrayAI::update(double dt, sf::Vector2f position)
 	m_rect.setPosition(m_position);
 	m_surroundingCircle.setPosition(m_position);
 	
-	generatePath(dt);
+	if (m_state == GameState::Demo) {
+		generatePath(dt);
+	}
 	handleTimer();
 
 	m_tickCounter += 1;
@@ -91,10 +100,11 @@ void FrayAI::update(double dt, sf::Vector2f position)
 
 void FrayAI::render(sf::RenderWindow & window)
 {
-
-	for (int i = 0; i < m_pathLine.size(); i++)
-	{
-		m_pathLine[i]->render(window);
+	if (m_state == GameState::Demo) {
+		for (int i = 0; i < m_pathLine.size(); i++)
+		{
+			m_pathLine[i]->render(window);
+		}
 	}
 	if (m_visuals) {
 		for (int i = 0; i < m_size; i++) {
@@ -112,10 +122,12 @@ sf::Vector2f FrayAI::getPos()
 	return m_position;
 }
 
+
 sf::Vector2f FrayAI::getVel()
 {
 	return m_velocity;
 }
+
 
 void FrayAI::updateLines(sf::Vector2f position)
 {
@@ -126,6 +138,7 @@ void FrayAI::updateLines(sf::Vector2f position)
 		count++;
 	}
 }
+
 
 void FrayAI::updateDangers()
 {
@@ -181,6 +194,7 @@ std::map<Direction, double> FrayAI::normalize(std::map<Direction, double> vec)
 	return vec;
 }
 
+
 std::map<Direction, double> FrayAI::normalizeDangers(std::map<Direction, double> vec)
 {
 	auto curLargest = findLargest(vec);
@@ -193,7 +207,6 @@ std::map<Direction, double> FrayAI::normalizeDangers(std::map<Direction, double>
 
 	return vec;
 }
-
 
 
 steering FrayAI::seek(sf::Vector2f position)
@@ -209,6 +222,7 @@ steering FrayAI::seek(sf::Vector2f position)
 	return seekSteering;
 }
 
+
 void FrayAI::calculation() {
 
 	if (m_velocity.x != 0 || m_velocity.y != 0)
@@ -219,6 +233,7 @@ void FrayAI::calculation() {
 		m_rotation = getNewOrientation(m_rotation, m_velocity);
 	}
 }
+
 
 float FrayAI::mag(sf::Vector2f & v)
 {
@@ -243,6 +258,7 @@ float FrayAI::getNewOrientation(float curOrientation, sf::Vector2f velocity)
 		return curOrientation;
 	}
 }
+
 /// <summary>
 /// 
 /// </summary>
@@ -365,6 +381,7 @@ void FrayAI::generatePath(double dt)
 	}
 
 }
+
 
 void FrayAI::handleTimer()
 {

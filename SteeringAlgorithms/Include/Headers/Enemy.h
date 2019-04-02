@@ -35,4 +35,9 @@ public:
 	virtual void setBehaviourState(BehaviourState *state) = 0;
 	virtual void setVisuals(bool visuals) = 0;
 	virtual bool getVisuals() = 0;
+	virtual void setPosition(sf::Vector2f pos) = 0;
+	virtual int getScore() = 0;
+	virtual int getNodeIndex() = 0;
+	virtual int getRadius() = 0;
+	virtual void setScore(int score) = 0;
 };

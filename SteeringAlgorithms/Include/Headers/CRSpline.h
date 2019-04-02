@@ -48,7 +48,7 @@ public:
 	bool getActive() { return m_active; }
 	void setActive(bool active) { m_active = active; }
 	void setCollided(bool collide) { m_collided = collide; }
-
+	int getRadius() { return m_radius; }
 	void generatePath(double dt);
 	void handleTimer();
 
@@ -67,8 +67,12 @@ public:
 	Curve * getCurve() { return m_curve; }
 	void setBehaviourState(BehaviourState *state) { m_currentBehaviour = state; }
 	sf::Color getColor() { return m_color; }
+	int getScore() { return m_score; }
+	void setScore(int score) { m_score = score; }
 	void setVisuals(bool visuals) { m_visuals = visuals; }
 	bool getVisuals() { return m_visuals; }
+	void setPosition(sf::Vector2f pos);
+	int getNodeIndex() { return m_nodeIndex; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -140,6 +144,7 @@ private:
 
 	BehaviourState* m_currentBehaviour;
 	bool m_visuals = true;
+	int m_score = 0;
 };
 
 //#endif

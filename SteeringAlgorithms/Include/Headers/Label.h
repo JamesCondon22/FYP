@@ -12,6 +12,7 @@ public:
 	void setText(std::string text);
 	void setSize(int size);
 	void setColor(sf::Color color);
+	sf::Color getColor();
 	sf::Vector2f getPosition() { return m_position; }
 private:
 

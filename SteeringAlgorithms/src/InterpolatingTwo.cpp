@@ -47,6 +47,12 @@ InterpolatingTwo::~InterpolatingTwo()
 }
 
 
+void InterpolatingTwo::setPosition(sf::Vector2f position) {
+	m_position = position;
+	m_rect.setPosition(m_position);
+}
+
+
 void InterpolatingTwo::update(double dt, sf::Vector2f position)
 {
 	m_clock2.restart();
@@ -78,7 +84,9 @@ void InterpolatingTwo::update(double dt, sf::Vector2f position)
 	m_rect.setPosition(m_position);
 	m_surroundingCircle.setPosition(m_position);
 	
-	generatePath(dt);
+	if (m_state == GameState::Demo) {
+		generatePath(dt);
+	}
 	handleTimer();
 
 	m_tickCounter += 1;
@@ -88,9 +96,11 @@ void InterpolatingTwo::update(double dt, sf::Vector2f position)
 
 void InterpolatingTwo::render(sf::RenderWindow & window)
 {
-	for (int i = 0; i < m_pathLine.size(); i++)
-	{
-		m_pathLine[i]->render(window);
+	if (m_state == GameState::Demo) {
+		for (int i = 0; i < m_pathLine.size(); i++)
+		{
+			m_pathLine[i]->render(window);
+		}
 	}
 
 	for (int i = 0; i < m_size; i++) {

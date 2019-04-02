@@ -51,12 +51,17 @@ public:
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
 	double getTimeEfficiency();
+	int getRadius() { return m_radius; }
 	void setState(GameState state) { m_state = state; }
 	std::string getName() { return "Basic Context Maps"; }
+	int getScore() { return m_score; }
+	void setScore(int score) { m_score = score; }
 	void setBehaviourState(BehaviourState *state) { m_currentBehaviour = state; }
 	sf::Color getColor() { return m_color; }
 	void setVisuals(bool visuals) { m_visuals = visuals; }
 	bool getVisuals() { return m_visuals; }
+	void setPosition(sf::Vector2f pos); 
+	int getNodeIndex() { return m_nodeIndex; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -125,4 +130,5 @@ private:
 	BehaviourState* m_currentBehaviour;
 
 	bool m_visuals = true;
+	int m_score = 0;
 };

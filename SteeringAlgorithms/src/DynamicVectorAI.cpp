@@ -48,6 +48,11 @@ DynamicVectorAI::~DynamicVectorAI()
 }
 
 
+void DynamicVectorAI::setPosition(sf::Vector2f position) {
+	m_position = position;
+	m_rect.setPosition(m_position);
+}
+
 void DynamicVectorAI::update(double dt, sf::Vector2f position)
 {
 	m_clock2.restart();
@@ -94,7 +99,9 @@ void DynamicVectorAI::update(double dt, sf::Vector2f position)
 	m_rect.setPosition(m_position);
 	m_surroundingCircle.setPosition(m_position);
 
-	generatePath(dt);
+	if (m_state == GameState::Demo) {
+		generatePath(dt);
+	}
 	handleTimer();
 
 	m_tickCounter += 1;
