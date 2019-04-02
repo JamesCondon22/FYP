@@ -12,6 +12,7 @@
 #include "Headers/DynamicVectorAI.h"
 #include "Headers/EfficiencyAI.h"
 #include "Headers/CRSpline.h"
+#include "Headers/Traditional.h"
 #include "Headers/LevelLoader.h"
 #include "Headers/GameNode.h"
 #include "Headers/Label.h"
@@ -38,6 +39,8 @@ public:
 	sf::Vector2f getRandomPosition();
 	std::vector<std::pair<std::string, int>> getScores() { return m_scores; }
 	void initAI();
+
+	void handleKeys();
 private:
 
 	GameState * m_currentState;

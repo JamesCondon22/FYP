@@ -27,6 +27,8 @@ public:
 	sf::Color getColor() { return m_color; }
 	void obstacleCollision();
 	std::string getName() { return "Player"; }
+	void setVisuals(bool visuals) { m_visuals = visuals; }
+	bool getVisuals() { return m_visuals; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -43,4 +45,5 @@ private:
 	int m_score = 0;
 	sf::Color m_color;
 	std::vector<Obstacle*> m_obstacles;
+	bool m_visuals = true;
 };

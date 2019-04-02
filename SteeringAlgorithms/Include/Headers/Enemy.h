@@ -39,4 +39,5 @@ public:
 	virtual int getNodeIndex() = 0;
 	virtual int getRadius() = 0;
 	virtual void setScore(int score) = 0;
+	virtual bool getCollided() = 0;
 };

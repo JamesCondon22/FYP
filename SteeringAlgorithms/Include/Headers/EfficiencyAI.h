@@ -61,6 +61,7 @@ public:
 	bool getVisuals() { return m_visuals; }
 	void setPosition(sf::Vector2f pos);
 	int getNodeIndex() { return m_nodeIndex; }
+	bool getCollided() { return m_collided; }
 private:
 	
 	sf::Vector2f m_position;
@@ -69,8 +70,6 @@ private:
 	sf::Vector2f m_heading;
 	sf::Vector2f UpRadial = sf::Vector2f(0, 0);
 	sf::Vector2f curDirection = sf::Vector2f(0, 0);
-
-
 	sf::Sprite m_sprite;
 	sf::Texture m_texture;
 	sf::CircleShape m_surroundingCircle;

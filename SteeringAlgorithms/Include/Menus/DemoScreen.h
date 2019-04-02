@@ -28,6 +28,10 @@ public:
 	void update(double dt, int active, std::string lastBtnPress);
 	void render(sf::RenderWindow& window);
 	void checkCollision(TestBot * bot, Enemy * enemy, std::string lastbtnPress);
+	void handleKeys();
+	void checkRun(Enemy * enemy, int id);
+	void checkRunAll(Enemy * enemy);
+	void checkCompare(Enemy * enemy);
 	void initAI();
 private:
 	sf::Window m_window;

@@ -208,6 +208,13 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		updatePlayerLabel(m_labels[i]);
 	}
 	
+	checkGameOver();
+	
+}
+
+
+void GameScreen::handleKeys() {
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LAlt) && !m_altPressed) {
 
 		for (int i = 0; i < m_enemies.size(); i++) {
@@ -219,14 +226,19 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 				m_enemies[i]->setVisuals(true);
 			}
 		}
+
+		if (m_player->getVisuals()) {
+			m_player->setVisuals(false);
+		}
+		else {
+			m_player->setVisuals(true);
+		}
 		m_altPressed = true;
 	}
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LAlt)) {
 		m_altPressed = false;
 	}
-	checkGameOver();
-	
 }
 
 
@@ -351,6 +363,7 @@ void GameScreen::initAI() {
 
 	m_player = new Player(m_obstacles);
 	m_player->setPosition(initPosition());
+	m_player->setVisuals(false);
 	initUIText(m_player->getScore(), m_player->getColor());
 	m_scores.push_back(std::make_pair(m_player->getName(), m_player->getScore()));
 
@@ -359,12 +372,14 @@ void GameScreen::initAI() {
 	Enemy* m_basicContext = new FrayAI(m_nodes, m_obstacles);
 	Enemy* m_dynamAI = new DynamicVectorAI(m_nodes, m_obstacles);
 	Enemy* m_efficAI = new EfficiencyAI(m_nodes, m_obstacles);
+	Enemy* m_tradAI = new Traditional(m_nodes, m_obstacles);
 
 	m_enemies.push_back(m_interAi);
 	m_enemies.push_back(m_interAiTwo);
 	m_enemies.push_back(m_basicContext);
 	m_enemies.push_back(m_dynamAI);
 	m_enemies.push_back(m_efficAI);
+	m_enemies.push_back(m_tradAI);
 
 	m_aiStates = new BehaviourState;
 	*m_aiStates = BehaviourState::ChaseNode;
@@ -374,6 +389,7 @@ void GameScreen::initAI() {
 		m_enemies[i]->setBehaviourState(m_aiStates);
 		m_scores.push_back(std::make_pair(m_enemies[i]->getName(), m_enemies[i]->getScore()));
 		initUIText(m_enemies[i]->getScore(), m_enemies[i]->getColor());
+		m_enemies[i]->setVisuals(false);
 	}	
 }
 

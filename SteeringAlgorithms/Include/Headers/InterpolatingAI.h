@@ -62,6 +62,7 @@ public:
 	void setVisuals(bool visuals) { m_visuals = visuals; }
 	bool getVisuals() { return m_visuals; }
 	void setPosition(sf::Vector2f pos);
+	bool getCollided() { return m_collided; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;

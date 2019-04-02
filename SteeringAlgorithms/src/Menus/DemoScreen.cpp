@@ -53,11 +53,10 @@ DemoScreen::~DemoScreen()
 	
 }
 
-
-void DemoScreen::update(double dt, int id, std::string lastBtnPress)
-{
-	
-
+/// <summary>
+/// handle all the key presses in the demonstration
+/// </summary>
+void DemoScreen::handleKeys() {
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
 		m_pressed = false;
@@ -65,7 +64,7 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !m_pressed)
 	{
 		m_startDemonstration = true;
-		
+
 		for (int i = 0; i < m_enemies.size(); i++)
 		{
 			m_enemies[i]->setState(*m_currentState);
@@ -100,7 +99,14 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 		}
 		m_altPressed = true;
 	}
-	
+
+}
+
+
+void DemoScreen::update(double dt, int id, std::string lastBtnPress)
+{
+	handleKeys();
+
 	if (m_startDemonstration) {
 
 		m_cumulativeTime = m_clock.getElapsedTime().asMilliseconds();
@@ -140,34 +146,17 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 		}
 		
 		m_testBot->update(dt);
-		//m_trad->update(dt, m_testBot->getPosition());
+
 		for (int i = 0; i < m_enemies.size(); i++)
 		{
-			if (lastBtnPress == "RUN")
-			{
-				if (!m_enemies[i]->getActive() && m_enemies[i]->getId() == id)
-				{
-					m_enemies[i]->setActive(true);
-					m_aitypeLabel->setText(m_enemies[i]->getName());
-					m_aitypeLabel->setColor(m_enemies[i]->getColor());
-				}
-			
+			if (lastBtnPress == "RUN") {
+				checkRun(m_enemies[i], id);
 			}
-			else if (lastBtnPress == "RUN ALL")
-			{
-				if (!m_enemies[i]->getActive() && m_enemies[i]->getId() == m_id)
-				{
-					m_enemies[i]->setActive(true);
-					m_aitypeLabel->setText(m_enemies[i]->getName());
-					m_aitypeLabel->setColor(m_enemies[i]->getColor());
-				}
+			else if (lastBtnPress == "RUN ALL") {
+				checkRunAll(m_enemies[i]);
 			}
-			else if (lastBtnPress == "COMPARE")
-			{
-				if (!m_enemies[i]->getActive())
-				{
-					m_enemies[i]->setActive(true);
-				}
+			else if (lastBtnPress == "COMPARE") {
+				checkCompare(m_enemies[i]);
 			}
 			
 			if (m_cumulativeTime > MAX_TIME) {
@@ -195,6 +184,7 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 	}
 }
 
+
 void DemoScreen::render(sf::RenderWindow & window)
 {
 	for (int i = 0; i < m_obstacles.size(); i++)
@@ -221,10 +211,7 @@ void DemoScreen::render(sf::RenderWindow & window)
 		m_ghostAI->render(window);
 	}
 
-
 	m_aitypeLabel->render(window);
-	
-	
 	m_testBot->render(window);
 }
 
@@ -242,7 +229,6 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 		m_file << "Path length = " << enemy->getPathLength() << std::endl;
 		m_file << "Interception Time = " << enemy->getInterceptionTime() << std::endl;
 		m_file << "Average Execution Time = " << enemy->getAverageExecTime()  << std::endl;
-		//m_file << "Time Efficiency = " << enemy->getTimeEfficiency() << std::endl;
 		m_file << "\n";
 		
 		
@@ -270,7 +256,11 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 	}
 }
 
-
+/// <summary>
+/// initialises all the AI characters
+/// sets the Behaviour state
+/// adds to the enemies vector
+/// </summary>
 void DemoScreen::initAI()
 {
 	Enemy * aiOne = new FrayAI(m_nodes, m_obstacles);
@@ -299,3 +289,30 @@ void DemoScreen::initAI()
 	m_enemies.push_back(aiSix);
 }
 
+
+void DemoScreen::checkRun(Enemy * enemy, int id) {
+	if (!enemy->getActive() && enemy->getId() == id)
+	{
+		enemy->setActive(true);
+		m_aitypeLabel->setText(enemy->getName());
+		m_aitypeLabel->setColor(enemy->getColor());
+	}
+}
+
+
+void DemoScreen::checkRunAll(Enemy * enemy) {
+	if (!enemy->getActive() && enemy->getId() == m_id)
+	{
+		enemy->setActive(true);
+		m_aitypeLabel->setText(enemy->getName());
+		m_aitypeLabel->setColor(enemy->getColor());
+	}
+}
+
+
+void DemoScreen::checkCompare(Enemy * enemy) {
+	if (!enemy->getActive() && !enemy->getCollided())
+	{
+		enemy->setActive(true);
+	}
+}

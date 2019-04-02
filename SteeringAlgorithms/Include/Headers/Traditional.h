@@ -55,7 +55,8 @@ public:
 	void setScore(int score) { m_score = score; }
 
 	void setVisuals(bool visuals) { m_visuals = visuals; }
-	virtual bool getVisuals() { return m_visuals; }
+	bool getVisuals() { return m_visuals; }
+	bool getCollided() { return m_collided; }
 private:
 	float m_timeToTarget;
 	sf::Vector2f m_position;

@@ -71,7 +71,9 @@ void Player::update(double dt)
 
 void Player::render(sf::RenderWindow & window)
 {
-	window.draw(m_surround);
+	if (m_visuals) {
+		window.draw(m_surround);
+	}
 	window.draw(m_rect);
 }
 
