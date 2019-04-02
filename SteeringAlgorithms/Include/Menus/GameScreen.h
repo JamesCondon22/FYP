@@ -23,6 +23,7 @@ class GameScreen
 public:
 	
 	GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font);
+	~GameScreen();
 	void update(double dt, sf::Vector2i & mouse);
 	void render(sf::RenderWindow & window);
 	void collision(int x, int y);
@@ -40,6 +41,7 @@ public:
 	std::vector<std::pair<std::string, int>> getScores() { return m_scores; }
 	void initAI();
 	void handleKeys();
+	void resetGame();
 private:
 
 	GameState * m_currentState;

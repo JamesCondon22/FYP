@@ -408,3 +408,11 @@ double InterpolatingTwo::getTimeEfficiency()
 	m_timeEfficiency = m_currentTime / m_tickCounter;
 	return m_timeEfficiency;
 }
+
+
+void InterpolatingTwo::resetGame() {
+	for (int i = 0; i < m_nodes.size(); i++) {
+
+		m_nodes[i]->setAlive(true);
+	}
+}

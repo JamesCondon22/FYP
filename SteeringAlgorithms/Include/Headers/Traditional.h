@@ -57,6 +57,7 @@ public:
 	void setVisuals(bool visuals) { m_visuals = visuals; }
 	bool getVisuals() { return m_visuals; }
 	bool getCollided() { return m_collided; }
+	void resetGame();
 private:
 	float m_timeToTarget;
 	sf::Vector2f m_position;

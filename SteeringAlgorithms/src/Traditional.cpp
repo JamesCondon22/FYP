@@ -314,6 +314,14 @@ double Traditional::getAverageExecTime()
 }
 
 
+void Traditional::resetGame() {
+	for (int i = 0; i < m_nodes.size(); i++) {
+
+		m_nodes[i]->setAlive(true);
+	}
+}
+
+
 void Traditional::render(sf::RenderWindow & window)
 {
 

@@ -74,6 +74,7 @@ public:
 	void setPosition(sf::Vector2f pos);
 	int getNodeIndex() { return m_nodeIndex; }
 	bool getCollided() { return m_collided; }
+    void resetGame();
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;

@@ -44,6 +44,11 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font) 
 }
 
 
+GameScreen::~GameScreen() {
+	
+}
+
+
 void GameScreen::update(double dt, sf::Vector2i & mouse)
 {
 	updateScores();
@@ -405,6 +410,7 @@ void GameScreen::checkNodeCollision(Enemy * enemy)
 	if (Math::circleCollision(m_nodes[enemy->getNodeIndex()]->getPosition(), enemy->getPos(), m_nodes[enemy->getNodeIndex()]->getRadius(), enemy->getRadius()))
 	{
 		if (m_nodes[enemy->getNodeIndex()]->getAlive()) {
+
 			m_nodes[enemy->getNodeIndex()]->setAlive(false);
 			auto score = enemy->getScore();
 			score = score + 10;
@@ -473,10 +479,39 @@ void GameScreen::updatePlayerLabel(Label* label) {
 
 
 void GameScreen::checkGameOver() {
+
 	if (m_gameOver) {
 		saveScores("resources/assets/scores.txt");
+		resetGame();
 		*m_currentState = GameState::EndGame;
 	}
+}
+
+void GameScreen::resetGame() {
+	
+	loadLevel("resources/levels/LevelOne.txt");
+	m_gameOver = false;
+	m_startGame = false;
+	m_spawnKey = false;
+	m_key->setActivated(false);
+	m_key->setPosition(getRandomPosition());
+
+	m_time = 3;
+	for (int i = 0; i < m_nodes.size(); i++) {
+		m_nodes[i]->setAlive(true);
+	}
+
+
+	m_aiStates = new BehaviourState;
+	*m_aiStates = BehaviourState::ChaseNode;
+
+	for (int i = 0; i < m_enemies.size(); i++) {
+		m_enemies[i]->setPosition(initPosition());
+		m_enemies[i]->setBehaviourState(m_aiStates);
+		m_enemies[i]->setVisuals(false);
+		m_enemies[i]->resetGame();
+	}
+	
 }
 
 
