@@ -39,7 +39,6 @@ public:
 	sf::Vector2f getRandomPosition();
 	std::vector<std::pair<std::string, int>> getScores() { return m_scores; }
 	void initAI();
-
 	void handleKeys();
 private:
 

@@ -1,7 +1,7 @@
-1. Dynamic Vector: 170
-2. Average Interpolation: 140
-3. Basic Context Maps: 130
-4. Player: 120
-5. Blended Interpolation: 120
-6. Traditional: 120
-7. Efficiency AI: 60
+1. Average Interpolation: 170
+2. Player: 170
+3. Basic Context Maps: 160
+4. Traditional: 140
+5. Efficiency AI: 100
+6. Blended Interpolation: 80
+7. Dynamic Vector: 40

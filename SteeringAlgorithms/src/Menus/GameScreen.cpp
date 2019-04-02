@@ -159,19 +159,21 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 			m_enemies[i]->update(dt, m_player->getPos());
 			checkNodeCollision(m_enemies[i]);
 		}
-	}
-
-	if (!m_spawnKey) {
-		for (int i = 0; i < m_nodes.size(); i++) {
-			if (m_nodes[i]->getAlive()) {
-				m_counter++;
+		if (!m_spawnKey) {
+			for (int i = 0; i < m_nodes.size(); i++) {
+				if (m_nodes[i]->getAlive()) {
+					m_counter++;
+				}
 			}
 		}
+
+		if (m_counter <= 0) {
+			m_spawnKey = true;
+		}
+		m_counter = 0;
 	}
-	if (m_counter <= 0) {
-		m_spawnKey = true;
-	}
-	m_counter = 0;
+
+	
 
 	if (m_spawnKey) {
 
@@ -190,17 +192,15 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	}
 	
 	checkPlayerNodeCollision(m_player->getPos(), m_player->getRadius());
-	
+
 	if (m_key->getActive()) {
 		m_key->update(dt);
 	}
 	
-
 	for (int i = 0; i < m_nodes.size(); i++)
 	{
 		m_nodes[i]->animateNode();
 	}
-
 
 	for (int i = 0; i < m_labels.size(); i++)
 	{
@@ -212,7 +212,9 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	
 }
 
-
+/// <summary>
+/// handles all the key presses in the game
+/// </summary>
 void GameScreen::handleKeys() {
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LAlt) && !m_altPressed) {
@@ -402,10 +404,12 @@ void GameScreen::checkNodeCollision(Enemy * enemy)
 {
 	if (Math::circleCollision(m_nodes[enemy->getNodeIndex()]->getPosition(), enemy->getPos(), m_nodes[enemy->getNodeIndex()]->getRadius(), enemy->getRadius()))
 	{
-		m_nodes[enemy->getNodeIndex()]->setAlive(false);
-		auto score = enemy->getScore();
-		score += 10;
-		enemy->setScore(score);
+		if (m_nodes[enemy->getNodeIndex()]->getAlive()) {
+			m_nodes[enemy->getNodeIndex()]->setAlive(false);
+			auto score = enemy->getScore();
+			score = score + 10;
+			enemy->setScore(score);
+		}
 	}
 }
 
