@@ -2,7 +2,7 @@
 
 double const InterpolatingTwo::RAD_TO_DEG = 180.0f / 3.14;
 double const InterpolatingTwo::DEG_TO_RAD = 3.14 / 180.0f;
-InterpolatingTwo::InterpolatingTwo(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs) :
+InterpolatingTwo::InterpolatingTwo(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs) :
 	m_position(0, 0),
 	m_velocity(0, 0),
 	size(100),
@@ -18,7 +18,7 @@ InterpolatingTwo::InterpolatingTwo(std::vector<sf::CircleShape> & path, std::vec
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
 	m_rect.setTexture(&m_texture);
 	m_rect.setSize(sf::Vector2f(25, 50));
-	m_position = sf::Vector2f(1800, 500);
+	m_position = sf::Vector2f(1800, 100);
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 
@@ -36,15 +36,22 @@ InterpolatingTwo::InterpolatingTwo(std::vector<sf::CircleShape> & path, std::vec
 		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
 		m_lineVec.push_back(line);
 	}
-
-	m_rect.setFillColor(sf::Color::Cyan);
-
+	m_color = sf::Color(255, 165, 0);
+	m_rect.setFillColor(m_color);
+	m_rect.rotate(90);
 }
 
 
 InterpolatingTwo::~InterpolatingTwo()
 {
 }
+
+
+void InterpolatingTwo::setPosition(sf::Vector2f position) {
+	m_position = position;
+	m_rect.setPosition(m_position);
+}
+
 
 void InterpolatingTwo::update(double dt, sf::Vector2f position)
 {
@@ -54,7 +61,14 @@ void InterpolatingTwo::update(double dt, sf::Vector2f position)
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
 
-	updateLines(position);
+	if (*m_currentBehaviour == BehaviourState::ChaseNode) {
+
+		updateLines(getCurrentNodePosition());
+	}
+	else {
+
+		updateLines(position);
+	}
 	updateDangers();
 	m_distances = normalize(m_distances);
 	m_distancesDanger = normalizeDangers(m_distancesDanger);
@@ -70,7 +84,9 @@ void InterpolatingTwo::update(double dt, sf::Vector2f position)
 	m_rect.setPosition(m_position);
 	m_surroundingCircle.setPosition(m_position);
 	
-	generatePath(dt);
+	if (m_state == GameState::Demo) {
+		generatePath(dt);
+	}
 	handleTimer();
 
 	m_tickCounter += 1;
@@ -80,13 +96,20 @@ void InterpolatingTwo::update(double dt, sf::Vector2f position)
 
 void InterpolatingTwo::render(sf::RenderWindow & window)
 {
-	for (int i = 0; i < m_size; i++) {
-		m_lineVec[i].render(window);
+	if (m_state == GameState::Demo) {
+		for (int i = 0; i < m_pathLine.size(); i++)
+		{
+			m_pathLine[i]->render(window);
+		}
 	}
-
-	window.draw(m_surroundingCircle);
+	if (m_visuals) {
+		for (int i = 0; i < m_size; i++) {
+			m_lineVec[i].render(window);
+		}
+		window.draw(m_surroundingCircle);
+	}
+	
 	window.draw(m_rect);
-	//m_rect.setFillColor(sf::Color::Red);
 	
 }
 
@@ -103,9 +126,6 @@ sf::Vector2f InterpolatingTwo::getVel()
 
 void InterpolatingTwo::updateLines(sf::Vector2f position)
 {
-	sf::Vector2f vecToNode;
-	vecToNode = getCurrentNodePosition();
-	
 	int count = 0;
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
@@ -310,19 +330,24 @@ void InterpolatingTwo::initVector()
 
 sf::Vector2f InterpolatingTwo::getCurrentNodePosition()
 {
-	
 	sf::Vector2f target;
 
-	target = m_nodes[currentNode].getPosition();
+	double smallest = DBL_MAX;
+	auto curIndex = 0;
 
-	if (Math::distance(m_position, target) <= 80)
+	for (int i = 0; i < m_nodes.size(); i++)
 	{
-		currentNode += 1;
-		if (currentNode >= m_nodes.size()) {
-			currentNode = 0;
+		if (m_nodes[i]->getAlive()) {
+			auto dist = Math::distance(m_position, m_nodes[i]->getPosition());
+
+			if (dist < smallest) {
+				smallest = dist;
+				target = m_nodes[i]->getPosition();
+				curIndex = i;
+			}
 		}
 	}
-
+	m_nodeIndex = curIndex;
 	return target;
 }
 
@@ -346,6 +371,7 @@ void InterpolatingTwo::generatePath(double dt)
 	{
 		Path * circle = new Path(3);
 		circle->setPosition(m_position);
+		circle->setColor(m_color);
 		m_pathLine.push_back(circle);
 		m_timeAmount = 0;
 		if (m_lastPathCircle != nullptr)
@@ -355,26 +381,24 @@ void InterpolatingTwo::generatePath(double dt)
 		}
 		m_lastPathCircle = circle;
 	}
-
-	//std::cout << "Length = " << m_totalPathLength << std::endl;
+	/*std::cout << "Length = " << m_totalPathLength << std::endl;*/
 }
 
 
 void InterpolatingTwo::handleTimer()
 {
-	m_currentTime += m_clock.restart().asMilliseconds();
-
 	if (!m_startTimer)
 	{
-		m_currentTime -= m_currentTime;
+		m_clock.restart();
 		m_startTimer = true;
 	}
+	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
 }
 
 
 double InterpolatingTwo::getAverageExecTime()
 {
-	m_averageExecTime = (double)m_time.asMicroseconds() / m_tickCounter;
+	m_averageExecTime = m_currentTime / m_tickCounter;
 	return m_averageExecTime;
 }
 
@@ -383,4 +407,12 @@ double InterpolatingTwo::getTimeEfficiency()
 {
 	m_timeEfficiency = m_currentTime / m_tickCounter;
 	return m_timeEfficiency;
+}
+
+
+void InterpolatingTwo::resetGame() {
+	for (int i = 0; i < m_nodes.size(); i++) {
+
+		m_nodes[i]->setAlive(true);
+	}
 }

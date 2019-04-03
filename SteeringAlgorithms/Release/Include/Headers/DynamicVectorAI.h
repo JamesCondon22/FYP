@@ -18,7 +18,7 @@ class DynamicVectorAI : public Enemy
 {
 public:
 	
-	DynamicVectorAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs);
+	DynamicVectorAI(std::vector<GameNode*> path, std::vector<Obstacle*>  obs);
 	~DynamicVectorAI();
 	void update(double dt, sf::Vector2f position);
 	void render(sf::RenderWindow & window);
@@ -56,9 +56,20 @@ public:
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
 	double getTimeEfficiency();
-
+	int getRadius() { return m_radius; }
+	void setState(GameState state) { m_state = state; }
 	sf::Vector2f rotatePoint(float cx, float cy, float angle, sf::Vector2f p);
-
+	std::string getName() { return "Dynamic Vector"; }
+	int getScore() { return m_score; }
+	void setScore(int score) { m_score = score; }
+	void setBehaviourState(BehaviourState *state) { m_currentBehaviour = state; }
+	sf::Color getColor() { return m_color; }
+	void setVisuals(bool visuals) { m_visuals = visuals; }
+	bool getVisuals() { return m_visuals; }
+	void setPosition(sf::Vector2f pos);
+	int getNodeIndex() { return m_nodeIndex; }
+	bool getCollided() { return m_collided; }
+	void resetGame();
 private:
 	
 	sf::Vector2f m_position;
@@ -86,7 +97,7 @@ private:
 
 	
 	std::vector<sf::Vector2f> m_distVecs;
-	std::vector<sf::CircleShape> m_nodes;
+	std::vector<GameNode*> m_nodes;
 	std::vector<DirectionalLine> m_lineVec;
 	std::vector<Obstacle*> m_obstacles;
 
@@ -136,14 +147,19 @@ private:
 	sf::Time m_time;
 	
 	bool m_startTimer = false;
-
+	int m_nodeIndex = 0;
 	double m_timeEfficiency;
 	double m_averageExecTime;
 	double m_tickCounter;
 	double m_lastUpdate;
 	double m_timer;
+	sf::Color m_color;
 
-	sf::Vertex m_line[2];
+	GameState m_state;
+	BehaviourState* m_currentBehaviour;
+	bool m_visuals = true;
+
+	int m_score = 0;
 };
 
 #endif

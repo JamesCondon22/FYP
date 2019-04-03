@@ -2,7 +2,7 @@
 
 double const InterpolatingAI::RAD_TO_DEG = 180.0f / 3.14;
 double const InterpolatingAI::DEG_TO_RAD = 3.14 / 180.0f;
-InterpolatingAI::InterpolatingAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs) :
+InterpolatingAI::InterpolatingAI(std::vector<GameNode*> path, std::vector<Obstacle*>  obs) :
 	m_position(0, 0),
 	m_velocity(0, 0),
 	size(100),
@@ -18,7 +18,7 @@ InterpolatingAI::InterpolatingAI(std::vector<sf::CircleShape> & path, std::vecto
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
 	m_rect.setTexture(&m_texture);
 	m_rect.setSize(sf::Vector2f(25, 50));
-	m_position = sf::Vector2f(1800, 500);
+	m_position = sf::Vector2f(1800, 100);
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 
@@ -36,8 +36,9 @@ InterpolatingAI::InterpolatingAI(std::vector<sf::CircleShape> & path, std::vecto
 		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
 		m_lineVec.push_back(line);
 	}
-	m_rect.setFillColor(sf::Color::Yellow);
-
+	m_color = sf::Color::Cyan;
+	m_rect.setFillColor(m_color);
+	m_rect.rotate(90);
 }
 
 
@@ -45,16 +46,28 @@ InterpolatingAI::~InterpolatingAI()
 {
 }
 
+void InterpolatingAI::setPosition(sf::Vector2f position) {
+	m_position = position;
+	m_rect.setPosition(m_position);
+}
+
 void InterpolatingAI::update(double dt, sf::Vector2f position)
 {
-	m_clock2.restart();
-
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
 
-	updateLines(position);
+	if (*m_currentBehaviour == BehaviourState::ChaseNode) {
+
+		updateLines(getCurrentNodePosition());
+	}
+	else {
+
+		updateLines(position);
+	}
+	std::cout << getCurrentNodePosition().x << ", " << getCurrentNodePosition().y << std::endl;
 	updateDangers();
+	
 	m_distances = normalize(m_distances);
 	mapDecisions.update(m_distances, m_distancesDanger);
 	checkDirection();
@@ -66,22 +79,35 @@ void InterpolatingAI::update(double dt, sf::Vector2f position)
 	m_rect.setPosition(m_position);
 	m_surroundingCircle.setPosition(m_position);
 	
-	generatePath(dt);
+	if (m_state == GameState::Demo) {
+		generatePath(dt);
+	}
 	handleTimer();
 
 	m_tickCounter += 1;
-	m_time += m_clock2.getElapsedTime();
+	
+	if (m_tickCounter == 20)
+	{
+		
+	}
 
 }
 
 
 void InterpolatingAI::render(sf::RenderWindow & window)
 {
-	for (int i = 0; i < m_size; i++) {
-		m_lineVec[i].render(window);
+	if (m_state == GameState::Demo) {
+		for (int i = 0; i < m_pathLine.size(); i++)
+		{
+			m_pathLine[i]->render(window);
+		}
 	}
-
-	window.draw(m_surroundingCircle);
+	if (m_visuals) {
+		for (int i = 0; i < m_size; i++) {
+			m_lineVec[i].render(window);
+		}
+		window.draw(m_surroundingCircle);
+	}
 	window.draw(m_rect);
 	
 }
@@ -99,17 +125,15 @@ sf::Vector2f InterpolatingAI::getVel()
 
 void InterpolatingAI::updateLines(sf::Vector2f position)
 {
-	sf::Vector2f vecToNode;
-	vecToNode = getCurrentNodePosition();
-	
 	int count = 0;
-	
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
 		m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), position);
 		count++;
 	}
+	
 }
+
 
 void InterpolatingAI::updateDangers()
 {
@@ -131,11 +155,12 @@ void InterpolatingAI::updateDangers()
 	{
 		
 		m_distancesDanger[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), obs->getPosition());
-			//checkdistance
+		//checkdistance
 		count++;
 	}
 
 }
+
 
 double InterpolatingAI::findLargest(std::map<Direction, double> vec)
 {
@@ -244,6 +269,7 @@ bool InterpolatingAI::compareKeys(std::map<Direction, sf::Vector2f> vec) {
 	return false;
 }
 
+
 void InterpolatingAI::checkDirection()
 {
 	sf::Vector2f temporaryDir = curDirection;
@@ -305,21 +331,27 @@ void InterpolatingAI::initVector()
 
 sf::Vector2f InterpolatingAI::getCurrentNodePosition()
 {
-	
 	sf::Vector2f target;
 
-	target = m_nodes[currentNode].getPosition();
+	double smallest = DBL_MAX;
+	auto curIndex = 0;
 
-	if (Math::distance(m_position, target) <= 80)
+	for (int i = 0; i < m_nodes.size(); i++)
 	{
-		currentNode += 1;
-		if (currentNode >= m_nodes.size()) {
-			currentNode = 0;
+		if (m_nodes[i]->getAlive()) {
+			auto dist = Math::distance(m_position, m_nodes[i]->getPosition());
+
+			if (dist < smallest) {
+				smallest = dist;
+				target = m_nodes[i]->getPosition();
+				curIndex = i;
+			}
 		}
 	}
-
+	m_nodeIndex = curIndex;
 	return target;
 }
+
 
 sf::Vector2f InterpolatingAI::normalize(sf::Vector2f vec)
 {
@@ -340,6 +372,7 @@ void InterpolatingAI::generatePath(double dt)
 	{
 		Path * circle = new Path(3);
 		circle->setPosition(m_position);
+		circle->setColor(m_color);
 		m_pathLine.push_back(circle);
 		m_timeAmount = 0;
 		if (m_lastPathCircle != nullptr)
@@ -349,26 +382,23 @@ void InterpolatingAI::generatePath(double dt)
 		}
 		m_lastPathCircle = circle;
 	}
-
-	//std::cout << "Length = " << m_totalPathLength << std::endl;
 }
 
 
 void InterpolatingAI::handleTimer()
 {
-	m_currentTime += m_clock.restart().asMilliseconds();
-
 	if (!m_startTimer)
 	{
-		m_currentTime -= m_currentTime;
+		m_clock.restart();
 		m_startTimer = true;
 	}
+	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
 }
 
 
 double InterpolatingAI::getAverageExecTime()
 {
-	m_averageExecTime = (double)m_time.asMicroseconds() / m_tickCounter;
+	m_averageExecTime = m_currentTime / m_tickCounter;
 	return m_averageExecTime;
 }
 
@@ -377,4 +407,12 @@ double InterpolatingAI::getTimeEfficiency()
 {
 	m_timeEfficiency = m_currentTime / m_tickCounter;
 	return m_timeEfficiency;
+}
+
+
+void InterpolatingAI::resetGame() {
+	for (int i = 0; i < m_nodes.size(); i++) {
+
+		m_nodes[i]->setAlive(true);
+	}
 }

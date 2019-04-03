@@ -1,0 +1,62 @@
+circles:
+   - type: circle
+     position: {x: 1500, y: 250}
+     radius: 50
+     id: 1
+   - type: circle
+     position: {x: 1150, y: 150}
+     radius: 50
+     id: 2
+   - type: circle
+     position: {x: 800, y: 150}
+     radius: 50
+     id: 3
+   - type: circle
+     position: {x: 600, y: 250}
+     radius: 50
+     id: 4
+   - type: circle
+     position: {x: 200, y: 600}
+     radius: 50
+     id: 5
+   - type: circle
+     position: {x: 450, y: 800}
+     radius: 50
+     id: 6
+   - type: circle
+     position: {x: 850, y: 700}
+     radius: 50
+     id: 7
+   - type: circle
+     position: {x: 1200, y: 750}
+     radius: 50
+     id: 8
+   - type: circle
+     position: {x: 1500, y: 800}
+     radius: 50
+     id: 9
+   - type: circle
+     position: {x: 800, y: 400}
+     radius: 50
+     id: 10
+   - type: circle
+     position: {x: 450, y: 400}
+     radius: 50
+     id: 11
+   - type: circle
+     position: {x: 1200, y: 450}
+     radius: 50
+     id: 12
+   - type: circle
+     position: {x: 1400, y: 600}
+     radius: 50
+     id: 13
+   - type: circle
+     position: {x: 550, y: 600}
+     radius: 50
+     id: 14
+
+
+paths:
+   - type: path
+     position: {x: 0, y: 0}

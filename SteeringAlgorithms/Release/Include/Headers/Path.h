@@ -13,6 +13,7 @@ public:
 	void setPosition(sf::Vector2f position);
 	void setOrigin(int originX, int originY);
 	void render(sf::RenderWindow & window);
+	void setColor(sf::Color color);
 private:
 	sf::CircleShape m_circle;
 	sf::Vector2f m_position;

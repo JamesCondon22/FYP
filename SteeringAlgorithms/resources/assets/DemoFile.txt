@@ -1,0 +1,5 @@
+ID = 6 Catmull Rom AI
+Path length = 8514.12
+Interception Time = 53053
+Average Execution Time = 6.39347
+

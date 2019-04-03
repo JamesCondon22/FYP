@@ -1,6 +1,4 @@
 #pragma once
-#ifndef EFFICIENCYAI
-#define EFFICIENCYAI
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string.h>
@@ -15,7 +13,7 @@ class EfficiencyAI : public Enemy
 {
 public:
 
-	EfficiencyAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs);
+	EfficiencyAI(std::vector<GameNode*> path, std::vector<Obstacle*>  obs);
 	~EfficiencyAI();
 	void update(double dt, sf::Vector2f position);
 	void render(sf::RenderWindow & window);
@@ -48,12 +46,23 @@ public:
 
 	void generatePath(double dt);
 	void handleTimer();
-
+	int getRadius() { return m_radius; }
 	double getPathLength() { return m_totalPathLength; }
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
 	double getTimeEfficiency();
-
+	void setState(GameState state) { m_state = state; }
+	std::string getName() { return "Efficiency AI"; }
+	void setBehaviourState(BehaviourState *state) { m_currentBehaviour = state; }
+	int getScore() { return m_score; }
+	void setScore(int score) { m_score = score; }
+	sf::Color getColor() { return m_color; }
+	void setVisuals(bool visuals) { m_visuals = visuals; }
+	bool getVisuals() { return m_visuals; }
+	void setPosition(sf::Vector2f pos);
+	int getNodeIndex() { return m_nodeIndex; }
+	bool getCollided() { return m_collided; }
+	void resetGame();
 private:
 	
 	sf::Vector2f m_position;
@@ -62,8 +71,6 @@ private:
 	sf::Vector2f m_heading;
 	sf::Vector2f UpRadial = sf::Vector2f(0, 0);
 	sf::Vector2f curDirection = sf::Vector2f(0, 0);
-
-
 	sf::Sprite m_sprite;
 	sf::Texture m_texture;
 	sf::CircleShape m_surroundingCircle;
@@ -81,11 +88,11 @@ private:
 
 	
 	std::vector<sf::Vector2f> m_distVecs;
-	std::vector<sf::CircleShape> m_nodes;
+	std::vector<GameNode*> m_nodes;
 	std::vector<DirectionalLine> m_lineVec;
 	std::vector<Obstacle*> m_obstacles;
 
-
+	int m_nodeIndex = 0;
 	int currentNode = 0;
 	int currentObs = 0;
 	int m_size = 16;
@@ -137,6 +144,11 @@ private:
 	double m_tickCounter;
 	double m_lastUpdate;
 	double m_timer;
-};
 
-#endif
+	GameState m_state;
+	sf::Color m_color;
+	BehaviourState* m_currentBehaviour;
+
+	bool m_visuals = true;
+	int m_score = 0;
+};

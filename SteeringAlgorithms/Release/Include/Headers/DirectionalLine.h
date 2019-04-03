@@ -28,7 +28,7 @@ public:
 	sf::Vector2f getAverage();
 	void setRadius(int rad);
 	void changeColor();
-	void rotateLine(sf::Vector2f position, sf::Vector2f interestPosition, float direction, sf::Vector2f current);
+	void rotateLine(sf::Vector2f position, sf::Vector2f interestPosition, float direction, float angle);
 	void calculateAverage(std::vector<int> indices);
 	sf::Vector2f getVec(double x0, double y0, double r, double noOfDividingPoints, sf::Vector2f current);
 	sf::Vector2f getVector(int ind);

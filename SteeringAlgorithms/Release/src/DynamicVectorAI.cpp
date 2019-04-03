@@ -2,7 +2,7 @@
 
 double const DynamicVectorAI::RAD_TO_DEG = 180.0f / 3.14;
 double const DynamicVectorAI::DEG_TO_RAD = 3.14 / 180.0f;
-DynamicVectorAI::DynamicVectorAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs) :
+DynamicVectorAI::DynamicVectorAI(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs) :
 	m_position(0, 0),
 	m_velocity(0, 0),
 	size(100),
@@ -18,7 +18,7 @@ DynamicVectorAI::DynamicVectorAI(std::vector<sf::CircleShape> & path, std::vecto
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
 	m_rect.setTexture(&m_texture);
 	m_rect.setSize(sf::Vector2f(25, 50));
-	m_position = sf::Vector2f(1800, 500);
+	m_position = sf::Vector2f(1800, 100);
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 
@@ -36,11 +36,9 @@ DynamicVectorAI::DynamicVectorAI(std::vector<sf::CircleShape> & path, std::vecto
 		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
 		m_lineVec.push_back(line);
 	}
-
-	m_rect.setFillColor(sf::Color::Magenta);
-	m_line->color = sf::Color::Black;
-	m_line[0].position = m_position;
-	m_line[1].position = sf::Vector2f(m_position.x, m_position.y + 100);
+	m_color = sf::Color::Magenta;
+	m_rect.setFillColor(m_color);
+	m_rect.rotate(90);
 }
 
 
@@ -50,21 +48,43 @@ DynamicVectorAI::~DynamicVectorAI()
 }
 
 
+void DynamicVectorAI::setPosition(sf::Vector2f position) {
+	m_position = position;
+	m_rect.setPosition(m_position);
+}
+
 void DynamicVectorAI::update(double dt, sf::Vector2f position)
 {
 	m_clock2.restart();
+	//std::cout << "DOT = " << current << std::endl;
+	auto angleOne = getAngleBetween(m_position, curDirection);
+	auto angleTwo = getAngleBetween(m_position, position);
+	float angleBetween;
+	if (angleTwo > angleOne) {
+		angleBetween = angleTwo - angleOne;
+	}
+	else {
+		angleBetween = angleOne - angleTwo;
+	}
+	//std::cout << "Angle Between = " << angleBetween << std::endl;
 
-	auto current = AngleDir(getCurrentNodePosition(), curDirection);
+	auto current = AngleDir(position, curDirection);
 
 	for (int i = 0; i < m_size; i++) {
 
-		m_lineVec[i].rotateLine(m_surroundingCircle.getPosition(), getCurrentNodePosition(), current, curDirection);
+		m_lineVec[i].rotateLine(m_surroundingCircle.getPosition(), position, current, angleBetween);
 	}
 
-	//std::cout << "DOT = " << current << std::endl;
-	//std::cout << "Angle Between = " << getAngleBetween(curDirection, getCurrentNodePosition()) << std::endl;
+	
 
-	updateLines(position);
+	if (*m_currentBehaviour == BehaviourState::ChaseNode) {
+
+		updateLines(getCurrentNodePosition());
+	}
+	else {
+
+		updateLines(position);
+	}
 	updateDangers();
 	m_distances = normalize(m_distances);
 	m_distancesDanger = normalizeDangers(m_distancesDanger);
@@ -79,7 +99,9 @@ void DynamicVectorAI::update(double dt, sf::Vector2f position)
 	m_rect.setPosition(m_position);
 	m_surroundingCircle.setPosition(m_position);
 
-	generatePath(dt);
+	if (m_state == GameState::Demo) {
+		generatePath(dt);
+	}
 	handleTimer();
 
 	m_tickCounter += 1;
@@ -103,22 +125,35 @@ float DynamicVectorAI::AngleDir(sf::Vector2f A, sf::Vector2f B)
 
 float DynamicVectorAI::getAngleBetween(sf::Vector2f posOne, sf::Vector2f posTwo)
 {
-
-	auto dist = Math::distance(m_surroundingCircle.getPosition(), getCurrentNodePosition());
-	auto ans = acos(40 / dist);
-	return ans;
+	sf::Vector2f vecOne = posTwo - posOne;
+	vecOne = Math::normalize(vecOne);
+	auto angle = thor::polarAngle(vecOne);
+	if (angle < 0)
+	{
+		return angle + 360;
+	}
+	else
+	{
+		return angle;
+	}
+	
 }
 
 
 void DynamicVectorAI::render(sf::RenderWindow & window)
 {
-	for (int i = 0; i < m_size; i++) {
-		m_lineVec[i].render(window);
+	for (int i = 0; i < m_pathLine.size(); i++)
+	{
+		m_pathLine[i]->render(window);
 	}
 
-	window.draw(m_surroundingCircle);
+	if (m_visuals) {
+		for (int i = 0; i < m_size; i++) {
+			m_lineVec[i].render(window);
+		}
+		window.draw(m_surroundingCircle);
+	}
 	window.draw(m_rect);
-	window.draw(m_line, 2, sf::Lines);
 }
 
 
@@ -136,9 +171,6 @@ sf::Vector2f DynamicVectorAI::getVel()
 
 void DynamicVectorAI::updateLines(sf::Vector2f position)
 {
-	sf::Vector2f vecToNode;
-	vecToNode = getCurrentNodePosition();
-	
 	int count = 0;
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
@@ -272,16 +304,13 @@ void DynamicVectorAI::checkDirection(double dt)
 
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
-		if (mapDecisions.getBlendedStrongest() == it->getState()) {
-			m_futurePos = it->getMap()[mapDecisions.getBlendedStrongest()];
+		if (mapDecisions.getStrongest() == it->getState()) {
+			m_futurePos = it->getMap()[mapDecisions.getStrongest()];
 			it->changeColor();
 		}
 	}
 
 	curDirection = Math::lerp(tempDirection, m_futurePos, 0.08);
-
-	m_line[0].position = m_surroundingCircle.getPosition();
-	m_line[1].position = rotatePoint(m_line[1].position.x, m_line[1].position.y, m_rotation, m_line[0].position);
 }
 
 
@@ -327,19 +356,24 @@ void DynamicVectorAI::initVector()
 
 sf::Vector2f DynamicVectorAI::getCurrentNodePosition()
 {
-	
 	sf::Vector2f target;
 
-	target = m_nodes[currentNode].getPosition();
+	double smallest = DBL_MAX;
+	auto curIndex = 0;
 
-	if (Math::distance(m_position, target) <= 80)
+	for (int i = 0; i < m_nodes.size(); i++)
 	{
-		currentNode += 1;
-		if (currentNode >= m_nodes.size()) {
-			currentNode = 0;
+		if (m_nodes[i]->getAlive()) {
+			auto dist = Math::distance(m_position, m_nodes[i]->getPosition());
+
+			if (dist < smallest) {
+				smallest = dist;
+				target = m_nodes[i]->getPosition();
+				curIndex = i;
+			}
 		}
 	}
-
+	m_nodeIndex = curIndex;
 	return target;
 }
 
@@ -357,13 +391,12 @@ sf::Vector2f DynamicVectorAI::normalize(sf::Vector2f vec)
 
 void DynamicVectorAI::handleTimer()
 {
-	m_currentTime += m_clock.restart().asMilliseconds();
-
 	if (!m_startTimer)
 	{
-		m_currentTime -= m_currentTime;
+		m_clock.restart();
 		m_startTimer = true;
 	}
+	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
 }
 
 
@@ -375,6 +408,7 @@ void DynamicVectorAI::generatePath(double dt)
 	{
 		Path * circle = new Path(3);
 		circle->setPosition(m_position);
+		circle->setColor(m_color);
 		m_pathLine.push_back(circle);
 		m_timeAmount = 0;
 		if (m_lastPathCircle != nullptr)
@@ -391,7 +425,7 @@ void DynamicVectorAI::generatePath(double dt)
 
 double DynamicVectorAI::getAverageExecTime()
 {
-	m_averageExecTime = (double)m_time.asMicroseconds() / m_tickCounter;
+	m_averageExecTime = m_currentTime / m_tickCounter;
 	return m_averageExecTime;
 }
 
@@ -403,21 +437,9 @@ double DynamicVectorAI::getTimeEfficiency()
 }
 
 
-sf::Vector2f DynamicVectorAI::rotatePoint(float cx, float cy, float angle, sf::Vector2f p)
-{
-	float s = sin(angle * DEG_TO_RAD);
-	float c = cos(angle * DEG_TO_RAD);
+void DynamicVectorAI::resetGame() {
+	for (int i = 0; i < m_nodes.size(); i++) {
 
-	// translate point back to origin:
-	p.x -= cx;
-	p.y -= cy;
-
-	// rotate point
-	float xnew = p.x * c - p.y * s;
-	float ynew = p.x * s + p.y * c;
-
-	// translate point back:
-	p.x = xnew + cx;
-	p.y = ynew + cy;
-	return p;
+		m_nodes[i]->setAlive(true);
+	}
 }

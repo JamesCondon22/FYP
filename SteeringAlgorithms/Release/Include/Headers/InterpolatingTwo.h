@@ -1,6 +1,4 @@
 #pragma once
-#ifndef INTERPOLATINGTWO_H
-#define INTERPOLATINGTWO_H
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string.h>
@@ -14,7 +12,7 @@
 class InterpolatingTwo : public Enemy
 {
 public:
-	InterpolatingTwo(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs);
+	InterpolatingTwo(std::vector<GameNode*> path, std::vector<Obstacle*>  obs);
 	~InterpolatingTwo();
 	void update(double dt, sf::Vector2f position);
 	void render(sf::RenderWindow & window);
@@ -41,7 +39,7 @@ public:
 	bool compareKeys(std::map<Direction, sf::Vector2f> vec);
 
 	int getId() { return m_id; }
-
+	int getRadius() { return m_radius; }
 	bool getActive() { return m_active; }
 	void setActive(bool active) { m_active = active; }
 	void setCollided(bool collide) { m_collided = collide; }
@@ -53,7 +51,18 @@ public:
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
 	double getTimeEfficiency();
-
+	void setState(GameState state) { m_state = state; }
+	std::string getName() { return "Blended Interpolation"; }
+	sf::Color getColor() { return m_color; }
+	int getScore() { return m_score; }
+	void setScore(int score) { m_score = score; }
+	void setBehaviourState(BehaviourState *state) { m_currentBehaviour = state; }
+	void setVisuals(bool visuals) { m_visuals = visuals; }
+	bool getVisuals() { return m_visuals; }
+	void setPosition(sf::Vector2f pos);
+	int getNodeIndex() { return m_nodeIndex; }
+	bool getCollided() { return m_collided; }
+	void resetGame();
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -82,7 +91,7 @@ private:
 	sf::Vector2f curDirection = sf::Vector2f(0, 0);
 	int m_radius = 30;
 
-	std::vector<sf::CircleShape> m_nodes;
+	std::vector<GameNode*> m_nodes;
 	int currentNode = 0;
 
 	std::vector<Obstacle*> m_obstacles;
@@ -101,6 +110,7 @@ private:
 
 	std::vector<Path*> m_pathLine;
 
+	int m_nodeIndex = 0;
 	double m_timeAmount = 0;
 	double m_totalPathLength = 0;
 
@@ -120,6 +130,9 @@ private:
 	double m_lastUpdate;
 	double m_timer;
 
+	GameState m_state;
+	sf::Color m_color;
+	BehaviourState* m_currentBehaviour;
+	bool m_visuals = true;
+	int m_score = 0;
 };
-
-#endif

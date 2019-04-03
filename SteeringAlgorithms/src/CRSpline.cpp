@@ -53,6 +53,7 @@ CRSplineAI::~CRSplineAI()
 {
 }
 
+
 void CRSplineAI::update(double dt, sf::Vector2f position)
 {
 	m_clock2.restart();
@@ -61,7 +62,18 @@ void CRSplineAI::update(double dt, sf::Vector2f position)
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
 	
-	updateLines(getPointPosition());
+	
+	if (checkDistance(position) < 200) {
+		m_inRange = true;
+	}
+
+	if (m_inRange) {
+		updateLines(position);
+	}
+	else {
+		updateLines(getPointPosition());
+	}
+	
 	updateDangers();
 	m_distances = normalize(m_distances);
 	mapDecisions.update(m_distances, m_distancesDanger);
@@ -87,7 +99,7 @@ void CRSplineAI::update(double dt, sf::Vector2f position)
 
 void CRSplineAI::updatePlotPoints(double dt, sf::Vector2f position)
 {
-	if (m_counter == 50)
+	if (m_counter == 25)
 	{
 		sf::CircleShape circle(5);
 		circle.setPosition(0, 0);
@@ -103,8 +115,9 @@ void CRSplineAI::updatePlotPoints(double dt, sf::Vector2f position)
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
-	
+
 	updateLines(position);
+	
 	updateDangers();
 	m_distances = normalize(m_distances);
 	mapDecisions.update(m_distances, m_distancesDanger);
@@ -135,7 +148,7 @@ sf::Vector2f CRSplineAI::getPointPosition()
 	target.x = m_curve->node(currentNode).x;
 	target.y = m_curve->node(currentNode).y;
 
-	if (Math::distance(m_position, target) <= 50)
+	if (Math::distance(m_position, target) <= 10)
 	{
 		currentNode += 1;
 	}
@@ -165,6 +178,12 @@ void CRSplineAI::render(sf::RenderWindow & window)
 
 	window.draw(m_rect);
 
+}
+
+
+double CRSplineAI::checkDistance(sf::Vector2f position) {
+
+	return Math::distance(m_position, position);
 }
 
 
@@ -388,7 +407,7 @@ sf::Vector2f CRSplineAI::getCurrentNodePosition()
 
 	for (int i = 0; i < m_nodes.size(); i++)
 	{
-		if (m_nodes[i]->getAlive()) {
+		if (!m_nodes[i]->getCompleted()) {
 			auto dist = Math::distance(m_position, m_nodes[i]->getPosition());
 
 			if (dist < smallest) {
@@ -400,6 +419,25 @@ sf::Vector2f CRSplineAI::getCurrentNodePosition()
 	}
 	m_nodeIndex = curIndex;
 	return target;
+}
+
+void CRSplineAI::findClosestNode() {
+
+	double smallest = DBL_MAX;
+	auto curIndex = 0;
+
+	for (int i = 0; i < m_nodes.size(); i++)
+	{
+		if (m_nodes[i]->getAlive()) {
+			auto dist = Math::distance(m_position, m_nodes[i]->getPosition());
+
+			if (dist < smallest) {
+				smallest = dist;
+				curIndex = i;
+			}
+		}
+	}
+	m_closestNode = curIndex; 
 }
 
 
@@ -466,6 +504,7 @@ double CRSplineAI::getTimeEfficiency()
 void CRSplineAI::resetGame() {
 	for (int i = 0; i < m_nodes.size(); i++) {
 
+		m_nodes[i]->setCompleted(false);
 		m_nodes[i]->setAlive(true);
 	}
 }

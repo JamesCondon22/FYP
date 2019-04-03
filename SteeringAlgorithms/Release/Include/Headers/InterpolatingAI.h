@@ -1,6 +1,4 @@
 #pragma once
-#ifndef INTERPOLATINGAI
-#define INTERPOLATINGAI
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string.h>
@@ -11,10 +9,11 @@
 #include "Enemy.h"
 #include "Path.h"
 
+
 class InterpolatingAI : public Enemy
 {
 public:
-	InterpolatingAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs);
+	InterpolatingAI(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs);
 	~InterpolatingAI();
 	void update(double dt, sf::Vector2f position);
 	void render(sf::RenderWindow & window);
@@ -48,11 +47,23 @@ public:
 
 	void generatePath(double dt);
 	void handleTimer();
-
+	void setState(GameState state) { m_state = state; }
 	double getPathLength() { return m_totalPathLength; }
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
 	double getTimeEfficiency();
+	int getRadius() { return m_radius; }
+	int getNodeIndex() { return m_nodeIndex; }
+	std::string getName() { return "Average Interpolation"; }
+	int getScore() { return m_score; }
+	void setScore(int score) { m_score = score; }
+	sf::Color getColor() { return m_color; }
+	void setBehaviourState(BehaviourState* state) { m_currentBehaviour = state; }
+	void setVisuals(bool visuals) { m_visuals = visuals; }
+	bool getVisuals() { return m_visuals; }
+	void setPosition(sf::Vector2f pos);
+	bool getCollided() { return m_collided; }
+	void resetGame();
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -80,7 +91,7 @@ private:
 	sf::Vector2f curDirection = sf::Vector2f(0, 0);
 	int m_radius = 30;
 
-	std::vector<sf::CircleShape> m_nodes;
+	std::vector<GameNode*> m_nodes;
 	int currentNode = 0;
 
 	std::vector<Obstacle*> m_obstacles;
@@ -107,12 +118,19 @@ private:
 	sf::Time m_time;
 
 	bool m_startTimer = false;
-
+	bool m_InGame = false;
 	double m_timeEfficiency;
 	double m_averageExecTime;
 	double m_tickCounter;
 	double m_lastUpdate;
 	double m_timer;
-};
 
-#endif
+	sf::Color m_color;
+
+	GameState m_state;
+	int m_nodeIndex = 0;
+	int m_score = 0;
+
+	BehaviourState* m_currentBehaviour;
+	bool m_visuals = true;
+};

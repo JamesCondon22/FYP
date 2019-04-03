@@ -59,8 +59,6 @@ circles:
 
 paths:
    - type: path
-     position: {x: 1600, y: 400}
-   - type: path
      position: {x: 1400, y: 100}
    - type: path
      position: {x: 900, y: 200}
@@ -78,3 +76,5 @@ paths:
      position: {x: 1300, y: 900}
    - type: path
      position: {x: 1600, y: 700}
+   - type: path
+     position: {x: 1600, y: 400}

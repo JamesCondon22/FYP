@@ -2,7 +2,7 @@
 
 double const EfficiencyAI::RAD_TO_DEG = 180.0f / 3.14;
 double const EfficiencyAI::DEG_TO_RAD = 3.14 / 180.0f;
-EfficiencyAI::EfficiencyAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs) :
+EfficiencyAI::EfficiencyAI(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs) :
 	m_position(0, 0),
 	m_velocity(0, 0),
 	size(100),
@@ -18,7 +18,7 @@ EfficiencyAI::EfficiencyAI(std::vector<sf::CircleShape> & path, std::vector<Obst
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
 	m_rect.setTexture(&m_texture);
 	m_rect.setSize(sf::Vector2f(25, 50));
-	m_position = sf::Vector2f(1800, 500);
+	m_position = sf::Vector2f(1800, 100);
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 
@@ -36,13 +36,20 @@ EfficiencyAI::EfficiencyAI(std::vector<sf::CircleShape> & path, std::vector<Obst
 		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
 		m_lineVec.push_back(line);
 	}
-
-	m_rect.setFillColor(sf::Color::Green);
+	m_color = sf::Color::Green;
+	m_rect.setFillColor(m_color);
+	m_rect.rotate(90);
 }
 
 
 EfficiencyAI::~EfficiencyAI()
 {
+}
+
+
+void EfficiencyAI::setPosition(sf::Vector2f position) {
+	m_position = position;
+	m_rect.setPosition(m_position);
 }
 
 
@@ -55,14 +62,21 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
 
-	updateLines(position);
+	if (*m_currentBehaviour == BehaviourState::ChaseNode) {
+
+		updateLines(getCurrentNodePosition());
+	}
+	else {
+
+		updateLines(position);
+	}
 	updateDangers();
 	m_distances = normalize(m_distances);
 	m_distancesDanger = normalizeDangers(m_distancesDanger);
 
-	if (!m_begin || m_timeSinceLast > 500)
+	if (!m_begin || m_timeSinceLast > 200)
 	{
-		mapDecisions.update(m_distances, m_distancesDanger);
+	mapDecisions.update(m_distances, m_distancesDanger);
 		m_timeSinceLast = 0;
 	}
 	
@@ -77,7 +91,10 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 	m_rect.setPosition(m_position);
 
 	m_surroundingCircle.setPosition(m_position);
-	generatePath(dt);
+
+	if (m_state == GameState::Demo) {
+		generatePath(dt);
+	}
 	handleTimer();
 
 	m_tickCounter += 1;
@@ -89,11 +106,17 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 
 void EfficiencyAI::render(sf::RenderWindow & window)
 {
-	for (int i = 0; i < m_size; i++) {
-		m_lineVec[i].render(window);
+	for (int i = 0; i < m_pathLine.size(); i++)
+	{
+		m_pathLine[i]->render(window);
 	}
 
-	window.draw(m_surroundingCircle);
+	if (m_visuals) {
+		for (int i = 0; i < m_size; i++) {
+			m_lineVec[i].render(window);
+		}
+		window.draw(m_surroundingCircle);
+	}
 	window.draw(m_rect);
 	
 }
@@ -113,9 +136,7 @@ sf::Vector2f EfficiencyAI::getVel()
 
 void EfficiencyAI::updateLines(sf::Vector2f position)
 {
-	sf::Vector2f vecToNode;
-	vecToNode = getCurrentNodePosition();
-	
+
 	int count = 0;
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
@@ -257,22 +278,13 @@ float EfficiencyAI::length(sf::Vector2f vel) {
 
 void EfficiencyAI::checkDirection(double dt)
 {
-
-	sf::Vector2f temporaryDir = curDirection;
-
-	auto current = mapDecisions.getAverage();
-	auto average = sf::Vector2f(0, 0);
-
-	for (int i = 0; i < current.size(); i++)
+	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
-		average += m_lineVec[current[i]].getPosition();
+		if (mapDecisions.getStrongest() == it->getState()) {
+			curDirection = it->getMap()[mapDecisions.getStrongest()];
+			it->changeColor();
+		}
 	}
-
-	average.x = average.x / current.size();
-	average.y = average.y / current.size();
-
-	curDirection = Math::lerp(temporaryDir, average, 0.05);
-
 }
 
 
@@ -318,19 +330,24 @@ void EfficiencyAI::initVector()
 
 sf::Vector2f EfficiencyAI::getCurrentNodePosition()
 {
-	
 	sf::Vector2f target;
 
-	target = m_nodes[currentNode].getPosition();
+	double smallest = DBL_MAX;
+	auto curIndex = 0;
 
-	if (Math::distance(m_position, target) <= 80)
+	for (int i = 0; i < m_nodes.size(); i++)
 	{
-		currentNode += 1;
-		if (currentNode >= m_nodes.size()) {
-			currentNode = 0;
+		if (m_nodes[i]->getAlive()) {
+			auto dist = Math::distance(m_position, m_nodes[i]->getPosition());
+
+			if (dist < smallest) {
+				smallest = dist;
+				target = m_nodes[i]->getPosition();
+				curIndex = i;
+			}
 		}
 	}
-
+	m_nodeIndex = curIndex;
 	return target;
 }
 
@@ -355,6 +372,7 @@ void EfficiencyAI::generatePath(double dt)
 	{
 		Path * circle = new Path(3);
 		circle->setPosition(m_position);
+		circle->setColor(m_color);
 		m_pathLine.push_back(circle);
 		m_timeAmount = 0;
 		if (m_lastPathCircle != nullptr)
@@ -371,19 +389,18 @@ void EfficiencyAI::generatePath(double dt)
 
 void EfficiencyAI::handleTimer()
 {
-	m_currentTime += m_clock.restart().asMilliseconds();
-
 	if (!m_startTimer)
 	{
-		m_currentTime -= m_currentTime;
+		m_clock.restart();
 		m_startTimer = true;
 	}
+	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
 }
 
 
 double EfficiencyAI::getAverageExecTime()
 {
-	m_averageExecTime = (double)m_time.asMicroseconds() / m_tickCounter;
+	m_averageExecTime = m_currentTime / m_tickCounter;
 	return m_averageExecTime;
 }
 
@@ -392,4 +409,12 @@ double EfficiencyAI::getTimeEfficiency()
 {
 	m_timeEfficiency = m_currentTime / m_tickCounter;
 	return m_timeEfficiency;
+}
+
+
+void EfficiencyAI::resetGame() {
+	for (int i = 0; i < m_nodes.size(); i++) {
+
+		m_nodes[i]->setAlive(true);
+	}
 }

@@ -1,17 +1,17 @@
 #include "../Include/Headers/TestBot.h"
 
 
-TestBot::TestBot(std::vector<sf::CircleShape> & path, std::vector<Obstacle*> obs) :
+TestBot::TestBot(std::vector<GameNode*> path, std::vector<Obstacle*> obs) :
 	m_steering(0, 0),
 	m_position(0, 0),
 	m_rotation(0),
-	m_speed(10),
+	m_speed(1.5),
 	m_velocity(1, 1),
 	m_nodes(path),
 	m_obstacles(obs)
 {
 	//m_direction
-	if (!m_texture.loadFromFile("resources/assets/enemy.png")) {
+	if (!m_texture.loadFromFile("resources/assets/triangleOne.png")) {
 		std::cout << "font not loaded" << std::endl;
 	}
 
@@ -31,11 +31,11 @@ TestBot::TestBot(std::vector<sf::CircleShape> & path, std::vector<Obstacle*> obs
 	for (int i = 0; i < lines.size(); i++) {
 		lines[i].setOrigin(m_position.x - 25, m_position.y + 1);
 	}
-	m_position = sf::Vector2f(1800, 500);
+	m_position = sf::Vector2f(1600, 100);
 
 	m_rect.setPosition(m_position);
 
-	m_rect.setFillColor(sf::Color(220, 53, 44));
+	m_rect.setFillColor(sf::Color(244, 122, 66));
 	m_rect.setOutlineColor(sf::Color::Black);
 
 	srand(time(NULL));
@@ -133,6 +133,8 @@ void TestBot::update(double dt)
 	}
 
 	m_position += m_velocity;
+	m_position = sf::Vector2f(m_position.x + std::cos(DEG_TO_RAD  * (m_rotation)) * m_speed * (dt / 1000),
+		m_position.y + std::sin(DEG_TO_RAD * (m_rotation)) * m_speed* (dt / 1000));
 	m_rect.setPosition(m_position);
 	m_rect.setRotation(m_rotation);
 	m_surroundingCircle.setPosition(m_position);
@@ -205,7 +207,7 @@ sf::Vector2f TestBot::getCurrentNodePosition()
 
 	sf::Vector2f target;
 
-	target = m_nodes[currentNode].getPosition();
+	target = m_nodes[currentNode]->getPosition();
 
 	if (Math::distance(m_position, target) <= 150)
 	{
@@ -221,13 +223,21 @@ sf::Vector2f TestBot::getCurrentNodePosition()
 
 void TestBot::render(sf::RenderWindow & window)
 {
-	window.draw(m_surroundingCircle);
-
-	for (int i = 0; i < lines.size(); i++)
-	{
-		window.draw(lines[i]);
+	if (m_visuals) {
+		window.draw(m_surroundingCircle);
+		for (int i = 0; i < lines.size(); i++)
+		{
+			window.draw(lines[i]);
+		}
 	}
-
 	window.draw(m_rect);
 
+}
+
+
+void TestBot::reset()
+{
+	m_position = sf::Vector2f(1600, 100);
+	currentNode = 0;
+	m_rotation = 180;
 }

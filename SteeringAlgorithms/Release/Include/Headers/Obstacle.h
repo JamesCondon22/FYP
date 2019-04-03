@@ -6,7 +6,7 @@
 class Obstacle 
 {
 public:
-	Obstacle(int size, sf::Texture &texture);
+	Obstacle(int size, sf::Texture &texture, sf::Vector2f vec, bool isCirc);
 	Obstacle(int size);
 	~Obstacle();
 
@@ -19,12 +19,14 @@ public:
 	void setOrigin(int originX, int originY);
 	void update();
 	void render(sf::RenderWindow & window);
+	void setColor(sf::Color color);
 
 private:
 	sf::CircleShape m_circle;
 	sf::Texture m_texture;
 	sf::Vector2f m_position;
+	sf::RectangleShape m_rect;
 	int m_id;
-
+	bool m_isCircle;
 };
 

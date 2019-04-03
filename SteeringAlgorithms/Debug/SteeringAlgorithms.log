@@ -1,25 +1,16 @@
-﻿  GameScreen.cpp
-c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\traditional.h(53): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(156): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(157): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(165): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(170): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(189): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(193): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(207): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(212): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(229): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(310): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(396): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(431): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(464): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(505): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(513): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(521): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(524): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(535): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(547): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(553): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(587): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(624): warning C4018: '<': signed/unsigned mismatch
+﻿  CRSpline.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(89): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(88): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(133): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(132): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(152): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(153): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(167): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(290): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(306): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(327): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(412): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(433): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\crspline.cpp(509): warning C4018: '<': signed/unsigned mismatch
   SteeringAlgorithms.vcxproj -> C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\SteeringAlgorithms.exe

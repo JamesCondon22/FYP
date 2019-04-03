@@ -28,11 +28,13 @@ public:
 	void update(double dt, int active, std::string lastBtnPress);
 	void render(sf::RenderWindow& window);
 	void checkCollision(TestBot * bot, Enemy * enemy, std::string lastbtnPress);
+	void checkSplineCollision(TestBot * bot, CRSplineAI * enemy, std::string lastbtnPress);
 	void handleKeys();
 	void checkRun(Enemy * enemy, int id);
 	void checkRunAll(Enemy * enemy);
 	void checkCompare(Enemy * enemy);
 	void initAI();
+
 private:
 	sf::Window m_window;
 	TestBot * m_testBot;
@@ -60,7 +62,7 @@ private:
 	int m_id = 1;
 	double m_cumulativeTime;
 	double MAX_TIME = 3000.0;
-
+	double GHOST_TIME = 2000.0;
 	std::ofstream m_file;
 	bool m_runningUpdate = false;
 	bool m_runRender = false;

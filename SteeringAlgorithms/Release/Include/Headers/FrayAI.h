@@ -1,6 +1,4 @@
 #pragma once
-#ifndef FRAYAI
-#define FRAYAI
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string.h>
@@ -14,7 +12,7 @@
 class FrayAI : public Enemy
 {
 public:
-	FrayAI(std::vector<sf::CircleShape> & path, std::vector<Obstacle*>  obs);
+	FrayAI(std::vector<GameNode*> path, std::vector<Obstacle*>  obs);
 	~FrayAI();
 	void update(double dt, sf::Vector2f position);
 	void render(sf::RenderWindow & window);
@@ -53,7 +51,19 @@ public:
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
 	double getTimeEfficiency();
-
+	int getRadius() { return m_radius; }
+	void setState(GameState state) { m_state = state; }
+	std::string getName() { return "Basic Context Maps"; }
+	int getScore() { return m_score; }
+	void setScore(int score) { m_score = score; }
+	void setBehaviourState(BehaviourState *state) { m_currentBehaviour = state; }
+	sf::Color getColor() { return m_color; }
+	void setVisuals(bool visuals) { m_visuals = visuals; }
+	bool getVisuals() { return m_visuals; }
+	void setPosition(sf::Vector2f pos); 
+	int getNodeIndex() { return m_nodeIndex; }
+	bool getCollided() { return m_collided; }
+	void resetGame();
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -80,11 +90,12 @@ private:
 	sf::Vector2f curDirection = sf::Vector2f(0, 0);
 	int m_radius = 30;
 
-	std::vector<sf::CircleShape> m_nodes;
+	std::vector<GameNode*> m_nodes;
 	int currentNode = 0;
 
 	std::vector<Obstacle*> m_obstacles;
 	int currentObs = 0;
+	int m_nodeIndex = 0;
 
 	int m_size = 16;
 	std::vector<DirectionalLine> m_lineVec;
@@ -114,6 +125,12 @@ private:
 	double m_tickCounter;
 	double m_lastUpdate;
 	double m_timer;
-};
 
-#endif
+	sf::Color m_color;
+
+	GameState m_state;
+	BehaviourState* m_currentBehaviour;
+
+	bool m_visuals = true;
+	int m_score = 0;
+};

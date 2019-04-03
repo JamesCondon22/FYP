@@ -32,15 +32,6 @@
 /// <returns></returns>
 int main(int, char* argv[])
 {
-
-	sf::Vector2f currVec = sf::Vector2f(-1, -0.01);
-	currVec = Math::normalize(currVec);
-
-	sf::Vector2f desiredVec = sf::Vector2f(50, 50);
-	desiredVec = Math::normalize(desiredVec);
-
-	double currAngle = thor::polarAngle(currVec);
-	double desiredAngle = thor::polarAngle(desiredVec);
 	Game game;
 	game.run();
 }

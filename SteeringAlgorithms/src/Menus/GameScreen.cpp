@@ -72,6 +72,10 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	if (m_time <= 0) {
 		m_startGame = true;
 	}
+	/*if (m_time <= 2) {
+		m_ghostAI->updatePlotPoints(dt, m_player->getPos());
+		checkSplineNodeCollision(m_ghostAI);
+	}*/
 
 	m_timeLabel->setText(std::to_string(m_time));
 
@@ -161,6 +165,9 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	if (m_startGame) {
 
 		m_player->update(dt);
+		//m_splineAI->setCurve(m_ghostAI->getCurve());
+		//m_splineAI->update(dt, m_player->getPos());
+		//checkSplineNodeCollision(m_splineAI);
 
 		for (int i = 0; i < m_enemies.size(); i++) {
 			m_enemies[i]->update(dt, m_player->getPos());
@@ -216,7 +223,7 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	}
 	
 	checkGameOver();
-	
+	handleKeys();
 }
 
 /// <summary>
@@ -371,10 +378,23 @@ void GameScreen::loadLevel(std::string level)
 void GameScreen::initAI() {
 
 	m_player = new Player(m_obstacles);
-	m_player->setPosition(initPosition());
+	//m_splineAI = new CRSplineAI(m_nodes, m_obstacles);
+	//m_ghostAI = new CRSplineAI(m_nodes, m_obstacles);
+
+	//m_splineAI->setTag("AI");
+	//m_ghostAI->setTag("GHOST");
+
+	//m_player->setPosition(initPosition());
+	//m_ghostAI->setPosition(initPosition());
+	//m_splineAI->setPosition(m_ghostAI->getPos());
+	//m_ghostAI->setRadius(10);
 	m_player->setVisuals(false);
+
 	initUIText(m_player->getScore(), m_player->getColor());
+	//initUIText(m_splineAI->getScore(), m_splineAI->getColor());
+
 	m_scores.push_back(std::make_pair(m_player->getName(), m_player->getScore()));
+	//m_scores.push_back(std::make_pair(m_splineAI->getName(), m_splineAI->getScore()));
 
 	Enemy* m_interAi = new InterpolatingAI(m_nodes, m_obstacles);
 	Enemy* m_interAiTwo = new InterpolatingTwo(m_nodes, m_obstacles);
@@ -394,12 +414,16 @@ void GameScreen::initAI() {
 	*m_aiStates = BehaviourState::ChaseNode;
 
 	for (int i = 0; i < m_enemies.size(); i++) {
+
 		m_enemies[i]->setPosition(initPosition());
 		m_enemies[i]->setBehaviourState(m_aiStates);
 		m_scores.push_back(std::make_pair(m_enemies[i]->getName(), m_enemies[i]->getScore()));
 		initUIText(m_enemies[i]->getScore(), m_enemies[i]->getColor());
 		m_enemies[i]->setVisuals(false);
 	}	
+
+	//m_ghostAI->setBehaviourState(m_aiStates);
+	//m_splineAI->setBehaviourState(m_aiStates);
 }
 
 /// <summary>
@@ -444,6 +468,39 @@ void GameScreen::checkPlayerNodeCollision(sf::Vector2f pos, int rad)
 
 }
 
+
+void GameScreen::checkSplineNodeCollision(CRSplineAI * enemy) {
+	
+	if (enemy->getTag() == "AI") {
+		if (Math::circleCollision(m_nodes[enemy->getClosestNode()]->getPosition(), enemy->getPos(), m_nodes[enemy->getClosestNode()]->getRadius(), enemy->getRadius()))
+		{
+			if (m_nodes[enemy->getClosestNode()]->getAlive()) {
+
+				m_nodes[enemy->getClosestNode()]->setAlive(false);
+				auto score = enemy->getScore();
+				score = score + 10;
+				enemy->setScore(score);
+			}
+		}
+	}
+	else {
+
+		if (Math::circleCollision(m_nodes[enemy->getNodeIndex()]->getPosition(), enemy->getPos(), m_nodes[enemy->getNodeIndex()]->getRadius(), enemy->getRadius()))
+		{
+
+			if (m_nodes[enemy->getNodeIndex()]->getAlive() && !m_nodes[enemy->getNodeIndex()]->getCompleted()) {
+
+				m_nodes[enemy->getNodeIndex()]->setCompleted(true);
+			}
+		}
+	}
+	
+		
+
+			
+		
+}
+
 /// <summary>
 /// 
 /// </summary>
@@ -467,6 +524,9 @@ void GameScreen::updateEnemyLabel(Label* label) {
 			label->setText("Score: " + std::to_string(m_enemies[i]->getScore()));
 		}
 	}
+	/*if (label->getColor() == m_splineAI->getColor()) {
+		label->setText("Score: " + std::to_string(m_splineAI->getScore()));
+	}*/
 }
 
 
@@ -489,34 +549,58 @@ void GameScreen::checkGameOver() {
 	}
 }
 
+
+/// <summary>
+/// resets the player and the AI characters
+/// Resets the AI back to their Node chasing state
+/// resets all the scores for all the characters
+/// resets the key, spawn positions and timer
+/// </summary>
 void GameScreen::resetGame() {
 	
 	m_spawnPositions = m_savedPositions;
+
 	m_gameOver = false;
 	m_startGame = false;
 	m_spawnKey = false;
 	beginTimer = false;
+
 	m_key->setActivated(false);
+	m_key->setCollision(false);
+
 	m_key->setPosition(getRandomPosition());
 	m_player->setPosition(initPosition());
+	//m_ghostAI->setPosition(initPosition());
+	//m_splineAI->setPosition(m_ghostAI->getPos());
+
 	m_player->setScore(0);
+
 	m_time = 3;
 
 	for (int i = 0; i < m_nodes.size(); i++) {
 		m_nodes[i]->setAlive(true);
 	}
 
-
 	m_aiStates = new BehaviourState;
 	*m_aiStates = BehaviourState::ChaseNode;
 
 	for (int i = 0; i < m_enemies.size(); i++) {
+
 		m_enemies[i]->setPosition(initPosition());
 		m_enemies[i]->setBehaviourState(m_aiStates);
 		m_enemies[i]->setVisuals(false);
 		m_enemies[i]->resetGame();
 		m_enemies[i]->setScore(0);
 	}
+
+	//m_splineAI->setBehaviourState(m_aiStates);
+	//m_splineAI->setVisuals(false);
+	//m_splineAI->resetGame();
+	//m_splineAI->setScore(0);
+
+	//m_ghostAI->setBehaviourState(m_aiStates);
+	//m_ghostAI->resetGame();
+	//m_ghostAI->setVisuals(false);
 
 	for (int i = 0; i < m_scores.size(); i++) {
 		m_scores[i].second = 0;
@@ -606,6 +690,9 @@ void GameScreen::render(sf::RenderWindow & window)
 	for (auto &enemy : m_enemies) {
 		enemy->render(window);
 	}
+
+	//m_splineAI->render(window);
+	//m_ghostAI->render(window);
 
 	if (m_key->getActive()) {
 		m_key->render(window);

@@ -51,4 +51,15 @@ namespace Math
 		}
 		return false;
 	}
+
+	float distance(sf::Vector2f & v1, sf::Vector2f & v2)
+	{
+		auto dist = sqrt((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y)*(v1.y - v2.y));
+		return dist;
+	}
+
+	float mag(sf::Vector2f & v)
+	{
+		return std::sqrt((v.x * v.x) + (v.y * v.y));
+	}
 }

@@ -112,35 +112,29 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 		m_cumulativeTime = m_clock.getElapsedTime().asMilliseconds();
 
 		if (lastBtnPress == "RUN") {
-			if (m_splineAI->getId() == id) {
-				m_ghostAI->updatePlotPoints(dt, m_testBot->getPosition());
-			}
 
 			if (m_splineAI->getId() == id && !m_splineAI->getActive())
 			{
+				m_ghostAI->setActive(true);
 				m_splineAI->setActive(true);
 				m_aitypeLabel->setText(m_splineAI->getName());
 				m_aitypeLabel->setColor(m_splineAI->getColor());
 			}
 		}
-		else if (lastBtnPress == "RUNALL") {
-			
-			if (m_splineAI->getId() == m_id) {
-				m_ghostAI->updatePlotPoints(dt, m_testBot->getPosition());
-			}
+		else if (lastBtnPress == "RUN ALL") {
 
 			if (m_splineAI->getId() == m_id && !m_splineAI->getActive())
 			{
+				m_ghostAI->setActive(true);
 				m_splineAI->setActive(true);
 				m_aitypeLabel->setText(m_splineAI->getName());
 				m_aitypeLabel->setColor(m_splineAI->getColor());
 			}
 		}
 		else if (lastBtnPress == "COMPARE") {
-			
-			m_ghostAI->updatePlotPoints(dt, m_testBot->getPosition());
 
-			if (!m_splineAI->getActive()) {
+			if (!m_splineAI->getActive() && !m_splineAI->getCollided()) {
+				m_ghostAI->setActive(true);
 				m_splineAI->setActive(true);
 			}
 		}
@@ -175,6 +169,13 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 		
 				m_splineAI->setCurve(m_ghostAI->getCurve());
 				m_splineAI->update(dt, m_testBot->getPosition());
+				checkSplineCollision(m_testBot, m_splineAI, lastBtnPress);
+			}
+		}
+		if (m_cumulativeTime > 2000.0) {
+
+			if (m_splineAI->getActive()) {
+				m_ghostAI->updatePlotPoints(dt, m_testBot->getPosition());
 			}
 		}
 	}
@@ -213,6 +214,41 @@ void DemoScreen::render(sf::RenderWindow & window)
 
 	m_aitypeLabel->render(window);
 	m_testBot->render(window);
+}
+
+
+void DemoScreen::checkSplineCollision(TestBot * bot, CRSplineAI * enemy, std::string lastBtnPress) {
+
+	sf::Vector2f v1 = bot->getPosition();
+	sf::Vector2f v2 = enemy->getPos();
+	int rad = bot->getRadius();
+
+	if (Math::circleCollision(v1, v2, rad, rad))
+	{
+		enemy->setCollided(true);
+		m_file << "ID = " << enemy->getId() << " " << enemy->getName() << std::endl;
+		m_file << "Path length = " << enemy->getPathLength() << std::endl;
+		m_file << "Interception Time = " << enemy->getInterceptionTime() << std::endl;
+		m_file << "Average Execution Time = " << enemy->getAverageExecTime() << std::endl;
+		m_file << "\n";
+
+		if (lastBtnPress == "RUN")
+		{
+			m_file.close();
+			*m_currentState = GameState::Options;
+		}
+		else if (lastBtnPress == "RUN ALL")
+		{
+			m_id++;
+			enemy->setActive(false);
+			bot->reset();
+			m_clock.restart();
+		}
+		else if (lastBtnPress == "COMPARE")
+		{
+			enemy->setActive(false);
+		}
+	}
 }
 
 
@@ -280,6 +316,8 @@ void DemoScreen::initAI()
 	aiFour->setBehaviourState(m_aiStates);
 	aiFive->setBehaviourState(m_aiStates);
 	aiSix->setBehaviourState(m_aiStates);
+	m_splineAI->setBehaviourState(m_aiStates);
+	m_ghostAI->setBehaviourState(m_aiStates);
 
 	m_enemies.push_back(aiOne);
 	m_enemies.push_back(aiTwo);

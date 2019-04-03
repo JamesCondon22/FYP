@@ -5,7 +5,7 @@ TestBot::TestBot(std::vector<GameNode*> path, std::vector<Obstacle*> obs) :
 	m_steering(0, 0),
 	m_position(0, 0),
 	m_rotation(0),
-	m_speed(1.5),
+	m_speed(1.4),
 	m_velocity(1, 1),
 	m_nodes(path),
 	m_obstacles(obs)

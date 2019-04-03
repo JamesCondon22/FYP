@@ -65,9 +65,9 @@ sf::Vector2f DirectionalLine::getVec(double x0, double y0, double r, double noOf
 }
 
 
-void DirectionalLine::rotateLine(sf::Vector2f position, sf::Vector2f interestPosition, float direction, sf::Vector2f current)
+void DirectionalLine::rotateLine(sf::Vector2f position, sf::Vector2f interestPosition, float direction, float angleBtwn)
 {
-	/*if (direction < 0)
+	if (direction < 0)
 	{
 		RotateDirection = "LEFT";
 	}
@@ -88,20 +88,17 @@ void DirectionalLine::rotateLine(sf::Vector2f position, sf::Vector2f interestPos
 
 	if (RotateDirection == "LEFT")
 	{
+		if (angleBtwn > 2)
 		angle += 0.5;
 	}
 	else
 	{
+		if (angleBtwn > 2)
 		angle -= 0.5;
-	}*/
+	}
 
-	//std::cout << getAngleBetween(interestPosition, current) << std::endl;
 	
 
-	if (current == vec)
-	{
-		std::cout << "ID " << m_count << std::endl;
-	}
 	m_mostDesired[0] = position;
 	m_mostDesired[1] = interestPosition;
 
@@ -111,7 +108,7 @@ void DirectionalLine::rotateLine(sf::Vector2f position, sf::Vector2f interestPos
 
 	auto rotatevec = vec - position;
 
-	//thor::rotate(rotatevec, angle);
+	thor::rotate(rotatevec, angle);
 
 	vec = rotatevec + position;
 

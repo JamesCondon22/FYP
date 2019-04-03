@@ -26,7 +26,6 @@ struct PathData
 struct LevelData
 {
 	std::vector<PathData> m_paths;
-
 	std::vector<ObstacleData> m_obstacles;
 	PathData send(PathData data);
 	sf::Vector2f current;
@@ -37,6 +36,10 @@ class LevelLoader
 public:
 
 	LevelLoader();
-
+	void setState(bool demo);
 	static bool load(int nr, LevelData& level);
+
+
+private:
+	bool isDemo;
 };
