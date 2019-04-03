@@ -76,6 +76,7 @@ private:
 	BehaviourState * m_aiStates;
 
 	bool m_altPressed = false;
+	int m_counter = 0;
 
 };
 #endif // !

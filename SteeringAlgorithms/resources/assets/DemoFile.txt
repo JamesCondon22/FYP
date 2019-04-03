@@ -1,5 +1,34 @@
-ID = 6 Catmull Rom AI
-Path length = 8514.12
-Interception Time = 53053
-Average Execution Time = 6.39347
+ID = 7 Traditional
+Path length = 1845.13
+Interception Time = 11366
+Average Execution Time = 6.40338
 
+ID = 5 Dynamic Vector
+Path length = 2172.89
+Interception Time = 13533
+Average Execution Time = 6.40464
+
+ID = 1 Basic Context Maps
+Path length = 2836.26
+Interception Time = 17632
+Average Execution Time = 6.40465
+
+ID = 2 Average Interpolation
+Path length = 3145.92
+Interception Time = 19553
+Average Execution Time = 6.40242
+
+ID = 3 Blended Interpolation
+Path length = 3165.67
+Interception Time = 19599
+Average Execution Time = 6.40281
+
+ID = 4 Efficiency AI
+Path length = 3213.63
+Interception Time = 19932
+Average Execution Time = 6.40283
+
+ID = 6 Catmull Rom AI
+Path length = 11885.6
+Interception Time = 74483
+Average Execution Time = 6.40714

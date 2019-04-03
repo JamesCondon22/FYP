@@ -246,7 +246,12 @@ void DemoScreen::checkSplineCollision(TestBot * bot, CRSplineAI * enemy, std::st
 		}
 		else if (lastBtnPress == "COMPARE")
 		{
+			m_counter += 1;
 			enemy->setActive(false);
+			if (m_counter >= 7) {
+				m_file.close();
+				*m_currentState = GameState::Options;
+			}
 		}
 	}
 }
@@ -287,7 +292,12 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 		}
 		else if (lastBtnPress == "COMPARE")
 		{
+			m_counter += 1;
 			enemy->setActive(false);
+			if (m_counter >= 7) {
+				m_file.close();
+				*m_currentState = GameState::Options;
+			}
 		}
 	}
 }
