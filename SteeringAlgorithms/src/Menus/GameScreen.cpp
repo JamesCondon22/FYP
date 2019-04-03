@@ -23,6 +23,8 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font) 
 	}
 	loadLevel("resources/levels/LevelOne.txt");
 
+	m_savedPositions = m_spawnPositions;
+
 	m_mapSprite.setTexture(m_mapTexture);
 	m_mapSprite.setPosition(0, 0);
 	m_key = new Key(m_keyTexture);
@@ -489,14 +491,17 @@ void GameScreen::checkGameOver() {
 
 void GameScreen::resetGame() {
 	
-	loadLevel("resources/levels/LevelOne.txt");
+	m_spawnPositions = m_savedPositions;
 	m_gameOver = false;
 	m_startGame = false;
 	m_spawnKey = false;
+	beginTimer = false;
 	m_key->setActivated(false);
 	m_key->setPosition(getRandomPosition());
-
+	m_player->setPosition(initPosition());
+	m_player->setScore(0);
 	m_time = 3;
+
 	for (int i = 0; i < m_nodes.size(); i++) {
 		m_nodes[i]->setAlive(true);
 	}
@@ -510,6 +515,14 @@ void GameScreen::resetGame() {
 		m_enemies[i]->setBehaviourState(m_aiStates);
 		m_enemies[i]->setVisuals(false);
 		m_enemies[i]->resetGame();
+		m_enemies[i]->setScore(0);
+	}
+
+	for (int i = 0; i < m_scores.size(); i++) {
+		m_scores[i].second = 0;
+	}
+	for (int i = 0; i < m_labels.size(); i++) {
+		m_labels[i]->setText("Score: " + std::to_string(0));
 	}
 	
 }

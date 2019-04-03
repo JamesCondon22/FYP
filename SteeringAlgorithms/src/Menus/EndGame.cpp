@@ -14,6 +14,7 @@ EndGame::EndGame(GameState * state, sf::Font & font) :
 void EndGame::update(double dt) {
 
 	if (!m_loaded) {
+		m_labels.clear();
 		m_file.open("resources/assets/scores.txt");
 	}
 
@@ -33,6 +34,8 @@ void EndGame::update(double dt) {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && m_pressed == false)
 	{
 		if (m_backButton->getString() == "MAIN MENU") {
+			m_loaded = false;
+			m_position = sf::Vector2f(100.0f, 100.0f);
 			*m_currentState = GameState::MainMenu;
 		}
 		m_pressed = true;

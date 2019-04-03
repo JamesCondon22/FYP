@@ -86,6 +86,7 @@ private:
 	Key* m_key;
 	std::vector<sf::Vector2f> m_keyPositions;
 	std::vector<sf::Vector2f> m_spawnPositions;
+	std::vector<sf::Vector2f> m_savedPositions;
 
 	sf::Vector2f m_scorePosition;
 	bool m_gameOver = false;
