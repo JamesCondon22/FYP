@@ -28,8 +28,9 @@ protected:
 	sf::RenderWindow m_window;
 	
 	sf::Texture m_textureEnemy;
+	sf::Texture m_buttonTexture;
 	sf::Font m_font;
-
+	sf::Font m_fontBell;
 	MainMenu * m_mainMenu;
 	Menu *m_menu;
 	Options *m_options;
@@ -39,7 +40,7 @@ protected:
 	GameMenu * m_gameMenu;
 
 	GameState * m_currentState;
-
+	bool m_pressed = false;
 	sf::Clock m_clock;
 
 	sf::Vector2i m_mousePosition;

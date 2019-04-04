@@ -18,7 +18,7 @@ InterpolatingTwo::InterpolatingTwo(std::vector<GameNode*>  path, std::vector<Obs
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
 	m_rect.setTexture(&m_texture);
 	m_rect.setSize(sf::Vector2f(25, 50));
-	m_position = sf::Vector2f(1800, 100);
+	m_position = sf::Vector2f(2700, 300);
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 
@@ -381,7 +381,6 @@ void InterpolatingTwo::generatePath(double dt)
 		}
 		m_lastPathCircle = circle;
 	}
-	/*std::cout << "Length = " << m_totalPathLength << std::endl;*/
 }
 
 

@@ -18,7 +18,7 @@ CRSplineAI::CRSplineAI(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
 	m_rect.setTexture(&m_texture);
 	m_rect.setSize(sf::Vector2f(25, 50));
-	m_position = sf::Vector2f(1800, 100);
+	m_position = sf::Vector2f(2700, 300);
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 
@@ -61,29 +61,17 @@ void CRSplineAI::update(double dt, sf::Vector2f position)
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
-	if (checkDistance(position) < 150) {
+	
+	
+	if (checkDistance(position) < 200) {
 		m_inRange = true;
 	}
-	
-	
-	if (m_state == GameState::Demo) {
-		
-		if (m_inRange) {
-			updateLines(position);
-		}
-		else {
-			updateLines(getPointPosition());
-		}
-	}
 
-	if (*m_currentBehaviour == BehaviourState::ChaseNode) {
-
-		updateLines(getPointPosition());
-		findClosestNode();
+	if (m_inRange) {
+		updateLines(position);
 	}
 	else {
-
-		updateLines(position);
+		updateLines(getPointPosition());
 	}
 	
 	updateDangers();
@@ -128,14 +116,8 @@ void CRSplineAI::updatePlotPoints(double dt, sf::Vector2f position)
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
 
-	if (*m_currentBehaviour == BehaviourState::ChaseNode) {
-
-		updateLines(getCurrentNodePosition());
-	}
-	else {
-
-		updateLines(position);
-	}
+	updateLines(position);
+	
 	updateDangers();
 	m_distances = normalize(m_distances);
 	mapDecisions.update(m_distances, m_distancesDanger);

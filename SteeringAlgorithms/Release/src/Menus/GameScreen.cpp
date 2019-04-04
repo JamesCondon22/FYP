@@ -384,7 +384,7 @@ void GameScreen::initAI() {
 	//m_splineAI->setTag("AI");
 	//m_ghostAI->setTag("GHOST");
 
-	//m_player->setPosition(initPosition());
+	m_player->setPosition(initPosition());
 	//m_ghostAI->setPosition(initPosition());
 	//m_splineAI->setPosition(m_ghostAI->getPos());
 	//m_ghostAI->setRadius(10);
@@ -570,11 +570,11 @@ void GameScreen::resetGame() {
 
 	m_key->setPosition(getRandomPosition());
 	m_player->setPosition(initPosition());
-	m_ghostAI->setPosition(initPosition());
-	m_splineAI->setPosition(m_ghostAI->getPos());
+	//m_ghostAI->setPosition(initPosition());
+	//m_splineAI->setPosition(m_ghostAI->getPos());
 
 	m_player->setScore(0);
-
+	m_player->reset();
 	m_time = 3;
 
 	for (int i = 0; i < m_nodes.size(); i++) {
@@ -593,14 +593,14 @@ void GameScreen::resetGame() {
 		m_enemies[i]->setScore(0);
 	}
 
-	m_splineAI->setBehaviourState(m_aiStates);
-	m_splineAI->setVisuals(false);
-	m_splineAI->resetGame();
-	m_splineAI->setScore(0);
+	//m_splineAI->setBehaviourState(m_aiStates);
+	//m_splineAI->setVisuals(false);
+	//m_splineAI->resetGame();
+	//m_splineAI->setScore(0);
 
-	m_ghostAI->setBehaviourState(m_aiStates);
-	m_ghostAI->resetGame();
-	m_ghostAI->setVisuals(false);
+	//m_ghostAI->setBehaviourState(m_aiStates);
+	//m_ghostAI->resetGame();
+	//m_ghostAI->setVisuals(false);
 
 	for (int i = 0; i < m_scores.size(); i++) {
 		m_scores[i].second = 0;

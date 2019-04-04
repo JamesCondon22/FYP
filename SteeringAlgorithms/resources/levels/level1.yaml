@@ -1,80 +1,97 @@
 circles:
    - type: circle
-     position: {x: 1500, y: 250}
+     position: {x: 2150, y: 250}
      radius: 50
-     id: 1
    - type: circle
-     position: {x: 1150, y: 150}
+     position: {x: 1700, y: 350}
      radius: 50
-     id: 2
    - type: circle
-     position: {x: 800, y: 150}
+     position: {x: 1340, y: 310}
      radius: 50
-     id: 3
    - type: circle
-     position: {x: 600, y: 250}
+     position: {x: 1270, y: 490}
      radius: 50
-     id: 4
    - type: circle
-     position: {x: 200, y: 600}
+     position: {x: 1050, y: 460}
      radius: 50
-     id: 5
    - type: circle
-     position: {x: 450, y: 800}
+     position: {x: 840, y: 810}
      radius: 50
-     id: 6
    - type: circle
-     position: {x: 850, y: 700}
+     position: {x: 1770, y: 1410}
      radius: 50
-     id: 7
    - type: circle
-     position: {x: 1200, y: 750}
+     position: {x: 2030, y: 1290}
      radius: 50
-     id: 8
    - type: circle
-     position: {x: 1500, y: 800}
+     position: {x: 2720, y: 780}
      radius: 50
-     id: 9
    - type: circle
-     position: {x: 800, y: 400}
+     position: {x: 2410, y: 460}
      radius: 50
-     id: 10
    - type: circle
-     position: {x: 450, y: 400}
+     position: {x: 1180, y: 740}
      radius: 50
-     id: 11
    - type: circle
-     position: {x: 1200, y: 450}
+     position: {x: 1590, y: 670}
      radius: 50
-     id: 12
    - type: circle
-     position: {x: 1400, y: 600}
+     position: {x: 1920, y: 480}
      radius: 50
-     id: 13
    - type: circle
-     position: {x: 550, y: 600}
+     position: {x: 2170, y: 860}
      radius: 50
-     id: 14
+   - type: circle
+     position: {x: 1060, y: 1060}
+     radius: 50
+   - type: circle
+     position: {x: 1400, y: 1020}
+     radius: 50
+   - type: circle
+     position: {x: 1740, y: 1090}
+     radius: 50
+   - type: circle
+     position: {x: 2220, y: 1170}
+     radius: 50
+   - type: circle
+     position: {x: 2470, y: 680}
+     radius: 50
+
+
 
 
 paths:
    - type: path
-     position: {x: 1400, y: 100}
+     position: {x: 2400, y: 300}
    - type: path
-     position: {x: 900, y: 200}
+     position: {x: 1900, y: 300}
    - type: path
-     position: {x: 500, y: 150}
+     position: {x: 1500, y: 450}
    - type: path
-     position: {x: 200, y: 400}
+     position: {x: 1100, y: 350}
    - type: path
-     position: {x: 250, y: 800}
+     position: {x: 900, y: 450}
    - type: path
-     position: {x: 700, y: 850}
+     position: {x: 800, y: 650}
    - type: path
-     position: {x: 1100, y: 600}
+     position: {x: 900, y: 950}
    - type: path
-     position: {x: 1300, y: 900}
+     position: {x: 1050, y: 1250}
    - type: path
-     position: {x: 1600, y: 700}
+     position: {x: 1300, y: 1300}
    - type: path
-     position: {x: 1600, y: 400}
+     position: {x: 1600, y: 1350}
+   - type: path
+     position: {x: 1850, y: 1300}
+   - type: path
+     position: {x: 2150, y: 1400}
+   - type: path
+     position: {x: 2350, y: 1300}
+   - type: path
+     position: {x: 2500, y: 1100}
+   - type: path
+     position: {x: 2700, y: 900}
+   - type: path
+     position: {x: 2700, y: 650}
+   - type: path
+     position: {x: 2550, y: 500}

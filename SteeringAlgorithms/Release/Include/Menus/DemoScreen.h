@@ -76,6 +76,11 @@ private:
 	BehaviourState * m_aiStates;
 
 	bool m_altPressed = false;
-
+	int m_counter = 0;
+	std::vector<sf::RectangleShape> m_bounding;
+	std::vector<Label*> m_labels;
+	Label* m_timeLabel;
+	Label* m_startLabel;
+	bool m_startTimer = false;
 };
 #endif // !

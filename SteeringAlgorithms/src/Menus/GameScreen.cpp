@@ -384,7 +384,7 @@ void GameScreen::initAI() {
 	//m_splineAI->setTag("AI");
 	//m_ghostAI->setTag("GHOST");
 
-	//m_player->setPosition(initPosition());
+	m_player->setPosition(initPosition());
 	//m_ghostAI->setPosition(initPosition());
 	//m_splineAI->setPosition(m_ghostAI->getPos());
 	//m_ghostAI->setRadius(10);
@@ -574,7 +574,7 @@ void GameScreen::resetGame() {
 	//m_splineAI->setPosition(m_ghostAI->getPos());
 
 	m_player->setScore(0);
-
+	m_player->reset();
 	m_time = 3;
 
 	for (int i = 0; i < m_nodes.size(); i++) {

@@ -12,7 +12,6 @@ struct ObstacleData
 {
 	std::string m_type;
 	sf::Vector2f m_position;
-	int m_id;
 	int m_radius;
 };
 

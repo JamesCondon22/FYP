@@ -18,7 +18,7 @@ EfficiencyAI::EfficiencyAI(std::vector<GameNode*>  path, std::vector<Obstacle*> 
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
 	m_rect.setTexture(&m_texture);
 	m_rect.setSize(sf::Vector2f(25, 50));
-	m_position = sf::Vector2f(1800, 100);
+	m_position = sf::Vector2f(2700, 300);
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 
@@ -162,24 +162,13 @@ void EfficiencyAI::updateDangers()
 			smallest = dist;
 		}
 	}
-
-	if (obs->getID() != m_prevId)
-	{
-		MaxDistance = smallest;
-		std::cout << "ID = " << obs->getID() << std::endl;
-		std::cout << MaxDistance << std::endl;
-		WantedDistance = MaxDistance * .7;
-		startTimer = true;
-	}
 	
-
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
 		
 		m_distancesDanger[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), obs->getPosition());
 		count++;
 	}
-	m_prevId = obs->getID();
 }
 
 
@@ -383,7 +372,6 @@ void EfficiencyAI::generatePath(double dt)
 		m_lastPathCircle = circle;
 	}
 
-	//std::cout << "Length = " << m_totalPathLength << std::endl;
 }
 
 

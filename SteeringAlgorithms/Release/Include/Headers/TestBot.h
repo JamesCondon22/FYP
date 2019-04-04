@@ -60,7 +60,7 @@ private:
 	const float MAX_SEE_AHEAD = 110.0f;
 	const float MAX_AVOID_FORCE = 500.0f;
 	const float MAX_FORCE = 10.0f;
-	float MAX_SPEED = 1.05f;
+	float MAX_SPEED = 0.90f;
 	float m_threshold;
 
 	sf::Vector2f ahead;

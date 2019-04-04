@@ -18,7 +18,7 @@ InterpolatingAI::InterpolatingAI(std::vector<GameNode*> path, std::vector<Obstac
 	m_rect.setOrigin(m_position.x + 25 / 2, m_position.y + 50 / 2);
 	m_rect.setTexture(&m_texture);
 	m_rect.setSize(sf::Vector2f(25, 50));
-	m_position = sf::Vector2f(1800, 100);
+	m_position = sf::Vector2f(2700, 300);
 	m_rect.setPosition(m_position);
 	mapDecisions = ContextDecisionMaker();
 
@@ -65,7 +65,6 @@ void InterpolatingAI::update(double dt, sf::Vector2f position)
 
 		updateLines(position);
 	}
-	std::cout << getCurrentNodePosition().x << ", " << getCurrentNodePosition().y << std::endl;
 	updateDangers();
 	
 	m_distances = normalize(m_distances);
@@ -387,6 +386,7 @@ void InterpolatingAI::generatePath(double dt)
 
 void InterpolatingAI::handleTimer()
 {
+	std::cout << m_startTimer << std::endl;
 	if (!m_startTimer)
 	{
 		m_clock.restart();

@@ -31,7 +31,7 @@ Traditional::Traditional(std::vector<GameNode*> node, std::vector<Obstacle*> obs
 	for (int i = 0; i < lines.size(); i++) {
 		lines[i].setOrigin(m_position.x - 25.0f, m_position.y + 1.0f);
 	}
-	m_position = sf::Vector2f(1800.0f, 100.0f);
+	m_position = sf::Vector2f(2700, 300);
 
 	m_rect.setPosition(m_position);
 	

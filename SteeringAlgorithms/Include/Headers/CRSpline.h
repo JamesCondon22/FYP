@@ -81,6 +81,7 @@ public:
 	double checkDistance(sf::Vector2f position);
 	void setTag(std::string tag) { m_tag = tag; }
 	std::string getTag() { return m_tag; }
+	double getTime() { return m_currentTime; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;

@@ -70,6 +70,7 @@ public:
 	int getNodeIndex() { return m_nodeIndex; }
 	bool getCollided() { return m_collided; }
 	void resetGame();
+	double getTime() { return m_currentTime; }
 private:
 	
 	sf::Vector2f m_position;

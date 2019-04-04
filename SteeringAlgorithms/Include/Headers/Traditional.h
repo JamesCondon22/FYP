@@ -58,6 +58,7 @@ public:
 	bool getVisuals() { return m_visuals; }
 	bool getCollided() { return m_collided; }
 	void resetGame();
+	double getTime() { return m_currentTime; }
 private:
 	float m_timeToTarget;
 	sf::Vector2f m_position;
@@ -85,7 +86,7 @@ private:
 	const float MAX_SEE_AHEAD = 110.0f;
 	const float MAX_AVOID_FORCE = 500.0f;
 	const float MAX_FORCE = 10.0f;
-	float MAX_SPEED = 1.05f;
+	float MAX_SPEED = 1.00f;
 	float m_threshold;
 
 	sf::Vector2f ahead;

@@ -5,7 +5,7 @@ TestBot::TestBot(std::vector<GameNode*> path, std::vector<Obstacle*> obs) :
 	m_steering(0, 0),
 	m_position(0, 0),
 	m_rotation(0),
-	m_speed(1.5),
+	m_speed(0.9),
 	m_velocity(1, 1),
 	m_nodes(path),
 	m_obstacles(obs)
@@ -31,7 +31,7 @@ TestBot::TestBot(std::vector<GameNode*> path, std::vector<Obstacle*> obs) :
 	for (int i = 0; i < lines.size(); i++) {
 		lines[i].setOrigin(m_position.x - 25, m_position.y + 1);
 	}
-	m_position = sf::Vector2f(1600, 100);
+	m_position = sf::Vector2f(2500, 300);
 
 	m_rect.setPosition(m_position);
 
@@ -237,7 +237,7 @@ void TestBot::render(sf::RenderWindow & window)
 
 void TestBot::reset()
 {
-	m_position = sf::Vector2f(1600, 100);
+	m_position = sf::Vector2f(2500, 300);
 	currentNode = 0;
 	m_rotation = 180;
 }

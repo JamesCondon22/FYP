@@ -64,6 +64,7 @@ public:
 	void setPosition(sf::Vector2f pos);
 	bool getCollided() { return m_collided; }
 	void resetGame();
+	double getTime() { return m_currentTime; }
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;

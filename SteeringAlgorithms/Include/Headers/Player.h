@@ -24,6 +24,7 @@ public:
 	int getScore() { return m_score; }
 	void setScore(int score) { m_score = score; }
 	void setColor(sf::Color color) { m_color = color; }
+	void reset();
 	sf::Color getColor() { return m_color; }
 	void obstacleCollision();
 	std::string getName() { return "Player"; }

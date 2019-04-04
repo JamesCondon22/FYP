@@ -41,4 +41,5 @@ public:
 	virtual void setScore(int score) = 0;
 	virtual bool getCollided() = 0;
 	virtual void resetGame() = 0;
+	virtual double getTime() = 0;
 };

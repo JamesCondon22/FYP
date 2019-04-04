@@ -39,6 +39,21 @@ void Label::setSize(int size)
 }
 
 
+void Label::update() {
+
+	if (m_animateIn) {
+		m_alpha -= 0.5;
+		m_text.setFillColor(sf::Color(0, 0, 0, m_alpha));
+	}
+}
+
+
+void Label::setOutline(sf::Color color, float thickness) {
+	m_text.setOutlineColor(sf::Color::Black);
+	m_text.setOutlineThickness(thickness);
+}
+
+
 void Label::render(sf::RenderWindow & window)
 {
 	window.draw(m_text);

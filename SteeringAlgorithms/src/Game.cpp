@@ -32,9 +32,10 @@ Game::Game() :
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
 	}
+	m_buttonTexture.loadFromFile("resources/assets/button.png");
 	m_font.loadFromFile("resources/assets/bernhc.TTF");
-
-	m_options = new Options(m_currentState, m_font, m_window);
+	m_fontBell.loadFromFile("resources/assets/Crimson-Bold.TTF");
+	m_options = new Options(m_currentState, m_fontBell, m_font, m_buttonTexture, m_window);
 	m_demoScreen = new DemoScreen(m_currentState, m_font);
 	m_mainMenu = new MainMenu(m_currentState, m_font);
 	m_menu = new Menu(m_currentState);
@@ -105,6 +106,7 @@ void Game::processGameEvents(sf::Event& event)
 	
 	if (event.type == sf::Event::MouseButtonReleased)
 	{
+		m_pressed = false;
 		/*switch (*m_currentState)
 		{
 		case GameState::None:
@@ -125,8 +127,9 @@ void Game::processGameEvents(sf::Event& event)
 		case GameState::EndGame:*/
 			m_endGameScreen->m_pressed = false;
 			/*break;
-		case GameState::Options:
-			break;
+		case GameState::Options:*/
+			m_options->m_pressed = false;
+			/*break;
 		default:
 			break;
 		}*/
@@ -143,6 +146,14 @@ void Game::update(double dt)
 	sf::Time deltaTime;
 	m_mousePosition = sf::Mouse::getPosition(m_window);
 
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !m_pressed)
+	{
+		std::cout << m_mousePosition.x << ", " << m_mousePosition.y << std::endl;
+		m_pressed = true;
+	}
+
+	
 	switch (*m_currentState)
 	{
 	case GameState::None:

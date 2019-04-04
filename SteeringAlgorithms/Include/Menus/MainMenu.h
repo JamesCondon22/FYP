@@ -4,6 +4,7 @@
 #include "SFML\Audio.hpp"
 #include "State.h"
 #include "Headers/Button.h"
+#include "Headers/Label.h"
 
 class MainMenu
 {
@@ -35,4 +36,5 @@ private:
 
 	int m_activatedAI = 0;
 	std::string m_lastPressed = "";
+	Label* m_header;
 };

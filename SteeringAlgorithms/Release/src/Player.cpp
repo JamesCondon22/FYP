@@ -40,7 +40,6 @@ void Player::update(double dt)
 	int curX = m_rect.getPosition().x / 50.0f;
 	int curY = m_rect.getPosition().y / 50.0f;
 
-	//std::cout << curX << ", " << curY << std::endl;
 	m_heading.x = cos(m_rotation * DEG_TO_RAD);
 	m_heading.y = sin(m_rotation * DEG_TO_RAD);
 	m_rect.setPosition(m_rect.getPosition().x + m_heading.x * m_speed * (dt / 1000), m_rect.getPosition().y + m_heading.y* m_speed * (dt / 1000));
@@ -136,4 +135,9 @@ void Player::obstacleCollision()
 			m_speed = -20;
 		}
 	}
+}
+
+
+void Player::reset() {
+	m_speed = 0;
 }
