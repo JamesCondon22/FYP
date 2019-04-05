@@ -82,6 +82,9 @@ public:
 	void setTag(std::string tag) { m_tag = tag; }
 	std::string getTag() { return m_tag; }
 	double getTime() { return m_currentTime; }
+	void clearPath();
+	void resetCurve();
+	bool pathset = false;
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -156,7 +159,8 @@ private:
 	bool m_visuals = true;
 	bool m_inRange = false;
 	int m_score = 0;
-
+	int m_savedNode = 0;
+	
 	std::string m_tag;
 };
 

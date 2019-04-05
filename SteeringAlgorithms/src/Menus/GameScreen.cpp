@@ -1,10 +1,11 @@
 #include "Menus/GameScreen.h"
 
 
-GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font) :
+GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font, sf::RenderWindow & window) :
 	m_font(font),
 	m_currentState(state)
 {
+
 	if (!m_TextureObs.loadFromFile("resources/assets/noEntry.png")) {
 
 		std::cout << "texture not loading" << std::endl;

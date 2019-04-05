@@ -448,6 +448,9 @@ void DynamicVectorAI::clearPath() {
 	m_lastPathCircle = nullptr;
 	m_timeAmount = 0;
 	m_pathLine.clear();
+	m_startTimer = false;
+	m_currentTime = 0;
+	m_tickCounter = 0;
 	m_rotation = 90;
 	m_rect.setRotation(m_rotation);
 	m_surroundingCircle.setPosition(m_position);

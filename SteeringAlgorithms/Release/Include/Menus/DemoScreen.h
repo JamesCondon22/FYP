@@ -23,7 +23,7 @@
 class DemoScreen
 {
 public:
-	DemoScreen(GameState * state, sf::Font & font);
+	DemoScreen(GameState * state, sf::Font & font, sf::RenderWindow & window);
 	~DemoScreen();
 	void update(double dt, int active, std::string lastBtnPress);
 	void render(sf::RenderWindow& window);
@@ -34,6 +34,7 @@ public:
 	void checkRunAll(Enemy * enemy);
 	void checkCompare(Enemy * enemy);
 	void initAI();
+	void resetDemo();
 
 private:
 	sf::Window m_window;
@@ -61,8 +62,8 @@ private:
 
 	int m_id = 1;
 	double m_cumulativeTime;
-	double MAX_TIME = 3000.0;
-	double GHOST_TIME = 2000.0;
+	double MAX_TIME = 1000.0;  // 3
+	double GHOST_TIME = 000.0; // 2
 	std::ofstream m_file;
 	bool m_runningUpdate = false;
 	bool m_runRender = false;

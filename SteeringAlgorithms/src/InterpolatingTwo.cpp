@@ -424,6 +424,9 @@ void InterpolatingTwo::clearPath() {
 	m_timeAmount = 0;
 	m_pathLine.clear();
 	m_rotation = 90;
+	m_startTimer = false;
+	m_currentTime = 0;
+	m_tickCounter = 0;
 	m_rect.setRotation(m_rotation);
 	m_surroundingCircle.setPosition(m_position);
 	for (int i = 0; i < m_size; i++)

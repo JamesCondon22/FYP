@@ -35,6 +35,7 @@ InterpolatingTwo::InterpolatingTwo(std::vector<GameNode*>  path, std::vector<Obs
 	{
 		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
 		m_lineVec.push_back(line);
+		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
 	m_color = sf::Color(255, 165, 0);
 	m_rect.setFillColor(m_color);
@@ -413,5 +414,23 @@ void InterpolatingTwo::resetGame() {
 	for (int i = 0; i < m_nodes.size(); i++) {
 
 		m_nodes[i]->setAlive(true);
+	}
+}
+
+
+void InterpolatingTwo::clearPath() {
+
+	m_lastPathCircle = nullptr;
+	m_timeAmount = 0;
+	m_pathLine.clear();
+	m_rotation = 90;
+	m_startTimer = false;
+	m_currentTime = 0;
+	m_tickCounter = 0;
+	m_rect.setRotation(m_rotation);
+	m_surroundingCircle.setPosition(m_position);
+	for (int i = 0; i < m_size; i++)
+	{
+		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
 }

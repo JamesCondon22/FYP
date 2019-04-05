@@ -42,4 +42,5 @@ public:
 	virtual bool getCollided() = 0;
 	virtual void resetGame() = 0;
 	virtual double getTime() = 0;
+	virtual void clearPath() = 0;
 };

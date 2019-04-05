@@ -9,7 +9,6 @@ Options::Options(GameState * state, sf::Font & font, sf::Font & btnfont, sf::Tex
 {
 	m_window = &window;
 	ImGui::SFML::Init(*m_window);
-	m_file.open("resources/assets/DemoFile.txt");
 
 	Label* l1 = new Label(m_font, sf::Vector2f(1800.0f, 50.0f));
 	Label* l2 = new Label(m_font, sf::Vector2f(1800.0f, 200.0f));
@@ -48,6 +47,11 @@ void Options::update(double dt)
 	ImGui::SetWindowFontScale(2.5f);
 	ImGui::End();
 	ImGui::EndFrame();*/
+	if (!m_loaded) {
+		m_labels.clear();
+		m_file.open("resources/assets/DemoFile.txt");
+		
+	}
 
 	m_mousePositon = sf::Mouse::getPosition(*m_window);
 
@@ -57,6 +61,8 @@ void Options::update(double dt)
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && m_pressed == false)
 		{
 			if (button->getString() == "MAIN MENU") {
+				m_loaded = false;
+				m_position = sf::Vector2f(100.0f, 50.0f);
 				*m_currentState = GameState::MainMenu;
 			}
 			m_pressed = true;
@@ -66,8 +72,6 @@ void Options::update(double dt)
 
 	while (std::getline(m_file, m_line))
 	{
-		
-		std::cout << m_line;
 		Label * label = new Label(m_font, m_position);
 		label->setSize(40);
 		label->setColor(sf::Color::Black);
@@ -83,7 +87,7 @@ void Options::update(double dt)
 		m_labels.push_back(label);
 	}
 	m_file.close();
-	
+	m_loaded = true;
 }
 
 

@@ -22,7 +22,7 @@ class GameScreen
 {
 public:
 	
-	GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font);
+	GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font, sf::RenderWindow & window);
 	~GameScreen();
 	void update(double dt, sf::Vector2i & mouse);
 	void render(sf::RenderWindow & window);

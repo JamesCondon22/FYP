@@ -15,10 +15,10 @@ public:
 	void checkButtons(std::string name);
 	void handleInputs(Button & button);
 	bool m_pressed = true;
-
+	void resetButtons();
 	int getActivatedAI() { return m_activatedAI; }
 	std::string getLastPressed() { return m_lastPressed; }
-
+	void setLast();
 private:
 
 	GameState * m_currentState;
@@ -34,4 +34,6 @@ private:
 
 	int m_activatedAI = 0;
 	std::string m_lastPressed = "";
+	bool m_reset = false;
+	Button * m_lastButton;
 };

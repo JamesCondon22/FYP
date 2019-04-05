@@ -36,8 +36,12 @@ FrayAI::FrayAI(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs) :
 	for (int i = 0; i < m_size; i++)
 	{
 		DirectionalLine line = DirectionalLine(m_position, i, m_size);
-		m_lineVec.push_back(line);
-		
+		m_lineVec.push_back(line);	
+		m_lineVec[i].update(m_surroundingCircle.getPosition());
+	}
+
+	for (int i = 0; i < m_size; i++) {
+	
 	}
 	m_color = sf::Color(66, 182, 244);
 	m_rect.setFillColor(m_color);
@@ -61,7 +65,6 @@ void FrayAI::setPosition(sf::Vector2f position) {
 
 void FrayAI::update(double dt, sf::Vector2f position)
 {
-	m_clock2.restart();
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
@@ -390,6 +393,7 @@ void FrayAI::handleTimer()
 		m_clock.restart();
 		m_startTimer = true;
 	}
+	std::cout << "Ticks = " << m_tickCounter << std::endl;
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
 }
 
@@ -412,5 +416,21 @@ void FrayAI::resetGame() {
 	for (int i = 0; i < m_nodes.size(); i++) {
 
 		m_nodes[i]->setAlive(true);
+	}
+}
+
+
+void FrayAI::clearPath() {
+
+	m_lastPathCircle = nullptr;
+	m_timeAmount = 0;
+	m_pathLine.clear();
+	m_rotation = 90;
+	m_startTimer = false;
+	m_rect.setRotation(m_rotation);
+	m_surroundingCircle.setPosition(m_position);
+	for (int i = 0; i < m_size; i++)
+	{
+		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
 }

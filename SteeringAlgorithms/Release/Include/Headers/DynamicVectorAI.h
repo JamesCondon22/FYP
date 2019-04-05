@@ -71,6 +71,7 @@ public:
 	bool getCollided() { return m_collided; }
 	void resetGame();
 	double getTime() { return m_currentTime; }
+	void clearPath();
 private:
 	
 	sf::Vector2f m_position;

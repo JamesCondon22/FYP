@@ -22,6 +22,12 @@ void Menu::update(double dt, sf::Window & window)
 {
 	m_mousePosition = sf::Mouse::getPosition(window);
 
+
+	if (!m_reset) {
+		m_activatedAI = 0;
+		resetButtons();
+		m_reset = true;
+	}
 	for (int i = 0; i < m_buttons.size(); i++)
 	{
 		if (m_buttons[i]->checkCollision(m_mousePosition))
@@ -46,6 +52,7 @@ void Menu::handleInputs(Button & button)
 			if (m_activatedAI != 0)
 			{
 				m_lastPressed = "RUN";
+				m_reset = false;
 				*m_currentState = GameState::Demo;
 			}
 		}
@@ -64,47 +71,81 @@ void Menu::handleInputs(Button & button)
 		if (button.getString() == "1")
 		{
 			m_activatedAI = atoi("1");
+			setLast();
 			button.setPressed(true);
+			m_lastButton = &button;
 			button.update();
 		}
 		if (button.getString() == "2")
 		{
 			m_activatedAI = atoi("2");
+			setLast();
 			button.setPressed(true);
+			m_lastButton = &button;
 			button.update();
 		}
 		if (button.getString() == "3")
 		{
 			m_activatedAI = atoi("3");
+			setLast();
 			button.setPressed(true);
+			m_lastButton = &button;
 			button.update();
 		}
 		if (button.getString() == "4")
 		{
 			m_activatedAI = atoi("4");
+			setLast();
 			button.setPressed(true);
+			m_lastButton = &button;
 			button.update();
 		}
 		if (button.getString() == "5")
 		{
 			m_activatedAI = atoi("5");
+			setLast();
 			button.setPressed(true);
+			m_lastButton = &button;
 			button.update();
 		}
 		if (button.getString() == "6")
 		{
 			m_activatedAI = atoi("6");
+			setLast();
 			button.setPressed(true);
+			m_lastButton = &button;
 			button.update();
 		}
 		if (button.getString() == "7")
 		{
 			m_activatedAI = atoi("7");
+			setLast();
 			button.setPressed(true);
+			m_lastButton = &button;
 			button.update();
 		}
 
 		m_pressed = true;
+	}
+}
+
+
+void Menu::resetButtons() {
+	for (int i = 0; i < m_buttons.size(); i++) {
+		m_buttons[i]->setPressed(false);
+	}
+}
+
+
+void Menu::setLast() {
+	
+	for (int i = 0; i < m_buttons.size(); i++) {
+		if (m_lastButton != nullptr) {
+			if (m_buttons[i]->getString() == m_lastButton->getString()) {
+				m_buttons[i]->setPressed(false);
+				m_buttons[i]->update();
+			}
+		}
 	}
 }
  

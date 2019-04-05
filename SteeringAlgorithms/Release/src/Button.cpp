@@ -42,6 +42,9 @@ void Button::update()
 	{
 		m_text.setFillColor(sf::Color::White);
 	}
+	else {
+		m_text.setFillColor(sf::Color::Black);
+	}
 }
 
 

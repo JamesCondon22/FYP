@@ -20,7 +20,6 @@ void EndGame::update(double dt) {
 
 	while (std::getline(m_file, m_line))
 	{
-		std::cout << m_line << std::endl;
 		Label * label = new Label(m_font, m_position);
 		label->setText(m_line);
 		label->setSize(50);

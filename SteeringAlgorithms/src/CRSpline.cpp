@@ -517,10 +517,13 @@ void CRSplineAI::clearPath() {
 
 	m_lastPathCircle = nullptr;
 	m_timeAmount = 0;
-	m_closestNode = 0;
+	currentNode = 0;
 	m_counter = 0;
 	m_pathLine.clear();
 	m_romPoints.clear();
+	m_startTimer = false;
+	m_currentTime = 0;
+	m_tickCounter = 0;
 	m_inRange = false;
 	m_rotation = 90;
 	m_rect.setRotation(m_rotation);

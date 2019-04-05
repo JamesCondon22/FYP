@@ -23,7 +23,6 @@ Game::Game() :
 	m_window(sf::VideoMode(desktop.width, desktop.height, desktop.bitsPerPixel), "FYP", sf::Style::Default)
 {
 	sf::Vector2f size = sf::Vector2f((float)window_width, (float)window_height);
-	m_window.setVerticalSyncEnabled(true);
 
 	m_currentState = new GameState;
 
@@ -36,10 +35,10 @@ Game::Game() :
 	m_font.loadFromFile("resources/assets/bernhc.TTF");
 	m_fontBell.loadFromFile("resources/assets/Crimson-Bold.TTF");
 	m_options = new Options(m_currentState, m_fontBell, m_font, m_buttonTexture, m_window);
-	m_demoScreen = new DemoScreen(m_currentState, m_font);
+	m_demoScreen = new DemoScreen(m_currentState, m_font, m_window);
 	m_mainMenu = new MainMenu(m_currentState, m_font);
 	m_menu = new Menu(m_currentState);
-	m_gameScreen = new GameScreen(m_currentState, size, m_font);
+	m_gameScreen = new GameScreen(m_currentState, size, m_font, m_window);
 	m_endGameScreen = new EndGame(m_currentState, m_font);
 	m_gameMenu = new GameMenu(m_currentState, m_font);
 }
@@ -165,12 +164,14 @@ void Game::update(double dt)
 		m_menu->update(dt, m_window);
 		break;
 	case GameState::Demo:
+		m_window.setVerticalSyncEnabled(false);
 		m_demoScreen->update(dt, m_menu->getActivatedAI(), m_menu->getLastPressed());
 		break;
 	case GameState::PreGame:
 		m_gameMenu->update(dt, m_window);
 		break;
 	case GameState::GameScreen:
+		m_window.setVerticalSyncEnabled(true);
 		m_gameScreen->update(dt, m_mousePosition);
 		break;
 	case GameState::EndGame:

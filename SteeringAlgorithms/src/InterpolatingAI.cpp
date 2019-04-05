@@ -426,6 +426,9 @@ void InterpolatingAI::clearPath() {
 	m_pathLine.clear();
 	m_rotation = 90;
 	m_rect.setRotation(m_rotation);
+	m_startTimer = false;
+	m_currentTime = 0;
+	m_tickCounter = 0;
 	m_surroundingCircle.setPosition(m_position);
 	for (int i = 0; i < m_size; i++)
 	{

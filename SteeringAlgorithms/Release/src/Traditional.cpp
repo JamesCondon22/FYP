@@ -322,6 +322,21 @@ void Traditional::resetGame() {
 }
 
 
+void Traditional::clearPath() {
+
+	m_lastPathCircle = nullptr;
+	m_timeAmount = 0;
+	m_pathLine.clear();
+	m_rotation = 180.0f;
+	m_surroundingCircle.setPosition(m_position);
+	m_rect.setRotation(m_rotation);
+	for (int i = 0; i < lines.size(); i++) {
+		lines[i].setPosition(m_position);
+		lines[i].setRotation(180.0f);
+	}
+}
+
+
 void Traditional::render(sf::RenderWindow & window)
 {
 

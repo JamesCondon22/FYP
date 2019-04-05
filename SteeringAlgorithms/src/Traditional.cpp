@@ -326,6 +326,9 @@ void Traditional::clearPath() {
 
 	m_lastPathCircle = nullptr;
 	m_timeAmount = 0;
+	m_startTimer = false;
+	m_currentTime = 0;
+	m_tickCounter = 0;
 	m_pathLine.clear();
 	m_rotation = 180.0f;
 	m_surroundingCircle.setPosition(m_position);
