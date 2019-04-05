@@ -36,6 +36,7 @@ CRSplineAI::CRSplineAI(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs
 	{
 		DirectionalLine line = DirectionalLine(m_surroundingCircle.getPosition(), i, m_size);
 		m_lineVec.push_back(line);
+		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
 
 	m_color = sf::Color::Yellow;
@@ -150,7 +151,9 @@ sf::Vector2f CRSplineAI::getPointPosition()
 
 	if (Math::distance(m_position, target) <= 10)
 	{
+		
 		currentNode += 1;
+		m_savedNode = currentNode;
 	}
 
 	return target;
@@ -507,4 +510,30 @@ void CRSplineAI::resetGame() {
 		m_nodes[i]->setCompleted(false);
 		m_nodes[i]->setAlive(true);
 	}
+}
+
+
+void CRSplineAI::clearPath() {
+
+	m_lastPathCircle = nullptr;
+	m_timeAmount = 0;
+	m_closestNode = 0;
+	m_counter = 0;
+	m_pathLine.clear();
+	m_romPoints.clear();
+	m_inRange = false;
+	m_rotation = 90;
+	m_rect.setRotation(m_rotation);
+	m_surroundingCircle.setPosition(m_position);
+	
+	for (int i = 0; i < m_size; i++)
+	{
+		m_lineVec[i].update(m_surroundingCircle.getPosition());
+	}
+}
+
+
+void CRSplineAI::resetCurve() {
+
+	m_curve->clear();
 }

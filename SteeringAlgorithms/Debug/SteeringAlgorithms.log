@@ -1,4 +1,9 @@
-﻿  MainMenu.cpp
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\mainmenu.cpp(25): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\mainmenu.cpp(59): warning C4018: '<': signed/unsigned mismatch
+﻿  DemoScreen.cpp
+c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\traditional.h(53): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\demoscreen.cpp(80): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\demoscreen.cpp(91): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\demoscreen.cpp(161): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\demoscreen.cpp(221): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\demoscreen.cpp(235): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\demoscreen.cpp(245): warning C4018: '<': signed/unsigned mismatch
   SteeringAlgorithms.vcxproj -> C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\SteeringAlgorithms.exe

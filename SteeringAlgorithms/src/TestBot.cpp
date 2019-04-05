@@ -238,6 +238,13 @@ void TestBot::render(sf::RenderWindow & window)
 void TestBot::reset()
 {
 	m_position = sf::Vector2f(2500, 300);
+	m_rect.setPosition(m_position);
 	currentNode = 0;
-	m_rotation = 180;
+	m_rotation = 180.0f;
+	for (int i = 0; i < lines.size(); i++) {
+		lines[i].setPosition(m_position);
+		lines[i].setRotation(180.0f);
+	}
+	m_surroundingCircle.setPosition(m_position);
+	m_rect.setRotation(m_rotation);
 }

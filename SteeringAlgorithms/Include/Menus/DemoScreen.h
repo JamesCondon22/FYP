@@ -34,6 +34,7 @@ public:
 	void checkRunAll(Enemy * enemy);
 	void checkCompare(Enemy * enemy);
 	void initAI();
+	void resetDemo();
 
 private:
 	sf::Window m_window;
