@@ -12,10 +12,8 @@ public:
 	void update(double dt, sf::Window & window);
 	void render(sf::RenderWindow& window);
 	void initButtons();
-	void checkButtons(std::string name);
 	void handleInputs(Button & button);
 	bool m_pressed = true;
-
 	int getActivatedAI() { return m_activatedAI; }
 	std::string getLastPressed() { return m_lastPressed; }
 

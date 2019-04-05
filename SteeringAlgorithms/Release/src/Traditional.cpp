@@ -146,7 +146,7 @@ void Traditional::update(double dt, sf::Vector2f player)
 	m_position = sf::Vector2f(m_position.x + std::cos(DEG_TO_RAD  * (m_rotation)) * m_speed * (dt / 1000),
 		m_position.y + std::sin(DEG_TO_RAD * (m_rotation)) * m_speed* (dt / 1000));
 	m_rect.setPosition(m_position);
-	m_rect.setRotation(m_rotation);
+	m_rect.setRotation(currentRotation);
 	m_surroundingCircle.setPosition(m_position);
 	for (int i = 0; i < lines.size(); i++) {
 		lines[i].setPosition(m_position);
@@ -326,6 +326,9 @@ void Traditional::clearPath() {
 
 	m_lastPathCircle = nullptr;
 	m_timeAmount = 0;
+	m_startTimer = false;
+	m_currentTime = 0;
+	m_tickCounter = 0;
 	m_pathLine.clear();
 	m_rotation = 180.0f;
 	m_surroundingCircle.setPosition(m_position);

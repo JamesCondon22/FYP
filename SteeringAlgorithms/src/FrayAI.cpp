@@ -45,10 +45,7 @@ FrayAI::FrayAI(std::vector<GameNode*>  path, std::vector<Obstacle*>  obs) :
 	}
 	m_color = sf::Color(66, 182, 244);
 	m_rect.setFillColor(m_color);
-	//m_rotation = 180;
 	m_rect.rotate(90);
-
-	//m_clock.restart().Zero;
 }
 
 
@@ -65,6 +62,15 @@ void FrayAI::setPosition(sf::Vector2f position) {
 
 void FrayAI::update(double dt, sf::Vector2f position)
 {
+
+	m_currentRotation = m_rotation;
+
+	if (m_currentRotation <= 0) {
+		m_currentRotation = 360;
+		m_currentRotation = m_currentRotation + (m_rotation);
+	}
+
+	std::cout << m_currentRotation << std::endl;
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
@@ -422,6 +428,7 @@ void FrayAI::resetGame() {
 
 void FrayAI::clearPath() {
 
+	
 	m_lastPathCircle = nullptr;
 	m_timeAmount = 0;
 	m_pathLine.clear();

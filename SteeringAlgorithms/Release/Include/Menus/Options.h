@@ -39,7 +39,7 @@ private:
 	Button * button;
 	
 	ImFont * m_guiText;
-
+	bool m_loaded = false;
 	sf::Vector2i m_mousePositon;
 };
 #endif // !Options

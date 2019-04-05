@@ -29,6 +29,7 @@ public:
 	void collision(int x, int y);
 	void loadLevel(std::string level);
 	void checkNodeCollision(Enemy * enemy);
+	void checkPlayerEnemyCollision(Enemy * enemy, Player * player);
 	void checkPlayerNodeCollision(sf::Vector2f pos, int rad);
 	void checkSplineNodeCollision(CRSplineAI * enemy);
 	void checkGameOver();

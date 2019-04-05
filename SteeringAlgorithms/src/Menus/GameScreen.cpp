@@ -173,6 +173,7 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		for (int i = 0; i < m_enemies.size(); i++) {
 			m_enemies[i]->update(dt, m_player->getPos());
 			checkNodeCollision(m_enemies[i]);
+			checkPlayerEnemyCollision(m_enemies[i], m_player);
 		}
 		if (!m_spawnKey) {
 			for (int i = 0; i < m_nodes.size(); i++) {
@@ -418,9 +419,10 @@ void GameScreen::initAI() {
 
 		m_enemies[i]->setPosition(initPosition());
 		m_enemies[i]->setBehaviourState(m_aiStates);
+		m_enemies[i]->setVisuals(false);
 		m_scores.push_back(std::make_pair(m_enemies[i]->getName(), m_enemies[i]->getScore()));
 		initUIText(m_enemies[i]->getScore(), m_enemies[i]->getColor());
-		m_enemies[i]->setVisuals(false);
+		
 	}	
 
 	//m_ghostAI->setBehaviourState(m_aiStates);
@@ -467,6 +469,17 @@ void GameScreen::checkPlayerNodeCollision(sf::Vector2f pos, int rad)
 		}
 	}
 
+}
+
+
+void GameScreen::checkPlayerEnemyCollision(Enemy * enemy, Player* player) {
+	
+	if (Math::circleCollision(player->getPos(), enemy->getPos(), player->getRadius(), enemy->getRadius()))
+	{
+		auto score = player->getScore();
+		score -= 1;
+		player->setScore(score);
+	}
 }
 
 

@@ -135,4 +135,6 @@ private:
 
 	bool m_visuals = true;
 	int m_score = 0;
+
+	double m_currentRotation;
 };
