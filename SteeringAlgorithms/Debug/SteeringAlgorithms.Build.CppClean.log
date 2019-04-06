@@ -30,8 +30,8 @@ c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\options.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\menu.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\mainmenu.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\gamescreen.obj
+c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\gamemenu.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\endgame.obj
-c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\demoscreen.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\mathhelper.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\main.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\levelloader.obj
@@ -40,11 +40,10 @@ c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\key.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\interpolatingtwo.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\interpolatingai.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\traditional.obj
-c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\gamemenu.obj
-c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\steeringalgorithms.ilk
+c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\demoscreen.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\steeringalgorithms.exe
+c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\steeringalgorithms.ilk
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\steeringalgorithms.pdb
-c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\crspline.obj.enc
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\steering.cdb297da.tlog\cl.command.1.tlog
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\steering.cdb297da.tlog\cl.read.1.tlog
 c:\users\gameuser\desktop\fyp\steeringalgorithms\debug\steering.cdb297da.tlog\cl.write.1.tlog

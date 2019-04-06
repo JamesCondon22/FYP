@@ -33,6 +33,9 @@ public:
 	void checkRun(Enemy * enemy, int id);
 	void checkRunAll(Enemy * enemy);
 	void checkCompare(Enemy * enemy);
+	void updateRun();
+	void updateRunAll();
+	void updateCompare();
 	void initAI();
 	void resetDemo();
 
@@ -63,7 +66,7 @@ private:
 	int m_id = 1;
 	double m_cumulativeTime;
 	double MAX_TIME = 1000.0;  // 3
-	double GHOST_TIME = 000.0; // 2
+	double GHOST_TIME = 500.0; // 2
 	std::ofstream m_file;
 	bool m_runningUpdate = false;
 	bool m_runRender = false;
@@ -83,5 +86,6 @@ private:
 	Label* m_timeLabel;
 	Label* m_startLabel;
 	bool m_startTimer = false;
+	int MAX_AI = 7;
 };
 #endif // !

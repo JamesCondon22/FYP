@@ -91,7 +91,25 @@ void InterpolatingTwo::update(double dt, sf::Vector2f position)
 	handleTimer();
 
 	m_tickCounter += 1;
-	m_time += m_clock2.getElapsedTime();
+	calculateRotations();
+}
+
+
+void InterpolatingTwo::calculateRotations() {
+
+	m_currentRotation = m_rotation;
+
+	if (m_currentRotation <= 0) {
+		m_currentRotation = m_rotation * -1;
+	}
+	if (m_lastRotation > m_currentRotation) {
+		m_totalRotations = m_totalRotations + (m_lastRotation - m_currentRotation);
+	}
+	else {
+		m_totalRotations = m_totalRotations + (m_currentRotation - m_lastRotation);
+	}
+
+	m_lastRotation = m_currentRotation;
 }
 
 
@@ -418,7 +436,7 @@ void InterpolatingTwo::resetGame() {
 }
 
 
-void InterpolatingTwo::clearPath() {
+void InterpolatingTwo::resetDemo() {
 
 	m_lastPathCircle = nullptr;
 	m_timeAmount = 0;
@@ -427,6 +445,8 @@ void InterpolatingTwo::clearPath() {
 	m_startTimer = false;
 	m_currentTime = 0;
 	m_tickCounter = 0;
+	m_totalRotations = 0;
+	m_lastRotation = 90;
 	m_rect.setRotation(m_rotation);
 	m_surroundingCircle.setPosition(m_position);
 	for (int i = 0; i < m_size; i++)

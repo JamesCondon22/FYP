@@ -37,13 +37,22 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font, 
 	m_toolbar.setOutlineColor(sf::Color::Black);
 	m_toolbar.setPosition(2400, 0);
 
-	m_scorePosition = sf::Vector2f(m_toolbar.getPosition().x + 50, m_toolbar.getPosition().y + 50);
+	m_scorePosition = sf::Vector2f(m_toolbar.getPosition().x + 50, m_toolbar.getPosition().y + 200.0f);
 	
+
+	Label* label = new Label(m_font, m_scorePosition);
+	label->setText("SCORES");
+	label->setSize(60);
+	m_labels.push_back(label);
+
+	m_scorePosition.y += 100;
 	initAI();
 
 	m_timeLabel = new Label(m_font, m_tile[40][22]->getPosition());
 	m_timeLabel->setColor(sf::Color::Red);
 	m_timeLabel->setSize(200);
+
+	m_lifebar = new LifeBar(sf::Vector2f(m_toolbar.getPosition().x + 50.0f, m_toolbar.getPosition().y + 50.0f));
 }
 
 
@@ -55,6 +64,7 @@ GameScreen::~GameScreen() {
 void GameScreen::update(double dt, sf::Vector2i & mouse)
 {
 	updateScores();
+	
 
 	int x = mouse.x / 30;
 	int y = mouse.y / 30;
@@ -166,9 +176,6 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	if (m_startGame) {
 
 		m_player->update(dt);
-		//m_splineAI->setCurve(m_ghostAI->getCurve());
-		//m_splineAI->update(dt, m_player->getPos());
-		//checkSplineNodeCollision(m_splineAI);
 
 		for (int i = 0; i < m_enemies.size(); i++) {
 			m_enemies[i]->update(dt, m_player->getPos());
@@ -261,10 +268,10 @@ void GameScreen::handleKeys() {
 
 
 /// <summary>
-/// 
+/// Check the bounding area for the player
 /// </summary>
-/// <param name="x"></param>
-/// <param name="y"></param>
+/// <param name="x">the player x tile position</param>
+/// <param name="y">the player y tile position</param>
 void GameScreen::collision(int x, int y)
 {
 
@@ -476,9 +483,7 @@ void GameScreen::checkPlayerEnemyCollision(Enemy * enemy, Player* player) {
 	
 	if (Math::circleCollision(player->getPos(), enemy->getPos(), player->getRadius(), enemy->getRadius()))
 	{
-		auto score = player->getScore();
-		score -= 1;
-		player->setScore(score);
+		m_lifebar->update();
 	}
 }
 
@@ -516,8 +521,12 @@ void GameScreen::checkSplineNodeCollision(CRSplineAI * enemy) {
 }
 
 /// <summary>
-/// 
+/// Initialises a label
+/// sets the size and position 
+/// adds to label vector
 /// </summary>
+/// <param name="score">the score of the Character</param>
+/// <param name="color">the characters color</param>
 void GameScreen::initUIText(int score, sf::Color color)
 {
 	Label* label = new Label(m_font, m_toolbar.getPosition());
@@ -529,7 +538,11 @@ void GameScreen::initUIText(int score, sf::Color color)
 	m_labels.push_back(label);
 }
 
-
+/// <summary>
+/// updates the enemy score label 
+/// using the color to distinguish
+/// </summary>
+/// <param name="label">The label being updated</param>
 void GameScreen::updateEnemyLabel(Label* label) {
 
 	for (int i = 0; i < m_enemies.size(); i++) {
@@ -538,12 +551,12 @@ void GameScreen::updateEnemyLabel(Label* label) {
 			label->setText("Score: " + std::to_string(m_enemies[i]->getScore()));
 		}
 	}
-	/*if (label->getColor() == m_splineAI->getColor()) {
-		label->setText("Score: " + std::to_string(m_splineAI->getScore()));
-	}*/
 }
 
-
+/// <summary>
+/// updates the player label
+/// </summary>
+/// <param name="label">The player label</param>
 void GameScreen::updatePlayerLabel(Label* label) {
 
 	if (label->getColor() == m_player->getColor()) {
@@ -553,7 +566,11 @@ void GameScreen::updatePlayerLabel(Label* label) {
 
 }
 
-
+/// <summary>
+/// check if the game is over
+/// saves all the scores to text file 
+/// resets the game and changes the Game State
+/// </summary>
 void GameScreen::checkGameOver() {
 
 	if (m_gameOver) {
@@ -584,8 +601,6 @@ void GameScreen::resetGame() {
 
 	m_key->setPosition(getRandomPosition());
 	m_player->setPosition(initPosition());
-	//m_ghostAI->setPosition(initPosition());
-	//m_splineAI->setPosition(m_ghostAI->getPos());
 
 	m_player->setScore(0);
 	m_player->reset();
@@ -607,15 +622,6 @@ void GameScreen::resetGame() {
 		m_enemies[i]->setScore(0);
 	}
 
-	//m_splineAI->setBehaviourState(m_aiStates);
-	//m_splineAI->setVisuals(false);
-	//m_splineAI->resetGame();
-	//m_splineAI->setScore(0);
-
-	//m_ghostAI->setBehaviourState(m_aiStates);
-	//m_ghostAI->resetGame();
-	//m_ghostAI->setVisuals(false);
-
 	for (int i = 0; i < m_scores.size(); i++) {
 		m_scores[i].second = 0;
 	}
@@ -625,7 +631,11 @@ void GameScreen::resetGame() {
 	
 }
 
-
+/// <summary>
+/// saves the scores of each the characters 
+/// to the text file and closes the file
+/// </summary>
+/// <param name="path">the path to the text file </param>
 void GameScreen::saveScores(std::string path) {
 	m_Scorefile.open(path);
 
@@ -638,7 +648,8 @@ void GameScreen::saveScores(std::string path) {
 }
 
 /// <summary>
-/// 
+/// updates the scores of each of the characters 
+/// and sorts the scores in descending order
 /// </summary>
 void GameScreen::updateScores()
 {
@@ -674,7 +685,13 @@ sf::Vector2f GameScreen::getRandomPosition() {
 	return sf::Vector2f(m_keyPositions[num].x + 25.0f, m_keyPositions[num].y + 25.0f);
 }
 
-
+/// <summary>
+/// sets the position to a random position
+/// within the spawn position as to give each character a 
+/// different position in each game
+/// when a position is used it is removed from the vector
+/// </summary>
+/// <returns></returns>
 sf::Vector2f GameScreen::initPosition() {
 
 	sf::Vector2f position;
@@ -693,9 +710,10 @@ sf::Vector2f GameScreen::initPosition() {
 }
 
 /// <summary>
-/// 
+/// renders the characters, the map, nodes and obstacles
+/// and the labels 
 /// </summary>
-/// <param name="window"></param>
+/// <param name="window">Render Window</param>
 void GameScreen::render(sf::RenderWindow & window)
 {
 	window.draw(m_mapSprite);
@@ -704,9 +722,6 @@ void GameScreen::render(sf::RenderWindow & window)
 	for (auto &enemy : m_enemies) {
 		enemy->render(window);
 	}
-
-	//m_splineAI->render(window);
-	//m_ghostAI->render(window);
 
 	if (m_key->getActive()) {
 		m_key->render(window);
@@ -722,6 +737,7 @@ void GameScreen::render(sf::RenderWindow & window)
 	}
 
 	window.draw(m_toolbar);
+
 	for (int i = 0; i < m_labels.size(); i++)
 	{
 		m_labels[i]->render(window);
@@ -729,4 +745,6 @@ void GameScreen::render(sf::RenderWindow & window)
 	if (!m_startGame) {
 		m_timeLabel->render(window);
 	}
+
+	m_lifebar->render(window);
 }

@@ -17,6 +17,7 @@
 #include "Headers/GameNode.h"
 #include "Headers/Label.h"
 #include "Headers/Key.h"
+#include "Headers/Lifebar.h"
 
 class GameScreen
 {
@@ -77,7 +78,7 @@ private:
 	sf::RectangleShape m_toolbar;
 
 	Label* m_label;
-
+	LifeBar * m_lifebar;
 	std::vector<std::pair<std::string, int>> m_scores;
 
 	std::vector<Label*> m_labels;

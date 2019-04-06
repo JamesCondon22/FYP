@@ -130,7 +130,6 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 			{
 				m_ghostAI->setActive(true);
 				m_splineAI->setActive(true);
-				//m_ghostAI->resetCurve();
 				m_aitypeLabel->setText(m_splineAI->getName());
 				m_aitypeLabel->setColor(m_splineAI->getColor());
 			}
@@ -219,14 +218,14 @@ void DemoScreen::resetDemo() {
 
 	for (int i = 0; i < m_enemies.size(); i++) {
 		m_enemies[i]->setPosition(sf::Vector2f(2700.0f, 300.0f));
-		m_enemies[i]->clearPath();
+		m_enemies[i]->resetDemo();
 		m_enemies[i]->setCollided(false);
 	}
 	m_splineAI->setPosition(sf::Vector2f(2700.0f, 300.0f));
 	m_splineAI->setCollided(false);
-	m_splineAI->clearPath();
+	m_splineAI->resetDemo();
 	m_ghostAI->setPosition(sf::Vector2f(2700.0f, 300.0f));
-	m_ghostAI->clearPath();
+	m_ghostAI->resetDemo();
 }
 
 
@@ -253,7 +252,6 @@ void DemoScreen::render(sf::RenderWindow & window)
 	if (m_splineAI->getActive())
 	{
 		m_splineAI->render(window);
-		//m_ghostAI->render(window);
 	}
 	for (auto rect : m_bounding) {
 
@@ -281,13 +279,9 @@ void DemoScreen::checkSplineCollision(TestBot * bot, CRSplineAI * enemy, std::st
 
 		if (lastBtnPress == "RUN")
 		{
-			m_file.close();
-			resetDemo();
 			enemy->setActive(false);
 			bot->reset();
-			m_ghostAI->resetCurve();
-			lastBtnPress = "";
-			*m_currentState = GameState::Options;
+			updateRun();
 		}
 		else if (lastBtnPress == "RUN ALL")
 		{
@@ -295,23 +289,18 @@ void DemoScreen::checkSplineCollision(TestBot * bot, CRSplineAI * enemy, std::st
 			m_file << "Path length = " << enemy->getPathLength() << std::endl;
 			m_file << "Interception Time = " << enemy->getInterceptionTime() << std::endl;
 			m_file << "Average Execution Time = " << enemy->getAverageExecTime() << std::endl;
+			m_file << "Total Rotations: " << enemy->getTotalRotation() << std::endl;
 			m_file << "\n";
 
-			m_id++;
 			enemy->setActive(false);
 			bot->reset();
-			m_clock.restart();
+			updateRunAll();
 		}
 		else if (lastBtnPress == "COMPARE")
 		{
-			m_counter += 1;
+		
 			enemy->setActive(false);
-			if (m_counter >= 7) {
-				m_file.close();
-				resetDemo();
-				*m_currentState = GameState::Options;
-			}
-			m_aitypeLabel->setText("All AI Characters");
+			updateCompare();
 		}
 	}
 }
@@ -329,13 +318,9 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 		
 		if (lastBtnPress == "RUN")
 		{
-			m_file.close();
-			resetDemo();
 			enemy->setActive(false);
 			bot->reset();
-			lastBtnPress = "";
-			m_aitypeLabel->setText("");
-			*m_currentState = GameState::Options;
+			updateRun();
 		}
 		else if (lastBtnPress == "RUN ALL")
 		{
@@ -343,31 +328,19 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 			m_file << "Path length: " << enemy->getPathLength() << std::endl;
 			m_file << "Interception Time: " << enemy->getInterceptionTime() << std::endl;
 			m_file << "Average Execution Time: " << enemy->getAverageExecTime() << std::endl;
+			m_file << "Total Rotations: " << enemy->getTotalRotation() << std::endl;
 			m_file << "\n";
 
-
-			m_id++;
 			enemy->setActive(false);
 			bot->reset();
-			m_clock.restart();
-			if (m_id > 7)
-			{
-				m_file.close();
-				resetDemo();
-				m_aitypeLabel->setText("");
-				*m_currentState = GameState::Options;
-			}
+			updateRunAll();
+
 		}
 		else if (lastBtnPress == "COMPARE")
 		{
 			m_counter += 1;
 			enemy->setActive(false);
-			if (m_counter >= 7) {
-				m_file.close();
-				resetDemo();
-				m_aitypeLabel->setText("");
-				*m_currentState = GameState::Options;
-			}
+			updateCompare();
 		}
 	}
 }
@@ -433,5 +406,36 @@ void DemoScreen::checkCompare(Enemy * enemy) {
 	{
 		enemy->setActive(true);
 		m_aitypeLabel->setText("All AI Characters");
+	}
+}
+
+void DemoScreen::updateRun() {
+	resetDemo();
+	m_ghostAI->resetCurve();
+	*m_currentState = GameState::Options;
+}
+
+
+void DemoScreen::updateRunAll() {
+
+	m_id++;
+	m_clock.restart();
+	if (m_id > MAX_AI)
+	{
+		m_file.close();
+		resetDemo();
+		m_aitypeLabel->setText("");
+		*m_currentState = GameState::Options;
+	}
+}
+
+
+void DemoScreen::updateCompare() {
+
+	m_counter += 1;
+	if (m_counter >= 7) {
+		resetDemo();
+		m_aitypeLabel->setText("");
+		*m_currentState = GameState::Options;
 	}
 }

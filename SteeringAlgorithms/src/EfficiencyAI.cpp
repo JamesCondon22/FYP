@@ -102,6 +102,25 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 	m_time += m_clock2.getElapsedTime();
 
 	m_begin = true;
+	calculateRotations();
+}
+
+
+void EfficiencyAI::calculateRotations() {
+
+	m_currentRotation = m_rotation;
+
+	if (m_currentRotation <= 0) {
+		m_currentRotation = m_rotation * -1;
+	}
+	if (m_lastRotation > m_currentRotation) {
+		m_totalRotations = m_totalRotations + (m_lastRotation - m_currentRotation);
+	}
+	else {
+		m_totalRotations = m_totalRotations + (m_currentRotation - m_lastRotation);
+	}
+
+	m_lastRotation = m_currentRotation;
 }
 
 
@@ -409,7 +428,7 @@ void EfficiencyAI::resetGame() {
 }
 
 
-void EfficiencyAI::clearPath() {
+void EfficiencyAI::resetDemo() {
 
 	m_lastPathCircle = nullptr;
 	m_timeAmount = 0;
@@ -418,7 +437,8 @@ void EfficiencyAI::clearPath() {
 	m_startTimer = false;
 	m_currentTime = 0;
 	m_tickCounter = 0;
-
+	m_totalRotations = 0;
+	m_lastRotation = 90;
 	m_rect.setRotation(m_rotation);
 	m_surroundingCircle.setPosition(m_position);
 	for (int i = 0; i < m_size; i++)

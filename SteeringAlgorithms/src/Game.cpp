@@ -26,7 +26,7 @@ Game::Game() :
 
 	m_currentState = new GameState;
 
-	*m_currentState = GameState::MainMenu;
+	*m_currentState = GameState::Menu;
 
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
@@ -144,13 +144,6 @@ void Game::update(double dt)
 {
 	sf::Time deltaTime;
 	m_mousePosition = sf::Mouse::getPosition(m_window);
-
-
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !m_pressed)
-	{
-		std::cout << m_mousePosition.x << ", " << m_mousePosition.y << std::endl;
-		m_pressed = true;
-	}
 
 	
 	switch (*m_currentState)

@@ -48,7 +48,7 @@ void Options::update(double dt)
 	ImGui::End();
 	ImGui::EndFrame();*/
 	if (!m_loaded) {
-		m_labels.clear();
+		//m_labels.clear();
 		m_file.open("resources/assets/DemoFile.txt");
 		
 	}
@@ -79,7 +79,7 @@ void Options::update(double dt)
 		label->setText(m_line);
 		m_position.y = m_position.y += 50;
 
-		if (m_position.y > 1000)
+		if (m_position.y > 1200)
 		{
 			m_position.x = m_position.x + 800;
 			m_position.y = 50;

@@ -82,9 +82,11 @@ public:
 	void setTag(std::string tag) { m_tag = tag; }
 	std::string getTag() { return m_tag; }
 	double getTime() { return m_currentTime; }
-	void clearPath();
+	void resetDemo();
 	void resetCurve();
 	bool pathset = false;
+	double getTotalRotation() { return m_totalRotations; }
+	void calculateRotations();
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -162,6 +164,10 @@ private:
 	int m_savedNode = 0;
 	
 	std::string m_tag;
+
+	double m_currentRotation;
+	double m_lastRotation = 90;
+	double m_totalRotations = 0;
 };
 
 //#endif
