@@ -54,10 +54,14 @@ CRSplineAI::~CRSplineAI()
 {
 }
 
-
+/// <summary>
+/// update the the distnaces in the context map 
+/// sets the current position and velocity of the AI
+/// </summary>
+/// <param name="dt">delta time </param>
+/// <param name="position">target position</param>
 void CRSplineAI::update(double dt, sf::Vector2f position)
 {
-	m_clock2.restart();
 
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
@@ -93,12 +97,14 @@ void CRSplineAI::update(double dt, sf::Vector2f position)
 	handleTimer();
 
 	m_tickCounter += 1;
-	m_time += m_clock2.getElapsedTime();
 
 	calculateRotations();
 }
 
-
+/// <summary>
+/// calculates the total amount of rotations made 
+/// by the AI character
+/// </summary>
 void CRSplineAI::calculateRotations() {
 
 	m_currentRotation = m_rotation;
@@ -116,10 +122,17 @@ void CRSplineAI::calculateRotations() {
 	m_lastRotation = m_currentRotation;
 }
 
+/// <summary>
+/// update call for the ghost AI character 
+/// creates a spline points every 25 ticks 
+/// </summary>
+/// <param name="dt">delta time </param>
+/// <param name="position">the target position </param>
 void CRSplineAI::updatePlotPoints(double dt, sf::Vector2f position)
 {
-	if (m_counter == 25)
-	{
+	//checks the ticks 
+	if (m_counter == 25) {
+		//creates a spline point 
 		sf::CircleShape circle(5);
 		circle.setPosition(0, 0);
 		circle.setOrigin(circle.getRadius(), circle.getRadius());
@@ -128,38 +141,47 @@ void CRSplineAI::updatePlotPoints(double dt, sf::Vector2f position)
 		m_romPoints.push_back(circle);
 		m_counter = 0;
 	}
-
+	//updates the ticks 
 	m_counter += 1;
 
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
-
+	//updates the vector lines 
 	updateLines(position);
-	
+	//updates the dangers 
 	updateDangers();
 	m_distances = normalize(m_distances);
+	//passes the distances from interests and dangers to the Context Map class 
 	mapDecisions.update(m_distances, m_distancesDanger);
+	//sets the direction for the AI character 
 	checkDirection();
-
+	//updates the steering 
 	m_steering = seek(position);
 	m_position += m_steering.linear;
 	m_position = sf::Vector2f(m_position.x + std::cos(DEG_TO_RAD  * (m_rotation)) * m_speed * (dt / 1000),
 	m_position.y + std::sin(DEG_TO_RAD * (m_rotation)) * m_speed* (dt / 1000));
 	m_rect.setPosition(m_position);
 	m_surroundingCircle.setPosition(m_position);
-
+	//updates the ticks 
 	m_tickCounter += 1;
 	
 }
 
-
+/// <summary>
+/// sets the position 
+/// </summary>
+/// <param name="position"></param>
 void CRSplineAI::setPosition(sf::Vector2f position) {
 	m_position = position;
 	m_rect.setPosition(m_position);
 }
 
-
+/// <summary>
+/// gets the closest position of the closest node 
+/// sets the target to the noode position
+/// </summary>
+/// <returns></returns>
 sf::Vector2f CRSplineAI::getPointPosition()
 {
 	sf::Vector2f  target;
@@ -167,6 +189,7 @@ sf::Vector2f CRSplineAI::getPointPosition()
 	target.x = m_curve->node(currentNode).x;
 	target.y = m_curve->node(currentNode).y;
 
+	//checks the distnace between current position and the target
 	if (Math::distance(m_position, target) <= 10)
 	{
 		
@@ -177,23 +200,29 @@ sf::Vector2f CRSplineAI::getPointPosition()
 	return target;
 }
 
-
+/// <summary>
+/// renders the path, AI and 
+/// catmull rom points 
+/// </summary>
+/// <param name="window"></param>
 void CRSplineAI::render(sf::RenderWindow & window)
 {
+	//only renders the path in the demo.
 	if (m_state == GameState::Demo) {
 		for (int i = 0; i < m_pathLine.size(); i++)
 		{
 			m_pathLine[i]->render(window);
 		}
 	}
+	//checks if the visuals are on
 	if (m_visuals) {
 		for (int i = 0; i < m_size; i++) {
 			m_lineVec[i].render(window);
 		}
 		window.draw(m_surroundingCircle);
 	}
-	for (auto &rom : m_romPoints)
-	{
+	//draws the rom points 
+	for (auto &rom : m_romPoints) {
 		window.draw(rom);
 	}
 
@@ -201,42 +230,62 @@ void CRSplineAI::render(sf::RenderWindow & window)
 
 }
 
-
+/// <summary>
+/// checks the distance between the AI character 
+/// and the target
+/// </summary>
+/// <param name="position">position of the target</param>
+/// <returns></returns>
 double CRSplineAI::checkDistance(sf::Vector2f position) {
 
 	return Math::distance(m_position, position);
 }
 
-
+/// <summary>
+/// gets the current position
+/// </summary>
+/// <returns></returns>
 sf::Vector2f CRSplineAI::getPos()
 {
 	return m_position;
 }
 
+/// <summary>
+/// gets the velocity
+/// </summary>
+/// <returns></returns>
 sf::Vector2f CRSplineAI::getVel()
 {
 	return m_velocity;
 }
 
-
+/// <summary>
+/// updates the directional vectors in relation to the 
+/// position being passed 
+/// </summary>
+/// <param name="position"></param>
 void CRSplineAI::updateLines(sf::Vector2f position)
 {
 	int count = 0;
 
-	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
-	{
+	//loops throught the vectors checking the current distance from each 
+	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it) {
 		m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), position);
 		count++;
 	}
 }
 
-
+/// <summary>
+/// updates the dangers, checks which is the closest danger 
+/// and updates the vectors in relation to the closest
+/// </summary>
 void CRSplineAI::updateDangers()
 {
 	int count = 0;
-
+	//initialises an obstacle 
 	Obstacle *obs = new Obstacle(0);
-	double smallest = 1000000;
+	double smallest = 10000000;
+	//loops through the obstacles searching for the smallest
 	for (auto it = m_obstacles.begin(); it != m_obstacles.end(); ++it)
 	{
 		double dist = Math::distance(m_position, (*it)->getPosition());
@@ -246,7 +295,9 @@ void CRSplineAI::updateDangers()
 			smallest = dist;
 		}
 	}
-
+	/// <summary>
+	/// updates the lines in relation to the closest obstacle 
+	/// </summary>
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
 
@@ -257,7 +308,12 @@ void CRSplineAI::updateDangers()
 
 }
 
-
+/// <summary>
+/// finds the largest value in the map
+/// and returns  
+/// </summary>
+/// <param name="vec">Direction map</param>
+/// <returns></returns>
 double CRSplineAI::findLargest(std::map<Direction, double> vec)
 {
 	double largest = 0;
@@ -271,6 +327,13 @@ double CRSplineAI::findLargest(std::map<Direction, double> vec)
 	return largest;
 }
 
+/// <summary>
+/// normalizes the map to a value between 0 and 1
+/// finds the largest value and uses that value to 
+/// sort the map
+/// </summary>
+/// <param name="vec"></param>
+/// <returns></returns>
 std::map<Direction, double> CRSplineAI::normalize(std::map<Direction, double> vec)
 {
 	auto curLargest = findLargest(vec);
@@ -284,6 +347,12 @@ std::map<Direction, double> CRSplineAI::normalize(std::map<Direction, double> ve
 	return vec;
 }
 
+/// <summary>
+/// normalises the dangers to a value between 0 and 1
+/// finds the largert value and divides all values by the largest 
+/// </summary>
+/// <param name="vec">the distances map</param>
+/// <returns></returns>
 std::map<Direction, double> CRSplineAI::normalizeDangers(std::map<Direction, double> vec)
 {
 	auto curLargest = findLargest(vec);
@@ -298,7 +367,11 @@ std::map<Direction, double> CRSplineAI::normalizeDangers(std::map<Direction, dou
 }
 
 
-
+/// <summary>
+/// seek function using dynamic steering 
+/// </summary>
+/// <param name="position">seek position</param>
+/// <returns></returns>
 steering CRSplineAI::seek(sf::Vector2f position)
 {
 	m_velocity = curDirection - m_position;
@@ -312,7 +385,10 @@ steering CRSplineAI::seek(sf::Vector2f position)
 	return seekSteering;
 }
 
-
+/// <summary>
+/// calculates the current orientation in regards to 
+/// the velocity vector and updates the speed 
+/// </summary>
 void CRSplineAI::calculation() {
 
 	if (m_velocity.x != 0 || m_velocity.y != 0)
@@ -324,7 +400,11 @@ void CRSplineAI::calculation() {
 	}
 }
 
-
+/// <summary>
+/// calculates the magnitude of the vector 
+/// </summary>
+/// <param name="v">vector v</param>
+/// <returns></returns>
 float CRSplineAI::mag(sf::Vector2f & v)
 {
 	return std::sqrt((v.x * v.x) + (v.y * v.y));
@@ -332,10 +412,11 @@ float CRSplineAI::mag(sf::Vector2f & v)
 
 
 /// <summary>
-/// 
+/// calculates the current orientation of the 
+/// AI character depending on the velocity
 /// </summary>
-/// <param name="curOrientation"></param>
-/// <param name="velocity"></param>
+/// <param name="curOrientation">the current rotation</param>
+/// <param name="velocity">the velocity of the AI </param>
 /// <returns></returns>
 float CRSplineAI::getNewOrientation(float curOrientation, sf::Vector2f velocity)
 {
@@ -352,25 +433,22 @@ float CRSplineAI::getNewOrientation(float curOrientation, sf::Vector2f velocity)
 
 
 /// <summary>
-/// 
+/// calculates the length of a vector 
 /// </summary>
-/// <param name="vel"></param>
-/// <returns></returns>
+/// <param name="vel">the velocity</param>
+/// <returns>float</returns>
 float CRSplineAI::length(sf::Vector2f vel) {
 	return sqrt(vel.x * vel.x + vel.y * vel.y);
 }
 
-
-bool CRSplineAI::compareKeys(std::map<Direction, sf::Vector2f> vec) {
-
-
-	return false;
-}
-
+/// <summary>
+/// sets the current direction for the AI 
+/// this direction depends on the closest vector to target position
+/// </summary>
 void CRSplineAI::checkDirection()
 {
-	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
-	{
+	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it) {
+		//checks the strongest entry and sets the direction to that position 
 		if (mapDecisions.getStrongest() == it->getState()) {
 			curDirection = it->getMap()[mapDecisions.getStrongest()];
 			it->changeColor();
@@ -378,9 +456,12 @@ void CRSplineAI::checkDirection()
 	}
 }
 
-
-void CRSplineAI::initVector()
-{
+/// <summary>
+/// inilialises the map giving each entry a direction 
+/// and a value of 0.0, inits both the distances from interests 
+/// and the distances from dangers 
+/// </summary>
+void CRSplineAI::initVector() {
 
 	m_distances.insert({ Direction::E, 0.0 });
 	m_distances.insert({ Direction::ESE, 0.0 });
@@ -418,7 +499,11 @@ void CRSplineAI::initVector()
 	m_distancesDanger.insert({ Direction::ENE, 0.0 });
 }
 
-
+/// <summary>
+/// gets the position of the closest node 
+/// only checks the nodes which have not been completed or alive 
+/// </summary>
+/// <returns></returns>
 sf::Vector2f CRSplineAI::getCurrentNodePosition()
 {
 	sf::Vector2f target;
@@ -442,16 +527,21 @@ sf::Vector2f CRSplineAI::getCurrentNodePosition()
 	return target;
 }
 
+/// <summary>
+/// finds the closest node 
+/// checks the distance of each node and 
+/// sets the index to the closest node position
+/// </summary>
 void CRSplineAI::findClosestNode() {
 
 	double smallest = DBL_MAX;
 	auto curIndex = 0;
 
-	for (int i = 0; i < m_nodes.size(); i++)
-	{
+	for (int i = 0; i < m_nodes.size(); i++) {
+		//only checks the nodes which have not been colleceted 
 		if (m_nodes[i]->getAlive()) {
 			auto dist = Math::distance(m_position, m_nodes[i]->getPosition());
-
+			//checks for the smallest
 			if (dist < smallest) {
 				smallest = dist;
 				curIndex = i;
@@ -461,7 +551,11 @@ void CRSplineAI::findClosestNode() {
 	m_closestNode = curIndex; 
 }
 
-
+/// <summary>
+/// normalises the vector to a value between 0 and 1
+/// </summary>
+/// <param name="vec">the vector </param>
+/// <returns></returns>
 sf::Vector2f CRSplineAI::normalize(sf::Vector2f vec)
 {
 	if (vec.x*vec.x + vec.y * vec.y != 0)
@@ -472,21 +566,28 @@ sf::Vector2f CRSplineAI::normalize(sf::Vector2f vec)
 	return vec;
 }
 
-
-void CRSplineAI::generatePath(double dt)
+/// <summary>
+/// generates a path or trail which is left 
+/// by the ai, updates the path using the dt value 
+/// pushes the path into the a vector contaning the path nodes 
+/// </summary>
+/// <param name="dt">delta time</param>
+void CRSplineAI::generatePath(double dt) 
 {
+	//updates the amount
 	m_timeAmount += dt;
 
-	if (m_timeAmount > 150)
-	{
+	if (m_timeAmount > 150) {
+
 		Path * circle = new Path(3);
 		circle->setPosition(m_position);
 		circle->setColor(m_color);
 		m_pathLine.push_back(circle);
 		m_timeAmount = 0;
-
-		if (m_lastPathCircle != nullptr)
-		{
+		
+		//calculates the distance between two nodes 
+		if (m_lastPathCircle != nullptr) {
+			//adds the distnace to the total value 
 			auto dist = Math::distance(m_lastPathCircle->getPosition(), circle->getPosition());
 			m_totalPathLength += dist;
 		}
@@ -495,9 +596,11 @@ void CRSplineAI::generatePath(double dt)
 	}
 }
 
-
-void CRSplineAI::handleTimer()
-{
+/// <summary>
+/// updates the time 
+/// </summary>
+void CRSplineAI::handleTimer() {
+	//resets the clock 
 	if (!m_startTimer)
 	{
 		m_clock.restart();
@@ -507,7 +610,11 @@ void CRSplineAI::handleTimer()
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
 }
 
-
+/// <summary>
+/// gets the average execution time 
+/// calculates by dividing the time into the amount of ticks 
+/// </summary>
+/// <returns></returns>
 double CRSplineAI::getAverageExecTime()
 {
 	m_averageExecTime = m_currentTime / m_tickCounter;
@@ -515,13 +622,9 @@ double CRSplineAI::getAverageExecTime()
 }
 
 
-double CRSplineAI::getTimeEfficiency()
-{
-	m_timeEfficiency = m_currentTime / m_tickCounter;
-	return m_timeEfficiency;
-}
-
-
+/// <summary>
+/// resets all the game data 
+/// </summary>
 void CRSplineAI::resetGame() {
 	for (int i = 0; i < m_nodes.size(); i++) {
 
@@ -530,7 +633,10 @@ void CRSplineAI::resetGame() {
 	}
 }
 
-
+/// <summary>
+/// resets all the data in relation to 
+/// the demo 
+/// </summary>
 void CRSplineAI::resetDemo() {
 
 	m_lastPathCircle = nullptr;
@@ -555,7 +661,9 @@ void CRSplineAI::resetDemo() {
 	}
 }
 
-
+/// <summary>
+/// clears the catmull  ro plot points 
+/// </summary>
 void CRSplineAI::resetCurve() {
 
 	m_curve->clear();
