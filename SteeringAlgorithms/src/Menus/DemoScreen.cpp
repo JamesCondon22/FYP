@@ -309,6 +309,8 @@ void DemoScreen::checkSplineCollision(TestBot * bot, CRSplineAI * enemy, std::st
 			m_file << "Total Rotations: " << enemy->getTotalRotation() << std::endl;
 			m_file << "\n";
 
+			inputAET(enemy->getAverageExecTime());
+
 			enemy->setActive(false);
 			bot->reset();
 			updateRunAll();
@@ -354,6 +356,8 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 			m_file << "Average Execution Time: " << enemy->getAverageExecTime() << std::endl;
 			m_file << "Total Rotations: " << enemy->getTotalRotation() << std::endl;
 			m_file << "\n";
+
+			inputAET(enemy->getAverageExecTime());
 
 			enemy->setActive(false);
 			bot->reset();
@@ -489,4 +493,8 @@ void DemoScreen::updateCompare() {
 		m_aitypeLabel->setText("");
 		*m_currentState = GameState::Options;
 	}
+}
+
+void DemoScreen::inputAET(double aet) {
+	m_executionTimes.push_back(aet);
 }

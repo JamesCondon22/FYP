@@ -177,26 +177,64 @@ void Game::update(double dt)
 		break;
 	}
 
+	
 }
 
 
 void Game::updateGUI() {
-	
+	if (m_demoScreen->getAETimes().size() >= 7) {
+		for (int i = 0; i < m_demoScreen->getAETimes().size(); i++) {
+			arr[i] = m_demoScreen->getAETimes()[i];
+		}
+	}
+
 	ImGui::SFML::Update(m_window, m_clock.restart());
-	ImGui::Begin("Average Execution Time");
-	
+
+	ImGui::Begin("Interception Time");
 	ImGui::DrawLine(ImVec2(80, 70), ImVec2(80, 870), sf::Color::White, 2.0f);
-	ImGui::SetCursorPosX(100.0f);
-	ImGui::SetCursorPosY(100.0f);
-	ImGui::PlotHistogram("", values, IM_ARRAYSIZE(values), 0, NULL, 0.0f, 2.0f, ImVec2(1500.0f, 800.0f));
-	ImGui::DrawLine(ImVec2(80, 0), ImVec2(1600, 0), sf::Color::White, 2.0f);
-	ImGui::SetCursorPos(ImVec2(110, 920));
-	ImGui::Text("Basic Context");
-	ImGui::SetWindowFontScale(2.0f);
+	ImGui::SetCursorPos(ImVec2(100.0f, 100.0f));
+	ImGui::PlotHistogram("", values, IM_ARRAYSIZE(values), 0, NULL, 0.0f, 1.0f, ImVec2(1200, 800.0f));
+	ImGui::DrawLine(ImVec2(80, 0), ImVec2(1300, 0), sf::Color::White, 2.0f);
+	initText();
 	ImGui::End();
+
+	ImGui::Begin("Average Execution Time");
+	ImGui::DrawLine(ImVec2(80, 70), ImVec2(80, 870), sf::Color::White, 2.0f);
+	ImGui::SetCursorPos(ImVec2(100.0f, 100.0f));
+	ImGui::PlotHistogram("", arr, IM_ARRAYSIZE(arr), 0, NULL, 0.0f, 5.0f, ImVec2(1200, 800.0f));
+	ImGui::DrawLine(ImVec2(80, 0), ImVec2(1300, 0), sf::Color::White, 2.0f);
+	initText();
+	ImGui::End();
+
 	ImGui::EndFrame();
 
+	
+}
 
+
+void Game::initText() {
+
+	ImGui::SetWindowFontScale(1.5f);
+	ImGui::SetCursorPos(ImVec2(110, 920));
+	ImGui::Text("Basic Context");
+
+	ImGui::SetCursorPos(ImVec2(280, 920));
+	ImGui::Text("   Average \nInterpolation");
+
+	ImGui::SetCursorPos(ImVec2(460, 920));
+	ImGui::Text("   Blended \nInterpolation");
+
+	ImGui::SetCursorPos(ImVec2(650, 920));
+	ImGui::Text("Efficiency");
+
+	ImGui::SetCursorPos(ImVec2(800, 920));
+	ImGui::Text("Dynamic Vector");
+
+	ImGui::SetCursorPos(ImVec2(980, 920));
+	ImGui::Text("Catmull Rom");
+
+	ImGui::SetCursorPos(ImVec2(1160, 920));
+	ImGui::Text("Traditional");
 }
 
 

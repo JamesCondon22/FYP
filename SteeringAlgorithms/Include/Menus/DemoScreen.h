@@ -38,6 +38,8 @@ public:
 	void updateCompare();
 	void initAI();
 	void resetDemo();
+	void inputAET(double aet);
+	std::vector<double> getAETimes() { return m_executionTimes; }
 
 private:
 	sf::Window m_window;
@@ -87,5 +89,7 @@ private:
 	Label* m_startLabel;
 	bool m_startTimer = false;
 	int MAX_AI = 7;
+
+	std::vector<double> m_executionTimes;
 };
 #endif // !

@@ -1,4 +1,6 @@
 ﻿  Game.cpp
 c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\traditional.h(53): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
 c:\users\gameuser\desktop\fyp\steeringalgorithms\src\game.cpp(66): warning C4244: '-=': conversion from 'const double' to 'sf::Int32', possible loss of data
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\game.cpp(187): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\game.cpp(188): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   SteeringAlgorithms.vcxproj -> C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\SteeringAlgorithms.exe
