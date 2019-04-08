@@ -26,8 +26,8 @@ Game::Game() :
 
 	m_currentState = new GameState;
 
-	*m_currentState = GameState::Menu;
-
+	*m_currentState = GameState::Options;
+	ImGui::SFML::Init(m_window);
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
 	}
@@ -144,7 +144,7 @@ void Game::update(double dt)
 {
 	sf::Time deltaTime;
 	m_mousePosition = sf::Mouse::getPosition(m_window);
-
+	updateGUI();
 	
 	switch (*m_currentState)
 	{
@@ -176,7 +176,27 @@ void Game::update(double dt)
 	default:
 		break;
 	}
+
+}
+
+
+void Game::updateGUI() {
 	
+	ImGui::SFML::Update(m_window, m_clock.restart());
+	ImGui::Begin("Average Execution Time");
+	
+	ImGui::DrawLine(ImVec2(80, 70), ImVec2(80, 870), sf::Color::White, 2.0f);
+	ImGui::SetCursorPosX(100.0f);
+	ImGui::SetCursorPosY(100.0f);
+	ImGui::PlotHistogram("", values, IM_ARRAYSIZE(values), 0, NULL, 0.0f, 2.0f, ImVec2(1500.0f, 800.0f));
+	ImGui::DrawLine(ImVec2(80, 0), ImVec2(1600, 0), sf::Color::White, 2.0f);
+	ImGui::SetCursorPos(ImVec2(110, 920));
+	ImGui::Text("Basic Context");
+	ImGui::SetWindowFontScale(2.0f);
+	ImGui::End();
+	ImGui::EndFrame();
+
+
 }
 
 
@@ -213,6 +233,7 @@ void Game::render()
 		break;
 	case GameState::Options:
 		m_options->render(m_window);
+		ImGui::SFML::Render(m_window);
 		break;
 	default:
 		break;

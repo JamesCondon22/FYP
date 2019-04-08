@@ -352,6 +352,7 @@ void Traditional::resetDemo() {
 	m_rotation = 180.0f;
 	m_totalRotations = 0;
 	m_lastRotation = 180;
+	m_currentRotation = 0;
 	m_surroundingCircle.setPosition(m_position);
 	m_rect.setRotation(m_rotation);
 	for (int i = 0; i < lines.size(); i++) {

@@ -20,6 +20,7 @@ public:
 
 protected:
 	void update(double dt);
+	void updateGUI();
 	void render();
 	void processEvents();
 	void processGameEvents(sf::Event&);
@@ -44,6 +45,9 @@ protected:
 	sf::Clock m_clock;
 
 	sf::Vector2i m_mousePosition;
+
+	const float values[7] = { 0.5f, 0.20f, 0.80f, 0.60f, 0.25f,  0.25f ,  0.25f };
+	const char* labels[3] = { "a", "b", "c" };
 };
 
 #endif

@@ -16,6 +16,7 @@ public:
 	~Options();
 	void update(double dt);
 	void render(sf::RenderWindow& window);
+	void loadData();
 	bool m_pressed = false;
 private:
 

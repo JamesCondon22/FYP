@@ -17,26 +17,6 @@ Options::Options(GameState * state, sf::Font & font, sf::Font & btnfont, sf::Tex
 	m_texture(texture)
 {
 	m_window = &window;
-	ImGui::SFML::Init(*m_window);
-
-	//creates the labels 
-	Label* l1 = new Label(m_font, sf::Vector2f(1800.0f, 50.0f));
-	Label* l2 = new Label(m_font, sf::Vector2f(1800.0f, 200.0f));
-	Label* l3 = new Label(m_font, sf::Vector2f(1800.0f, 300.0f));
-	//pushes labels into vector
-	m_labels.push_back(l1);
-	m_labels.push_back(l2);
-	m_labels.push_back(l3);
-	//data explanation labels 
-	m_labels[0]->setText("Average Execution Time: This is the average time in which it takes each AI character to complete one full update of \n each steering algorithm.");
-	m_labels[1]->setText("Interception Time: This is time taken for the AI character to intercept the scripted AI character.");
-	m_labels[2]->setText("Path Length: This the length of the path taken to intercept the scripted AI character.");
-	//sets the labels size, color 
-	for (int i = 0; i < m_labels.size(); i++) {
-		m_labels[i]->setColor(sf::Color::Black);
-		m_labels[i]->setOutline(sf::Color::Black, 0.0f);
-		m_labels[i]->setSize(40);
-	}
 	//creates a new button
 	button = new Button(sf::Vector2f(2000.0f, 600.0f), 600, 150, m_texture, btnfont, "MAIN MENU");
 }
@@ -52,22 +32,19 @@ Options::~Options()
 /// <param name="dt">delta time</param>
 void Options::update(double dt)
 {
-	//ImGui::NewFrame();
-	/*ImGui::SFML::Update(*m_window, m_clock.restart());
-	ImGui::Begin("Hello, world!");
-	ImGui::Button("Button one");
-	ImGui::Button("Button two");
-	ImGui::SetWindowFontScale(2.5f);
-	ImGui::End();
-	ImGui::EndFrame();*/
 	//enables to read new data from the text file 
 	if (!m_loaded) {
 		//m_labels.clear();
 		m_file.open("resources/assets/DemoFile.txt");
-		
+
 	}
+	
+	//ImGui::EndFrame();
+	
 
 	m_mousePositon = sf::Mouse::getPosition(*m_window);
+
+	loadData();
 
 	//checks the if the menu button is clicked 
 	if (button->checkCollision(m_mousePositon)){
@@ -83,7 +60,32 @@ void Options::update(double dt)
 		}
 	}
 	
-	//reads all the data from the text file 
+	
+}
+
+/// <summary>
+/// renders all labels and buttons 
+/// </summary>
+/// <param name="window"></param>
+void Options::render(sf::RenderWindow & window)
+{
+
+	window.clear(sf::Color(255, 255, 255));
+
+	for (int i = 0; i < m_labels.size(); i++)
+	{
+		m_labels[i]->render(window);
+	}
+
+	button->render(window);
+}
+
+/// <summary>
+/// reads all the data from the text file.
+/// positions all the data to the screen.
+/// </summary>
+void Options::loadData() {
+	
 	while (std::getline(m_file, m_line)) {
 		//creates a new label and assigns position
 		Label * label = new Label(m_font, m_position);
@@ -103,24 +105,6 @@ void Options::update(double dt)
 	//closes the file 
 	m_file.close();
 	m_loaded = true;
-}
-
-/// <summary>
-/// renders all labels and buttons 
-/// </summary>
-/// <param name="window"></param>
-void Options::render(sf::RenderWindow & window)
-{
-	
-	//ImGui::SFML::Render(*m_window);
-	window.clear(sf::Color(255, 255, 255));
-
-	for (int i = 0; i < m_labels.size(); i++)
-	{
-		m_labels[i]->render(window);
-	}
-
-	button->render(window);
 }
 
 
