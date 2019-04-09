@@ -289,7 +289,12 @@ sf::Vector2f Traditional::getCurrentNodePosition()
 	return target;
 }
 
-
+/// <summary>
+/// generates a path or trail which is left 
+/// by the ai, updates the path using the dt value 
+/// pushes the path into the a vector contaning the path nodes 
+/// </summary>
+/// <param name="dt">delta time</param>
 void Traditional::generatePath(double dt)
 {
 	m_timeAmount += dt;
@@ -310,7 +315,9 @@ void Traditional::generatePath(double dt)
 	}
 }
 
-
+/// <summary>
+/// updates the timer 
+/// </summary>
 void Traditional::handleTimer()
 {
 	if (!m_startTimer)
@@ -319,12 +326,17 @@ void Traditional::handleTimer()
 		m_startTimer = true;
 	}
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
+	m_currentTime = m_currentTime / 1000;
 }
 
-
+/// <summary>
+/// gets the average execution time 
+/// calculates by dividing the time into the amount of ticks 
+/// </summary>
+/// <returns>average execution time</returns>
 double Traditional::getAverageExecTime()
 {
-	m_averageExecTime = m_currentTime / m_tickCounter;
+	m_averageExecTime = (m_currentTime * 1000) / m_tickCounter;
 	return m_averageExecTime;
 }
 

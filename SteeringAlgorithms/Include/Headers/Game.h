@@ -49,11 +49,8 @@ protected:
 	sf::Vector2i m_mousePosition;
 	float m_AETarr[7];
 	float m_InterTarr[7];
-	const float values[7] = { 0.5f, 0.20f, 0.80f, 0.60f, 0.25f,  0.25f ,  0.25f };
-	const char* labels[3] = { "a", "b", "c" };
-
-	const char* tabNames[2] = { "Search","Debugger" };
-	int selectedTab = 0;
+	float m_pathArr[7];
+	float m_rotationsArr[7];
 	bool m_setTimes = false;
 	bool onOptions = false;
 };

@@ -312,6 +312,8 @@ void DemoScreen::checkSplineCollision(TestBot * bot, CRSplineAI * enemy, std::st
 
 			inputAET(enemy->getAverageExecTime());
 			inputInterceptionTime(enemy->getInterceptionTime());
+			inputPaths(enemy->getPathLength());
+			inputRotations(enemy->getTotalRotation());
 
 			updateRunAll();
 		}
@@ -357,7 +359,8 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 
 			inputAET(enemy->getAverageExecTime());
 			inputInterceptionTime(enemy->getInterceptionTime());
-
+			inputPaths(enemy->getPathLength());
+			inputRotations(enemy->getTotalRotation());
 			
 			updateRunAll();
 
@@ -497,4 +500,12 @@ void DemoScreen::inputAET(double aet) {
 
 void DemoScreen::inputInterceptionTime(double time) {
 	m_interceptionTimes.push_back(time);
+}
+
+void DemoScreen::inputPaths(double path) {
+	m_pathLengths.push_back(path);
+}
+
+void DemoScreen::inputRotations(double rotation) {
+	m_rotations.push_back(rotation);
 }

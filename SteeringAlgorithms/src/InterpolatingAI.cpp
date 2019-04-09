@@ -401,20 +401,14 @@ void InterpolatingAI::handleTimer()
 		m_startTimer = true;
 	}
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
+	m_currentTime = m_currentTime / 1000;
 }
 
 
 double InterpolatingAI::getAverageExecTime()
 {
-	m_averageExecTime = m_currentTime / m_tickCounter;
+	m_averageExecTime = (m_currentTime * 1000) / m_tickCounter;
 	return m_averageExecTime;
-}
-
-
-double InterpolatingAI::getTimeEfficiency()
-{
-	m_timeEfficiency = m_currentTime / m_tickCounter;
-	return m_timeEfficiency;
 }
 
 

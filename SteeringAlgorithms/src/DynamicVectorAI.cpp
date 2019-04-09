@@ -505,6 +505,7 @@ void DynamicVectorAI::handleTimer()
 		m_startTimer = true;
 	}
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
+	m_currentTime = m_currentTime / 1000;
 }
 
 /// <summary>
@@ -544,7 +545,7 @@ void DynamicVectorAI::generatePath(double dt)
 /// <returns>average execution time</returns>
 double DynamicVectorAI::getAverageExecTime()
 {
-	m_averageExecTime = m_currentTime / m_tickCounter;
+	m_averageExecTime = (m_currentTime * 1000) / m_tickCounter;
 	return m_averageExecTime;
 }
 

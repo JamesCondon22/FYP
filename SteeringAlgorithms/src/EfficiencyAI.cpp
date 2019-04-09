@@ -485,6 +485,7 @@ void EfficiencyAI::handleTimer()
 		m_startTimer = true;
 	}
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
+	m_currentTime = m_currentTime / 1000;
 }
 
 /// <summary>
@@ -494,7 +495,7 @@ void EfficiencyAI::handleTimer()
 /// <returns>average execution time</returns>
 double EfficiencyAI::getAverageExecTime()
 {
-	m_averageExecTime = m_currentTime / m_tickCounter;
+	m_averageExecTime = (m_currentTime * 1000) / m_tickCounter;
 	return m_averageExecTime;
 }
 

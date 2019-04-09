@@ -144,8 +144,9 @@ void Game::update(double dt)
 {
 	sf::Time deltaTime;
 	m_mousePosition = sf::Mouse::getPosition(m_window);
-	updateGUI();
 	
+	ImGui::SFML::Update(m_window, m_clock.restart());
+
 	switch (*m_currentState)
 	{
 	case GameState::None:
@@ -172,26 +173,24 @@ void Game::update(double dt)
 		break;
 	case GameState::Options:
 		m_options->update(dt);
+		updateGUI();
 		break;
 	default:
 		break;
 	}
 
-	
+	ImGui::EndFrame();
 }
 
 
 void Game::updateGUI() {
 	
-	
 	calculateGraphData();
-
-	ImGui::SFML::Update(m_window, m_clock.restart());
 
 	ImGui::Begin("Interception Time");
 	ImGui::DrawLine(ImVec2(80, 70), ImVec2(80, 870), sf::Color::White, 2.0f);
 	ImGui::SetCursorPos(ImVec2(100.0f, 100.0f));
-	ImGui::PlotHistogram("", m_InterTarr, IM_ARRAYSIZE(m_InterTarr), 0, NULL, 0.0f, 20000.0f, ImVec2(1200, 800.0f));
+	ImGui::PlotHistogram("", m_InterTarr, IM_ARRAYSIZE(m_InterTarr), 0, NULL, 0.0f, 20.0f, ImVec2(1200, 800.0f));
 	ImGui::DrawLine(ImVec2(80, 0), ImVec2(1300, 0), sf::Color::White, 2.0f);
 	initText();
 	ImGui::End();
@@ -204,9 +203,23 @@ void Game::updateGUI() {
 	initText();
 	ImGui::End();
 
-	ImGui::EndFrame();
 
-	
+	ImGui::Begin("Path Lengths");
+	ImGui::DrawLine(ImVec2(80, 70), ImVec2(80, 870), sf::Color::White, 2.0f);
+	ImGui::SetCursorPos(ImVec2(100.0f, 100.0f));
+	ImGui::PlotHistogram("", m_pathArr, IM_ARRAYSIZE(m_pathArr), 0, NULL, 0.0f, 7000.0f, ImVec2(1200, 800.0f));
+	ImGui::DrawLine(ImVec2(80, 0), ImVec2(1300, 0), sf::Color::White, 2.0f);
+	initText();
+	ImGui::End();
+
+	ImGui::Begin("Total Rotations");
+	ImGui::DrawLine(ImVec2(80, 70), ImVec2(80, 870), sf::Color::White, 2.0f);
+	ImGui::SetCursorPos(ImVec2(100.0f, 100.0f));
+	ImGui::PlotHistogram("", m_rotationsArr, IM_ARRAYSIZE(m_rotationsArr), 0, NULL, 0.0f, 30000.0f, ImVec2(1200, 800.0f));
+	ImGui::DrawLine(ImVec2(80, 0), ImVec2(1300, 0), sf::Color::White, 2.0f);
+	initText();
+	ImGui::End();
+
 }
 
 
@@ -246,6 +259,18 @@ void Game::calculateGraphData() {
 	if (m_demoScreen->getInterceptionTimes().size() >= 7) {
 		for (int i = 0; i < m_demoScreen->getInterceptionTimes().size(); i++) {
 			m_InterTarr[i] = m_demoScreen->getInterceptionTimes()[i];
+		}
+	}
+
+	if (m_demoScreen->getPathLengths().size() >= 7) {
+		for (int i = 0; i < m_demoScreen->getPathLengths().size(); i++) {
+			m_pathArr[i] = m_demoScreen->getPathLengths()[i];
+		}
+	}
+
+	if (m_demoScreen->getRotations().size() >= 7) {
+		for (int i = 0; i < m_demoScreen->getRotations().size(); i++) {
+			m_rotationsArr[i] = m_demoScreen->getRotations()[i];
 		}
 	}
 }

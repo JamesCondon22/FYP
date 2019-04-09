@@ -112,6 +112,7 @@ private:
 	double curLargest = 0;
 	double curLargestDanger = 0;
 	sf::Vector2f curDirection = sf::Vector2f(0, 0);
+	sf::Vector2f m_futurePos = sf::Vector2f(0, 0);
 	int m_radius = 30;
 
 	std::vector<GameNode*> m_nodes;
@@ -167,6 +168,7 @@ private:
 
 	double m_lastRotation;
 	double m_totalRotations = 0;
+
 };
 
 //#endif

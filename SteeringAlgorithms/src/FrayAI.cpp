@@ -108,8 +108,6 @@ void FrayAI::update(double dt, sf::Vector2f position)
 	m_tickCounter += 1;
 
 	calculateRotations();
-
-	std::cout << "Total: " << m_totalRotations << std::endl;
 }
 
 /// <summary>
@@ -485,6 +483,7 @@ void FrayAI::handleTimer()
 		m_startTimer = true;
 	}
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
+	m_currentTime = m_currentTime / 1000;
 }
 
 /// <summary>
@@ -494,7 +493,7 @@ void FrayAI::handleTimer()
 /// <returns>average execution time</returns>
 double FrayAI::getAverageExecTime()
 {
-	m_averageExecTime = m_currentTime / m_tickCounter;
+	m_averageExecTime = (m_currentTime * 1000) / m_tickCounter;
 	return m_averageExecTime;
 }
 
