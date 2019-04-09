@@ -441,18 +441,18 @@ float CRSplineAI::length(sf::Vector2f vel) {
 /// </summary>
 void CRSplineAI::checkDirection()
 {
-	//auto tempDirection = curDirection;
+	auto tempDirection = curDirection;
 
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
 		//checks the strongest entry in the map
 		if (mapDecisions.getStrongest() == it->getState()) {
-			curDirection = it->getMap()[mapDecisions.getStrongest()];
+			m_futurePos = it->getMap()[mapDecisions.getStrongest()];
 			it->changeColor();
 		}
 	}
 	//uses a linear interpolation between the two positions 
-//	curDirection = Math::lerp(tempDirection, m_futurePos, 0.08);
+	curDirection = Math::lerp(tempDirection, m_futurePos, 0.08);
 }
 
 /// <summary>
@@ -649,6 +649,7 @@ void CRSplineAI::resetDemo() {
 	m_currentTime = 0;
 	m_tickCounter = 0;
 	m_totalRotations = 0;
+	m_totalPathLength = 0;
 	m_inRange = false;
 	m_rotation = 90;
 	m_rect.setRotation(m_rotation);

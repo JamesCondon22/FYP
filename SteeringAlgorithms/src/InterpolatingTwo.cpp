@@ -440,6 +440,7 @@ void InterpolatingTwo::resetDemo() {
 	m_startTimer = false;
 	m_currentTime = 0;
 	m_tickCounter = 0;
+	m_totalPathLength = 0;
 	m_totalRotations = 0;
 	m_rect.setRotation(m_rotation);
 	m_surroundingCircle.setPosition(m_position);

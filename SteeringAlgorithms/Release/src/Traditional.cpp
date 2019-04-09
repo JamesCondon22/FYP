@@ -40,7 +40,7 @@ Traditional::Traditional(std::vector<GameNode*> node, std::vector<Obstacle*> obs
 	m_rect.setOutlineColor(sf::Color::Black);
 
 	m_rotation = 180.0f;
-	m_rect.rotate(180.0f);
+	m_rect.rotate(m_rotation);
 
 	for (int i = 0; i < lines.size(); i++) {
 		lines[i].setPosition(m_position);
@@ -104,6 +104,8 @@ sf::Vector2f Traditional::pursue(sf::Vector2f position)
 
 void Traditional::update(double dt, sf::Vector2f player)
 {
+	m_lastRotation = m_rotation;
+
 	if (*m_currentBehaviour == BehaviourState::ChaseNode) {
 
 		m_steering += pursue(getCurrentNodePosition());
@@ -156,25 +158,19 @@ void Traditional::update(double dt, sf::Vector2f player)
 	handleTimer();
 	generatePath(dt);
 	m_tickCounter += 1;
+	
 	calculateRotations();
 }
 
 
 void Traditional::calculateRotations() {
 
-	m_currentRotation = m_rotation;
+	auto currentRotation = m_rotation;
 
-	if (m_currentRotation <= 0) {
-		m_currentRotation = m_rotation * -1;
-	}
-	if (m_lastRotation > m_currentRotation) {
-		m_totalRotations = m_totalRotations + (m_lastRotation - m_currentRotation);
-	}
-	else {
-		m_totalRotations = m_totalRotations + (m_currentRotation - m_lastRotation);
-	}
+	auto diff = abs(currentRotation - m_lastRotation);
 
-	m_lastRotation = m_currentRotation;
+	m_totalRotations += diff;
+
 }
 
 
@@ -293,7 +289,12 @@ sf::Vector2f Traditional::getCurrentNodePosition()
 	return target;
 }
 
-
+/// <summary>
+/// generates a path or trail which is left 
+/// by the ai, updates the path using the dt value 
+/// pushes the path into the a vector contaning the path nodes 
+/// </summary>
+/// <param name="dt">delta time</param>
 void Traditional::generatePath(double dt)
 {
 	m_timeAmount += dt;
@@ -314,7 +315,9 @@ void Traditional::generatePath(double dt)
 	}
 }
 
-
+/// <summary>
+/// updates the timer 
+/// </summary>
 void Traditional::handleTimer()
 {
 	if (!m_startTimer)
@@ -323,12 +326,17 @@ void Traditional::handleTimer()
 		m_startTimer = true;
 	}
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
+	m_currentTime = m_currentTime / 1000;
 }
 
-
+/// <summary>
+/// gets the average execution time 
+/// calculates by dividing the time into the amount of ticks 
+/// </summary>
+/// <returns>average execution time</returns>
 double Traditional::getAverageExecTime()
 {
-	m_averageExecTime = m_currentTime / m_tickCounter;
+	m_averageExecTime = (m_currentTime * 1000) / m_tickCounter;
 	return m_averageExecTime;
 }
 
@@ -349,10 +357,9 @@ void Traditional::resetDemo() {
 	m_currentTime = 0;
 	m_tickCounter = 0;
 	m_pathLine.clear();
+	m_velocity= sf::Vector2f(0, 0),
 	m_rotation = 180.0f;
 	m_totalRotations = 0;
-	m_lastRotation = 180;
-	m_currentRotation = 0;
 	m_surroundingCircle.setPosition(m_position);
 	m_rect.setRotation(m_rotation);
 	for (int i = 0; i < lines.size(); i++) {

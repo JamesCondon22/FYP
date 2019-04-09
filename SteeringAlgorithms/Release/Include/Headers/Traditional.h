@@ -132,8 +132,7 @@ private:
 	int m_score = 0;
 	bool m_collided = false;
 
-	double m_currentRotation;
-	double m_lastRotation = 180;
+	double m_lastRotation;
 	double m_totalRotations = 0;
 };
 

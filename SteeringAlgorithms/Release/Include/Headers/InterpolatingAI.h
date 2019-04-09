@@ -138,7 +138,6 @@ private:
 	BehaviourState* m_currentBehaviour;
 	bool m_visuals = true;
 
-	double m_currentRotation;
-	double m_lastRotation = 90;
+	double m_lastRotation;
 	double m_totalRotations = 0;
 };

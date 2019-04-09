@@ -42,6 +42,7 @@ public:
 	void inputInterceptionTime(double time);
 	void inputPaths(double path);
 	void inputRotations(double rotation);
+	void resetGraphs();
 	std::vector<double> getAETimes() { return m_executionTimes; }
 	std::vector<double> getInterceptionTimes() { return m_interceptionTimes; }
 	std::vector<double> getPathLengths() { return m_pathLengths; }
@@ -100,5 +101,8 @@ private:
 	std::vector<double> m_interceptionTimes;
 	std::vector<double> m_pathLengths;
 	std::vector<double> m_rotations;
+
+	int m_index = 0;
+	bool m_graphSet = false;
 };
 #endif // !

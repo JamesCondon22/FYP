@@ -57,6 +57,11 @@ DemoScreen::DemoScreen(GameState * state, sf::Font & font, sf::RenderWindow & wi
 	m_startLabel = new Label(m_font, sf::Vector2f(m_timeLabel->getPosition().x, m_timeLabel->getPosition().y + 200));
 	m_startLabel->setSize(40);
 	m_startLabel->setText("Press Space to Start Demo.");
+
+	m_executionTimes.assign(7, 0.0);
+	m_interceptionTimes.assign(7, 0.0);
+	m_pathLengths.assign(7, 0.0);
+	m_rotations.assign(7, 0.0);
 }
 
 DemoScreen::~DemoScreen()
@@ -218,6 +223,7 @@ void DemoScreen::resetDemo() {
 
 	m_startDemonstration = false;
 	m_id = 1;
+	m_index = 0;
 	m_counter = 0;
 	m_timeLabel->setText("Time: " + std::to_string(0));
 
@@ -291,17 +297,18 @@ void DemoScreen::checkSplineCollision(TestBot * bot, CRSplineAI * enemy, std::st
 	int rad = bot->getRadius();
 
 	//checks circle collision
-	if (Math::circleCollision(v1, v2, rad, rad))
+	if (Math::circleCollision(v1, v2, rad, rad) && !enemy->getCollided())
 	{
 		enemy->setCollided(true);
 		enemy->setActive(false);
-		bot->reset();
+		
 
 		if (lastBtnPress == "RUN") {
-		
+			bot->reset();
 			updateRun();
 		}
 		else if (lastBtnPress == "RUN ALL") {
+			bot->reset();
 
 			m_file << "ID = " << enemy->getId() << " " << enemy->getName() << std::endl;
 			m_file << "Path length = " << enemy->getPathLength() << std::endl;
@@ -310,11 +317,14 @@ void DemoScreen::checkSplineCollision(TestBot * bot, CRSplineAI * enemy, std::st
 			m_file << "Total Rotations: " << enemy->getTotalRotation() << std::endl;
 			m_file << "\n";
 
-			inputAET(enemy->getAverageExecTime());
-			inputInterceptionTime(enemy->getInterceptionTime());
-			inputPaths(enemy->getPathLength());
-			inputRotations(enemy->getTotalRotation());
+			if (!m_graphSet) {
+				inputAET(enemy->getAverageExecTime());
+				inputInterceptionTime(enemy->getInterceptionTime());
+				inputPaths(enemy->getPathLength());
+				inputRotations(enemy->getTotalRotation());
 
+				m_index++;
+			}
 			updateRunAll();
 		}
 		else if (lastBtnPress == "COMPARE") {
@@ -339,17 +349,19 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 	sf::Vector2f v2 = enemy->getPos();
 	int rad = bot->getRadius();
 	//checks for circle collision
-	if (Math::circleCollision(v1, v2, rad, rad))
+	if (Math::circleCollision(v1, v2, rad, rad) && !enemy->getCollided())
 	{
 		enemy->setCollided(true);
 		enemy->setActive(false);
-		bot->reset();
+		
 		
 		if (lastBtnPress == "RUN") {
-			
+			bot->reset();
 			updateRun();
 		}
 		else if (lastBtnPress == "RUN ALL") {
+			bot->reset();
+			
 			m_file << "ID:  " << enemy->getId() << " " << enemy->getName() << std::endl;
 			m_file << "Path length: " << enemy->getPathLength() << std::endl;
 			m_file << "Interception Time: " << enemy->getInterceptionTime() << std::endl;
@@ -357,13 +369,16 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 			m_file << "Total Rotations: " << enemy->getTotalRotation() << std::endl;
 			m_file << "\n";
 
-			inputAET(enemy->getAverageExecTime());
-			inputInterceptionTime(enemy->getInterceptionTime());
-			inputPaths(enemy->getPathLength());
-			inputRotations(enemy->getTotalRotation());
-			
-			updateRunAll();
+			if (!m_graphSet) {
+				inputAET(enemy->getAverageExecTime());
+				inputInterceptionTime(enemy->getInterceptionTime());
+				inputPaths(enemy->getPathLength());
+				inputRotations(enemy->getTotalRotation());
 
+				m_index++;
+			}
+			updateRunAll();
+			
 		}
 		else if (lastBtnPress == "COMPARE") {
 
@@ -472,6 +487,7 @@ void DemoScreen::updateRunAll() {
 	m_clock.restart();
 	if (m_id > MAX_AI)
 	{
+		m_graphSet = true;
 		m_file.close();
 		resetDemo();
 		m_aitypeLabel->setText("");
@@ -495,17 +511,17 @@ void DemoScreen::updateCompare() {
 }
 
 void DemoScreen::inputAET(double aet) {
-	m_executionTimes.push_back(aet);
+	m_executionTimes[m_index] = aet;
 }
 
 void DemoScreen::inputInterceptionTime(double time) {
-	m_interceptionTimes.push_back(time);
+	m_interceptionTimes[m_index] = time;
 }
 
 void DemoScreen::inputPaths(double path) {
-	m_pathLengths.push_back(path);
+	m_pathLengths[m_index] = path;
 }
 
 void DemoScreen::inputRotations(double rotation) {
-	m_rotations.push_back(rotation);
+	m_rotations[m_index] = rotation;
 }

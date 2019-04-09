@@ -39,7 +39,8 @@ DynamicVectorAI::DynamicVectorAI(std::vector<GameNode*>  path, std::vector<Obsta
 	}
 	m_color = sf::Color::Magenta;
 	m_rect.setFillColor(m_color);
-	m_rect.rotate(90);
+	m_rotation = 90;
+	m_rect.setRotation(m_rotation);
 }
 
 
@@ -66,6 +67,8 @@ void DynamicVectorAI::setPosition(sf::Vector2f position) {
 /// <param name="position">the target position</param>
 void DynamicVectorAI::update(double dt, sf::Vector2f position)
 {
+	m_lastRotation = m_rotation;
+
 	auto angleOne = getAngleBetween(m_position, curDirection);
 	auto angleTwo = getAngleBetween(m_position, position);
 	float angleBetween;
@@ -113,7 +116,7 @@ void DynamicVectorAI::update(double dt, sf::Vector2f position)
 	handleTimer();
 
 	m_tickCounter += 1;
-	m_time += m_clock2.getElapsedTime();
+
 	calculateRotations();
 }
 
@@ -123,19 +126,11 @@ void DynamicVectorAI::update(double dt, sf::Vector2f position)
 /// </summary>
 void DynamicVectorAI::calculateRotations() {
 
-	m_currentRotation = m_rotation;
+	auto currentRotation = m_rotation;
 
-	if (m_currentRotation <= 0) {
-		m_currentRotation = m_rotation * -1;
-	}
-	if (m_lastRotation > m_currentRotation) {
-		m_totalRotations = m_totalRotations + (m_lastRotation - m_currentRotation);
-	}
-	else {
-		m_totalRotations = m_totalRotations + (m_currentRotation - m_lastRotation);
-	}
+	auto diff = abs(currentRotation - m_lastRotation);
 
-	m_lastRotation = m_currentRotation;
+	m_totalRotations += diff;
 }
 
 
@@ -510,6 +505,7 @@ void DynamicVectorAI::handleTimer()
 		m_startTimer = true;
 	}
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
+	m_currentTime = m_currentTime / 1000;
 }
 
 /// <summary>
@@ -549,7 +545,7 @@ void DynamicVectorAI::generatePath(double dt)
 /// <returns>average execution time</returns>
 double DynamicVectorAI::getAverageExecTime()
 {
-	m_averageExecTime = m_currentTime / m_tickCounter;
+	m_averageExecTime = (m_currentTime * 1000) / m_tickCounter;
 	return m_averageExecTime;
 }
 
@@ -575,7 +571,6 @@ void DynamicVectorAI::resetDemo() {
 	m_currentTime = 0;
 	m_tickCounter = 0;
 	m_totalRotations = 0;
-	m_lastRotation = 90;
 	m_rotation = 90;
 	m_rect.setRotation(m_rotation);
 	m_surroundingCircle.setPosition(m_position);

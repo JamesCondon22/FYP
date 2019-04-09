@@ -207,7 +207,7 @@ void Game::updateGUI() {
 	ImGui::Begin("Path Lengths");
 	ImGui::DrawLine(ImVec2(80, 70), ImVec2(80, 870), sf::Color::White, 2.0f);
 	ImGui::SetCursorPos(ImVec2(100.0f, 100.0f));
-	ImGui::PlotHistogram("", m_pathArr, IM_ARRAYSIZE(m_pathArr), 0, NULL, 0.0f, 7000.0f, ImVec2(1200, 800.0f));
+	ImGui::PlotHistogram("", m_pathArr, IM_ARRAYSIZE(m_pathArr), 0, NULL, 0.0f, 10000.0f, ImVec2(1200, 800.0f));
 	ImGui::DrawLine(ImVec2(80, 0), ImVec2(1300, 0), sf::Color::White, 2.0f);
 	initText();
 	ImGui::End();
@@ -215,7 +215,7 @@ void Game::updateGUI() {
 	ImGui::Begin("Total Rotations");
 	ImGui::DrawLine(ImVec2(80, 70), ImVec2(80, 870), sf::Color::White, 2.0f);
 	ImGui::SetCursorPos(ImVec2(100.0f, 100.0f));
-	ImGui::PlotHistogram("", m_rotationsArr, IM_ARRAYSIZE(m_rotationsArr), 0, NULL, 0.0f, 30000.0f, ImVec2(1200, 800.0f));
+	ImGui::PlotHistogram("", m_rotationsArr, IM_ARRAYSIZE(m_rotationsArr), 0, NULL, 0.0f, 10000.0f, ImVec2(1200, 800.0f));
 	ImGui::DrawLine(ImVec2(80, 0), ImVec2(1300, 0), sf::Color::White, 2.0f);
 	initText();
 	ImGui::End();
@@ -250,28 +250,21 @@ void Game::initText() {
 
 
 void Game::calculateGraphData() {
-	if (m_demoScreen->getAETimes().size() >= 7) {
-		for (int i = 0; i < m_demoScreen->getAETimes().size(); i++) {
-			m_AETarr[i] = m_demoScreen->getAETimes()[i];
-		}
+	
+	for (int i = 0; i < 7; i++) {
+		m_AETarr[i] = m_demoScreen->getAETimes()[i];
+	}
+		
+	for (int i = 0; i < 7; i++) {
+		m_InterTarr[i] = m_demoScreen->getInterceptionTimes()[i];
 	}
 
-	if (m_demoScreen->getInterceptionTimes().size() >= 7) {
-		for (int i = 0; i < m_demoScreen->getInterceptionTimes().size(); i++) {
-			m_InterTarr[i] = m_demoScreen->getInterceptionTimes()[i];
-		}
+	for (int i = 0; i < 7; i++) {
+		m_pathArr[i] = m_demoScreen->getPathLengths()[i];
 	}
-
-	if (m_demoScreen->getPathLengths().size() >= 7) {
-		for (int i = 0; i < m_demoScreen->getPathLengths().size(); i++) {
-			m_pathArr[i] = m_demoScreen->getPathLengths()[i];
-		}
-	}
-
-	if (m_demoScreen->getRotations().size() >= 7) {
-		for (int i = 0; i < m_demoScreen->getRotations().size(); i++) {
-			m_rotationsArr[i] = m_demoScreen->getRotations()[i];
-		}
+	
+	for (int i = 0; i < 7; i++) {
+		m_rotationsArr[i] = m_demoScreen->getRotations()[i];
 	}
 }
 

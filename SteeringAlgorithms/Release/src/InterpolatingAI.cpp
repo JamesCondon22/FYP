@@ -39,7 +39,8 @@ InterpolatingAI::InterpolatingAI(std::vector<GameNode*> path, std::vector<Obstac
 	}
 	m_color = sf::Color::Cyan;
 	m_rect.setFillColor(m_color);
-	m_rect.rotate(90);
+	m_rotation = 90;
+	m_rect.setRotation(m_rotation);
 }
 
 
@@ -54,6 +55,8 @@ void InterpolatingAI::setPosition(sf::Vector2f position) {
 
 void InterpolatingAI::update(double dt, sf::Vector2f position)
 {
+	m_lastRotation = m_rotation;
+
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
@@ -92,19 +95,11 @@ void InterpolatingAI::update(double dt, sf::Vector2f position)
 
 void InterpolatingAI::calculateRotations() {
 
-	m_currentRotation = m_rotation;
+	auto currentRotation = m_rotation;
 
-	if (m_currentRotation <= 0) {
-		m_currentRotation = m_rotation * -1;
-	}
-	if (m_lastRotation > m_currentRotation) {
-		m_totalRotations = m_totalRotations + (m_lastRotation - m_currentRotation);
-	}
-	else {
-		m_totalRotations = m_totalRotations + (m_currentRotation - m_lastRotation);
-	}
+	auto diff = abs(currentRotation - m_lastRotation);
 
-	m_lastRotation = m_currentRotation;
+	m_totalRotations += diff;
 }
 
 void InterpolatingAI::render(sf::RenderWindow & window)
@@ -406,20 +401,14 @@ void InterpolatingAI::handleTimer()
 		m_startTimer = true;
 	}
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
+	m_currentTime = m_currentTime / 1000;
 }
 
 
 double InterpolatingAI::getAverageExecTime()
 {
-	m_averageExecTime = m_currentTime / m_tickCounter;
+	m_averageExecTime = (m_currentTime * 1000) / m_tickCounter;
 	return m_averageExecTime;
-}
-
-
-double InterpolatingAI::getTimeEfficiency()
-{
-	m_timeEfficiency = m_currentTime / m_tickCounter;
-	return m_timeEfficiency;
 }
 
 
@@ -442,7 +431,6 @@ void InterpolatingAI::resetDemo() {
 	m_currentTime = 0;
 	m_tickCounter = 0;
 	m_totalRotations = 0;
-	m_lastRotation = 90;
 	m_surroundingCircle.setPosition(m_position);
 	for (int i = 0; i < m_size; i++)
 	{

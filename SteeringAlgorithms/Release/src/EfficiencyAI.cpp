@@ -64,6 +64,7 @@ void EfficiencyAI::setPosition(sf::Vector2f position) {
 /// <param name="position">target position</param>
 void EfficiencyAI::update(double dt, sf::Vector2f position)
 {
+	m_lastRotation = m_rotation;
 
 	m_timeSinceLast += dt;
 
@@ -120,19 +121,11 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 /// </summary>
 void EfficiencyAI::calculateRotations() {
 
-	m_currentRotation = m_rotation;
+	auto currentRotation = m_rotation;
 
-	if (m_currentRotation <= 0) {
-		m_currentRotation = m_rotation * -1;
-	}
-	if (m_lastRotation > m_currentRotation) {
-		m_totalRotations = m_totalRotations + (m_lastRotation - m_currentRotation);
-	}
-	else {
-		m_totalRotations = m_totalRotations + (m_currentRotation - m_lastRotation);
-	}
+	auto diff = abs(currentRotation - m_lastRotation);
 
-	m_lastRotation = m_currentRotation;
+	m_totalRotations += diff;
 }
 
 /// <summary>
@@ -492,6 +485,7 @@ void EfficiencyAI::handleTimer()
 		m_startTimer = true;
 	}
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
+	m_currentTime = m_currentTime / 1000;
 }
 
 /// <summary>
@@ -501,7 +495,7 @@ void EfficiencyAI::handleTimer()
 /// <returns>average execution time</returns>
 double EfficiencyAI::getAverageExecTime()
 {
-	m_averageExecTime = m_currentTime / m_tickCounter;
+	m_averageExecTime = (m_currentTime * 1000) / m_tickCounter;
 	return m_averageExecTime;
 }
 
@@ -528,7 +522,6 @@ void EfficiencyAI::resetDemo() {
 	m_currentTime = 0;
 	m_tickCounter = 0;
 	m_totalRotations = 0;
-	m_lastRotation = 90;
 	m_rect.setRotation(m_rotation);
 	m_surroundingCircle.setPosition(m_position);
 	for (int i = 0; i < m_size; i++)

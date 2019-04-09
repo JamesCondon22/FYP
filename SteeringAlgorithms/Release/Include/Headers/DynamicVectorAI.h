@@ -165,8 +165,7 @@ private:
 
 	int m_score = 0;
 
-	double m_currentRotation;
-	double m_lastRotation = 90;
+	double m_lastRotation;
 	double m_totalRotations = 0;
 };
 

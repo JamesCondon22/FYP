@@ -352,6 +352,7 @@ void Traditional::resetGame() {
 void Traditional::resetDemo() {
 
 	m_lastPathCircle = nullptr;
+	m_totalPathLength = 0;
 	m_timeAmount = 0;
 	m_startTimer = false;
 	m_currentTime = 0;

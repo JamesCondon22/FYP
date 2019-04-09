@@ -39,7 +39,13 @@ public:
 	void initAI();
 	void resetDemo();
 	void inputAET(double aet);
+	void inputInterceptionTime(double time);
+	void inputPaths(double path);
+	void inputRotations(double rotation);
 	std::vector<double> getAETimes() { return m_executionTimes; }
+	std::vector<double> getInterceptionTimes() { return m_interceptionTimes; }
+	std::vector<double> getPathLengths() { return m_pathLengths; }
+	std::vector<double> getRotations() { return m_rotations; }
 
 private:
 	sf::Window m_window;
@@ -91,5 +97,8 @@ private:
 	int MAX_AI = 7;
 
 	std::vector<double> m_executionTimes;
+	std::vector<double> m_interceptionTimes;
+	std::vector<double> m_pathLengths;
+	std::vector<double> m_rotations;
 };
 #endif // !

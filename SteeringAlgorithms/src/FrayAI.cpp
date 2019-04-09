@@ -514,7 +514,10 @@ void FrayAI::resetDemo() {
 
 	
 	m_lastPathCircle = nullptr;
+	m_totalPathLength = 0;
 	m_timeAmount = 0;
+	m_tickCounter = 0;
+	m_currentTime = 0;
 	m_pathLine.clear();
 	m_rotation = 90;
 	m_totalRotations = 0;
