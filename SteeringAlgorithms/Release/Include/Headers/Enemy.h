@@ -42,5 +42,6 @@ public:
 	virtual bool getCollided() = 0;
 	virtual void resetGame() = 0;
 	virtual double getTime() = 0;
-	virtual void clearPath() = 0;
+	virtual void resetDemo() = 0;
+	virtual double getTotalRotation() = 0;
 };

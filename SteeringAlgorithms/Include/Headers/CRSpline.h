@@ -165,8 +165,7 @@ private:
 	
 	std::string m_tag;
 
-	double m_currentRotation;
-	double m_lastRotation = 90;
+	double m_lastRotation;
 	double m_totalRotations = 0;
 };
 

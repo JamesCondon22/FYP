@@ -36,8 +36,6 @@ public:
 	float getNewOrientation(float curOrientation, sf::Vector2f velocity);
 	float length(sf::Vector2f vel);
 
-	bool compareKeys(std::map<Direction, sf::Vector2f> vec);
-
 	int getId() { return m_id; }
 
 	bool getActive() { return m_active; }
@@ -50,7 +48,6 @@ public:
 	double getPathLength() { return m_totalPathLength; }
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
-	double getTimeEfficiency();
 	int getRadius() { return m_radius; }
 	void setState(GameState state) { m_state = state; }
 	std::string getName() { return "Basic Context Maps"; }
@@ -63,9 +60,12 @@ public:
 	void setPosition(sf::Vector2f pos); 
 	int getNodeIndex() { return m_nodeIndex; }
 	bool getCollided() { return m_collided; }
-	void resetGame();
+	
 	double getTime() { return m_currentTime; }
-	void clearPath();
+	double getTotalRotation() { return m_totalRotations; }
+	void resetGame();
+	void resetDemo();
+	void calculateRotations();
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -137,4 +137,6 @@ private:
 	int m_score = 0;
 
 	double m_currentRotation;
+	double m_lastRotation = 90;
+	double m_totalRotations = 0;
 };

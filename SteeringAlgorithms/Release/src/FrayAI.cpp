@@ -53,24 +53,24 @@ FrayAI::~FrayAI()
 {
 }
 
-
+/// <summary>
+/// sets the current position to the 
+/// position vector 
+/// </summary>
+/// <param name="position"></param>
 void FrayAI::setPosition(sf::Vector2f position) {
 	m_position = position;
 	m_rect.setPosition(m_position);
 }
 
-
+/// <summary>
+/// update the the distnaces in the context map 
+/// sets the current position and velocity of the AI
+/// </summary>
+/// <param name="dt">delta time</param>
+/// <param name="position">the target position</param>
 void FrayAI::update(double dt, sf::Vector2f position)
 {
-
-	m_currentRotation = m_rotation;
-
-	if (m_currentRotation <= 0) {
-		m_currentRotation = 360;
-		m_currentRotation = m_currentRotation + (m_rotation);
-	}
-
-	std::cout << m_currentRotation << std::endl;
 	for (int i = 0; i < m_size; i++) {
 		m_lineVec[i].update(m_surroundingCircle.getPosition());
 	}
@@ -103,10 +103,35 @@ void FrayAI::update(double dt, sf::Vector2f position)
 
 	m_tickCounter += 1;
 	m_time += m_clock2.getElapsedTime();
-	
+
+	calculateRotations();
 }
 
+/// <summary>
+/// calculates the total amount of rotations made 
+/// by the AI character
+/// </summary>
+void FrayAI::calculateRotations() {
 
+	m_currentRotation = m_rotation;
+
+	if (m_currentRotation <= 0) {
+		m_currentRotation = m_rotation * -1;
+	}
+	if (m_lastRotation > m_currentRotation) {
+		m_totalRotations = m_totalRotations + (m_lastRotation - m_currentRotation);
+	}
+	else {
+		m_totalRotations = m_totalRotations + (m_currentRotation - m_lastRotation);
+	}
+
+	m_lastRotation = m_currentRotation;
+}
+
+/// <summary>
+/// render the AI, path and other visuals
+/// </summary>
+/// <param name="window"></param>
 void FrayAI::render(sf::RenderWindow & window)
 {
 	if (m_state == GameState::Demo) {
@@ -125,19 +150,29 @@ void FrayAI::render(sf::RenderWindow & window)
 	
 }
 
-
+/// <summary>
+/// returns the current position
+/// </summary>
+/// <returns></returns>
 sf::Vector2f FrayAI::getPos()
 {
 	return m_position;
 }
 
-
+/// <summary>
+/// returns the current velocity
+/// </summary>
+/// <returns></returns>
 sf::Vector2f FrayAI::getVel()
 {
 	return m_velocity;
 }
 
-
+/// <summary>
+/// updates the directional vectors in relation to the 
+/// position being passed 
+/// </summary>
+/// <param name="position"></param>
 void FrayAI::updateLines(sf::Vector2f position)
 {
 	int count = 0;
@@ -148,13 +183,17 @@ void FrayAI::updateLines(sf::Vector2f position)
 	}
 }
 
-
+/// <summary>
+/// updates the dangers, checks which is the closest danger 
+/// and updates the vectors in relation to the closest
+/// </summary>
 void FrayAI::updateDangers()
 {
 	int count = 0;
-
+	//initialises an obstacle 
 	Obstacle *obs = new Obstacle(0);
-	double smallest = 1000000;
+	double smallest = 10000000;
+	//loops through the obstacles searching for the smallest
 	for (auto it = m_obstacles.begin(); it != m_obstacles.end(); ++it)
 	{
 		double dist = Math::distance(m_position, (*it)->getPosition());
@@ -164,18 +203,25 @@ void FrayAI::updateDangers()
 			smallest = dist;
 		}
 	}
+	/// <summary>
+	/// updates the lines in relation to the closest obstacle 
+	/// </summary>
+	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it) {
 
-	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
-	{
-		
 		m_distancesDanger[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), obs->getPosition());
-			//checkdistance
+		//checkdistance
 		count++;
 	}
 
 }
 
 
+/// <summary>
+/// finds the largest value in the map
+/// and returns  
+/// </summary>
+/// <param name="vec">Direction map</param>
+/// <returns></returns>
 double FrayAI::findLargest(std::map<Direction, double> vec)
 {
 	double largest = 0;
@@ -189,7 +235,13 @@ double FrayAI::findLargest(std::map<Direction, double> vec)
 	return largest;
 }
 
-
+/// <summary>
+/// normalizes the map to a value between 0 and 1
+/// finds the largest value and uses that value to 
+/// sort the map
+/// </summary>
+/// <param name="vec"></param>
+/// <returns></returns>
 std::map<Direction, double> FrayAI::normalize(std::map<Direction, double> vec)
 {
 	auto curLargest = findLargest(vec);
@@ -203,7 +255,12 @@ std::map<Direction, double> FrayAI::normalize(std::map<Direction, double> vec)
 	return vec;
 }
 
-
+/// <summary>
+/// normalises the dangers to a value between 0 and 1
+/// finds the largert value and divides all values by the largest 
+/// </summary>
+/// <param name="vec">the distances map</param>
+/// <returns>a map of directions and doubles</returns>
 std::map<Direction, double> FrayAI::normalizeDangers(std::map<Direction, double> vec)
 {
 	auto curLargest = findLargest(vec);
@@ -217,7 +274,11 @@ std::map<Direction, double> FrayAI::normalizeDangers(std::map<Direction, double>
 	return vec;
 }
 
-
+/// <summary>
+/// seek function using dynamic steering 
+/// </summary>
+/// <param name="position">seek position</param>
+/// <returns></returns>
 steering FrayAI::seek(sf::Vector2f position)
 {
 	m_velocity = curDirection - m_position;
@@ -231,7 +292,10 @@ steering FrayAI::seek(sf::Vector2f position)
 	return seekSteering;
 }
 
-
+/// <summary>
+/// calculates the current orientation in regards to 
+/// the velocity vector and updates the speed 
+/// </summary>
 void FrayAI::calculation() {
 
 	if (m_velocity.x != 0 || m_velocity.y != 0)
@@ -243,18 +307,23 @@ void FrayAI::calculation() {
 	}
 }
 
-
+/// <summary>
+/// calculates the magnitude of the vector 
+/// </summary>
+/// <param name="v">vector v</param>
+/// <returns>magnitude</returns>
 float FrayAI::mag(sf::Vector2f & v)
 {
 	return std::sqrt((v.x * v.x) + (v.y * v.y));
 }
 
 /// <summary>
-/// 
+/// calculates the current orientation of the 
+/// AI character depending on the velocity
 /// </summary>
-/// <param name="curOrientation"></param>
-/// <param name="velocity"></param>
-/// <returns></returns>
+/// <param name="curOrientation">the current rotation</param>
+/// <param name="velocity">the velocity of the AI </param>
+/// <returns>rotation</returns>
 float FrayAI::getNewOrientation(float curOrientation, sf::Vector2f velocity)
 {
 	if (length(velocity) > 0)
@@ -269,25 +338,23 @@ float FrayAI::getNewOrientation(float curOrientation, sf::Vector2f velocity)
 }
 
 /// <summary>
-/// 
+/// calculates the length of a vector 
 /// </summary>
-/// <param name="vel"></param>
-/// <returns></returns>
+/// <param name="vel">the velocity</param>
+/// <returns>length of the vector</returns>
 float FrayAI::length(sf::Vector2f vel) {
 	return sqrt(vel.x * vel.x + vel.y * vel.y);
 }
 
-
-bool FrayAI::compareKeys(std::map<Direction, sf::Vector2f> vec) {
-	
-	
-	return false;
-}
-
+/// <summary>
+/// sets the current direction for the AI 
+/// this direction depends on the closest vector to target position
+/// </summary>
 void FrayAI::checkDirection()
 {
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
+		//checks the strongest entry in the map
 		if (mapDecisions.getStrongest() == it->getState()) {
 			curDirection = it->getMap()[mapDecisions.getStrongest()];
 			it->changeColor();
@@ -295,6 +362,11 @@ void FrayAI::checkDirection()
 	}
 }
 
+/// <summary>
+/// inilialises the map giving each entry a direction 
+/// and a value of 0.0, inits both the distances from interests 
+/// and the distances from dangers 
+/// </summary>
 void FrayAI::initVector()
 {
 	
@@ -334,7 +406,11 @@ void FrayAI::initVector()
 	m_distancesDanger.insert({ Direction::ENE, 0.0 });
 }
 
-
+/// <summary>
+/// gets the position of the closest node 
+/// only checks the nodes which have not been completed or alive 
+/// </summary>
+/// <returns>the closest node position</returns>
 sf::Vector2f FrayAI::getCurrentNodePosition()
 {
 	sf::Vector2f target;
@@ -358,7 +434,11 @@ sf::Vector2f FrayAI::getCurrentNodePosition()
 	return target;
 }
 
-
+/// <summary>
+/// normalises the vector to a value between 0 and 1
+/// </summary>
+/// <param name="vec">the vector </param>
+/// <returns></returns>
 sf::Vector2f FrayAI::normalize(sf::Vector2f vec)
 {
 	if (vec.x*vec.x + vec.y * vec.y != 0)
@@ -369,7 +449,12 @@ sf::Vector2f FrayAI::normalize(sf::Vector2f vec)
 	return vec;
 }
 
-
+/// <summary>
+/// generates a path or trail which is left 
+/// by the ai, updates the path using the dt value 
+/// pushes the path into the a vector contaning the path nodes 
+/// </summary>
+/// <param name="dt">delta time</param>
 void FrayAI::generatePath(double dt)
 {
 	m_timeAmount += dt;
@@ -381,8 +466,9 @@ void FrayAI::generatePath(double dt)
 		circle->setColor(m_color);
 		m_pathLine.push_back(circle);
 		m_timeAmount = 0;
-		if (m_lastPathCircle != nullptr)
-		{
+		//calculates the distance between two nodes 
+		if (m_lastPathCircle != nullptr) {
+			//adds the distnace to the total value 
 			auto dist = Math::distance(m_lastPathCircle->getPosition(), circle->getPosition());
 			m_totalPathLength += dist;
 		}
@@ -391,7 +477,9 @@ void FrayAI::generatePath(double dt)
 
 }
 
-
+/// <summary>
+/// updates the timer 
+/// </summary>
 void FrayAI::handleTimer()
 {
 	if (!m_startTimer)
@@ -399,25 +487,23 @@ void FrayAI::handleTimer()
 		m_clock.restart();
 		m_startTimer = true;
 	}
-	std::cout << "Ticks = " << m_tickCounter << std::endl;
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
 }
 
-
+/// <summary>
+/// gets the average execution time 
+/// calculates by dividing the time into the amount of ticks 
+/// </summary>
+/// <returns>average execution time</returns>
 double FrayAI::getAverageExecTime()
 {
 	m_averageExecTime = m_currentTime / m_tickCounter;
 	return m_averageExecTime;
 }
 
-
-double FrayAI::getTimeEfficiency()
-{
-	m_timeEfficiency = m_currentTime / m_tickCounter;
-	return m_timeEfficiency;
-}
-
-
+/// <summary>
+/// resets all the game data 
+/// </summary>
 void FrayAI::resetGame() {
 	for (int i = 0; i < m_nodes.size(); i++) {
 
@@ -425,14 +511,18 @@ void FrayAI::resetGame() {
 	}
 }
 
-
-void FrayAI::clearPath() {
+/// <summary>
+/// resets all the demo data 
+/// </summary>
+void FrayAI::resetDemo() {
 
 	
 	m_lastPathCircle = nullptr;
 	m_timeAmount = 0;
 	m_pathLine.clear();
 	m_rotation = 90;
+	m_totalRotations = 0;
+	m_lastRotation = 90;
 	m_startTimer = false;
 	m_rect.setRotation(m_rotation);
 	m_surroundingCircle.setPosition(m_position);

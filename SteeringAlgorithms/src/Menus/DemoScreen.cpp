@@ -294,14 +294,15 @@ void DemoScreen::checkSplineCollision(TestBot * bot, CRSplineAI * enemy, std::st
 	if (Math::circleCollision(v1, v2, rad, rad))
 	{
 		enemy->setCollided(true);
-		
+		enemy->setActive(false);
+		bot->reset();
 
 		if (lastBtnPress == "RUN") {
-			enemy->setActive(false);
-			bot->reset();
+		
 			updateRun();
 		}
 		else if (lastBtnPress == "RUN ALL") {
+
 			m_file << "ID = " << enemy->getId() << " " << enemy->getName() << std::endl;
 			m_file << "Path length = " << enemy->getPathLength() << std::endl;
 			m_file << "Interception Time = " << enemy->getInterceptionTime() << std::endl;
@@ -310,14 +311,12 @@ void DemoScreen::checkSplineCollision(TestBot * bot, CRSplineAI * enemy, std::st
 			m_file << "\n";
 
 			inputAET(enemy->getAverageExecTime());
+			inputInterceptionTime(enemy->getInterceptionTime());
 
-			enemy->setActive(false);
-			bot->reset();
 			updateRunAll();
 		}
 		else if (lastBtnPress == "COMPARE") {
 		
-			enemy->setActive(false);
 			updateCompare();
 		}
 	}
@@ -341,15 +340,14 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 	if (Math::circleCollision(v1, v2, rad, rad))
 	{
 		enemy->setCollided(true);
+		enemy->setActive(false);
+		bot->reset();
 		
-		if (lastBtnPress == "RUN")
-		{
-			enemy->setActive(false);
-			bot->reset();
+		if (lastBtnPress == "RUN") {
+			
 			updateRun();
 		}
-		else if (lastBtnPress == "RUN ALL")
-		{
+		else if (lastBtnPress == "RUN ALL") {
 			m_file << "ID:  " << enemy->getId() << " " << enemy->getName() << std::endl;
 			m_file << "Path length: " << enemy->getPathLength() << std::endl;
 			m_file << "Interception Time: " << enemy->getInterceptionTime() << std::endl;
@@ -358,16 +356,14 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 			m_file << "\n";
 
 			inputAET(enemy->getAverageExecTime());
+			inputInterceptionTime(enemy->getInterceptionTime());
 
-			enemy->setActive(false);
-			bot->reset();
+			
 			updateRunAll();
 
 		}
-		else if (lastBtnPress == "COMPARE")
-		{
-			m_counter += 1;
-			enemy->setActive(false);
+		else if (lastBtnPress == "COMPARE") {
+
 			updateCompare();
 		}
 	}
@@ -497,4 +493,8 @@ void DemoScreen::updateCompare() {
 
 void DemoScreen::inputAET(double aet) {
 	m_executionTimes.push_back(aet);
+}
+
+void DemoScreen::inputInterceptionTime(double time) {
+	m_interceptionTimes.push_back(time);
 }

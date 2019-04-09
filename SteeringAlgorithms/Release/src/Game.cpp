@@ -26,8 +26,8 @@ Game::Game() :
 
 	m_currentState = new GameState;
 
-	*m_currentState = GameState::MainMenu;
-
+	*m_currentState = GameState::Options;
+	ImGui::SFML::Init(m_window);
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
 	}
@@ -144,14 +144,7 @@ void Game::update(double dt)
 {
 	sf::Time deltaTime;
 	m_mousePosition = sf::Mouse::getPosition(m_window);
-
-
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !m_pressed)
-	{
-		std::cout << m_mousePosition.x << ", " << m_mousePosition.y << std::endl;
-		m_pressed = true;
-	}
-
+	updateGUI();
 	
 	switch (*m_currentState)
 	{
@@ -183,7 +176,65 @@ void Game::update(double dt)
 	default:
 		break;
 	}
+
 	
+}
+
+
+void Game::updateGUI() {
+	if (m_demoScreen->getAETimes().size() >= 7) {
+		for (int i = 0; i < m_demoScreen->getAETimes().size(); i++) {
+			arr[i] = m_demoScreen->getAETimes()[i];
+		}
+	}
+
+	ImGui::SFML::Update(m_window, m_clock.restart());
+
+	ImGui::Begin("Interception Time");
+	ImGui::DrawLine(ImVec2(80, 70), ImVec2(80, 870), sf::Color::White, 2.0f);
+	ImGui::SetCursorPos(ImVec2(100.0f, 100.0f));
+	ImGui::PlotHistogram("", values, IM_ARRAYSIZE(values), 0, NULL, 0.0f, 1.0f, ImVec2(1200, 800.0f));
+	ImGui::DrawLine(ImVec2(80, 0), ImVec2(1300, 0), sf::Color::White, 2.0f);
+	initText();
+	ImGui::End();
+
+	ImGui::Begin("Average Execution Time");
+	ImGui::DrawLine(ImVec2(80, 70), ImVec2(80, 870), sf::Color::White, 2.0f);
+	ImGui::SetCursorPos(ImVec2(100.0f, 100.0f));
+	ImGui::PlotHistogram("", arr, IM_ARRAYSIZE(arr), 0, NULL, 0.0f, 5.0f, ImVec2(1200, 800.0f));
+	ImGui::DrawLine(ImVec2(80, 0), ImVec2(1300, 0), sf::Color::White, 2.0f);
+	initText();
+	ImGui::End();
+
+	ImGui::EndFrame();
+
+	
+}
+
+
+void Game::initText() {
+
+	ImGui::SetWindowFontScale(1.5f);
+	ImGui::SetCursorPos(ImVec2(110, 920));
+	ImGui::Text("Basic Context");
+
+	ImGui::SetCursorPos(ImVec2(280, 920));
+	ImGui::Text("   Average \nInterpolation");
+
+	ImGui::SetCursorPos(ImVec2(460, 920));
+	ImGui::Text("   Blended \nInterpolation");
+
+	ImGui::SetCursorPos(ImVec2(650, 920));
+	ImGui::Text("Efficiency");
+
+	ImGui::SetCursorPos(ImVec2(800, 920));
+	ImGui::Text("Dynamic Vector");
+
+	ImGui::SetCursorPos(ImVec2(980, 920));
+	ImGui::Text("Catmull Rom");
+
+	ImGui::SetCursorPos(ImVec2(1160, 920));
+	ImGui::Text("Traditional");
 }
 
 
@@ -220,6 +271,7 @@ void Game::render()
 		break;
 	case GameState::Options:
 		m_options->render(m_window);
+		ImGui::SFML::Render(m_window);
 		break;
 	default:
 		break;

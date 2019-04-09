@@ -39,7 +39,9 @@ public:
 	void initAI();
 	void resetDemo();
 	void inputAET(double aet);
+	void inputInterceptionTime(double time);
 	std::vector<double> getAETimes() { return m_executionTimes; }
+	std::vector<double> getInterceptionTimes() { return m_interceptionTimes; }
 
 private:
 	sf::Window m_window;
@@ -91,5 +93,6 @@ private:
 	int MAX_AI = 7;
 
 	std::vector<double> m_executionTimes;
+	std::vector<double> m_interceptionTimes;
 };
 #endif // !

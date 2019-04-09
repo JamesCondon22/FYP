@@ -156,6 +156,25 @@ void Traditional::update(double dt, sf::Vector2f player)
 	handleTimer();
 	generatePath(dt);
 	m_tickCounter += 1;
+	calculateRotations();
+}
+
+
+void Traditional::calculateRotations() {
+
+	m_currentRotation = m_rotation;
+
+	if (m_currentRotation <= 0) {
+		m_currentRotation = m_rotation * -1;
+	}
+	if (m_lastRotation > m_currentRotation) {
+		m_totalRotations = m_totalRotations + (m_lastRotation - m_currentRotation);
+	}
+	else {
+		m_totalRotations = m_totalRotations + (m_currentRotation - m_lastRotation);
+	}
+
+	m_lastRotation = m_currentRotation;
 }
 
 
@@ -322,7 +341,7 @@ void Traditional::resetGame() {
 }
 
 
-void Traditional::clearPath() {
+void Traditional::resetDemo() {
 
 	m_lastPathCircle = nullptr;
 	m_timeAmount = 0;
@@ -331,6 +350,9 @@ void Traditional::clearPath() {
 	m_tickCounter = 0;
 	m_pathLine.clear();
 	m_rotation = 180.0f;
+	m_totalRotations = 0;
+	m_lastRotation = 180;
+	m_currentRotation = 0;
 	m_surroundingCircle.setPosition(m_position);
 	m_rect.setRotation(m_rotation);
 	for (int i = 0; i < lines.size(); i++) {

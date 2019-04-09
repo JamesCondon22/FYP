@@ -26,7 +26,7 @@ Game::Game() :
 
 	m_currentState = new GameState;
 
-	*m_currentState = GameState::Options;
+	*m_currentState = GameState::MainMenu;
 	ImGui::SFML::Init(m_window);
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
@@ -182,18 +182,16 @@ void Game::update(double dt)
 
 
 void Game::updateGUI() {
-	if (m_demoScreen->getAETimes().size() >= 7) {
-		for (int i = 0; i < m_demoScreen->getAETimes().size(); i++) {
-			arr[i] = m_demoScreen->getAETimes()[i];
-		}
-	}
+	
+	
+	calculateGraphData();
 
 	ImGui::SFML::Update(m_window, m_clock.restart());
 
 	ImGui::Begin("Interception Time");
 	ImGui::DrawLine(ImVec2(80, 70), ImVec2(80, 870), sf::Color::White, 2.0f);
 	ImGui::SetCursorPos(ImVec2(100.0f, 100.0f));
-	ImGui::PlotHistogram("", values, IM_ARRAYSIZE(values), 0, NULL, 0.0f, 1.0f, ImVec2(1200, 800.0f));
+	ImGui::PlotHistogram("", m_InterTarr, IM_ARRAYSIZE(m_InterTarr), 0, NULL, 0.0f, 20000.0f, ImVec2(1200, 800.0f));
 	ImGui::DrawLine(ImVec2(80, 0), ImVec2(1300, 0), sf::Color::White, 2.0f);
 	initText();
 	ImGui::End();
@@ -201,7 +199,7 @@ void Game::updateGUI() {
 	ImGui::Begin("Average Execution Time");
 	ImGui::DrawLine(ImVec2(80, 70), ImVec2(80, 870), sf::Color::White, 2.0f);
 	ImGui::SetCursorPos(ImVec2(100.0f, 100.0f));
-	ImGui::PlotHistogram("", arr, IM_ARRAYSIZE(arr), 0, NULL, 0.0f, 5.0f, ImVec2(1200, 800.0f));
+	ImGui::PlotHistogram("", m_AETarr, IM_ARRAYSIZE(m_AETarr), 0, NULL, 0.0f, 5.0f, ImVec2(1200, 800.0f));
 	ImGui::DrawLine(ImVec2(80, 0), ImVec2(1300, 0), sf::Color::White, 2.0f);
 	initText();
 	ImGui::End();
@@ -235,6 +233,21 @@ void Game::initText() {
 
 	ImGui::SetCursorPos(ImVec2(1160, 920));
 	ImGui::Text("Traditional");
+}
+
+
+void Game::calculateGraphData() {
+	if (m_demoScreen->getAETimes().size() >= 7) {
+		for (int i = 0; i < m_demoScreen->getAETimes().size(); i++) {
+			m_AETarr[i] = m_demoScreen->getAETimes()[i];
+		}
+	}
+
+	if (m_demoScreen->getInterceptionTimes().size() >= 7) {
+		for (int i = 0; i < m_demoScreen->getInterceptionTimes().size(); i++) {
+			m_InterTarr[i] = m_demoScreen->getInterceptionTimes()[i];
+		}
+	}
 }
 
 

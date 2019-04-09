@@ -11,36 +11,55 @@ GameNode::~GameNode()
 {
 }
 
+/// <summary>
+/// sets the node position to the pos vector 
+/// </summary>
+/// <param name="pos"></param>
 void GameNode::setPosition(sf::Vector2f pos)
 {
 	m_position = pos;
 	m_circle.setPosition(m_position);
 }
 
-
+/// <summary>
+/// sets the origin of the node 
+/// </summary>
+/// <param name="originX">x origin</param>
+/// <param name="originY">y origin</param>
 void GameNode::setOrigin(int originX, int originY)
 {
 	m_circle.setOrigin(originX, originY);
 }
 
-
+/// <summary>
+/// returns the radius of the node 
+/// </summary>
+/// <returns></returns>
 int GameNode::getRadius()
 {
 	return m_circle.getRadius();
 }
 
-
+/// <summary>
+/// returns the position of the node
+/// </summary>
+/// <returns></returns>
 sf::Vector2f GameNode::getPosition() {
 	return m_position;
 }
 
-
+/// <summary>
+/// sets the color of the node 
+/// </summary>
+/// <param name="color">the color</param>
 void GameNode::setColor(sf::Color color)
 {
 	m_circle.setFillColor(color);
 }
 
-
+/// <summary>
+/// animates the node to expand and contract
+/// </summary>
 void GameNode::animateNode()
 {
 	if (animateOut)
@@ -61,11 +80,15 @@ void GameNode::animateNode()
 			animateOut = true;
 		}
 	}
+	//updates the origin to the new origin 
 	m_circle.setOrigin(m_radius / 2, m_radius / 2);
 	m_circle.setRadius(m_radius);
 }
 
-
+/// <summary>
+/// renders the node 
+/// </summary>
+/// <param name="window"></param>
 void GameNode::render(sf::RenderWindow & window)
 {
 	if (m_alive)

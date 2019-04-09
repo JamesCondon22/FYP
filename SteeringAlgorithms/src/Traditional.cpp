@@ -40,7 +40,7 @@ Traditional::Traditional(std::vector<GameNode*> node, std::vector<Obstacle*> obs
 	m_rect.setOutlineColor(sf::Color::Black);
 
 	m_rotation = 180.0f;
-	m_rect.rotate(180.0f);
+	m_rect.rotate(m_rotation);
 
 	for (int i = 0; i < lines.size(); i++) {
 		lines[i].setPosition(m_position);
@@ -104,6 +104,8 @@ sf::Vector2f Traditional::pursue(sf::Vector2f position)
 
 void Traditional::update(double dt, sf::Vector2f player)
 {
+	m_lastRotation = m_rotation;
+
 	if (*m_currentBehaviour == BehaviourState::ChaseNode) {
 
 		m_steering += pursue(getCurrentNodePosition());
@@ -156,25 +158,19 @@ void Traditional::update(double dt, sf::Vector2f player)
 	handleTimer();
 	generatePath(dt);
 	m_tickCounter += 1;
+	
 	calculateRotations();
 }
 
 
 void Traditional::calculateRotations() {
 
-	m_currentRotation = m_rotation;
+	auto currentRotation = m_rotation;
 
-	if (m_currentRotation <= 0) {
-		m_currentRotation = m_rotation * -1;
-	}
-	if (m_lastRotation > m_currentRotation) {
-		m_totalRotations = m_totalRotations + (m_lastRotation - m_currentRotation);
-	}
-	else {
-		m_totalRotations = m_totalRotations + (m_currentRotation - m_lastRotation);
-	}
+	auto diff = abs(currentRotation - m_lastRotation);
 
-	m_lastRotation = m_currentRotation;
+	m_totalRotations += diff;
+
 }
 
 
@@ -349,10 +345,9 @@ void Traditional::resetDemo() {
 	m_currentTime = 0;
 	m_tickCounter = 0;
 	m_pathLine.clear();
+	m_velocity= sf::Vector2f(0, 0),
 	m_rotation = 180.0f;
 	m_totalRotations = 0;
-	m_lastRotation = 180;
-	m_currentRotation = 0;
 	m_surroundingCircle.setPosition(m_position);
 	m_rect.setRotation(m_rotation);
 	for (int i = 0; i < lines.size(); i++) {

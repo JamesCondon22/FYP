@@ -47,16 +47,24 @@ EfficiencyAI::~EfficiencyAI()
 {
 }
 
-
+/// <summary>
+/// sets the position of to the position vector 
+/// </summary>
+/// <param name="position"></param>
 void EfficiencyAI::setPosition(sf::Vector2f position) {
 	m_position = position;
 	m_rect.setPosition(m_position);
 }
 
-
+/// <summary>
+/// update the the distnaces in the context map 
+/// sets the current position and velocity of the AI
+/// </summary>
+/// <param name="dt">delta time </param>
+/// <param name="position">target position</param>
 void EfficiencyAI::update(double dt, sf::Vector2f position)
 {
-	m_clock2.restart();
+
 	m_timeSinceLast += dt;
 
 	for (int i = 0; i < m_size; i++) {
@@ -75,9 +83,10 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 	m_distances = normalize(m_distances);
 	m_distancesDanger = normalizeDangers(m_distancesDanger);
 
+	//updates the context after 200 ticks  
 	if (!m_begin || m_timeSinceLast > 200)
 	{
-	mapDecisions.update(m_distances, m_distancesDanger);
+		mapDecisions.update(m_distances, m_distancesDanger);
 		m_timeSinceLast = 0;
 	}
 	
@@ -102,9 +111,34 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 	m_time += m_clock2.getElapsedTime();
 
 	m_begin = true;
+	calculateRotations();
 }
 
+/// <summary>
+/// calculates the total amount of rotations made 
+/// by the AI character
+/// </summary>
+void EfficiencyAI::calculateRotations() {
 
+	m_currentRotation = m_rotation;
+
+	if (m_currentRotation <= 0) {
+		m_currentRotation = m_rotation * -1;
+	}
+	if (m_lastRotation > m_currentRotation) {
+		m_totalRotations = m_totalRotations + (m_lastRotation - m_currentRotation);
+	}
+	else {
+		m_totalRotations = m_totalRotations + (m_currentRotation - m_lastRotation);
+	}
+
+	m_lastRotation = m_currentRotation;
+}
+
+/// <summary>
+/// render the AI, path and other visuals
+/// </summary>
+/// <param name="window"></param>
 void EfficiencyAI::render(sf::RenderWindow & window)
 {
 	for (int i = 0; i < m_pathLine.size(); i++)
@@ -122,38 +156,52 @@ void EfficiencyAI::render(sf::RenderWindow & window)
 	
 }
 
-
+/// <summary>
+/// return sthe current position
+/// </summary>
+/// <returns></returns>
 sf::Vector2f EfficiencyAI::getPos()
 {
 	return m_position;
 }
 
-
+/// <summary>
+/// returns the current velocity
+/// </summary>
+/// <returns></returns>
 sf::Vector2f EfficiencyAI::getVel()
 {
 	return m_velocity;
 }
 
-
+/// <summary>
+/// updates the directional vectors in relation to the 
+/// position being passed 
+/// </summary>
+/// <param name="position"></param>
 void EfficiencyAI::updateLines(sf::Vector2f position)
 {
 
 	int count = 0;
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
 	{
+		//loops through the vectors calculating thdistance from each
 		m_distances[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), position);
 		count++;
 	}
 }
 
-
+/// <summary>
+/// updates the dangers, checks which is the closest danger 
+/// and updates the vectors in relation to the closest
+/// </summary>
 void EfficiencyAI::updateDangers()
 {
 	int count = 0;
-
+	//initialises an obstacle 
 	Obstacle *obs = new Obstacle(0);
-	
-	double smallest = 1000000;
+	double smallest = 10000000;
+	//loops through the obstacles searching for the smallest
 	for (auto it = m_obstacles.begin(); it != m_obstacles.end(); ++it)
 	{
 		double dist = Math::distance(m_position, (*it)->getPosition());
@@ -163,16 +211,23 @@ void EfficiencyAI::updateDangers()
 			smallest = dist;
 		}
 	}
-	
-	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
-	{
-		
+	/// <summary>
+	/// updates the lines in relation to the closest obstacle 
+	/// </summary>
+	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it) {
+
 		m_distancesDanger[it->getState()] = Math::distance(sf::Vector2f(m_lineVec[count].getPosition().x, m_lineVec[count].getPosition().y), obs->getPosition());
+		//checkdistance
 		count++;
 	}
 }
 
-
+/// <summary>
+/// finds the largest value in the map
+/// and returns  
+/// </summary>
+/// <param name="vec">Direction map</param>
+/// <returns></returns>
 double EfficiencyAI::findLargest(std::map<Direction, double> vec)
 {
 	double largest = 0;
@@ -186,7 +241,13 @@ double EfficiencyAI::findLargest(std::map<Direction, double> vec)
 	return largest;
 }
 
-
+/// <summary>
+/// normalizes the map to a value between 0 and 1
+/// finds the largest value and uses that value to 
+/// sort the map
+/// </summary>
+/// <param name="vec"></param>
+/// <returns></returns>
 std::map<Direction, double> EfficiencyAI::normalize(std::map<Direction, double> vec)
 {
 	auto curLargest = findLargest(vec);
@@ -200,7 +261,12 @@ std::map<Direction, double> EfficiencyAI::normalize(std::map<Direction, double> 
 	return vec;
 }
 
-
+/// <summary>
+/// normalises the dangers to a value between 0 and 1
+/// finds the largert value and divides all values by the largest 
+/// </summary>
+/// <param name="vec">the distances map</param>
+/// <returns>a map of directions and doubles</returns>
 std::map<Direction, double> EfficiencyAI::normalizeDangers(std::map<Direction, double> vec)
 {
 	auto curLargest = findLargest(vec);
@@ -214,7 +280,11 @@ std::map<Direction, double> EfficiencyAI::normalizeDangers(std::map<Direction, d
 	return vec;
 }
 
-
+/// <summary>
+/// seek function using dynamic steering 
+/// </summary>
+/// <param name="position">seek position</param>
+/// <returns></returns>
 steering EfficiencyAI::seek(sf::Vector2f position)
 {
 	m_velocity = curDirection - m_position;
@@ -228,7 +298,10 @@ steering EfficiencyAI::seek(sf::Vector2f position)
 	return seekSteering;
 }
 
-
+/// <summary>
+/// calculates the current orientation in regards to 
+/// the velocity vector and updates the speed 
+/// </summary>
 void EfficiencyAI::calculation() {
 	
 	if (m_velocity.x != 0 || m_velocity.y != 0)
@@ -240,13 +313,23 @@ void EfficiencyAI::calculation() {
 	}
 }
 
-
+/// <summary>
+/// calculates the magnitude of the vector 
+/// </summary>
+/// <param name="v">vector v</param>
+/// <returns></returns>
 float EfficiencyAI::mag(sf::Vector2f & v)
 {
 	return std::sqrt((v.x * v.x) + (v.y * v.y));
 }
 
-
+/// <summary>
+/// calculates the current orientation of the 
+/// AI character depending on the velocity
+/// </summary>
+/// <param name="curOrientation">the current rotation</param>
+/// <param name="velocity">the velocity of the AI </param>
+/// <returns></returns>
 float EfficiencyAI::getNewOrientation(float curOrientation, sf::Vector2f velocity)
 {
 	if (length(velocity) > 0)
@@ -260,12 +343,19 @@ float EfficiencyAI::getNewOrientation(float curOrientation, sf::Vector2f velocit
 	}
 }
 
-
+/// <summary>
+/// calculates the length of a vector 
+/// </summary>
+/// <param name="vel">the velocity</param>
+/// <returns>float</returns>
 float EfficiencyAI::length(sf::Vector2f vel) {
 	return sqrt(vel.x * vel.x + vel.y * vel.y);
 }
 
-
+/// <summary>
+/// sets the current direction for the AI 
+/// this direction depends on the closest vector to target position
+/// </summary>
 void EfficiencyAI::checkDirection(double dt)
 {
 	for (auto it = m_lineVec.begin(); it != m_lineVec.end(); ++it)
@@ -277,7 +367,11 @@ void EfficiencyAI::checkDirection(double dt)
 	}
 }
 
-
+/// <summary>
+/// inilialises the map giving each entry a direction 
+/// and a value of 0.0, inits both the distances from interests 
+/// and the distances from dangers 
+/// </summary>
 void EfficiencyAI::initVector()
 {
 	
@@ -317,7 +411,11 @@ void EfficiencyAI::initVector()
 	m_distancesDanger.insert({ Direction::ENE, 0.0 });
 }
 
-
+/// <summary>
+/// gets the position of the closest node 
+/// only checks the nodes which have not been completed or alive 
+/// </summary>
+/// <returns>the closest node position</returns>
 sf::Vector2f EfficiencyAI::getCurrentNodePosition()
 {
 	sf::Vector2f target;
@@ -341,7 +439,11 @@ sf::Vector2f EfficiencyAI::getCurrentNodePosition()
 	return target;
 }
 
-
+/// <summary>
+/// normalises the vector to a value between 0 and 1
+/// </summary>
+/// <param name="vec">the vector </param>
+/// <returns></returns>
 sf::Vector2f EfficiencyAI::normalize(sf::Vector2f vec)
 {
 	if (vec.x*vec.x + vec.y * vec.y != 0)
@@ -352,8 +454,12 @@ sf::Vector2f EfficiencyAI::normalize(sf::Vector2f vec)
 	return vec;
 }
 
-
-
+/// <summary>
+/// generates a path or trail which is left 
+/// by the ai, updates the path using the dt value 
+/// pushes the path into the a vector contaning the path nodes 
+/// </summary>
+/// <param name="dt">delta time</param>
 void EfficiencyAI::generatePath(double dt)
 {
 	m_timeAmount += dt;
@@ -375,7 +481,9 @@ void EfficiencyAI::generatePath(double dt)
 
 }
 
-
+/// <summary>
+/// updates the time 
+/// </summary>
 void EfficiencyAI::handleTimer()
 {
 	if (!m_startTimer)
@@ -386,21 +494,20 @@ void EfficiencyAI::handleTimer()
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
 }
 
-
+/// <summary>
+/// gets the average execution time 
+/// calculates by dividing the time into the amount of ticks 
+/// </summary>
+/// <returns>average execution time</returns>
 double EfficiencyAI::getAverageExecTime()
 {
 	m_averageExecTime = m_currentTime / m_tickCounter;
 	return m_averageExecTime;
 }
 
-
-double EfficiencyAI::getTimeEfficiency()
-{
-	m_timeEfficiency = m_currentTime / m_tickCounter;
-	return m_timeEfficiency;
-}
-
-
+/// <summary>
+/// resets all the game data 
+/// </summary>
 void EfficiencyAI::resetGame() {
 	for (int i = 0; i < m_nodes.size(); i++) {
 
@@ -408,8 +515,10 @@ void EfficiencyAI::resetGame() {
 	}
 }
 
-
-void EfficiencyAI::clearPath() {
+/// <summary>
+/// resets all the demo data 
+/// </summary>
+void EfficiencyAI::resetDemo() {
 
 	m_lastPathCircle = nullptr;
 	m_timeAmount = 0;
@@ -418,7 +527,8 @@ void EfficiencyAI::clearPath() {
 	m_startTimer = false;
 	m_currentTime = 0;
 	m_tickCounter = 0;
-
+	m_totalRotations = 0;
+	m_lastRotation = 90;
 	m_rect.setRotation(m_rotation);
 	m_surroundingCircle.setPosition(m_position);
 	for (int i = 0; i < m_size; i++)

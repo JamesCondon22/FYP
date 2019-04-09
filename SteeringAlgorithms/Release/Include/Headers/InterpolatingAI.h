@@ -65,7 +65,9 @@ public:
 	bool getCollided() { return m_collided; }
 	void resetGame();
 	double getTime() { return m_currentTime; }
-	void clearPath();
+	double getTotalRotation() { return m_totalRotations; }
+	void resetDemo();
+	void calculateRotations();
 private:
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
@@ -135,4 +137,8 @@ private:
 
 	BehaviourState* m_currentBehaviour;
 	bool m_visuals = true;
+
+	double m_currentRotation;
+	double m_lastRotation = 90;
+	double m_totalRotations = 0;
 };

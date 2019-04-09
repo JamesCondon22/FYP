@@ -59,7 +59,9 @@ public:
 	bool getCollided() { return m_collided; }
 	void resetGame();
 	double getTime() { return m_currentTime; }
-	void clearPath();
+	double getTotalRotation() { return m_totalRotations; }
+	void resetDemo();
+	void calculateRotations();
 private:
 	float m_timeToTarget;
 	sf::Vector2f m_position;
@@ -129,6 +131,10 @@ private:
 
 	int m_score = 0;
 	bool m_collided = false;
+
+	double m_currentRotation;
+	double m_lastRotation = 180;
+	double m_totalRotations = 0;
 };
 
 
