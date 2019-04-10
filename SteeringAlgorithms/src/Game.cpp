@@ -110,32 +110,12 @@ void Game::processGameEvents(sf::Event& event)
 	if (event.type == sf::Event::MouseButtonReleased)
 	{
 		m_pressed = false;
-		/*switch (*m_currentState)
-		{
-		case GameState::None:
-			break;
-		case GameState::MainMenu:*/
-			m_mainMenu->m_pressed = false;
-		/*	break;
-		case GameState::Menu:*/
-			m_menu->m_pressed = false;
-		/*	break;
-		case GameState::Demo:
-			break;
-		case GameState::PreGame:*/
-			m_gameMenu->m_pressed = false;
-			/*break;
-		case GameState::GameScreen:
-			break;
-		case GameState::EndGame:*/
-			m_endGameScreen->m_pressed = false;
-			/*break;
-		case GameState::Options:*/
-			m_options->m_pressed = false;
-			/*break;
-		default:
-			break;
-		}*/
+		m_mainMenu->m_pressed = false;
+		m_menu->m_pressed = false;
+		m_gameMenu->m_pressed = false;
+		m_endGameScreen->m_pressed = false;
+		m_options->m_pressed = false;
+	
 	}
 }
 
@@ -186,7 +166,10 @@ void Game::update(double dt)
 	ImGui::EndFrame();
 }
 
-
+/// <summary>
+/// updates the Graphs which represent the data 
+/// retrieved fromt the demonstration 
+/// </summary>
 void Game::updateGUI() {
 	
 	calculateGraphData();
