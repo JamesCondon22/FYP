@@ -220,6 +220,14 @@ void Game::updateGUI() {
 	initText();
 	ImGui::End();
 
+	ImGui::Begin("Average Rotations p/s");
+	ImGui::DrawLine(ImVec2(80, 70), ImVec2(80, 870), sf::Color::White, 2.0f);
+	ImGui::SetCursorPos(ImVec2(100.0f, 100.0f));
+	ImGui::PlotHistogram("", m_AvgRotationsArr, IM_ARRAYSIZE(m_AvgRotationsArr), 0, NULL, 0.0f, 1000.0f, ImVec2(1200, 800.0f));
+	ImGui::DrawLine(ImVec2(80, 0), ImVec2(1300, 0), sf::Color::White, 2.0f);
+	initText();
+	ImGui::End();
+
 }
 
 
@@ -265,6 +273,10 @@ void Game::calculateGraphData() {
 	
 	for (int i = 0; i < 7; i++) {
 		m_rotationsArr[i] = m_demoScreen->getRotations()[i];
+	}
+
+	for (int i = 0; i < 7; i++) {
+		m_AvgRotationsArr[i] = m_demoScreen->getAverageRotations()[i];
 	}
 }
 

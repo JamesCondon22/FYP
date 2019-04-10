@@ -50,7 +50,6 @@ public:
 	double getPathLength() { return m_totalPathLength; }
 	double getInterceptionTime() { return m_currentTime; }
 	double getAverageExecTime();
-	double getTimeEfficiency();
 	void setState(GameState state) { m_state = state; }
 	std::string getName() { return "Efficiency AI"; }
 	void setBehaviourState(BehaviourState *state) { m_currentBehaviour = state; }
@@ -65,6 +64,7 @@ public:
 	void resetGame();
 	double getTime() { return m_currentTime; }
 	double getTotalRotation() { return m_totalRotations; }
+	double getAverageRotations();
 	void resetDemo();
 	void calculateRotations();
 private:

@@ -51,6 +51,8 @@ protected:
 	float m_InterTarr[7];
 	float m_pathArr[7];
 	float m_rotationsArr[7];
+	float m_AvgRotationsArr[7];
+
 	bool m_setTimes = false;
 	bool onOptions = false;
 };

@@ -62,6 +62,7 @@ DemoScreen::DemoScreen(GameState * state, sf::Font & font, sf::RenderWindow & wi
 	m_interceptionTimes.assign(7, 0.0);
 	m_pathLengths.assign(7, 0.0);
 	m_rotations.assign(7, 0.0);
+	m_averageRotations.assign(7, 0.0);
 }
 
 DemoScreen::~DemoScreen()
@@ -315,6 +316,7 @@ void DemoScreen::checkSplineCollision(TestBot * bot, CRSplineAI * enemy, std::st
 			m_file << "Interception Time = " << enemy->getInterceptionTime() << std::endl;
 			m_file << "Average Execution Time = " << enemy->getAverageExecTime() << std::endl;
 			m_file << "Total Rotations: " << enemy->getTotalRotation() << std::endl;
+			m_file << "Average Rotations p/s: " << enemy->getAverageRotations() << std::endl;
 			m_file << "\n";
 
 			if (!m_graphSet) {
@@ -322,6 +324,7 @@ void DemoScreen::checkSplineCollision(TestBot * bot, CRSplineAI * enemy, std::st
 				inputInterceptionTime(enemy->getInterceptionTime());
 				inputPaths(enemy->getPathLength());
 				inputRotations(enemy->getTotalRotation());
+				inputAverageRotations(enemy->getAverageRotations());
 
 				m_index++;
 			}
@@ -367,6 +370,7 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 			m_file << "Interception Time: " << enemy->getInterceptionTime() << std::endl;
 			m_file << "Average Execution Time: " << enemy->getAverageExecTime() << std::endl;
 			m_file << "Total Rotations: " << enemy->getTotalRotation() << std::endl;
+			m_file << "Average Rotations p/s: " << enemy->getAverageRotations() << std::endl;
 			m_file << "\n";
 
 			if (!m_graphSet) {
@@ -374,6 +378,7 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 				inputInterceptionTime(enemy->getInterceptionTime());
 				inputPaths(enemy->getPathLength());
 				inputRotations(enemy->getTotalRotation());
+				inputAverageRotations(enemy->getAverageRotations());
 
 				m_index++;
 			}
@@ -524,4 +529,8 @@ void DemoScreen::inputPaths(double path) {
 
 void DemoScreen::inputRotations(double rotation) {
 	m_rotations[m_index] = rotation;
+}
+
+void DemoScreen::inputAverageRotations(double rotation) {
+	m_averageRotations[m_index] = rotation;
 }

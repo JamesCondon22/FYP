@@ -134,6 +134,11 @@ void DynamicVectorAI::calculateRotations() {
 }
 
 
+double DynamicVectorAI::getAverageRotations() {
+	return m_totalRotations / m_currentTime;
+}
+
+
 /// <summary>
 /// This function returns a negative number if B is to the left of A
 /// Returns a positive if B is to the right of A

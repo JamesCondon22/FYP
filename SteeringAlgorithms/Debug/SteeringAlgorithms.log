@@ -1,26 +1,9 @@
-﻿  GameScreen.cpp
+﻿  DemoScreen.cpp
 c:\users\gameuser\desktop\fyp\steeringalgorithms\include\headers\traditional.h(53): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(171): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(172): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(184): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(198): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(223): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(226): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(230): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(244): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(249): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(266): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(347): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(446): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(486): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(569): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(632): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(639): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(648): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(651): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(666): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(679): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(685): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(725): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\gamescreen.cpp(766): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\demoscreen.cpp(85): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\demoscreen.cpp(96): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\demoscreen.cpp(170): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\demoscreen.cpp(231): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\demoscreen.cpp(250): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\fyp\steeringalgorithms\src\menus\demoscreen.cpp(260): warning C4018: '<': signed/unsigned mismatch
   SteeringAlgorithms.vcxproj -> C:\Users\gameuser\Desktop\FYP\SteeringAlgorithms\Debug\SteeringAlgorithms.exe

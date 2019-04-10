@@ -1,5 +1,49 @@
 ID:  1 Basic Context Maps
-Path length: 3570
-Interception Time: 9.492
-Average Execution Time: 2.74018
-Total Rotations: 4309.18
+Path length: 3568.11
+Interception Time: 5.809
+Average Execution Time: 1.67455
+Total Rotations: 3883.21
+Average Rotations p/s: 668.482
+
+ID:  2 Average Interpolation
+Path length: 3647.79
+Interception Time: 6.006
+Average Execution Time: 1.69997
+Total Rotations: 1066.25
+Average Rotations p/s: 177.531
+
+ID:  3 Blended Interpolation
+Path length: 3667.04
+Interception Time: 6.056
+Average Execution Time: 1.70784
+Total Rotations: 1067.49
+Average Rotations p/s: 176.27
+
+ID:  4 Efficiency AI
+Path length: 3804.12
+Interception Time: 5.933
+Average Execution Time: 1.61574
+Total Rotations: 2580.09
+Average Rotations p/s: 434.871
+
+ID:  5 Dynamic Vector
+Path length: 3736.83
+Interception Time: 6.175
+Average Execution Time: 1.71528
+Total Rotations: 1903.1
+Average Rotations p/s: 308.195
+
+ID = 6 Catmull Rom AI
+Path length = 6919.86
+Interception Time = 14.403
+Average Execution Time = 2.15711
+Total Rotations: 3035.52
+Average Rotations p/s: 210.756
+
+ID:  7 Traditional
+Path length: 3637.76
+Interception Time: 7.073
+Average Execution Time: 1.85012
+Total Rotations: 1188
+Average Rotations p/s: 167.963
+

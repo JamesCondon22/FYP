@@ -107,6 +107,11 @@ void InterpolatingTwo::calculateRotations() {
 }
 
 
+double InterpolatingTwo::getAverageRotations() {
+	return m_totalRotations / m_currentTime;
+}
+
+
 void InterpolatingTwo::render(sf::RenderWindow & window)
 {
 	if (m_state == GameState::Demo) {

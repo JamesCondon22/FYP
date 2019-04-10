@@ -108,6 +108,8 @@ void FrayAI::update(double dt, sf::Vector2f position)
 	m_tickCounter += 1;
 
 	calculateRotations();
+
+
 }
 
 /// <summary>
@@ -122,6 +124,12 @@ void FrayAI::calculateRotations() {
 
 	m_totalRotations += diff;
 }
+
+
+double FrayAI::getAverageRotations() {
+	return m_totalRotations / m_currentTime;
+}
+
 
 /// <summary>
 /// render the AI, path and other visuals
@@ -477,13 +485,18 @@ void FrayAI::generatePath(double dt)
 /// </summary>
 void FrayAI::handleTimer()
 {
-	if (!m_startTimer)
-	{
+	if (!m_startTimer) {
+
 		m_clock.restart();
+		m_clock2.restart();
+
 		m_startTimer = true;
 	}
 	m_currentTime = m_clock.getElapsedTime().asMilliseconds();
 	m_currentTime = m_currentTime / 1000;
+
+	
+	//m_rotationTime = m_rotationTime / 1000;
 }
 
 /// <summary>

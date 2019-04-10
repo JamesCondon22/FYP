@@ -128,6 +128,11 @@ void EfficiencyAI::calculateRotations() {
 	m_totalRotations += diff;
 }
 
+
+double EfficiencyAI::getAverageRotations() {
+	return m_totalRotations / m_currentTime;
+}
+
 /// <summary>
 /// render the AI, path and other visuals
 /// </summary>

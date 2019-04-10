@@ -65,6 +65,7 @@ public:
 	void resetGame();
 	double getTime() { return m_currentTime; }
 	double getTotalRotation() { return m_totalRotations; }
+	double getAverageRotations();
 	void resetDemo();
 	void calculateRotations();
 private:

@@ -102,6 +102,12 @@ void InterpolatingAI::calculateRotations() {
 	m_totalRotations += diff;
 }
 
+
+double InterpolatingAI::getAverageRotations() {
+	return m_totalRotations / m_currentTime;
+}
+
+
 void InterpolatingAI::render(sf::RenderWindow & window)
 {
 	if (m_state == GameState::Demo) {

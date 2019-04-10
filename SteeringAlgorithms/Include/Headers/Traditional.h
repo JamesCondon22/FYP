@@ -60,6 +60,7 @@ public:
 	void resetGame();
 	double getTime() { return m_currentTime; }
 	double getTotalRotation() { return m_totalRotations; }
+	double getAverageRotations();
 	void resetDemo();
 	void calculateRotations();
 private:
@@ -89,7 +90,7 @@ private:
 	const float MAX_SEE_AHEAD = 110.0f;
 	const float MAX_AVOID_FORCE = 500.0f;
 	const float MAX_FORCE = 10.0f;
-	float MAX_SPEED = 1.00f;
+	float MAX_SPEED = 0.95f;
 	float m_threshold;
 
 	sf::Vector2f ahead;

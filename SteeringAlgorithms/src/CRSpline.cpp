@@ -116,6 +116,10 @@ void CRSplineAI::calculateRotations() {
 	m_totalRotations += diff;
 }
 
+double CRSplineAI::getAverageRotations() {
+	return m_totalRotations / m_currentTime;
+}
+
 /// <summary>
 /// update call for the ghost AI character 
 /// creates a spline points every 25 ticks 
