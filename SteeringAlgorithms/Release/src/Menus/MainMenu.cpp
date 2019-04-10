@@ -54,7 +54,6 @@ void MainMenu::handleInputs(Button & button)
 
 void MainMenu::render(sf::RenderWindow & window)
 {
-	window.clear(sf::Color(255, 255, 255));
 
 	for (int i = 0; i < m_buttons.size(); i++)
 	{
@@ -67,12 +66,14 @@ void MainMenu::render(sf::RenderWindow & window)
 
 void MainMenu::initButtons()
 {
-	m_header = new Label(m_font, sf::Vector2f(200.0f, 100.0f));
+	m_header = new Label(m_font, sf::Vector2f(300.0f, 100.0f));
 	m_header->setSize(120);
-	m_header->setText("Comparison of Traditional behaviours and Context Steering for Game AI");
+	m_header->setText("Comparison of Traditional behaviours and Context Steering \n												for Game AI");
+	m_header->setColor(sf::Color::White);
+	m_header->setOutline(sf::Color::Black, 5.0f);
 
-	Button *buttonOne = new Button(sf::Vector2f(1500, 500), 400, 150, m_texture, m_font, "DEMO");
-	Button *buttonTwo = new Button(sf::Vector2f(1500, 800), 400, 150, m_texture, m_font, "GAME");
+	Button *buttonOne = new Button(sf::Vector2f(1500, 600), 600, 150, m_texture, m_font, "DEMO");
+	Button *buttonTwo = new Button(sf::Vector2f(1500, 1000), 600, 150, m_texture, m_font, "GAME");
 
 
 	m_buttons.push_back(buttonOne);

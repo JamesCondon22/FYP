@@ -87,13 +87,12 @@ void InterpolatingTwo::update(double dt, sf::Vector2f position)
 	m_surroundingCircle.setPosition(m_position);
 	
 	if (m_state == GameState::Demo) {
+
 		generatePath(dt);
+		handleTimer();
+		m_tickCounter += 1;
+		calculateRotations();
 	}
-	handleTimer();
-
-	m_tickCounter += 1;
-
-	calculateRotations();
 }
 
 
@@ -104,6 +103,11 @@ void InterpolatingTwo::calculateRotations() {
 	auto diff = abs(currentRotation - m_lastRotation);
 
 	m_totalRotations += diff;
+}
+
+
+double InterpolatingTwo::getAverageRotations() {
+	return m_totalRotations / m_currentTime;
 }
 
 
@@ -440,6 +444,7 @@ void InterpolatingTwo::resetDemo() {
 	m_startTimer = false;
 	m_currentTime = 0;
 	m_tickCounter = 0;
+	m_totalPathLength = 0;
 	m_totalRotations = 0;
 	m_rect.setRotation(m_rotation);
 	m_surroundingCircle.setPosition(m_position);

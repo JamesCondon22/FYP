@@ -45,7 +45,8 @@ protected:
 	GameState * m_currentState;
 	bool m_pressed = false;
 	sf::Clock m_clock;
-
+	sf::RectangleShape m_backgroundSprite;
+	sf::Texture m_backgroundTexture;
 	sf::Vector2i m_mousePosition;
 	float m_AETarr[7];
 	float m_InterTarr[7];

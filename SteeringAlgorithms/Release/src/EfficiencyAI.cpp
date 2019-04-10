@@ -104,15 +104,15 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 	m_surroundingCircle.setPosition(m_position);
 
 	if (m_state == GameState::Demo) {
-		generatePath(dt);
-	}
-	handleTimer();
 
-	m_tickCounter += 1;
-	m_time += m_clock2.getElapsedTime();
+		generatePath(dt);
+		handleTimer();
+		m_tickCounter += 1;
+		calculateRotations();
+	}
 
 	m_begin = true;
-	calculateRotations();
+	
 }
 
 /// <summary>
@@ -126,6 +126,11 @@ void EfficiencyAI::calculateRotations() {
 	auto diff = abs(currentRotation - m_lastRotation);
 
 	m_totalRotations += diff;
+}
+
+
+double EfficiencyAI::getAverageRotations() {
+	return m_totalRotations / m_currentTime;
 }
 
 /// <summary>
@@ -507,6 +512,8 @@ void EfficiencyAI::resetGame() {
 
 		m_nodes[i]->setAlive(true);
 	}
+	m_timeAmount = 0;
+	m_begin = false;
 }
 
 /// <summary>
@@ -521,6 +528,7 @@ void EfficiencyAI::resetDemo() {
 	m_startTimer = false;
 	m_currentTime = 0;
 	m_tickCounter = 0;
+	m_totalPathLength = 0;
 	m_totalRotations = 0;
 	m_rect.setRotation(m_rotation);
 	m_surroundingCircle.setPosition(m_position);

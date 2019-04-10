@@ -104,6 +104,7 @@ sf::Vector2f Traditional::pursue(sf::Vector2f position)
 
 void Traditional::update(double dt, sf::Vector2f player)
 {
+
 	m_lastRotation = m_rotation;
 
 	if (*m_currentBehaviour == BehaviourState::ChaseNode) {
@@ -155,11 +156,13 @@ void Traditional::update(double dt, sf::Vector2f player)
 		lines[i].setRotation(m_rotation);
 	}
 
-	handleTimer();
-	generatePath(dt);
-	m_tickCounter += 1;
-	
-	calculateRotations();
+	if (m_state == GameState::Demo) {
+
+		generatePath(dt);
+		handleTimer();
+		m_tickCounter += 1;
+		calculateRotations();
+	}
 }
 
 
@@ -171,6 +174,11 @@ void Traditional::calculateRotations() {
 
 	m_totalRotations += diff;
 
+}
+
+
+double Traditional::getAverageRotations() {
+	return m_totalRotations / m_currentTime;
 }
 
 
@@ -189,6 +197,7 @@ sf::Vector2f Traditional::ObstacleAvoidance() {
 
 	auto mostThreatening = findMostThreathening();
 	auto avoidance = sf::Vector2f(0, 0);
+
 	if (mostThreatening->getRadius() != 0.0)
 	{
 		avoidance.x = ahead.x - mostThreatening->getPosition().x;
@@ -352,6 +361,7 @@ void Traditional::resetGame() {
 void Traditional::resetDemo() {
 
 	m_lastPathCircle = nullptr;
+	m_totalPathLength = 0;
 	m_timeAmount = 0;
 	m_startTimer = false;
 	m_currentTime = 0;

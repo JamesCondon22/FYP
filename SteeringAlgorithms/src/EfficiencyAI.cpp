@@ -104,15 +104,15 @@ void EfficiencyAI::update(double dt, sf::Vector2f position)
 	m_surroundingCircle.setPosition(m_position);
 
 	if (m_state == GameState::Demo) {
-		generatePath(dt);
-	}
-	handleTimer();
 
-	m_tickCounter += 1;
-	m_time += m_clock2.getElapsedTime();
+		generatePath(dt);
+		handleTimer();
+		m_tickCounter += 1;
+		calculateRotations();
+	}
 
 	m_begin = true;
-	calculateRotations();
+	
 }
 
 /// <summary>
@@ -512,6 +512,8 @@ void EfficiencyAI::resetGame() {
 
 		m_nodes[i]->setAlive(true);
 	}
+	m_timeAmount = 0;
+	m_begin = false;
 }
 
 /// <summary>

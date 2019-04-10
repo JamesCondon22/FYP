@@ -1,12 +1,12 @@
 #include "Menus/Menu.h"
 #include <iostream>
 
-Menu::Menu(GameState * state):
-	m_currentState(state)
+Menu::Menu(GameState * state, sf::Font & font):
+	m_currentState(state),
+	m_font(font)
 {
 
 	m_texture.loadFromFile("resources/assets/button.png");
-	m_font.loadFromFile("resources/assets/bernhc.TTF");
 	initButtons();
 }
 
@@ -158,8 +158,6 @@ void Menu::checkButtons(std::string name)
 
 void Menu::render(sf::RenderWindow & window)
 {
-	window.clear(sf::Color(255, 255, 255));
-
 	for (int i = 0; i < m_buttons.size(); i++)
 	{
 		m_buttons[i]->render(window);
@@ -169,17 +167,17 @@ void Menu::render(sf::RenderWindow & window)
 
 void Menu::initButtons()
 {
-	Button *buttonOne = new Button(sf::Vector2f(700, 750), 400, 150, m_texture, m_font, "RUN");
-	Button *buttonRunAll = new Button(sf::Vector2f(700, 300), 400, 150, m_texture, m_font, "RUN ALL");
-	Button *buttonCompare = new Button(sf::Vector2f(700, 100), 400, 150, m_texture, m_font, "COMPARE");
+	Button *buttonOne = new Button(sf::Vector2f(1500, 1650), 600, 150, m_texture, m_font, "RUN");
+	Button *buttonRunAll = new Button(sf::Vector2f(1500, 800), 600, 150, m_texture, m_font, "RUN ALL");
+	Button *buttonCompare = new Button(sf::Vector2f(1500, 300), 600, 150, m_texture, m_font, "COMPARE");
 
-	Button *aiButtonOne = new Button(sf::Vector2f(320, 550), 150, 150, m_texture, m_font, "1");
-	Button *aiButtonTwo = new Button(sf::Vector2f(520, 550), 150, 150, m_texture, m_font, "2");
-	Button *aiButtonThree = new Button(sf::Vector2f(720, 550), 150, 150, m_texture, m_font, "3");
-	Button *aiButtonFour = new Button(sf::Vector2f(920, 550), 150, 150, m_texture, m_font, "4");
-	Button *aiButtonFive = new Button(sf::Vector2f(1120, 550), 150, 150, m_texture, m_font, "5");
-	Button *aiButtonSix = new Button(sf::Vector2f(1320, 550), 150, 150, m_texture, m_font, "6");
-	Button *aiButtonSeven = new Button(sf::Vector2f(1520, 550), 150, 150, m_texture, m_font, "7");
+	Button *aiButtonOne = new Button(sf::Vector2f(1120, 1450), 150, 150, m_texture, m_font, "1");
+	Button *aiButtonTwo = new Button(sf::Vector2f(1320, 1450), 150, 150, m_texture, m_font, "2");
+	Button *aiButtonThree = new Button(sf::Vector2f(1520, 1450), 150, 150, m_texture, m_font, "3");
+	Button *aiButtonFour = new Button(sf::Vector2f(1720, 1450), 150, 150, m_texture, m_font, "4");
+	Button *aiButtonFive = new Button(sf::Vector2f(1920, 1450), 150, 150, m_texture, m_font, "5");
+	Button *aiButtonSix = new Button(sf::Vector2f(2120, 1450), 150, 150, m_texture, m_font, "6");
+	Button *aiButtonSeven = new Button(sf::Vector2f(2320, 1450), 150, 150, m_texture, m_font, "7");
 	
 	m_buttons.push_back(buttonOne);
 	m_buttons.push_back(buttonRunAll);

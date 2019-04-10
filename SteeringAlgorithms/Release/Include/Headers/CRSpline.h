@@ -86,6 +86,7 @@ public:
 	void resetCurve();
 	bool pathset = false;
 	double getTotalRotation() { return m_totalRotations; }
+	double getAverageRotations();
 	void calculateRotations();
 private:
 	sf::Vector2f m_position;

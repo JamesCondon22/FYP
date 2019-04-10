@@ -130,7 +130,7 @@ void Player::obstacleCollision()
 {
 	for (int i = 0; i < m_obstacles.size(); i++)
 	{
-		if (Math::circleCollision(m_rect.getPosition(), m_obstacles[i]->getPosition(), m_radius, m_obstacles[i]->getRadius()))
+		if (Math::circleCollision(m_rect.getPosition(), m_obstacles[i]->getPosition(), m_radius, m_obstacles[i]->getRadius()) && m_speed > 0)
 		{
 			m_speed = -20;
 		}

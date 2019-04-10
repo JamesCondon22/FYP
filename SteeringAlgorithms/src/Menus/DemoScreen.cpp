@@ -227,7 +227,7 @@ void DemoScreen::resetDemo() {
 	m_index = 0;
 	m_counter = 0;
 	m_timeLabel->setText("Time: " + std::to_string(0));
-
+	m_testBot->reset();
 	for (int i = 0; i < m_enemies.size(); i++) {
 		m_enemies[i]->setPosition(sf::Vector2f(2700.0f, 300.0f));
 		m_enemies[i]->resetDemo();

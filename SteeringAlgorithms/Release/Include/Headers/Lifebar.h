@@ -10,6 +10,8 @@ public:
 	void update();
 	void render(sf::RenderWindow & window);
 	float getLife() { return m_life; }
+	void deplete();
+	void reset();
 	
 private:
 

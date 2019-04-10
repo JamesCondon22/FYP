@@ -27,6 +27,7 @@ public:
 	virtual double getPathLength() = 0;
 	virtual double getInterceptionTime() = 0;
 	virtual double getAverageExecTime() = 0;
+	virtual double getAverageRotations() = 0;
 	virtual void setCollided(bool collide) = 0;
 	virtual std::string getName() = 0;
 	virtual sf::Color getColor() = 0;

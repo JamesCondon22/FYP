@@ -41,12 +41,20 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font, 
 	
 
 	Label* label = new Label(m_font, m_scorePosition);
+	
 	label->setText("SCORES");
 	label->setSize(60);
 	m_labels.push_back(label);
 
 	m_scorePosition.y += 100;
 	initAI();
+
+	m_playerLabel = new Label(m_font, m_player->getPos());
+	m_playerLabel->setPosition(sf::Vector2f(m_player->getPos().x - 50, m_player->getPos().y - 50));
+	m_playerLabel->setSize(30);
+	m_playerLabel->setColor(sf::Color::White);
+	m_playerLabel->setOutline(sf::Color::Black, 2.0f);
+	m_playerLabel->setText("PLAYER");
 
 	m_timeLabel = new Label(m_font, m_tile[40][22]->getPosition());
 	m_timeLabel->setColor(sf::Color::Red);
@@ -70,6 +78,7 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	int y = mouse.y / 30;
 
 
+	
 
 	if (!beginTimer) {
 		m_clock.restart();
@@ -174,6 +183,8 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	collision(curX, curY);
 
 	if (m_startGame) {
+
+		m_playerLabel->setPosition(sf::Vector2f(m_player->getPos().x - 50, m_player->getPos().y - 100));
 
 		if (m_player->getAlive()) {
 
@@ -771,5 +782,6 @@ void GameScreen::render(sf::RenderWindow & window)
 		m_timeLabel->render(window);
 	}
 
+	m_playerLabel->render(window);
 	m_lifebar->render(window);
 }

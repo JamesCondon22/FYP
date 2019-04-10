@@ -41,12 +41,20 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font, 
 	
 
 	Label* label = new Label(m_font, m_scorePosition);
+	
 	label->setText("SCORES");
 	label->setSize(60);
 	m_labels.push_back(label);
 
 	m_scorePosition.y += 100;
 	initAI();
+
+	m_playerLabel = new Label(m_font, m_player->getPos());
+	m_playerLabel->setPosition(sf::Vector2f(m_player->getPos().x - 50, m_player->getPos().y - 50));
+	m_playerLabel->setSize(30);
+	m_playerLabel->setColor(sf::Color::White);
+	m_playerLabel->setOutline(sf::Color::Black, 2.0f);
+	m_playerLabel->setText("PLAYER");
 
 	m_timeLabel = new Label(m_font, m_tile[40][22]->getPosition());
 	m_timeLabel->setColor(sf::Color::Red);
@@ -70,6 +78,7 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	int y = mouse.y / 30;
 
 
+	
 
 	if (!beginTimer) {
 		m_clock.restart();
@@ -175,13 +184,27 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 
 	if (m_startGame) {
 
-		m_player->update(dt);
+		m_playerLabel->setPosition(sf::Vector2f(m_player->getPos().x - 50, m_player->getPos().y - 100));
+
+		if (m_player->getAlive()) {
+
+			m_player->update(dt);
+			checkPlayerNodeCollision(m_player->getPos(), m_player->getRadius());
+		}
 
 		for (int i = 0; i < m_enemies.size(); i++) {
-			m_enemies[i]->update(dt, m_player->getPos());
+			
+			if (m_player->getAlive()) {
+				m_enemies[i]->update(dt, m_player->getPos());
+			}
+			else {
+				m_enemies[i]->update(dt, m_key->getPosition());
+			}
+
 			checkNodeCollision(m_enemies[i]);
 			checkPlayerEnemyCollision(m_enemies[i], m_player);
 		}
+
 		if (!m_spawnKey) {
 			for (int i = 0; i < m_nodes.size(); i++) {
 				if (m_nodes[i]->getAlive()) {
@@ -196,6 +219,12 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		m_counter = 0;
 	}
 
+	m_lifebar->update();
+
+	if (m_lifebar->getLife() <= 0) {
+		m_player->setScore(0);
+		m_player->setAlive(false);
+	}
 	
 
 	if (m_spawnKey) {
@@ -203,18 +232,21 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		*m_aiStates = BehaviourState::ChaseEntity;
 
 		for (int i = 0; i < m_enemies.size(); i++) {
+
 			m_enemies[i]->setBehaviourState(m_aiStates);
+			m_key->checkCollision(m_enemies[i]->getPos(), m_enemies[i]->getRadius());
 		}
+
 		m_key->setActivated(true);
 		m_key->checkCollision(m_player->getPos(), m_player->getRadius());
-
+		
 		if (m_key->getCollision())
 		{
 			m_gameOver = true;
 		}
 	}
 	
-	checkPlayerNodeCollision(m_player->getPos(), m_player->getRadius());
+	
 
 	if (m_key->getActive()) {
 		m_key->update(dt);
@@ -483,7 +515,7 @@ void GameScreen::checkPlayerEnemyCollision(Enemy * enemy, Player* player) {
 	
 	if (Math::circleCollision(player->getPos(), enemy->getPos(), player->getRadius(), enemy->getRadius()))
 	{
-		m_lifebar->update();
+		m_lifebar->deplete();
 	}
 }
 
@@ -531,7 +563,7 @@ void GameScreen::initUIText(int score, sf::Color color)
 {
 	Label* label = new Label(m_font, m_toolbar.getPosition());
 	label->setText("Score: " + std::to_string(score));
-	label->setSize(50);
+	label->setSize(70);
 	label->setColor(color);
 	label->setPosition(m_scorePosition);
 	m_scorePosition.y += 100;
@@ -595,6 +627,7 @@ void GameScreen::resetGame() {
 	m_startGame = false;
 	m_spawnKey = false;
 	beginTimer = false;
+	m_player->setAlive(true);
 
 	m_key->setActivated(false);
 	m_key->setCollision(false);
@@ -602,6 +635,7 @@ void GameScreen::resetGame() {
 	m_key->setPosition(getRandomPosition());
 	m_player->setPosition(initPosition());
 
+	m_lifebar->reset();
 	m_player->setScore(0);
 	m_player->reset();
 	m_time = 3;
@@ -717,8 +751,13 @@ sf::Vector2f GameScreen::initPosition() {
 void GameScreen::render(sf::RenderWindow & window)
 {
 	window.draw(m_mapSprite);
-	m_player->render(window);
-
+	if (m_player->getAlive()) {
+		m_player->render(window);
+	}
+	for (auto &obs : m_obstacles)
+	{
+		obs->render(window);
+	}
 	for (auto &enemy : m_enemies) {
 		enemy->render(window);
 	}
@@ -731,10 +770,7 @@ void GameScreen::render(sf::RenderWindow & window)
 		node->render(window);
 	}
 
-	for (auto &obs : m_obstacles)
-	{
-		obs->render(window);
-	}
+	
 
 	window.draw(m_toolbar);
 
@@ -746,5 +782,6 @@ void GameScreen::render(sf::RenderWindow & window)
 		m_timeLabel->render(window);
 	}
 
+	m_playerLabel->render(window);
 	m_lifebar->render(window);
 }

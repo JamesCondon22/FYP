@@ -83,13 +83,12 @@ void InterpolatingAI::update(double dt, sf::Vector2f position)
 	m_surroundingCircle.setPosition(m_position);
 	
 	if (m_state == GameState::Demo) {
-		generatePath(dt);
-	}
-	handleTimer();
 
-	m_tickCounter += 1;
-	
-	calculateRotations();
+		generatePath(dt);
+		handleTimer();
+		m_tickCounter += 1;
+		calculateRotations();
+	}
 }
 
 

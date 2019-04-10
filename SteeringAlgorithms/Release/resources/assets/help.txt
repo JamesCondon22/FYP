@@ -1,0 +1,31 @@
+		INSTRUCTIONS:
+
+- You  must  achieve  a  high  score.
+
+- You  must  as  many  nodes  as  possible.
+
+- Each  node  adds  10  to  your  score.
+	
+- You  must  avoid  enemy  AI  characters.
+	
+- If  you  collide  with  an  enemy  your  life  will  deplete.
+	
+- When  your  life  is  fully  depleted  you  will  die  and  your 
+  score  will  be  set  to  0.
+	
+- When  all  the  nodes  have  been  collected  a  key  will  a  appear
+  at  a  random  position  on  the  screen.
+	
+- To  finish  the  level  you  must  get  to  the  key  before  the  enemies 
+  get  to  you.
+
+
+		CONTROLS:
+
+Up  Arrow  -  Moves  Forward.
+
+Down  Arrow  -  Slows  Down.
+
+Left  Arrow  -  Steers  Left.
+
+Right  Arrow  -  Steers  Right.

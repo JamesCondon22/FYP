@@ -83,13 +83,12 @@ void InterpolatingAI::update(double dt, sf::Vector2f position)
 	m_surroundingCircle.setPosition(m_position);
 	
 	if (m_state == GameState::Demo) {
-		generatePath(dt);
-	}
-	handleTimer();
 
-	m_tickCounter += 1;
-	
-	calculateRotations();
+		generatePath(dt);
+		handleTimer();
+		m_tickCounter += 1;
+		calculateRotations();
+	}
 }
 
 
@@ -101,6 +100,12 @@ void InterpolatingAI::calculateRotations() {
 
 	m_totalRotations += diff;
 }
+
+
+double InterpolatingAI::getAverageRotations() {
+	return m_totalRotations / m_currentTime;
+}
+
 
 void InterpolatingAI::render(sf::RenderWindow & window)
 {
@@ -430,6 +435,7 @@ void InterpolatingAI::resetDemo() {
 	m_startTimer = false;
 	m_currentTime = 0;
 	m_tickCounter = 0;
+	m_totalPathLength = 0;
 	m_totalRotations = 0;
 	m_surroundingCircle.setPosition(m_position);
 	for (int i = 0; i < m_size; i++)

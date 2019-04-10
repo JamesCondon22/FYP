@@ -111,13 +111,12 @@ void DynamicVectorAI::update(double dt, sf::Vector2f position)
 	m_surroundingCircle.setPosition(m_position);
 
 	if (m_state == GameState::Demo) {
+
 		generatePath(dt);
+		handleTimer();
+		m_tickCounter += 1;
+		calculateRotations();
 	}
-	handleTimer();
-
-	m_tickCounter += 1;
-
-	calculateRotations();
 }
 
 /// <summary>
@@ -131,6 +130,11 @@ void DynamicVectorAI::calculateRotations() {
 	auto diff = abs(currentRotation - m_lastRotation);
 
 	m_totalRotations += diff;
+}
+
+
+double DynamicVectorAI::getAverageRotations() {
+	return m_totalRotations / m_currentTime;
 }
 
 
@@ -570,6 +574,7 @@ void DynamicVectorAI::resetDemo() {
 	m_startTimer = false;
 	m_currentTime = 0;
 	m_tickCounter = 0;
+	m_totalPathLength = 0;
 	m_totalRotations = 0;
 	m_rotation = 90;
 	m_rect.setRotation(m_rotation);

@@ -45,12 +45,15 @@ protected:
 	GameState * m_currentState;
 	bool m_pressed = false;
 	sf::Clock m_clock;
-
+	sf::RectangleShape m_backgroundSprite;
+	sf::Texture m_backgroundTexture;
 	sf::Vector2i m_mousePosition;
 	float m_AETarr[7];
 	float m_InterTarr[7];
 	float m_pathArr[7];
 	float m_rotationsArr[7];
+	float m_AvgRotationsArr[7];
+
 	bool m_setTimes = false;
 	bool onOptions = false;
 };

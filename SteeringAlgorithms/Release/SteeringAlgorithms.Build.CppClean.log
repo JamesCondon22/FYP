@@ -19,7 +19,6 @@ c:\users\gameuser\desktop\fyp\steeringalgorithms\release\imgui_draw.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\imgui_demo.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\imgui.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\imgui-sfml.obj
-c:\users\gameuser\desktop\fyp\steeringalgorithms\release\tile.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\testbot.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\efficiencyai.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\player.obj
@@ -34,13 +33,14 @@ c:\users\gameuser\desktop\fyp\steeringalgorithms\release\endgame.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\demoscreen.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\mathhelper.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\main.obj
+c:\users\gameuser\desktop\fyp\steeringalgorithms\release\lifebar.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\levelloader.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\label.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\key.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\interpolatingtwo.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\interpolatingai.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\traditional.obj
-c:\users\gameuser\desktop\fyp\steeringalgorithms\release\lifebar.obj
+c:\users\gameuser\desktop\fyp\steeringalgorithms\release\tile.obj
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\steeringalgorithms.exe
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\steeringalgorithms.pdb
 c:\users\gameuser\desktop\fyp\steeringalgorithms\release\steeringalgorithms.ipdb

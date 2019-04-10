@@ -105,7 +105,6 @@ sf::Vector2f Traditional::pursue(sf::Vector2f position)
 void Traditional::update(double dt, sf::Vector2f player)
 {
 
-	std::cout << m_totalRotations << std::endl;
 	m_lastRotation = m_rotation;
 
 	if (*m_currentBehaviour == BehaviourState::ChaseNode) {
@@ -157,11 +156,13 @@ void Traditional::update(double dt, sf::Vector2f player)
 		lines[i].setRotation(m_rotation);
 	}
 
-	handleTimer();
-	generatePath(dt);
-	m_tickCounter += 1;
-	
-	calculateRotations();
+	if (m_state == GameState::Demo) {
+
+		generatePath(dt);
+		handleTimer();
+		m_tickCounter += 1;
+		calculateRotations();
+	}
 }
 
 

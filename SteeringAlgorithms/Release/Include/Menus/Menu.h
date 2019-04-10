@@ -7,7 +7,7 @@
 class Menu
 {
 public:
-	Menu(GameState * state);
+	Menu(GameState * state, sf::Font & font);
 	~Menu();
 	void update(double dt, sf::Window & window);
 	void render(sf::RenderWindow& window);

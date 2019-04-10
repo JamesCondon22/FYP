@@ -108,6 +108,8 @@ private:
 	int m_counter = 0;
 
 	bool m_altPressed = false;
+
+	Label* m_playerLabel;
 };
 
 #endif

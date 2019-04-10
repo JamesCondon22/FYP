@@ -26,11 +26,15 @@ Game::Game() :
 
 	m_currentState = new GameState;
 
-	*m_currentState = GameState::EndGame;
+	*m_currentState = GameState::MainMenu;
 	ImGui::SFML::Init(m_window);
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
 	}
+	m_backgroundTexture.loadFromFile("resources/assets/background.jpg");
+	m_backgroundSprite.setSize(sf::Vector2f((float)window_width, (float)window_height));
+	m_backgroundSprite.setTexture(&m_backgroundTexture);
+
 	m_buttonTexture.loadFromFile("resources/assets/button.png");
 	m_font.loadFromFile("resources/assets/bernhc.TTF");
 	m_fontBell.loadFromFile("resources/assets/Crimson-Bold.TTF");
@@ -289,7 +293,7 @@ void Game::calculateGraphData() {
 void Game::render()
 {
 	m_window.clear(sf::Color(211, 211, 211));
-	
+	m_window.draw(m_backgroundSprite);
 	switch (*m_currentState)
 	{
 	case GameState::None:
