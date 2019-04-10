@@ -31,8 +31,8 @@ Button::Button(sf::Vector2f pos, float width, float height, sf::Texture & textur
 	auto currentH = m_text.getGlobalBounds().height / 2;
 	//sets the text depending on the width and height of the button 
 	m_text.setOrigin(currentW, currentH);
-	m_text.setPosition(m_position.x + (m_width / 2), m_position.y + 60);
-	m_text.setFillColor(sf::Color::Black);
+	m_text.setPosition(m_position.x + (m_width / 2), m_position.y + 40);
+	m_text.setFillColor(sf::Color::White);
 
 }
 /// <summary>
@@ -57,10 +57,10 @@ void Button::update()
 {
 	if (m_pressed)
 	{
-		m_text.setFillColor(sf::Color::White);
+		m_text.setFillColor(sf::Color::Black);
 	}
 	else {
-		m_text.setFillColor(sf::Color::Black);
+		m_text.setFillColor(sf::Color::White);
 	}
 }
 

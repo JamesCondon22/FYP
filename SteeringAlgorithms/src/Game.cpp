@@ -26,7 +26,7 @@ Game::Game() :
 
 	m_currentState = new GameState;
 
-	*m_currentState = GameState::MainMenu;
+	*m_currentState = GameState::EndGame;
 	ImGui::SFML::Init(m_window);
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
@@ -34,13 +34,13 @@ Game::Game() :
 	m_buttonTexture.loadFromFile("resources/assets/button.png");
 	m_font.loadFromFile("resources/assets/bernhc.TTF");
 	m_fontBell.loadFromFile("resources/assets/Crimson-Bold.TTF");
-	m_options = new Options(m_currentState, m_fontBell, m_font, m_buttonTexture, m_window);
-	m_demoScreen = new DemoScreen(m_currentState, m_font, m_window);
-	m_mainMenu = new MainMenu(m_currentState, m_font);
-	m_menu = new Menu(m_currentState);
-	m_gameScreen = new GameScreen(m_currentState, size, m_font, m_window);
-	m_endGameScreen = new EndGame(m_currentState, m_font);
-	m_gameMenu = new GameMenu(m_currentState, m_font);
+	m_options = new Options(m_currentState, m_font, m_fontBell, m_buttonTexture, m_window);
+	m_demoScreen = new DemoScreen(m_currentState, m_fontBell, m_window);
+	m_mainMenu = new MainMenu(m_currentState, m_fontBell);
+	m_menu = new Menu(m_currentState, m_fontBell);
+	m_gameScreen = new GameScreen(m_currentState, size, m_fontBell, m_window);
+	m_endGameScreen = new EndGame(m_currentState, m_fontBell);
+	m_gameMenu = new GameMenu(m_currentState, m_font, m_fontBell);
 }
 
 

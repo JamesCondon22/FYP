@@ -189,6 +189,7 @@ sf::Vector2f Traditional::ObstacleAvoidance() {
 
 	auto mostThreatening = findMostThreathening();
 	auto avoidance = sf::Vector2f(0, 0);
+
 	if (mostThreatening->getRadius() != 0.0)
 	{
 		avoidance.x = ahead.x - mostThreatening->getPosition().x;

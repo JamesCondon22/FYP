@@ -18,7 +18,7 @@ Options::Options(GameState * state, sf::Font & font, sf::Font & btnfont, sf::Tex
 {
 	m_window = &window;
 	//creates a new button
-	button = new Button(sf::Vector2f(2000.0f, 600.0f), 600, 150, m_texture, btnfont, "MAIN MENU");
+	button = new Button(sf::Vector2f(1500.0f, 1200.0f), 800, 150, m_texture, btnfont, "MAIN MENU");
 }
 
 Options::~Options()
@@ -69,14 +69,6 @@ void Options::update(double dt)
 /// <param name="window"></param>
 void Options::render(sf::RenderWindow & window)
 {
-
-	window.clear(sf::Color(255, 255, 255));
-
-	for (int i = 0; i < m_labels.size(); i++)
-	{
-		m_labels[i]->render(window);
-	}
-
 	button->render(window);
 }
 

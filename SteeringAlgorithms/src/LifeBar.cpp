@@ -20,6 +20,15 @@ LifeBar::~LifeBar() {
 
 void LifeBar::update() {
 
+	if (m_life > 0 && m_life <= 100) {
+		m_alpha -= 5;
+		m_lifeRect.setFillColor(sf::Color(255,0,0, m_alpha));
+	}
+	
+}
+
+
+void LifeBar::deplete() {
 	if (m_life > 0) {
 		m_life -= 1.0f;
 		m_lifeRect.setSize(sf::Vector2f(m_life, 55.0f));
@@ -28,13 +37,17 @@ void LifeBar::update() {
 	if (m_life > 100 && m_life <= 193) {
 		m_lifeRect.setFillColor(sf::Color::Red);
 	}
-	if (m_life > 0 && m_life <= 100) {
-		m_alpha -= 1;
-		m_lifeRect.setFillColor(sf::Color(255,0,0, m_alpha));
-	}
 	if (m_life > 193 && m_life <= 386) {
 		m_lifeRect.setFillColor(sf::Color(255, 140, 0));
 	}
+}
+
+
+void LifeBar::reset() {
+
+	m_life = 580.0f;
+	m_lifeRect.setFillColor(sf::Color::Green);
+	m_lifeRect.setSize(sf::Vector2f(m_life, 55.0f));
 }
 
 

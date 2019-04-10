@@ -24,6 +24,8 @@ public:
 	int getScore() { return m_score; }
 	void setScore(int score) { m_score = score; }
 	void setColor(sf::Color color) { m_color = color; }
+	void setAlive(bool alive) { m_alive = alive; }
+	bool getAlive() { return m_alive; }
 	void reset();
 	sf::Color getColor() { return m_color; }
 	void obstacleCollision();
@@ -47,4 +49,5 @@ private:
 	sf::Color m_color;
 	std::vector<Obstacle*> m_obstacles;
 	bool m_visuals = true;
+	bool m_alive = true;
 };
