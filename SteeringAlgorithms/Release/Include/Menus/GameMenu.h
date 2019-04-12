@@ -2,8 +2,8 @@
 #include <SFML\Graphics.hpp>
 #include "SFML\Audio.hpp"
 #include "State.h"
-#include "Headers/Button.h"
-#include "Headers/Label.h"
+#include "Headers/UI/Button.h"
+#include "Headers/UI/Label.h"
 #include <fstream>
 
 class GameMenu
@@ -16,6 +16,8 @@ public:
 	void initButtons();
 	void handleInputs(Button & button);
 	void loadData();
+
+
 	bool m_pressed = true;
 	int getActivatedAI() { return m_activatedAI; }
 	std::string getLastPressed() { return m_lastPressed; }

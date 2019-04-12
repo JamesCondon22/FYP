@@ -4,8 +4,8 @@
 #include <SFML\Graphics.hpp>
 #include "Menus/State.h"
 #include <fstream>
-#include "Headers/Label.h"
-#include "Headers/Button.h"
+#include "Headers/UI/Label.h"
+#include "Headers/UI/Button.h"
 #include "../imgui/imgui.h"
 #include "../imgui/imgui-SFML.h"
 

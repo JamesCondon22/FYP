@@ -1,6 +1,11 @@
 #include "Menus/GameMenu.h"
 
-
+/// <summary>
+/// initialises the Game Menu 
+/// </summary>
+/// <param name="state">current game state</param>
+/// <param name="btnfont">font for the button</param>
+/// <param name="font">font for text </param>
 GameMenu::GameMenu(GameState * state, sf::Font & btnfont, sf::Font & font) :
 	m_currentState(state),
 	m_font(btnfont),
@@ -9,9 +14,8 @@ GameMenu::GameMenu(GameState * state, sf::Font & btnfont, sf::Font & font) :
 {
 	m_file.open("resources/assets/help.txt");
 	m_texture.loadFromFile("resources/assets/button.png");
+	//inits the buttons
 	initButtons();
-
-	
 }
 
 
@@ -21,7 +25,11 @@ GameMenu::~GameMenu()
 
 }
 
-
+/// <summary>
+/// updates the mouse postion 
+/// </summary>
+/// <param name="dt"></param>
+/// <param name="window"></param>
 void GameMenu::update(double dt, sf::Window & window)
 {
 	m_mousePosition = sf::Mouse::getPosition(window);

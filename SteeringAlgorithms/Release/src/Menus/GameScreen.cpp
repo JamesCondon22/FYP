@@ -1,54 +1,40 @@
 #include "Menus/GameScreen.h"
 
-
+/// <summary>
+/// initialises the gamescreen 
+/// </summary>
+/// <param name="state">the current game state</param>
+/// <param name="size">window size</param>
+/// <param name="font">font</param>
+/// <param name="window">window</param>
 GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font, sf::RenderWindow & window) :
 	m_font(font),
 	m_currentState(state)
 {
 
-	if (!m_TextureObs.loadFromFile("resources/assets/noEntry.png")) {
+	loadTextures();
 
-		std::cout << "texture not loading" << std::endl;
-	}
-	if (!m_textureNode.loadFromFile("resources/assets/strawberry.png")) {
-
-		std::cout << "texture not loading" << std::endl;
-	}
-	if (!m_mapTexture.loadFromFile("resources/assets/mapSprite.png")) {
-
-		std::cout << "texture not loading" << std::endl;
-	}
-	if (!m_keyTexture.loadFromFile("resources/assets/key.png")) {
-
-		std::cout << "texture not loading" << std::endl;
-	}
 	loadLevel("resources/levels/LevelOne.txt");
 
 	m_savedPositions = m_spawnPositions;
 
 	m_mapSprite.setTexture(m_mapTexture);
 	m_mapSprite.setPosition(0, 0);
+	//inits the key 
 	m_key = new Key(m_keyTexture);
 	m_key->setPosition(getRandomPosition());
-	
+	//initialises the tool bar 
 	m_toolbar.setSize(sf::Vector2f(size.x / 2, size.y));
 	m_toolbar.setFillColor(sf::Color::White);
 	m_toolbar.setOutlineThickness(5.0f);
 	m_toolbar.setOutlineColor(sf::Color::Black);
 	m_toolbar.setPosition(2400, 0);
-
+	//sets the startig score position 
 	m_scorePosition = sf::Vector2f(m_toolbar.getPosition().x + 50, m_toolbar.getPosition().y + 200.0f);
 	
-
-	Label* label = new Label(m_font, m_scorePosition);
-	
-	label->setText("SCORES");
-	label->setSize(60);
-	m_labels.push_back(label);
-
-	m_scorePosition.y += 100;
+	initLabels();
 	initAI();
-
+	
 	m_playerLabel = new Label(m_font, m_player->getPos());
 	m_playerLabel->setPosition(sf::Vector2f(m_player->getPos().x - 50, m_player->getPos().y - 50));
 	m_playerLabel->setSize(30);
@@ -56,10 +42,7 @@ GameScreen::GameScreen(GameState * state, sf::Vector2f & size, sf::Font & font, 
 	m_playerLabel->setOutline(sf::Color::Black, 2.0f);
 	m_playerLabel->setText("PLAYER");
 
-	m_timeLabel = new Label(m_font, m_tile[40][22]->getPosition());
-	m_timeLabel->setColor(sf::Color::Red);
-	m_timeLabel->setSize(200);
-
+	//initialises the player health bar 
 	m_lifebar = new LifeBar(sf::Vector2f(m_toolbar.getPosition().x + 50.0f, m_toolbar.getPosition().y + 50.0f));
 }
 
@@ -71,152 +54,57 @@ GameScreen::~GameScreen() {
 
 void GameScreen::update(double dt, sf::Vector2i & mouse)
 {
+	//constantly updates the scores
 	updateScores();
-	
-
-	int x = mouse.x / 30;
-	int y = mouse.y / 30;
-
-
-	
-
+	//resets the clock 
 	if (!beginTimer) {
 		m_clock.restart();
 		beginTimer = true;
 	}
+	//starts the countdown timer
 	if (m_clock.getElapsedTime().asMilliseconds() > 1000 && m_time > 0) {
 		m_clock.restart();
 		m_time -= 1;
 	}
-
+	//starts the game
 	if (m_time <= 0) {
 		m_startGame = true;
 	}
-	/*if (m_time <= 2) {
-		m_ghostAI->updatePlotPoints(dt, m_player->getPos());
-		checkSplineNodeCollision(m_ghostAI);
-	}*/
 
 	m_timeLabel->setText(std::to_string(m_time));
 
-	/*if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-	{
-		if (x >= 0 && x < 80 && y >= 0 && y < 60)
-		{
-			GameNode *circ = new GameNode(10, m_textureNode);
-			circ->setPosition(sf::Vector2f(0, 0));
-			circ->setColor(sf::Color(255, 0, 0));
-			circ->setOrigin(circ->getRadius(), circ->getRadius());
-			circ->setPosition(sf::Vector2f(m_tile[x][y]->getPosition().x + 15, m_tile[x][y]->getPosition().y + 15));
-			m_nodes.push_back(circ);
-			m_tile[x][y]->setInterest();
-		}
-
-	}*/
-	//if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
-	//{
-	//	if (x >= 0 && x < 80 && y >= 0 && y < 60)
-	//	{
-	//		m_tile[x][y]->setObstacle();
-	//	}
-
-	//}
-	//if (sf::Mouse::isButtonPressed(sf::Mouse::Middle) && !m_Midpressed)
-	//{
-	//	if (x >= 0 && x < 80 && y >= 0 && y < 60)
-	//	{
-	//		Obstacle* obstacle = new Obstacle(50, m_TextureObs, sf::Vector2f(0, 0), true);
-	//		obstacle->setOrigin(obstacle->getRadius(), obstacle->getRadius());
-	//		obstacle->setPosition(m_tile[x][y]->getPosition());
-	//		m_obstacles.push_back(obstacle);
-	//		m_tile[x][y]->setCircularObs();
-	//	}
-
-	//}
-	//if (!sf::Mouse::isButtonPressed(sf::Mouse::Middle))
-	//{
-	//	m_Midpressed = false;
-	//}
-	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !m_pressed)
-	//{
-	//	m_file.open("resources/levels/LevelOne.txt"/*, std::ofstream::app*/);
-	//	int count = 0;
-
-	//	for (int i = 0; i < 60; i++) {
-	//		for (int j = 0; j < 80; j++) {
-	//			if (count >= 80)
-	//			{
-	//				m_file << std::endl;
-	//				count = 0;
-	//			}
-	//			if (m_tile[j][i]->getState() == NState::Blank)
-	//			{
-	//				m_file << "0";
-	//			}
-	//			else if (m_tile[j][i]->getState() == NState::Full)
-	//			{
-	//				m_file << "1";
-	//			}
-	//			else if (m_tile[j][i]->getState() == NState::Interest)
-	//			{
-	//				m_file << "2";
-	//			}
-	//			else if (m_tile[j][i]->getState() == NState::Circle)
-	//			{
-	//				m_file << "3";
-	//			}
-	//			count++;
-	//		}
-	//	}
-	//	m_file.close();
-	//	m_pressed = true;
-	//}
-	//if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	//{
-	//	m_pressed = false;
-	//}
-
-
+	//checks collision between the player and the border
 	int curX = m_player->getPos().x / 30;
 	int curY = m_player->getPos().y / 30;
-
+	//checks collsion 
 	collision(curX, curY);
 
+	//only updates when the game has begun
 	if (m_startGame) {
-
+		//sets the player tag position 
 		m_playerLabel->setPosition(sf::Vector2f(m_player->getPos().x - 50, m_player->getPos().y - 100));
-
+		//only updates the player if they are alive
 		if (m_player->getAlive()) {
-
 			m_player->update(dt);
 			checkPlayerNodeCollision(m_player->getPos(), m_player->getRadius());
 		}
 
 		for (int i = 0; i < m_enemies.size(); i++) {
 			
+			//updates the enemies if they are alive
 			if (m_player->getAlive()) {
 				m_enemies[i]->update(dt, m_player->getPos());
 			}
 			else {
+				//if the player is dead the AI will seek the key
 				m_enemies[i]->update(dt, m_key->getPosition());
 			}
-
+			//checks for collisions
 			checkNodeCollision(m_enemies[i]);
 			checkPlayerEnemyCollision(m_enemies[i], m_player);
 		}
-
-		if (!m_spawnKey) {
-			for (int i = 0; i < m_nodes.size(); i++) {
-				if (m_nodes[i]->getAlive()) {
-					m_counter++;
-				}
-			}
-		}
-
-		if (m_counter <= 0) {
-			m_spawnKey = true;
-		}
-		m_counter = 0;
+		//checks if all the not are no longer on screen
+		checkNodes();
 	}
 
 	m_lifebar->update();
@@ -226,9 +114,9 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 		m_player->setAlive(false);
 	}
 	
-
+	//if the key is drawn
 	if (m_spawnKey) {
-
+		//changes behaviour of AI 
 		*m_aiStates = BehaviourState::ChaseEntity;
 
 		for (int i = 0; i < m_enemies.size(); i++) {
@@ -251,20 +139,39 @@ void GameScreen::update(double dt, sf::Vector2i & mouse)
 	if (m_key->getActive()) {
 		m_key->update(dt);
 	}
-	
+	//animates all the nodes
 	for (int i = 0; i < m_nodes.size(); i++)
 	{
 		m_nodes[i]->animateNode();
 	}
-
+	//updates the scores and labels
 	for (int i = 0; i < m_labels.size(); i++)
 	{
 		updateEnemyLabel(m_labels[i]);
 		updatePlayerLabel(m_labels[i]);
 	}
-	
+	//check if the game is over
 	checkGameOver();
 	handleKeys();
+}
+
+/// <summary>
+/// checks to see if all the nodes are no longer on screen
+/// if so the key will be spawned
+/// </summary>
+void GameScreen::checkNodes() {
+	if (!m_spawnKey) {
+		for (int i = 0; i < m_nodes.size(); i++) {
+			if (m_nodes[i]->getAlive()) {
+				m_counter++;
+			}
+		}
+	}
+	if (m_counter <= 0) {
+		m_spawnKey = true;
+	}
+
+	m_counter = 0;
 }
 
 /// <summary>
@@ -419,23 +326,13 @@ void GameScreen::loadLevel(std::string level)
 void GameScreen::initAI() {
 
 	m_player = new Player(m_obstacles);
-	//m_splineAI = new CRSplineAI(m_nodes, m_obstacles);
-	//m_ghostAI = new CRSplineAI(m_nodes, m_obstacles);
-
-	//m_splineAI->setTag("AI");
-	//m_ghostAI->setTag("GHOST");
 
 	m_player->setPosition(initPosition());
-	//m_ghostAI->setPosition(initPosition());
-	//m_splineAI->setPosition(m_ghostAI->getPos());
-	//m_ghostAI->setRadius(10);
 	m_player->setVisuals(false);
 
 	initUIText(m_player->getScore(), m_player->getColor());
-	//initUIText(m_splineAI->getScore(), m_splineAI->getColor());
 
 	m_scores.push_back(std::make_pair(m_player->getName(), m_player->getScore()));
-	//m_scores.push_back(std::make_pair(m_splineAI->getName(), m_splineAI->getScore()));
 
 	Enemy* m_interAi = new InterpolatingAI(m_nodes, m_obstacles);
 	Enemy* m_interAiTwo = new InterpolatingTwo(m_nodes, m_obstacles);
@@ -463,9 +360,6 @@ void GameScreen::initAI() {
 		initUIText(m_enemies[i]->getScore(), m_enemies[i]->getColor());
 		
 	}	
-
-	//m_ghostAI->setBehaviourState(m_aiStates);
-	//m_splineAI->setBehaviourState(m_aiStates);
 }
 
 /// <summary>
@@ -666,6 +560,28 @@ void GameScreen::resetGame() {
 }
 
 /// <summary>
+/// loads all textures in the game
+/// </summary>
+void GameScreen::loadTextures() {
+	if (!m_TextureObs.loadFromFile("resources/assets/noEntry.png")) {
+
+		std::cout << "texture not loading" << std::endl;
+	}
+	if (!m_textureNode.loadFromFile("resources/assets/strawberry.png")) {
+
+		std::cout << "texture not loading" << std::endl;
+	}
+	if (!m_mapTexture.loadFromFile("resources/assets/mapSprite.png")) {
+
+		std::cout << "texture not loading" << std::endl;
+	}
+	if (!m_keyTexture.loadFromFile("resources/assets/key.png")) {
+
+		std::cout << "texture not loading" << std::endl;
+	}
+}
+
+/// <summary>
 /// saves the scores of each the characters 
 /// to the text file and closes the file
 /// </summary>
@@ -717,6 +633,25 @@ sf::Vector2f GameScreen::getRandomPosition() {
 	int total = m_keyPositions.size();
 	int num = std::rand() % total;
 	return sf::Vector2f(m_keyPositions[num].x + 25.0f, m_keyPositions[num].y + 25.0f);
+}
+
+/// <summary>
+/// initialises all the labels 
+/// in the game
+/// </summary>
+void GameScreen::initLabels() {
+
+	m_timeLabel = new Label(m_font, m_tile[40][22]->getPosition());
+	m_timeLabel->setColor(sf::Color::Red);
+	m_timeLabel->setSize(200);
+
+	Label* label = new Label(m_font, m_scorePosition);
+
+	label->setText("SCORES");
+	label->setSize(60);
+	m_labels.push_back(label);
+
+	m_scorePosition.y += 100;
 }
 
 /// <summary>

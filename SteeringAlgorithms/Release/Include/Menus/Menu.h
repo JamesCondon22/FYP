@@ -2,7 +2,7 @@
 #include <SFML\Graphics.hpp>
 #include "SFML\Audio.hpp"
 #include "State.h"
-#include "Headers/Button.h"
+#include "Headers/UI/Button.h"
 
 class Menu
 {
@@ -32,8 +32,11 @@ private:
 	sf::Vector2i m_mousePosition;
 	sf::Event * m_event;
 
-	int m_activatedAI = 0;
-	std::string m_lastPressed = "";
-	bool m_reset = false;
 	Button * m_lastButton;
+
+	std::string m_lastPressed = "";
+
+	int m_activatedAI = 0;
+	bool m_reset = false;
+	
 };

@@ -26,7 +26,7 @@ Game::Game() :
 
 	m_currentState = new GameState;
 
-	*m_currentState = GameState::EndGame;
+	*m_currentState = GameState::MainMenu;
 	ImGui::SFML::Init(m_window);
 	if (!m_textureEnemy.loadFromFile("resources/assets/enemy.png")) {
 		std::cout << "texture not loading" << std::endl;
