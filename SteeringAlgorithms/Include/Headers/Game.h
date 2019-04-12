@@ -32,8 +32,10 @@ protected:
 	
 	sf::Texture m_textureEnemy;
 	sf::Texture m_buttonTexture;
+
 	sf::Font m_font;
 	sf::Font m_fontBell;
+
 	MainMenu * m_mainMenu;
 	Menu *m_menu;
 	Options *m_options;
@@ -43,11 +45,12 @@ protected:
 	GameMenu * m_gameMenu;
 
 	GameState * m_currentState;
-	bool m_pressed = false;
+
 	sf::Clock m_clock;
 	sf::RectangleShape m_backgroundSprite;
 	sf::Texture m_backgroundTexture;
 	sf::Vector2i m_mousePosition;
+
 	float m_AETarr[7];
 	float m_InterTarr[7];
 	float m_pathArr[7];
@@ -56,6 +59,7 @@ protected:
 
 	bool m_setTimes = false;
 	bool onOptions = false;
+	bool m_pressed = false;
 };
 
 #endif

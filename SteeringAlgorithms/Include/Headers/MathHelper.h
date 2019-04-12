@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <Thor\Math.hpp>
 #include <Thor/Vectors.hpp>
-#include "Obstacle.h"
+#include "UI/Obstacle.h"
 
 namespace Math
 {

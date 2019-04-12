@@ -1,13 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Headers/Obstacle.h"
+#include "Headers/UI/Obstacle.h"
 #include "Headers/MathHelper.h"
 
 class Player
 {
 public:
-	//Player();
 	Player(std::vector<Obstacle*>  obs);
 	~Player();
 	void update(double dt);

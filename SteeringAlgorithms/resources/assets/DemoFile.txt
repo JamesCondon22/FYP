@@ -1,49 +1,49 @@
 ID:  1 Basic Context Maps
-Path length: 2535.23
-Interception Time: 4.361
-Average Execution Time: 1.76131
-Total Rotations: 3191.33
-Average Rotations p/s: 731.788
+Path length: 3151.26
+Interception Time: 5.213
+Average Execution Time: 1.68869
+Total Rotations: 6635.32
+Average Rotations p/s: 1272.84
 
 ID:  2 Average Interpolation
-Path length: 3245.36
-Interception Time: 5.708
-Average Execution Time: 1.80862
-Total Rotations: 1246.62
-Average Rotations p/s: 218.399
+Path length: 3576.54
+Interception Time: 5.918
+Average Execution Time: 1.70892
+Total Rotations: 1043.6
+Average Rotations p/s: 176.344
 
 ID:  3 Blended Interpolation
-Path length: 3298.82
-Interception Time: 5.838
-Average Execution Time: 1.81813
-Total Rotations: 1104.48
-Average Rotations p/s: 189.187
+Path length: 3594.89
+Interception Time: 6.003
+Average Execution Time: 1.72748
+Total Rotations: 1001.47
+Average Rotations p/s: 166.828
 
 ID:  4 Efficiency AI
-Path length: 3506.28
-Interception Time: 5.83
-Average Execution Time: 1.7137
-Total Rotations: 2573.19
-Average Rotations p/s: 441.37
+Path length: 3770.47
+Interception Time: 5.89
+Average Execution Time: 1.61858
+Total Rotations: 2683.43
+Average Rotations p/s: 455.591
 
 ID:  5 Dynamic Vector
-Path length: 3401.47
-Interception Time: 6.029
-Average Execution Time: 1.82421
-Total Rotations: 1935.91
-Average Rotations p/s: 321.1
+Path length: 3717.84
+Interception Time: 6.214
+Average Execution Time: 1.73285
+Total Rotations: 1914.17
+Average Rotations p/s: 308.041
 
 ID = 6 Catmull Rom AI
-Path length = 7106.73
-Interception Time = 15.603
-Average Execution Time = 2.27283
-Total Rotations: 2903.18
-Average Rotations p/s: 186.066
+Path length = 6820.22
+Interception Time = 14.287
+Average Execution Time = 2.1726
+Total Rotations: 2872.97
+Average Rotations p/s: 201.09
 
 ID:  7 Traditional
-Path length: 3437.62
-Interception Time: 6.845
-Average Execution Time: 1.95014
-Total Rotations: 892
-Average Rotations p/s: 130.314
+Path length: 3061.04
+Interception Time: 4.709
+Average Execution Time: 1.50833
+Total Rotations: 572
+Average Rotations p/s: 121.47
 

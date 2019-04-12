@@ -35,6 +35,10 @@ Player::~Player()
 {
 }
 
+/// <summary>
+/// update the player position and key presses 
+/// </summary>
+/// <param name="dt">delta time</param>
 void Player::update(double dt)
 {
 	int curX = m_rect.getPosition().x / 50.0f;
@@ -68,6 +72,10 @@ void Player::update(double dt)
 
 }
 
+/// <summary>
+/// render the player visuals
+/// </summary>
+/// <param name="window"></param>
 void Player::render(sf::RenderWindow & window)
 {
 	if (m_visuals) {
@@ -76,6 +84,9 @@ void Player::render(sf::RenderWindow & window)
 	window.draw(m_rect);
 }
 
+/// <summary>
+/// incremts the rotation
+/// </summary>
 void Player::increaseRotation()
 {
 	m_rotation += 1;
@@ -84,7 +95,9 @@ void Player::increaseRotation()
 		m_rotation = 0;
 	}
 }
-
+/// <summary>
+/// decrements the rotation 
+/// </summary>
 void Player::decreaseRotation()
 {
 	m_rotation -= 1;
@@ -93,7 +106,9 @@ void Player::decreaseRotation()
 		m_rotation = 359.0;
 	}
 }
-
+/// <summary>
+/// increases the characetrs speed
+/// </summary>
 void Player::increaseSpeed()
 {
 	if (m_speed < MAX_SPEED)
@@ -102,6 +117,9 @@ void Player::increaseSpeed()
 	}
 }
 
+/// <summary>
+/// decreases the player speed
+/// </summary>
 void Player::decreaseSpeed()
 {
 	if (m_speed > 0)
@@ -110,22 +128,36 @@ void Player::decreaseSpeed()
 	}
 }
 
+/// <summary>
+/// returns the player positiojn 
+/// </summary>
+/// <returns></returns>
 sf::Vector2f Player::getPos()
 {
 	return m_rect.getPosition();
 }
 
-
+/// <summary>
+/// sets the players position 
+/// </summary>
+/// <param name="pos"></param>
 void Player::setPosition(sf::Vector2f pos)
 {
 	m_rect.setPosition(pos);
 }
 
+/// <summary>
+/// returns the velocity 
+/// </summary>
+/// <returns></returns>
 sf::Vector2f Player::getVel()
 {
 	return m_velocity;
 }
 
+/// <summary>
+/// checks for collision between the player and obstacles
+/// </summary>
 void Player::obstacleCollision()
 {
 	for (int i = 0; i < m_obstacles.size(); i++)
@@ -137,7 +169,9 @@ void Player::obstacleCollision()
 	}
 }
 
-
+/// <summary>
+/// resets the player
+/// </summary>
 void Player::reset() {
 	m_speed = 0;
 }

@@ -3,18 +3,18 @@
 #include <SFML\Graphics.hpp>
 #include "Menus/State.h"
 #include "../Headers/Player.h"
-#include "../Headers/FrayAI.h"
-#include "../Headers/InterpolatingAI.h"
-#include "../Headers/Traditional.h"
-#include "../Headers/Obstacle.h"
-#include "../Headers/EfficiencyAI.h"
-#include "../Headers/InterpolatingTwo.h"
+#include "../Headers/AI/FrayAI.h"
+#include "../Headers/AI/InterpolatingAI.h"
+#include "../Headers/AI/Traditional.h"
+#include "../Headers/UI/Obstacle.h"
+#include "../Headers/AI/EfficiencyAI.h"
+#include "../Headers/AI/InterpolatingTwo.h"
 #include "../Headers/LevelLoader.h"
-#include "../Headers/DynamicVectorAI.h"
-#include "../Headers/Enemy.h"
-#include "../Headers/TestBot.h"
-#include "../Headers/CRSpline.h"
-#include "../Headers/Label.h"
+#include "../Headers/AI/DynamicVectorAI.h"
+#include "../Headers/AI/Enemy.h"
+#include "../Headers/AI/TestBot.h"
+#include "../Headers/AI/CRSpline.h"
+#include "../Headers/UI/Label.h"
 #include <SFML/Graphics.hpp>
 
 #include <fstream>
@@ -51,9 +51,10 @@ public:
 	std::vector<double> getAverageRotations() { return m_averageRotations; }
 
 private:
-	sf::Window m_window;
-	TestBot * m_testBot;
+	BehaviourState * m_aiStates;
+	GameState * m_currentState;
 
+	sf::Window m_window;
 	
 	std::vector<Obstacle*> m_obstacles;
 	std::vector<sf::CircleShape> m_circles;
@@ -65,39 +66,42 @@ private:
 
 	sf::Texture m_textureObs;
 	sf::Texture m_nodeTexture;
-	GameState * m_currentState;
 
 	bool m_startDemonstration = false;
 	bool m_pressed = false;
 	bool m_reset = false;
-
-	sf::Time m_timer;
-	sf::Clock m_clock;
-
-	int m_id = 1;
-	double m_cumulativeTime;
-	double MAX_TIME = 1000.0;  // 3
-	double GHOST_TIME = 500.0; // 2
-	std::ofstream m_file;
 	bool m_runningUpdate = false;
 	bool m_runRender = false;
 
+	sf::Time m_timer;
+	sf::Clock m_clock;
+	std::ofstream m_file;
+
+	double m_cumulativeTime;
+	double MAX_TIME = 1000.0;  // 3
+	double GHOST_TIME = 500.0; // 2
+
 	CRSplineAI* m_ghostAI;
 	CRSplineAI* m_splineAI;
+	TestBot * m_testBot;
 
+	std::vector<sf::RectangleShape> m_bounding;
+	std::vector<Label*> m_labels;
+
+	Label* m_timeLabel;
+	Label* m_startLabel;
 	Label* m_aitypeLabel;
 	sf::Vector2f m_labelPosition;
 	sf::Font m_font;
-	BehaviourState * m_aiStates;
 
+	bool m_graphSet = false;
 	bool m_altPressed = false;
-	int m_counter = 0;
-	std::vector<sf::RectangleShape> m_bounding;
-	std::vector<Label*> m_labels;
-	Label* m_timeLabel;
-	Label* m_startLabel;
 	bool m_startTimer = false;
+
+	int m_counter = 0;
 	int MAX_AI = 7;
+	int m_index = 0;
+	int m_id = 1;
 
 	std::vector<double> m_executionTimes;
 	std::vector<double> m_interceptionTimes;
@@ -105,7 +109,6 @@ private:
 	std::vector<double> m_rotations;
 	std::vector<double> m_averageRotations;
 
-	int m_index = 0;
-	bool m_graphSet = false;
+
 };
 #endif // !

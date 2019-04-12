@@ -3,8 +3,8 @@
 #include <SFML\Graphics.hpp>
 #include "SFML\Audio.hpp"
 #include "State.h"
-#include "Headers/Button.h"
-#include "Headers/Label.h"
+#include "Headers/UI/Button.h"
+#include "Headers/UI/Label.h"
 
 class MainMenu
 {
@@ -14,8 +14,8 @@ public:
 	void update(double dt, sf::Window & window);
 	void render(sf::RenderWindow& window);
 	void initButtons();
-	void checkButtons(std::string name);
 	void handleInputs(Button & button);
+
 	bool m_pressed = false;
 
 	int getActivatedAI() { return m_activatedAI; }
@@ -24,17 +24,17 @@ public:
 private:
 
 	GameState * m_currentState;
+
 	sf::Window m_window;
+	sf::Event * m_event;
+	sf::Texture m_texture;
+	sf::Font m_font;
+	sf::Vector2i m_mousePosition;
 
 	std::vector<Button*> m_buttons;
-	sf::Texture m_texture;
-
-	sf::Font m_font;
-
-	sf::Vector2i m_mousePosition;
-	sf::Event * m_event;
-
-	int m_activatedAI = 0;
 	std::string m_lastPressed = "";
+
 	Label* m_header;
+	
+	int m_activatedAI = 0;
 };

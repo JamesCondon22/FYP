@@ -58,6 +58,7 @@ DemoScreen::DemoScreen(GameState * state, sf::Font & font, sf::RenderWindow & wi
 	m_startLabel->setSize(40);
 	m_startLabel->setText("Press Space to Start Demo.");
 
+	//inits all the vectors to size 7
 	m_executionTimes.assign(7, 0.0);
 	m_interceptionTimes.assign(7, 0.0);
 	m_pathLengths.assign(7, 0.0);
@@ -193,6 +194,7 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 
 			}
 		}	
+
 		if (m_cumulativeTime > MAX_TIME) {
 
 			if (m_splineAI->getActive()) {
@@ -202,6 +204,7 @@ void DemoScreen::update(double dt, int id, std::string lastBtnPress)
 				checkSplineCollision(m_testBot, m_splineAI, lastBtnPress);
 			}
 		}
+
 		if (m_cumulativeTime > GHOST_TIME) {
 
 			if (m_splineAI->getActive()) {
@@ -252,11 +255,6 @@ void DemoScreen::render(sf::RenderWindow & window)
 		m_obstacles[i]->render(window);
 	}
 
-	/*for (auto & node : m_nodes)
-	{
-		node->render(window);
-	}
-*/
 	for (int i = 0; i < m_enemies.size(); i++)
 	{
 		if (m_enemies[i]->getActive())
@@ -269,10 +267,14 @@ void DemoScreen::render(sf::RenderWindow & window)
 	{
 		m_splineAI->render(window);
 	}
+
+	m_testBot->render(window);
+
 	for (auto rect : m_bounding) {
 
 		window.draw(rect);
 	}
+
 	m_timeLabel->render(window);
 	m_aitypeLabel->render(window);
 
@@ -280,7 +282,7 @@ void DemoScreen::render(sf::RenderWindow & window)
 		m_startLabel->render(window);
 	}
 
-	m_testBot->render(window);
+	
 }
 
 /// <summary>
@@ -372,8 +374,10 @@ void DemoScreen::checkCollision(TestBot * bot, Enemy * enemy, std::string lastBt
 			m_file << "Total Rotations: " << enemy->getTotalRotation() << std::endl;
 			m_file << "Average Rotations p/s: " << enemy->getAverageRotations() << std::endl;
 			m_file << "\n";
-
+		
+			//inputs all values to their vector
 			if (!m_graphSet) {
+
 				inputAET(enemy->getAverageExecTime());
 				inputInterceptionTime(enemy->getInterceptionTime());
 				inputPaths(enemy->getPathLength());
